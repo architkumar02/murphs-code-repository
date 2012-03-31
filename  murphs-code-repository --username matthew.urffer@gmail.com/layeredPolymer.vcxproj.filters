@@ -1,0 +1,101 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\layeredPolymer.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\DetectorConstruction.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\DetectorMessenger.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\EventAction.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\EventActionMessenger.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\HadronicPhysics.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\MaterialConverter.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\OpticalPhysics.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\PhysicsList.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\PrimaryGeneratorAction.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\RunAction.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\SteppingVerbose.cc">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{051F98F6-6765-4805-AC46-EE3228234FAE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{E40A41D3-4F42-41FC-8735-7F2E66C6857F}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\Analysis.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\DetectorConstruction.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\DetectorMessenger.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\EventAction.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\EventActionMessenger.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\HadronicPhysics.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\MaterialConverter.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\OpticalPhysics.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\PhysicsList.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\PrimaryGeneratorAction.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\RunAction.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\SteppingVerbose.hh">
+      <Filter>Header Files</Filter>
+    </None>
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\gui.mac" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init.mac" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init_vis.mac" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\run1.mac" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\vis.mac" />
+  </ItemGroup>
+</Project>

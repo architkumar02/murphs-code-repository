@@ -1,0 +1,346 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|Win32">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|Win32">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGUID>{88FF7911-47E7-4CD6-81A0-16C87CF89EE6}</ProjectGUID>
+    <Keyword>Win32Proj</Keyword>
+    <Platform>Win32</Platform>
+    <ProjectName>layeredPolymer</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseOfMfc>false</UseOfMfc>
+    <CharacterSet>MultiByte</CharacterSet>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+    <PropertyGroup>
+      <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\Debug\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">layeredPolymer.dir\Debug\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">layeredPolymer</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">.exe</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\Release\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">layeredPolymer.dir\Release\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">layeredPolymer</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">.exe</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">false</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\MinSizeRel\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">layeredPolymer.dir\MinSizeRel\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">layeredPolymer</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">.exe</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">false</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">true</GenerateManifest>
+      <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\RelWithDebInfo\</OutDir>
+      <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">layeredPolymer.dir\RelWithDebInfo\</IntDir>
+      <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">layeredPolymer</TargetName>
+      <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">.exe</TargetExt>
+      <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</LinkIncremental>
+      <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">true</GenerateManifest>
+    </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <AdditionalOptions> -Zm200 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <Optimization>Disabled</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_CONSOLE;_WIN32;WIN32;OS;XPNET;_CRT_SECURE_NO_DEPRECATE;G4_STORE_TRAJECTORY;G4VERBOSE;G4LIB_BUILD_DLL;G4UI_USE;G4VIS_USE;G4INTY_USE_WIN32;G4UI_USE_WIN32;G4INTY_USE_WIN32;G4VIS_USE_OPENGLWIN32;G4VIS_USE_OPENGL;CMAKE_INTDIR="Debug";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>Debug</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/Debug/layeredPolymer.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;_WIN32;WIN32;OS;XPNET;_CRT_SECURE_NO_DEPRECATE;G4_STORE_TRAJECTORY;G4VERBOSE;G4LIB_BUILD_DLL;G4UI_USE;G4VIS_USE;G4INTY_USE_WIN32;G4UI_USE_WIN32;G4INTY_USE_WIN32;G4VIS_USE_OPENGLWIN32;G4VIS_USE_OPENGL;CMAKE_INTDIR=\"Debug\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:X86 /debug %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4Tree.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4FR.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4GMocren.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4visHepRep.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4RayTracer.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4VRML.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4OpenGL.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4gl2ps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4vis_management.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4modeling.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4interfaces.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4persistency.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4analysis.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4error_propagation.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4readout.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4physicslists.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4run.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4event.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4tracking.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4parmodels.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4processes.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4digits_hits.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4track.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4particles.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4geometry.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4materials.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4graphics_reps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4intercoms.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4global.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4clhep.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4expat.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4zlib.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4FR.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4vis_management.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4modeling.lib;glu32.lib;opengl32.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4run.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4event.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4tracking.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4processes.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4expat.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4digits_hits.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4track.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4particles.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4geometry.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4materials.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4graphics_reps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4intercoms.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4global.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4clhep.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/Debug/layeredPolymer.lib</ImportLibrary>
+      <LinkIncremental>true</LinkIncremental>
+      <ProgramDataBaseFileName>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/Debug/layeredPolymer.pdb</ProgramDataBaseFileName>
+      <StackReserveSize>10000000</StackReserveSize>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <AdditionalOptions> -Zm200 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat></DebugInformationFormat>
+      <PreprocessorDefinitions>_CONSOLE;_WIN32;WIN32;OS;XPNET;_CRT_SECURE_NO_DEPRECATE;NDEBUG;G4_STORE_TRAJECTORY;G4VERBOSE;G4LIB_BUILD_DLL;G4UI_USE;G4VIS_USE;G4INTY_USE_WIN32;G4UI_USE_WIN32;G4INTY_USE_WIN32;G4VIS_USE_OPENGLWIN32;G4VIS_USE_OPENGL;CMAKE_INTDIR="Release";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>Release</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/Release/layeredPolymer.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;_WIN32;WIN32;OS;XPNET;_CRT_SECURE_NO_DEPRECATE;NDEBUG;G4_STORE_TRAJECTORY;G4VERBOSE;G4LIB_BUILD_DLL;G4UI_USE;G4VIS_USE;G4INTY_USE_WIN32;G4UI_USE_WIN32;G4INTY_USE_WIN32;G4VIS_USE_OPENGLWIN32;G4VIS_USE_OPENGL;CMAKE_INTDIR=\"Release\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4Tree.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4FR.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4GMocren.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4visHepRep.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4RayTracer.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4VRML.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4OpenGL.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4gl2ps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4vis_management.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4modeling.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4interfaces.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4persistency.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4analysis.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4error_propagation.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4readout.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4physicslists.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4run.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4event.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4tracking.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4parmodels.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4processes.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4digits_hits.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4track.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4particles.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4geometry.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4materials.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4graphics_reps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4intercoms.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4global.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4clhep.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4expat.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4zlib.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4FR.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4vis_management.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4modeling.lib;glu32.lib;opengl32.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4run.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4event.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4tracking.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4processes.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4expat.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4digits_hits.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4track.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4particles.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4geometry.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4materials.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4graphics_reps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4intercoms.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4global.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4clhep.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ImportLibrary>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/Release/layeredPolymer.lib</ImportLibrary>
+      <ProgramDataBaseFileName>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/Release/layeredPolymer.pdb</ProgramDataBaseFileName>
+      <StackReserveSize>10000000</StackReserveSize>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">
+    <ClCompile>
+      <AdditionalOptions> -Zm200 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <FavorSizeOrSpeed>Size</FavorSizeOrSpeed>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <DebugInformationFormat></DebugInformationFormat>
+      <PreprocessorDefinitions>_CONSOLE;_WIN32;WIN32;OS;XPNET;_CRT_SECURE_NO_DEPRECATE;NDEBUG;G4_STORE_TRAJECTORY;G4VERBOSE;G4LIB_BUILD_DLL;G4UI_USE;G4VIS_USE;G4INTY_USE_WIN32;G4UI_USE_WIN32;G4INTY_USE_WIN32;G4VIS_USE_OPENGLWIN32;G4VIS_USE_OPENGL;CMAKE_INTDIR="MinSizeRel";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>MinSizeRel</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/MinSizeRel/layeredPolymer.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;_WIN32;WIN32;OS;XPNET;_CRT_SECURE_NO_DEPRECATE;NDEBUG;G4_STORE_TRAJECTORY;G4VERBOSE;G4LIB_BUILD_DLL;G4UI_USE;G4VIS_USE;G4INTY_USE_WIN32;G4UI_USE_WIN32;G4INTY_USE_WIN32;G4VIS_USE_OPENGLWIN32;G4VIS_USE_OPENGL;CMAKE_INTDIR=\"MinSizeRel\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:X86 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4Tree.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4FR.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4GMocren.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4visHepRep.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4RayTracer.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4VRML.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4OpenGL.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4gl2ps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4vis_management.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4modeling.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4interfaces.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4persistency.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4analysis.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4error_propagation.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4readout.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4physicslists.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4run.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4event.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4tracking.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4parmodels.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4processes.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4digits_hits.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4track.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4particles.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4geometry.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4materials.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4graphics_reps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4intercoms.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4global.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4clhep.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4expat.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4zlib.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4FR.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4vis_management.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4modeling.lib;glu32.lib;opengl32.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4run.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4event.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4tracking.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4processes.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4expat.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4digits_hits.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4track.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4particles.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4geometry.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4materials.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4graphics_reps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4intercoms.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4global.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4clhep.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <ImportLibrary>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/MinSizeRel/layeredPolymer.lib</ImportLibrary>
+      <ProgramDataBaseFileName>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/MinSizeRel/layeredPolymer.pdb</ProgramDataBaseFileName>
+      <StackReserveSize>10000000</StackReserveSize>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">
+    <ClCompile>
+      <AdditionalOptions> -Zm200 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <CompileAs>CompileAsCpp</CompileAs>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <Optimization>MaxSpeed</Optimization>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <RuntimeTypeInfo>true</RuntimeTypeInfo>
+      <SuppressStartupBanner>true</SuppressStartupBanner>
+      <PreprocessorDefinitions>_CONSOLE;_WIN32;WIN32;OS;XPNET;_CRT_SECURE_NO_DEPRECATE;G4_STORE_TRAJECTORY;G4VERBOSE;G4LIB_BUILD_DLL;G4UI_USE;G4VIS_USE;G4INTY_USE_WIN32;G4UI_USE_WIN32;G4INTY_USE_WIN32;G4VIS_USE_OPENGLWIN32;G4VIS_USE_OPENGL;CMAKE_INTDIR="RelWithDebInfo";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AssemblerListingLocation>RelWithDebInfo</AssemblerListingLocation>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ProgramDataBaseFileName>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/RelWithDebInfo/layeredPolymer.pdb</ProgramDataBaseFileName>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_CONSOLE;_WIN32;WIN32;OS;XPNET;_CRT_SECURE_NO_DEPRECATE;G4_STORE_TRAJECTORY;G4VERBOSE;G4LIB_BUILD_DLL;G4UI_USE;G4VIS_USE;G4INTY_USE_WIN32;G4UI_USE_WIN32;G4INTY_USE_WIN32;G4VIS_USE_OPENGLWIN32;G4VIS_USE_OPENGL;CMAKE_INTDIR=\"RelWithDebInfo\";%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:/Users/murffer/Documents/Geant4/install/include/Geant4;C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <Link>
+      <AdditionalOptions> /machine:X86 /debug %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalDependencies>kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4Tree.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4FR.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4GMocren.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4visHepRep.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4RayTracer.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4VRML.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4OpenGL.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4gl2ps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4vis_management.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4modeling.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4interfaces.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4persistency.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4analysis.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4error_propagation.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4readout.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4physicslists.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4run.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4event.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4tracking.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4parmodels.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4processes.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4digits_hits.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4track.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4particles.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4geometry.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4materials.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4graphics_reps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4intercoms.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4global.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4clhep.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4expat.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4zlib.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4FR.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4vis_management.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4modeling.lib;glu32.lib;opengl32.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4run.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4event.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4tracking.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4processes.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4expat.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4digits_hits.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4track.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4particles.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4geometry.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4materials.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4graphics_reps.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4intercoms.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4global.lib;C:\Users\murffer\Documents\Geant4\install\lib\G4clhep.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <ImportLibrary>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/RelWithDebInfo/layeredPolymer.lib</ImportLibrary>
+      <LinkIncremental>true</LinkIncremental>
+      <ProgramDataBaseFileName>C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/RelWithDebInfo/layeredPolymer.pdb</ProgramDataBaseFileName>
+      <StackReserveSize>10000000</StackReserveSize>
+      <SubSystem>Console</SubSystem>
+      <Version></Version>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="CMakeLists.txt">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Building Custom Rule C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">setlocal
+"C:\Program Files\CMake 2.8\bin\cmake.exe" "-HC:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking" "-BC:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking" --check-stamp-file "C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/CMakeLists.txt;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeLists.txt;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeSystem.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCCompiler.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXCompiler.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows-cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCPlatform.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXPlatform.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeRCCompiler.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows-cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCPlatform.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXPlatform.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\cl.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4ConfigVersion.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4Config.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4LibraryDepends.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4LibraryDepends-release.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\UseGeant4.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\gui.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\gui.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init_vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init_vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\run1.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\run1.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\generate.stamp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Building Custom Rule C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">setlocal
+"C:\Program Files\CMake 2.8\bin\cmake.exe" "-HC:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking" "-BC:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking" --check-stamp-file "C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/CMakeLists.txt;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeLists.txt;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeSystem.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCCompiler.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXCompiler.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows-cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCPlatform.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXPlatform.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeRCCompiler.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows-cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCPlatform.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXPlatform.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\cl.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4ConfigVersion.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4Config.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4LibraryDepends.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4LibraryDepends-release.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\UseGeant4.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\gui.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\gui.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init_vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init_vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\run1.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\run1.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\generate.stamp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">Building Custom Rule C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">setlocal
+"C:\Program Files\CMake 2.8\bin\cmake.exe" "-HC:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking" "-BC:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking" --check-stamp-file "C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/CMakeLists.txt;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeLists.txt;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeSystem.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCCompiler.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXCompiler.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows-cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCPlatform.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXPlatform.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeRCCompiler.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows-cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCPlatform.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXPlatform.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\cl.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4ConfigVersion.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4Config.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4LibraryDepends.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4LibraryDepends-release.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\UseGeant4.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\gui.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\gui.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init_vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init_vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\run1.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\run1.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|Win32'">C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\generate.stamp</Outputs>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">Building Custom Rule C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">setlocal
+"C:\Program Files\CMake 2.8\bin\cmake.exe" "-HC:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking" "-BC:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking" --check-stamp-file "C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\generate.stamp"
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/CMakeLists.txt;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeLists.txt;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeSystem.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCCompiler.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXCompiler.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeSystemSpecificInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeGenericSystem.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\WindowsPaths.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows-cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCPlatform.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXPlatform.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeRCCompiler.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeRCInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCXXInformation.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\Windows-cl.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCPlatform.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\CMakeCXXPlatform.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\Platform\cl.cmake;C:\Program Files\CMake 2.8\share\cmake-2.8\Modules\CMakeCommonLanguageInclude.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4ConfigVersion.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4Config.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4LibraryDepends.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\Geant4LibraryDepends-release.cmake;C:\Users\murffer\Documents\Geant4\install\lib\Geant4-9.5.0\UseGeant4.cmake;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\gui.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\gui.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init_vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init_vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\run1.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\run1.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\vis.mac;C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeLists.txt;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|Win32'">C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\CMakeFiles\generate.stamp</Outputs>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\layeredPolymer.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\DetectorConstruction.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\DetectorMessenger.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\EventAction.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\EventActionMessenger.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\HadronicPhysics.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\MaterialConverter.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\OpticalPhysics.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\PhysicsList.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\PrimaryGeneratorAction.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\RunAction.cc" />
+    <ClCompile Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\src\SteppingVerbose.cc" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\Analysis.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\DetectorConstruction.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\DetectorMessenger.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\EventAction.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\EventActionMessenger.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\HadronicPhysics.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\MaterialConverter.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\OpticalPhysics.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\PhysicsList.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\PrimaryGeneratorAction.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\RunAction.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\include\SteppingVerbose.hh" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\gui.mac" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init.mac" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\init_vis.mac" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\run1.mac" />
+    <None Include="C:\Users\murffer\Documents\Visual Studio 2010\Projects\layeredPolymerTracking\vis.mac" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:/Users/murffer/Documents/Visual Studio 2010/Projects/layeredPolymerTracking/ZERO_CHECK.vcxproj">
+      <Project>B819E668-FB4D-4B77-A3B1-2C8D02C20BC2</Project>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>

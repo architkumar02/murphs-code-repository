@@ -39,15 +39,15 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 file(GLOB macros  ${PROJECT_SOURCE_DIR}/*.mac)
 
 #---------------------------------------------------------------------------
-set(ROOT_LD_FLAGS "-lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic")	
-set(ROOT_LIBRARIES ${ROOT_LIBRARIES} ${ROOT_LD_FLAGS}) 
-
+#set(ROOT_LD_FLAGS "-lCore -lCint -lRIO -lNet -lHist -lGraf -lGraf3d -lGpad -lTree -lRint -lPostscript -lMatrix -lPhysics -lMathCore -lThread -pthread -lm -ldl -rdynamic")	
+#set(ROOT_LIBRARIES ${ROOT_LIBRARIES} ${ROOT_LD_FLAGS}) 
+set(ROOT_LD_FLAGS "Core Cint RIO Net Hist Graf Graf3d Gpad Tree Rint Postscript Matrix Physics MathCore Thread")
 
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(layeredPolymer layeredPolymer.cc ${sources} ${headers} ${macros})
-target_link_libraries(layeredPolymer ${Geant4_LIBRARIES} ${ROOT_LIBRARIES})
+target_link_libraries(layeredPolymer ${Geant4_LIBRARIES} ${ROOT_LIBRARIES} ${ROOT_LD_FLAGS})
 
 
 #----------------------------------------------------------------------------

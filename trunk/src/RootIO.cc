@@ -36,7 +36,7 @@ RootIO* RootIO::GetInstance()
   return instance;
 }
 
-void RootIO::Write(std::vector<ExP01TrackerHit*>* hcont)
+void RootIO::Write(std::vector<TrackerHit*>* hcont)
 {
   Nevents++;
 

@@ -17,6 +17,11 @@ else()
 endif()
 
 #----------------------------------------------------------------------------
+# Find Root package
+find_package(ROOT REQUIRED)
+include_directories(${ROOT_INCLUDE_DIR})
+
+#----------------------------------------------------------------------------
 # Setup Geant4 include directories and compile definitions
 # Setup include directory for this project
 #
@@ -34,7 +39,7 @@ file(GLOB macros  ${PROJECT_SOURCE_DIR}/*.mac)
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(layeredPolymer layeredPolymer.cc ${sources} ${headers} ${macros})
-target_link_libraries(layeredPolymer ${Geant4_LIBRARIES})
+target_link_libraries(layeredPolymer ${Geant4_LIBRARIES} {$ROOT_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory.

@@ -5,7 +5,8 @@
 #include "G4ThreeVector.hh"
 #include "G4Allocator.hh"
 #include "G4THitsCollection.hh"
-#include "G4ParticleDefination.hh"
+#include "G4ParticleDefinition.hh"
+
 
 /**
  * @brief - Hit: a snapshot of the physcial interaction of a track in the sensitive region of a detector
@@ -29,8 +30,8 @@ public:
 	inline void* operator new(size_t);
 	inline void operator delete(void*);
 
-	void Draw() const;
-	void Print() const;
+	void Draw();
+	void Print();
 
 private:
 	G4double edep;				/* Energy Deposited at the Hit */
@@ -38,24 +39,24 @@ private:
 	G4double stepLength;		/* Step Length */
 	G4ThreeVector momentum;		/* Momentrum of the step */
 	G4int trackID;				/* Track ID */
-	G4ParticleDefination particle;	/* Particle */
-	G4string volume;			/* Name of Volume */
+	G4String particle;	/* Particle */
+	G4String volume;			/* Name of Volume */
 
 public:
-	void SetTrackID(G4Int track)				{trackID = track;};
+	void SetTrackID(G4int track)				{trackID = track;};
 	void SetEdep(G4double de)					{edep = de;};
 	void SetPosition(G4ThreeVector p)			{pos = p;};
 	void SetStepLength(G4double dl)				{stepLength = dl;};
 	void SetMomentum(G4ThreeVector p)			{momentum = p;};
-	void SetParticle(G4ParticleDefination p)	{particle = p;};
-	void SetVolume(G4string v)					{volume = v;};
+	void SetParticle(G4String p)	{particle = p;};
+	void SetVolume(G4String v)					{volume = v;};
 
 	G4int GetTrackID()					{return trackID;};
-	G4ThreeVector GetPosition()			{return position;}:
+	G4ThreeVector GetPosition()			{return pos;}:
 	G4ThreeVector GetMomentum()			{return momentum;};
 	G4double GetEdep()					{return edep;};
 	G4double GetStepLength()			{return stepLength;};
-	G4ParticleDefination GetParticle()	{return particle;};
-	G4string GetVolume()				{return volume;};
+	G4String GetParticle()	{return particle;};
+	G4String GetVolume()				{return volume;};
 };
 #endif

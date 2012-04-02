@@ -20,8 +20,7 @@ TrackerSD::~TrackerSD(){
 
 
 void TrackerSD::Initialize(G4HCofThisEvent* HCE){
-  trackerCollection = new TrackerHitsCollection
-                          (SensitiveDetectorName,collectionName[0]); 
+  trackerCollection = new HitsCollection(SensitiveDetectorName,collectionName[0]); 
   static G4int HCID = -1;
   if(HCID<0)
   { HCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]); }
@@ -39,8 +38,8 @@ G4bool TrackerSD::ProcessHits(G4Step* aStep,G4TouchableHistory*){
   newHit->SetEdep		(edep);
   newHit->SetStepLength	(aStep->GetStepLength());
   newHit->SetMomentum	(aStep->GetTrack()->GetMomentum());
-  newHit->SetParticle	(aStep->GetTrack()->GetParticleDefination());
-  newHit->SetPos		(aStep->GetPostStepPoint()->GetPosition());
+  newHit->SetParticle	(aStep->GetTrack()->GetParticleDefinition()->GetParticleName());
+  newHit->SetPosition	(aStep->GetPostStepPoint()->GetPosition());
   newHit->SetVolume		(aStep->GetTrack()->GetVolume()->GetName());
   trackerCollection->insert( newHit );
   

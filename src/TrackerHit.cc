@@ -1,19 +1,19 @@
-#include "Hit.hh"
+#include "TrackerHit.hh"
 #include "G4UnitsTable.hh"
 #include "G4VVisManager.hh"
 #include "G4Circle.hh"
 #include "G4Colour.hh"
 #include "G4VisAttributes.hh"
 
-G4Allocator<Hit> HitAllocator;
+G4Allocator<TrackerHit> HitAllocator;
 
-Hit::Hit() {}
-
-
-Hit::~Hit() {}
+TrackerHit::TrackerHit() {}
 
 
-Hit::Hit(const Hit& right): G4VHit(){
+TrackerHit::~TrackerHit() {}
+
+
+TrackerHit::TrackerHit(const TrackerHit& right): G4VHit(){
 
 	edep = right.edep;
 	pos = right.pos;
@@ -24,7 +24,7 @@ Hit::Hit(const Hit& right): G4VHit(){
 	volume = right.volume;
 }
 
-const Hit& Hit::operator=(const Hit& right){
+const TrackerHit& TrackerHit::operator=(const TrackerHit& right){
 	edep = right.edep;
 	pos = right.pos;
 	stepLength = right.stepLength;
@@ -36,12 +36,12 @@ const Hit& Hit::operator=(const Hit& right){
 }
 
 
-G4int Hit::operator==(const Hit& right) const{
+G4int TrackerHit::operator==(const TrackerHit& right) const{
 	return (this==&right) ? 1 : 0;
 }
 
 
-void Hit::Draw()
+void TrackerHit::Draw()
 {
 	G4VVisManager* pVVisManager = G4VVisManager::GetConcreteInstance();
 	if(pVVisManager)
@@ -57,8 +57,8 @@ void Hit::Draw()
 }
 
 
-void Hit::Print(){
-	G4cout << "  trackID: " << trackID <<" particle: "<<particle<<
+void TrackerHit::Print(){
+	G4cout << "  trackID: " << trackID <<" particle: "<<particle
 		<< "  energy deposit[MeV]: " << edep
 		<< "  step length [mm]: "<< stepLength/mm
 		<< "  position[mm]: " << pos <<" volume: "<<volume<<G4endl;

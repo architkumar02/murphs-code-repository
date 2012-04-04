@@ -2,7 +2,7 @@
 
 #include "RootIO.hh"
 //
-#include "Cintex/Cintex.h"
+//#include "Cintex/Cintex.h"
 #include "G4SDManager.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4EventManager.hh"
@@ -17,9 +17,9 @@ RootIO::RootIO():Nevents(0)
   TSystem ts;
   gSystem->Load("libClassesDict");
 
-  ROOT::Cintex::Cintex::SetDebug(2);
-  ROOT::Cintex::Cintex::Enable();
-  gDebug = 1;
+//  ROOT::Cintex::Cintex::SetDebug(2);
+//  ROOT::Cintex::Cintex::Enable();
+//  gDebug = 1;
 
   fo = new TFile("hits.root","RECREATE");
 }

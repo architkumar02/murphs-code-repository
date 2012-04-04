@@ -87,4 +87,5 @@ endforeach()
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
+set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
 install(TARGETS layeredPolymer DESTINATION bin)

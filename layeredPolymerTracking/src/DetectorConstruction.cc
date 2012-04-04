@@ -10,6 +10,7 @@
 #include "G4PVPlacement.hh"
 #include "G4PVReplica.hh"
 
+#include "TrackerSD.hh"
 #include "G4SDManager.hh"
 #include "G4SDChargedFilter.hh"
 #include "G4SDParticleFilter.hh"
@@ -236,6 +237,20 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 	// 
 	// Scorers
 	//
+	
+	G4SDManager* SDman = G4SDManager::GetSDMpointer();
+	TrackerSD* caloSD = new TrackerSD("CalorimeterSD");		// Calorimeter SD
+	SDman->AddNewDetector(caloSD);
+	calorLV->SetSensitiveDetector(caloSD);
+	
+	TrackerSD* absoSD = new TrackerSD("AbsorberSD");		// Absorber SD
+	SDman->AddNewDetector(absoSD);
+	absorberLV->SetSensitiveDetector(absoSD);
+	
+	TrackerSD* gapSD = new TrackerSD("GapSD");				// Gap SD
+	SDman->AddNewDetector(gapSD);
+	gapLV->SetSensitiveDetector(gapSD);
+	
 	
 	// declare Absorber as a MultiFunctionalDetector scorer
 	G4MultiFunctionalDetector* absDetector = new G4MultiFunctionalDetector("Absorber");

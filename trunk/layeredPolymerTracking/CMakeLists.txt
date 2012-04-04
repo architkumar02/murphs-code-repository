@@ -43,17 +43,17 @@ file(GLOB macros  ${PROJECT_SOURCE_DIR}/*.mac)
 
 if(UNIX)
   execute_process(COMMAND root-config --incdir OUTPUT_VARIABLE ROOT_INC_DIR)
-  include_directories(${ROOOT_INC_DIR})
-  execute_process(COMMAND root-config --libdir OUTPUT_VARIABLE ROOT_LIB_DIR)
-  link_directories(${ROOT_LIB_DIR})
-  execute_process(COMMAND root-config --cflags OUTPUT_VARIABLE ROOT_CXX_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-  set(CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} ${ROOT_CXX_FLAGS})	
-  execute_process(COMMAND root-config --libs OUTPUT_VARIABLE ROOT_LD_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-  set(CMAKE_EXE_LINKER_FLAGS ${CMAKE_EXE_LINKER_FLAGS} ${ROOT_LD_FLAGS})
+  include_directories(${ROOT_INC_DIR})
+  message(STATUS "Should have set root includes to ${ROOT_INC_DIR}")
+ #  execute_process(COMMAND root-config --libdir OUTPUT_VARIABLE ROOT_LIB_DIR)
+ #  link_directories(${ROOT_LIB_DIR})
+   execute_process(COMMAND root-config --cflags OUTPUT_VARIABLE ROOT_CXX_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
+ #  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ROOT_CXX_FLAGS}")	
+   execute_process(COMMAND root-config --libs OUTPUT_VARIABLE ROOT_LD_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
+   set(CMAKE_EXE_LINKER_FLAGS ${ROOT_LD_FLAGS})
+   message(STATUS "Added ROOT Linking Flags: ${ROOT_LD_FLAGS}")
 endif(UNIX)
-if (WIN32)
 
-endif (WIN32)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #

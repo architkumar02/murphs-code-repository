@@ -4,7 +4,7 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 
-#include "DetectorMessenger.hh"`
+#include "DetectorMessenger.hh"
 
 class G4Box;
 class G4VPhysicalVolume;

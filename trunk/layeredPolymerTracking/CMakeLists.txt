@@ -53,7 +53,11 @@ if(UNIX)
    set(CMAKE_EXE_LINKER_FLAGS ${ROOT_LD_FLAGS})
    message(STATUS "Added ROOT Linking Flags: ${ROOT_LD_FLAGS}")
 endif(UNIX)
-
+if(WIN32)
+   find_path(ROOOT_INC_DIR)
+   include_directories(${ROOT_INC_DIR})
+   #include_external_msproject(ROOT.sln "C:\Users\LabUser\Documents\Geant4\Tools\root-build-VS")
+endif(WIN32)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #

@@ -21,7 +21,7 @@ include_directories(${PROJECT_SOURCE_DIR}/include)
 #
 if(UNIX)
 	if(APPLE)
-		set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SKS/MacOSX10.7.sdk");
+		set(CMAKE_OSX_SYSROOT "/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SKS/MacOSX10.7.sdk")
 	endif(APPLE)
 	execute_process(COMMAND root-config --incdir OUTPUT_VARIABLE ROOT_INC_DIR)
   include_directories(${ROOT_INC_DIR})

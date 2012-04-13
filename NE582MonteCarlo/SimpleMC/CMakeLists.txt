@@ -32,8 +32,9 @@ if(UNIX)
    message(STATUS "Added ROOT Linking Flags: ${ROOT_LD_FLAGS}")
 endif(UNIX)
 if(WIN32)
-   find_path(ROOOT_INC_DIR)
-   include_directories(${ROOT_INC_DIR})
+  # find_path(ROOT_INC_DIR "C:\Users\LabUser\Documents\Geant4\Tools\root-build-VS")
+  find_package(ROOT REQUIRED)
+#   include_directories(${ROOT_INC_DIR})
    #include_external_msproject(ROOT.sln "C:\Users\LabUser\Documents\Geant4\Tools\root-build-VS")
 endif(WIN32)
 
@@ -42,8 +43,12 @@ endif(WIN32)
 #
 add_executable(simpleMC simpleMC.c ${sources} ${headers})
 add_executable(tallyTest tallyTest.c ${sources} ${headers})
+if(UNIX)
 target_link_libraries(simpleMC)
-
+endif(UNIX)
+if(WIN32)
+target_link_libraries(simpleMC ${ROOT_LIBRARIES})
+endif(WIN32)
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX

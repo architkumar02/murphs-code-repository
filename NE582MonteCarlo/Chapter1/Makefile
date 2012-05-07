@@ -8,6 +8,11 @@ include Makefile.arch
 
 # Object and source files
 
+# Problem 1-4
+PROB14_O       = Problem1-4.$(ObjSuf)
+PROB14_S       = Problem1-4.$(SrcSuf) 
+PROB14        = Problem1-4$(ExeSuf)
+
 # Problem 1-6
 PROB16_O       = Problem1-6.$(ObjSuf) LCG.$(ObjSuf)
 PROB16_S       = Problem1-6.$(SrcSuf) LCG.$(SrcSuf)
@@ -25,9 +30,9 @@ PROB19        = Problem1-9$(ExeSuf)
 
 
 # All Object and source Files
-OBJS          = $(PROB16_O) $(PROB18_O) $(PROB19_O)
+OBJS          = $(PROB14_0) $(PROB16_O) $(PROB18_O) $(PROB19_O)
 
-PROGRAMS      = $(PROB17) $(PROB18) $(PROB19) 
+PROGRAMS      = $(PROB14) $(PROB16) $(PROB18) $(PROB19) 
 
 # ----------- Acio Compile! ---------------------------------
 
@@ -89,6 +94,11 @@ endif
 		@echo "$@ done"
 
 # Some More Magic
+$(PROB14):       $(PROB14_O)
+		$(LD) $(LDFLAGS) $^ $(LIBS) $(OutPutOpt)$@
+		$(MT_EXE)
+		@echo "$@ done"
+
 $(PROB16):       $(PROB16_O)
 		$(LD) $(LDFLAGS) $^ $(LIBS) $(OutPutOpt)$@
 		$(MT_EXE)

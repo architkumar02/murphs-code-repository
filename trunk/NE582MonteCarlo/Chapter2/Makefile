@@ -23,6 +23,11 @@ PROB23_O       = Problem2-3.$(ObjSuf)
 PROB23_S       = Problem2-3.$(SrcSuf)
 PROB23        = Problem2-3$(ExeSuf)
 
+# Problem 2-4
+PROB24_O       = Problem2-4.$(ObjSuf)
+PROB24_S       = Problem2-4.$(SrcSuf)
+PROB24        = Problem2-4$(ExeSuf)
+
 # Problem 2-5
 PROB25_O       = Problem2-5.$(ObjSuf)
 PROB25_S       = Problem2-5.$(SrcSuf)
@@ -44,11 +49,11 @@ PROB28_S       = Problem2-8.$(SrcSuf)
 PROB28        = Problem2-8$(ExeSuf)
 
 # All Object and source Files
-OBJS          = $(PROB21_O) $(PROB22_O) $(PROB23_O) \
+OBJS          = $(PROB21_O) $(PROB22_O) $(PROB23_O) $(PROB24_O) \
 					 $(PROB25_O) $(PROB26_O) $(PROB27_O) $(PROB28_O)
 
-PROGRAMS      =$(PROB21) $(PROB22) $(PROB23) $(PROB25) \
-					 $(PROB26) $(PROB27) $(PROB28)
+PROGRAMS      =$(PROB21) $(PROB22) $(PROB23) $(PROB24) \
+					 $(PROB25) $(PROB26) $(PROB27) $(PROB28)
 
 # ----------- Acio Compile! ---------------------------------
 
@@ -122,6 +127,11 @@ $(PROB22):       $(PROB22_O)
 		@echo "$@ done"
 
 $(PROB23):       $(PROB23_O)
+		$(LD) $(LDFLAGS) $^ $(LIBS) $(OutPutOpt)$@
+		$(MT_EXE)
+		@echo "$@ done"
+
+$(PROB24):       $(PROB24_O)
 		$(LD) $(LDFLAGS) $^ $(LIBS) $(OutPutOpt)$@
 		$(MT_EXE)
 		@echo "$@ done"

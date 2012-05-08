@@ -8,23 +8,25 @@
 #include <stdio.h>
 #include <assert.h>
 #include <math.h>
+#include "TF1.h"
 #include "TH1D.h"
 #include "TCanvas.h"
 
 using namespace std;
 #define NSAMPLES 1000000		// Number of samples
+double FuncB(double *x,double *y);
 double DistA();
 double DistB();
 inline double PDFB(double);
-int main(int argc, char **argv){
+int main(){
 
 	// Decarling Variables
 	double distA[NSAMPLES];
 	double distB[NSAMPLES];
 
 	// Only Need the Histograms, but keep the NTuple for Kicks
-	TH1D *h_a = new TH1D("dist_a","Distribution A",100,-0.1,3.2);
-	TH1D *h_b = new TH1D("dist_b","Distribution B",100,-0.1,2.1);
+	TH1D *h_a = new TH1D("dist_a","Distribution A",25,-0.1,3.2);
+	TH1D *h_b = new TH1D("dist_b","Distribution B",50,-0.1,2.1);
 	assert(h_a != NULL && h_b!= NULL);
 
 	// Filling Values
@@ -39,14 +41,43 @@ int main(int argc, char **argv){
 	/**
 	 * Plotting with ROOT
 	 */
+	// Normalzign the bins, and then plotting the orignal function 
 	TCanvas *c_a = new TCanvas("ca","Canvas",400,400);
+	TF1 *funA = new TF1("distA","sin(x)",0,acos(-1));
+	double xValue = acos(-1)*0.5;
+	double binValue = h_a->Interpolate(xValue);
+	h_a->Scale(funA->Eval(xValue)/binValue);
 	h_a->Draw();
+	funA->Draw("same");
 	c_a->SaveAs("Problem2-2a.gif");
+
 	TCanvas *c_b = new TCanvas("cb","Canvas",400,400);
+	TF1 *funB = new TF1("distB",FuncB,0,2,0);
+	xValue = 0.99;
+	//binValue = h_b->Interpolate(xValue);
+	binValue = h_b->GetBinContent(h_b->GetMaximumBin());
+	h_b->Scale(funB->Eval(xValue)/binValue);
 	h_b->Draw();
+	funB->Draw("same");
 	c_b->SaveAs("Problem2-2b.gif");
+
 }
 
+/**
+ * FuncB - Evaluates function B  at x
+ * @param - x
+ * @return funcB(x)
+ */
+double FuncB(double *x,double *y){
+	if (*x > 0 && *x <=1)
+		return (*x)*(*x);
+	else if ( *x>1 && *x <2)
+		return exp(-2.0*(*x));
+	else
+		return 0;
+}
+	
+	
 /**
  * Distribution A
  *
@@ -89,7 +120,7 @@ inline double DistB(){
  *                              exp(-2x) if 1 < x < 2
  */
 inline double PDFB(double x){
-	if (x > 0 && x < 1)
+	if (x > 0 && x <= 1)
 		return x*x;
 	else if (x > 1 && x < 2)
 		return exp(-2*x);

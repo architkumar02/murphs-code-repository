@@ -9,6 +9,7 @@
 #include <assert.h>
 #include <math.h>
 #include "TH1D.h"
+#include "TF1.h"
 #include "TCanvas.h"
 
 using namespace std;
@@ -20,8 +21,8 @@ double DistB();
 double pdf1A(double x){ return acos(-1)*sqrt(x); }
 double pdf1B(double x){ return acos(1-2*x); }
 double pdf2A(double x) {return pow(x,(1.0/3.0));}
-double pdf2B(double x) {return -0.5*log(x*(exp(-4)-exp(-2))+exp(-2)); }
-
+double pdf2B(double x) {return -0.5*log(-1.0*x*(exp(-2)-exp(-4))+exp(-2)); }
+double FuncB(double *x,double *y);
 
 int main(){
 
@@ -46,16 +47,43 @@ int main(){
 	/**
 	 * Plotting with ROOT
 	 */
+	// Normalzign the bins, and then plotting the orignal function 
 	TCanvas *c_a = new TCanvas("ca","Canvas",400,400);
+	TF1 *funA = new TF1("distA","2*x + sin(x)",0,acos(-1));
+	double xValue = acos(-1)*0.5;
+	double binValue = h_a->Interpolate(xValue);
+	h_a->Scale(funA->Eval(xValue)/binValue);
 	h_a->Draw();
+	funA->Draw("same");
 	c_a->SaveAs("Problem2-3a.gif");
-	TCanvas *c_b = new TCanvas("cb","Canvas",400,400);
-	h_b->Draw();
-	c_b->SaveAs("Problem2-3b.gif");
 
+	TCanvas *c_b = new TCanvas("cb","Canvas",400,400);
+	TF1 *funB = new TF1("distB",FuncB,0,2,0);
+	xValue = 0.99;
+	//binValue = h_b->Interpolate(xValue);
+	binValue = h_b->GetBinContent(h_b->GetMaximumBin());
+	h_b->Scale(funB->Eval(xValue)/binValue);
+	h_b->Draw();
+	funB->Draw("same");
+	c_b->SaveAs("Problem2-3b.gif");
 	return EXIT_SUCCESS;
 }
 
+/**
+ * FuncB - Evaluates function B  at x
+ * @param - x
+ * @return funcB(x)
+ */
+double FuncB(double *x,double *y){
+	if (*x > 0 && *x <=1)
+		return (*x)*(*x);
+	else if ( *x>1 && *x <2)
+		return exp(-2.0*(*x));
+	else
+		return 0;
+}
+	
+	
 /**
  * Distribution A
  *
@@ -77,7 +105,8 @@ double DistB(){
 
 	double p = (double) rand()/(double) RAND_MAX;
 	double r = (double) rand()/(double) RAND_MAX;
-	if ( p < (1.0/3.0)/(1.0/3.0+2*exp(-2)-2.0*exp(-4)))
+	//if ( p < (1.0/3.0)/(1.0/3.0+2*exp(-2)-2.0*exp(-4)))
+	if ( p < 0.850681)
 		return pdf2A(r);
 	else
 		return pdf2B(r);

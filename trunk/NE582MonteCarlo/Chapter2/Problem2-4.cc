@@ -26,7 +26,7 @@ void Metroplolis(double x0,double *x,int numItter,double (*pdf)(double));
 int main(){
 
 	// Decarling Variables
-    int numSamples = 100000;
+    int numSamples = 1000000;
     double *distA  = (double*) malloc(numSamples*sizeof(double));
     double *distB  = (double*) malloc(numSamples*sizeof(double));
 
@@ -52,8 +52,8 @@ int main(){
 	// Normalzign the bins, and then plotting the orignal function 
 	TCanvas *c_a = new TCanvas("ca","Canvas",400,400);
 	TF1 *funA = new TF1("distA","2*x + sin(x)",0,acos(-1));
-	double xValue = acos(-1)*0.5;
-	double binValue = h_a->Interpolate(xValue);
+	double xValue = h_a->GetBinCenter(h_a->GetMaximumBin());
+	double binValue = h_a->GetBinContent(h_a->GetMaximumBin());
 	h_a->Scale(funA->Eval(xValue)/binValue);
 	funA->Draw();
 	h_a->Draw("same");
@@ -61,8 +61,7 @@ int main(){
 
 	TCanvas *c_b = new TCanvas("cb","Canvas",400,400);
 	TF1 *funB = new TF1("distB",FuncB,0,2,0);
-	xValue = 0.99;
-	//binValue = h_b->Interpolate(xValue);
+	xValue = h_b->GetBinCenter(h_b->GetMaximumBin());
 	binValue = h_b->GetBinContent(h_b->GetMaximumBin());
 	h_b->Scale(funB->Eval(xValue)/binValue);
 	funB->Draw();
@@ -77,6 +76,7 @@ int main(){
 void Metroplolis(double x0,double *x,int numItter,double (*pdf)(double)){
     double *normalRand  = (double*) malloc(numItter*sizeof(double));
     double *uniformRand = (double*) malloc(numItter*sizeof(double));
+    memset(x,0,numItter*sizeof(double));
     
     // Filling the random number distributions
     TRandom *randGenerator = new TRandom();
@@ -84,7 +84,8 @@ void Metroplolis(double x0,double *x,int numItter,double (*pdf)(double)){
         uniformRand[i] = (double) rand() / (double) RAND_MAX;
         normalRand[i]  = randGenerator->Gaus();
     }
-
+    
+    // Setting up for the runs
     double xPrev = x0;
     double xTilde;
 
@@ -98,7 +99,7 @@ void Metroplolis(double x0,double *x,int numItter,double (*pdf)(double)){
         if( (*pdf)(xTilde) > (*pdf)(xPrev) )
             x[i] = xTilde;
         else{
-            if (uniformRand[i] <= (*pdf)(xPrev)/(*pdf)(xPrev))
+            if (uniformRand[i] <= (*pdf)(xTilde)/(*pdf)(xPrev))
                 x[i] = xTilde;
             else
                 x[i] = xPrev;
@@ -119,7 +120,7 @@ void Metroplolis(double x0,double *x,int numItter,double (*pdf)(double)){
  * The distribution is pdf(x) = 2*x+sin(x), 0<x<pi
  */
 double PDFA(double x){
-    if( x < 0 || x > acos(-1))
+    if( x <= 0 || x >= acos(-1))
         return 0;
     else
         return 2.0*x+sin(x);

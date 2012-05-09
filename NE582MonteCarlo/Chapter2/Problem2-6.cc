@@ -21,7 +21,8 @@ int main(){
 	double sum[NSAMPLES];
 
 	// Only Need the Histograms, but keep the NTuple for Kicks
-	TH1D *h = new TH1D("sum","Sum of Two Uniform Distributions",100,-0.1,2.1);
+    int nBins = 100;
+	TH1D *h = new TH1D("sum","Sum of Two Uniform Distributions",nBins,-0.1,2.1);
 	TCanvas *c = new TCanvas("c","Canvas",400,400);
 	assert(h != NULL && c!= NULL);
 
@@ -47,6 +48,18 @@ int main(){
 	// Plotting with ROOT
 	h->Draw();
 	c->SaveAs("Problem2-6.gif");
+
+    // Creating A CDF
+    TH1D *hC = new TH1D("CDF Sum","CDF of Sum of Two Unifrom Distrubtions",nBins,-0.1,2.1);
+    int total =0;
+    for(int i=0; i < nBins; i++){
+        total += h->GetBinContent(i);
+        for(int k=0; k < total; k++)
+            hC->AddBinContent(i);
+    }
+    hC->Scale(1/h->Integral());
+    hC->Draw();
+    c->SaveAs("Problem2-6CDF.gif");
 	fprintf(stdout,"Out of %d trials, %d where greater than %f  (%f) %%\n",NSAMPLES,score,val,(double) score / (double) NSAMPLES);
 
 	return EXIT_SUCCESS;

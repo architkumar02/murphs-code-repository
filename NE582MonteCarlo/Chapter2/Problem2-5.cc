@@ -53,7 +53,7 @@ int main(){
 	double varDiff = variance(diff,NSAMPLES);
 	double varProd = variance(prod,NSAMPLES);
 	
-	fprintf(stdout,"Comparison of Standard Deviations\n");
+	fprintf(stdout,"Comparison of Standard Deviations (%d samples)\n",(int)NSAMPLES);
 	fprintf(stdout,"Sum - Expected:%f  Observed:%f\n",sqrt(varA+varB),sqrt(varSum));
 	fprintf(stdout,"Diff - Expected:%f  Observed:%f\n",sqrt(varA+varB),sqrt(varDiff));
 	fprintf(stdout,"Prod - Expected:%f  Observed:%f\n",sqrt(muA*muA*varA+muB*muB*varB+varA*varB),sqrt(varProd));

@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # ScriptFile
-FILE='ScriptLEUCritSizeReflector.mcnp'
+#FILE='ScriptLEUCritSizeReflector.mcnp'
 #FILE='ScriptNatUCritSizeReflector.mcnp'
-#FILE='ScriptLEUCritSize.mcnp'
+FILE='ScriptLEUCritSize.mcnp'
 #FILE='ScriptHEUCritSize.mcnp'
 #FILE='ScriptNatUCritSize.mcnp'
 

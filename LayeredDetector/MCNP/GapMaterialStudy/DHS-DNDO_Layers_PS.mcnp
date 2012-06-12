@@ -7,7 +7,7 @@ c ------------------------------ Detector  -------------------------------------
 600  0    -510 500  u=1 lat=1 fill=0:120  0:0 0:0
      2  120r  $ Filling with Universe 2
 500  3    -1.281  500 -501 u=2       $ 50 Micron Film
-501  10   -1.17   #500      u=2
+501  10   -1.17   #500      u=2      $ Gap Material
 700  488  -7.92   600 -700           $ SS-316 Encasing 
 c ---------------------------- Outside World -----------------------------------
 1000 204  -0.001225   -1000 #610 #700 #70 #71 #72        $ Atmosphere
@@ -38,73 +38,90 @@ PHYS:N 100 4j -1 2               $ Turned on fission multiplicity "FISM" (-1) an
 PHYS:P 3j -1                     $ Turn on photonuclear particle production - 4th entry
 CUT:N  2j 0 0                    $ Analog Capture for Neutrons - 4th entry
 CUT:P,A,E,#,H,A,S,T  j 0         $ Set low KE cutoff to 0 Mev for photons, tritons, alphas, electrons, & heavy - 2nd entry
-c -------------------------- Source Defination ---------------------------------
+C ############################# Source Defination #############################
+C --- Two sources are presented, a Cf-252 Source and a Co-60 Source         ---
+C -----------------------------------------------------------------------------
 c 1 nanogram Cf-252 source = 1E-9 grams = 6.623E-11 cc - modeled as sphere in SS
-sdef  pos=-200 0 108.85  cel=70  par=SF  rad=d1  $ vec=1 0 0 dir=d2
-si1  0 2.510E-04
-sp1 -21 1
+c sdef  pos=-200 0 108.85  cel=70  par=SF  rad=d1  $ vec=1 0 0 dir=d2
+c si1  0 2.510E-04
+c sp1 -21 1
+C -------------------------- Co60 Source --------------------------------------
+C -- Source is positioned x cm from the center of the detector              ---
+C -- Energy is sampled evenly between the two discrete energies of the Co60 ---
+C -----------------------------------------------------------------------------
+SDEF ERG=D1 PAR=p pos=-10 0 108.85
+SI1  L 1.173 1.332
+SP1  D 0.5   0.5
 c ------------------------------------ Translations ---------------------------
 *TR1 0 0 200           $ Distance from source to center of detector
-c ------------------------- Tallies Yo! ----------------------------------------
-C E0 0 1E-9 5E-9 1E-8 5E-8 1E-7 5E-7 1E-6 5E-6 
-C        1E-5 5E-5 1E-4 1E-3 5E-3 1E-2 5E-2 1E-1 5E-1 1 10 
+C ############################### TALLIES (YE HAW) ############################
+C -------------------------- Neutron Tallies ---------------------------------
 E0 0 200i 5
-FC1 Neutron Crossing Source Cell
-F1:n 70
-C1 0 1
-FC11 Neutrons Crossing HDPE Pig Around Source
-F11:n 72
-C11 0 1
-FC31 Photons Crossing HDPE Pig around Source
-F31:p 72
-C31 0 1
-FC41 Neutrons Crossing Detector Front
-F41:n 500
-C41 0 1
-FC4 (n,t) Reactions in Thin Film (Neutron Detector)
-F4:n (500<610)
-SD4 1
-FM4 -1 3 105
-FC14 (n,t) Reactions in Selected Thin Films
-F14:n (500<600[1]) (500<600[2]) (500<600[4]) (500<600[6]) (500<600[8])
+FC101 Neutron Crossing Source Cell and HDPE
+F101:n 70 72
+C101 0 1
+FC114 (n,t) Reactions in Selected Thin Films
+F114:n (500<600[1]) (500<600[2]) (500<600[4]) (500<600[6]) (500<600[8])
       (500<600[10]) (500<600[12]) (500<600[14]) (500<600[16]) (500<600[18])
       (500<600[20]) (500<600[22]) (500<600[24]) (500<600[26]) (500<600[28])
       (500<600[30]) (500<600[32]) (500<600[34]) (500<600[36]) (500<600[38])
       (500<600[40]) (500<600[42]) (500<600[44]) (500<600[46]) (500<600[48])
       (500<600[50]) (500<600[60]) (500<600[70]) (500<600[80]) (500<600[90])
       (500<600[100]) (500<600[110]) (500<600[120]) T 
-SD14 1 33r
-E14 0 10
-FM14 -1 3 105
+SD114 1 33r
+E114 0 10
+FM114 -1 3 105
+FC121 Neutrons Crossing Detector Front
+F121:n 500
+C121 0 1
 FC111 Neutrons Crossing Selected Thin Films
 F111:n (500<600[1]) (500<600[25]) (500<600[50]) (500<600[75])
       (500<600[100]) (500<600[120]) T 
 SD111 1 6r
 C111 0 1
 E111 0 1E-9 200ilog 5
-C ############################### TALLIES (YE HAW) ############################
+FC124 (n,t) Reactions in Thin Film (Neutron Detector)
+F124:n (500<610)
+SD124 1
+FM114 -1 3 105
+C ---------------------------- Photon Tallies --------------------------------
 c Multiply each tally by 1000 mrem/rem * 100uCi * 3.7E10 Bq *2 photons / decay
-c em0 7.4E9 51r                                                                 
-FC12 Photon Flux over Front of Detector Surface
-F12:P (500.2<600)
-DE12  0.01 0.015 0.02 0.03 0.04 0.05 0.06 0.08 0.1 0.15 0.2 0.3 0.4 0.5 0.6     
+FC201 Photons Crossing 
+F201:p 72 700.3 
+C201 0 1
+FC211 Photon Crossing detector films
+F211:p (500<600[1]) (500<600[25]) (500<600[50]) (500<600[75])
+      (500<600[100]) (500<600[120]) T
+SD211 1 6R   
+C211 0 1
+E211 0 1E-9 200ilog 5
+FC212 Photon Flux over Front of Detector Surface
+F212:P 700.3 (500.2<600)
+DE212  0.01 0.015 0.02 0.03 0.04 0.05 0.06 0.08 0.1 0.15 0.2 0.3 0.4 0.5 0.6     
       0.8 1 1.5                                                                 
-DF12  2.78E-6 1.11E-6 5.88E-7 2.56E-7 1.56E-7 1.20E-7 1.11E-7 1.20E-7 1.47E-7   
+DF212  2.78E-6 1.11E-6 5.88E-7 2.56E-7 1.56E-7 1.20E-7 1.11E-7 1.20E-7 1.47E-7   
       2.38e-7 3.45E-7 5.56E-7 7.69E-7 9.09E-7 1.14E-6 1.47E-6 1.79E-6 2.44E-6
-FC22 Photon Flux over Top of Detector Well
+FC214 Photon Reactions in Selected Thin Films
+F214:p (500<600[1]) (500<600[2]) (500<600[4]) (500<600[6]) (500<600[8])
+      (500<600[10]) (500<600[12]) (500<600[14]) (500<600[16]) (500<600[18])
+      (500<600[20]) (500<600[22]) (500<600[24]) (500<600[26]) (500<600[28])
+      (500<600[30]) (500<600[32]) (500<600[34]) (500<600[36]) (500<600[38])
+      (500<600[40]) (500<600[42]) (500<600[44]) (500<600[46]) (500<600[48])
+      (500<600[50]) (500<600[60]) (500<600[70]) (500<600[80]) (500<600[90])
+      (500<600[100]) (500<600[110]) (500<600[120]) T 
+SD214 1 33r
+E214 0 10
+FM214 -1 3 -5
 c -------------- Output --------------------------------------------------------
 PRDMP j j 1      $ Write a MCTAL File
 c -------------------------- Material Cards ------------------------------------
 m3    1001    -0.0566       $30% LiF, 65% PS, 5% PPO/POPOP
       6000    -0.6912      7014       -0.0067         8016       -0.0076
       3007    -0.0039      3006       -0.0543         9017       -0.2170
-m10   1001    -0.080538       $Lucite (PMMA / Plexiglass)    rho = 1.19 g/cc
-      6012    -0.599848    8016       -0.319614
 m204  7014.70c      -0.755636  $air (US S. Atm at sea level) rho = 0.001225
       8016.70c      -0.231475 18036.70c     -3.9e-005 18038.70c      -8e-006 
       18040.70c     -0.012842 
-C    Material 5 is Cf-252 - rho = 15.1 g/cc - Wiki
-m5    98252.66c  1
+m5    98252.66c  1  $ Cf252 (rho = 15.1 g/cc)
 m406  82204.70c     -0.013781  $Lead,
       82206.70c     -0.239557 82207.70c     -0.220743 82208.70c     -0.525919
 m456  1001.70c      -0.143716  $Polyethylene - rho = 0.93 g/cc
@@ -118,6 +135,23 @@ m488  14028.70c     -0.009187  $Steel, Stainless 316 rho = 7.92
       28064.70c     -0.001189 42092.70c     -0.003554 42094.70c     -0.002264 
       42095.70c     -0.003937 42096.70c     -0.004169 42097.70c     -0.002412 
       42098.70c     -0.006157 42100.70c     -0.002507
+C ---------------------------- Gap Materials ----------------------------------
+C -- Gap Materials are 10-13, with mt10 being a repeat of m2504, air        ---
+C -----------------------------------------------------------------------------
+m10   7014.70c      -0.755636  $air (US S. Atm at sea level) rho = 0.001225
+      8016.70c      -0.231475 18036.70c     -3.9e-005 18038.70c      -8e-006 
+      18040.70c     -0.012842 
+m11   1001    -0.080538       $Lucite (PMMA / Plexiglass)    rho = 1.19 g/cc
+      6012    -0.599848    8016       -0.319614
+m12   5011     -0.040066     $ Glass, Borosilicate (Pyrex), rho = 2.230
+      8016     -0.539559      11023         -0.028191 13027         -0.011644
+      1400     -0.377220      19000         -0.003321
+m13   8016     -0.156453     $ Lead Glass, rho = 6.220
+      14000    -0.080866      22000         -0.008092 33075         -0.002651
+      82000    -0.751938
 mt3   poly.01t
 mt456 poly.01t
 mt10  poly.01t
+mt11  poly.01t
+mt12  poly.01t
+mt13  poly.01t

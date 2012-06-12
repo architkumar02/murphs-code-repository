@@ -12,6 +12,6 @@ do
     echo "Processing x position: $x" 
     cat $FILE | sed "s/GAMMAXPOS/$x/g"  > INP.mcnp
 
-    nohup mpirun -np 32 -machinefile NodeList /opt/MCNPX-2.60/bin/mcnpx ixr inp=INP.mcnp name=GammaFlux_SrcPosX_${x}.
+    nohup mpirun -np 56 -machinefile NodeList /opt/MCNPX-2.60/bin/mcnpx ixr inp=INP.mcnp name=GammaFlux_SrcPosX_${x}.
 
 done

@@ -30,14 +30,14 @@ c -------------- Outside World -------------------------------------------------
 1000 so 250
 
 c ------------------------------ Run Info --------------------------------------
-nps 1E6
-IMP:N,H,P,A,D,T,S,E,# 1 8R 0           $ Particle Importances within cells
+nps 1E5
+IMP:N,P 1 8R 0           $ Particle Importances within cells
 c ------------------------------ Physics ---------------------------------------
-MODE N H P A D T S E #           $ Type of particles to transport: neutrons, photons, alphas, deuterons, electrons, & heavy
-PHYS:N 100 4j -1 2               $ Turned on fission multiplicity "FISM" (-1) and light ion recoil "NCIA" (2)
-PHYS:P 3j -1                     $ Turn on photonuclear particle production - 4th entry
-CUT:N  2j 0 0                    $ Analog Capture for Neutrons - 4th entry
-CUT:P,A,E,#,H,A,S,T  j 0         $ Set low KE cutoff to 0 Mev for photons, tritons, alphas, electrons, & heavy - 2nd entry
+MODE N P                 $ Type of particles to transport: neutrons, photon
+PHYS:N 100 4j -1 2       $ Turned on fission multiplicity "FISM" (-1) and light ion recoil "NCIA" (2)
+PHYS:P 3j -1             $ Turn on photonuclear particle production - 4th entry
+CUT:N  2j 0 0            $ Analog Capture for Neutrons - 4th entry
+CUT:P   j 0              $ Set low KE cutoff to 0 Mev for photons
 C ############################# Source Defination #############################
 C --- Two sources are presented, a Cf-252 Source and a Co-60 Source         ---
 C -----------------------------------------------------------------------------

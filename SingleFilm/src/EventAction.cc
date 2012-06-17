@@ -94,8 +94,6 @@ void EventAction::EndOfEventAction(const G4Event* event){
 	
 	/* Only scoring events when have an energy deposition greater than eMin */
 	if( absoEdep > eMin || gapEdep > eMin){
-//	if( true ){
-
 
 		G4double flux = GetSum(GetHitsCollection("Absorber/TotalSurfaceFlux",event));
 		G4double dose = GetSum(GetHitsCollection("Absorber/TotalDose",event));

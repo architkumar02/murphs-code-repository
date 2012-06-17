@@ -75,3 +75,4 @@ inline void TrackerHit::operator delete(void *aHit){
   HitAllocator.FreeSingle((TrackerHit*) aHit);
 }
 #endif
+

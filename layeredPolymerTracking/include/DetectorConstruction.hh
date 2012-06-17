@@ -18,8 +18,6 @@ class G4UniformMagField;
 ///
 /// - the thickness of an absorber plate,
 /// - the thickness of a gap,
-/// - the number of layers,
-/// - the transverse size of the calorimeter (the input face is a square).
 ///
 /// In DefineVolumes(), sensitive detectors of G4MultiFunctionalDetector type
 /// with primitive scorers are created and associated with the Absorber 

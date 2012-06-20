@@ -53,14 +53,6 @@ void RunAction::BeginOfRunAction(const G4Run* run)
 	analysisManager->CreateNtupleDColumn("Labs");
 	analysisManager->CreateNtupleDColumn("Lgap");
 	analysisManager->CreateNtupleDColumn("Flux");
-	analysisManager->CreateNtupleDColumn("Dose");
-	analysisManager->CreateNtupleIColumn("NumSecondaries");
-	analysisManager->CreateNtupleIColumn("NumElectronSecondaries");
-	analysisManager->CreateNtupleIColumn("NumGammaSecondaries");
-	analysisManager->CreateNtupleDColumn("EAbsoPerSecondary");
-	analysisManager->CreateNtupleDColumn("EGapPerSecondary");
-	analysisManager->CreateNtupleDColumn("LAbsoPerSecondary");
-	analysisManager->CreateNtupleDColumn("LGapPerSecondary");
 	analysisManager->FinishNtuple();
 }
 

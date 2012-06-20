@@ -5,20 +5,6 @@
 #include "G4Box.hh"
 #include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
-#include "G4PVPlacement.hh"
-#include "G4PVReplica.hh"
-
-#include "TrackerSD.hh"
-#include "G4SDManager.hh"
-#include "G4SDChargedFilter.hh"
-#include "G4SDParticleFilter.hh"
-#include "G4MultiFunctionalDetector.hh"
-#include "G4VPrimitiveScorer.hh"
-#include "G4PSFlatSurfaceFlux.hh"
-#include "G4PSNofSecondary.hh"
-#include "G4PSDoseDeposit.hh"
-#include "G4PSEnergyDeposit.hh"
-#include "G4PSTrackLength.hh"
 
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
@@ -183,67 +169,6 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 	<< "\n------------------------------------------------------------\n";
 	
 	
-	// 
-	// Scorers
-	//
-	G4SDManager* SDman = G4SDManager::GetSDMpointer();
-	TrackerSD* absoSD = new TrackerSD("AbsorberSD");		// Absorber SD
-	SDman->AddNewDetector(absoSD);
-	absorberLV->SetSensitiveDetector(absoSD);
-	
-	TrackerSD* gapSD = new TrackerSD("GapSD");				// Gap SD
-	SDman->AddNewDetector(gapSD);
-	gapLV->SetSensitiveDetector(gapSD);
-	
-	
-	// declare Absorber as a MultiFunctionalDetector scorer
-	G4MultiFunctionalDetector* absDetector = new G4MultiFunctionalDetector("Absorber");
-	G4SDManager::GetSDMpointer()->AddNewDetector(absDetector);
-	absorberLV->SetSensitiveDetector(absDetector);
-	
-	// Setting up Scorers
-	G4VPrimitiveScorer* primitive;
-	G4SDChargedFilter* charged = new G4SDChargedFilter("chargedFilter");
-	primitive = new G4PSEnergyDeposit("Edep");
-	absDetector->RegisterPrimitive(primitive);
-	
-	primitive = new G4PSTrackLength("TrackLength");
-	primitive ->SetFilter(charged);
-	absDetector->RegisterPrimitive(primitive);  
-	
-	// Flux and Dose Scores
-	// O is in || out, 1 is in, 2 is out
-	primitive = new G4PSFlatSurfaceFlux("TotalSurfaceFlux",1);
-	absDetector->RegisterPrimitive(primitive);
-	primitive = new G4PSDoseDeposit("TotalDose");
-	absDetector->RegisterPrimitive(primitive);
-	
-	// Number of Secondaries
-	G4SDParticleFilter* gammaFilter = new G4SDParticleFilter("gammaFilter","gamma");
-	gammaFilter->add("opticalphoton");
-	G4SDParticleFilter* electronFilter = new G4SDParticleFilter("electronFilter","e-");
-	primitive = new G4PSNofSecondary("nSecondary");
-	absDetector->RegisterPrimitive(primitive);
-	primitive = new G4PSNofSecondary("nGamma");
-	primitive->SetFilter(gammaFilter);
-	absDetector->RegisterPrimitive(primitive); 
-	primitive = new G4PSNofSecondary("nElectron");
-	primitive->SetFilter(electronFilter);
-	absDetector->RegisterPrimitive(primitive); 
-	
-	// declare Gap as a MultiFunctionalDetector scorer
-	//  
-	G4MultiFunctionalDetector* gapDetector = new G4MultiFunctionalDetector("Gap");
-	
-	primitive = new G4PSEnergyDeposit("Edep");
-	gapDetector->RegisterPrimitive(primitive);
-	
-	primitive = new G4PSTrackLength("TrackLength");
-	primitive ->SetFilter(charged);
-	gapDetector->RegisterPrimitive(primitive);  
-	
-	G4SDManager::GetSDMpointer()->AddNewDetector(gapDetector);
-	gapLV->SetSensitiveDetector(gapDetector);  
 	//                                        
 	// Visualization attributes
 	//
@@ -255,9 +180,7 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 	//simpleBoxVisAtt->SetVisibility(true);
 	//calorLV->SetVisAttributes(simpleBoxVisAtt);
 	
-	//
 	// Always return the physical World
-	//
 	return worldPV;
 }
 

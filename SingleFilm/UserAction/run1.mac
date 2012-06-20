@@ -1,6 +1,12 @@
 # Can be run in batch, without graphic
 # or interactively: Idle> /control/execute run1.mac
 #
+
+# Setting Verbosity
+/run/verbose 3
+/tracking/verbose 3
+/event/verbose 3
+
 # Shooting a photon at the detector
 # neutrons, electrons can be shot with: neutron, e-
 /gun/particle gamma

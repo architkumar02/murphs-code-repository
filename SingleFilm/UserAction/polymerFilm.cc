@@ -6,8 +6,6 @@
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
-//#include "FTFP_BERT.hh"
-//#include "QGSP_BERT.hh"
 #include "PhysicsList.hh"
 
 #include "Randomize.hh"

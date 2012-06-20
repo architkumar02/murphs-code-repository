@@ -4,7 +4,6 @@
 
 #include "G4RunManager.hh"
 #include "G4Event.hh"
-#include "G4SDManager.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4UnitsTable.hh"
 

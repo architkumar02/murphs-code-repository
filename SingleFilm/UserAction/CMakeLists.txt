@@ -33,37 +33,10 @@ file(GLOB headers ${PROJECT_SOURCE_DIR}/include/*.hh)
 file(GLOB macros  ${PROJECT_SOURCE_DIR}/*.mac)
 
 #----------------------------------------------------------------------------
-# Find Root package
-#
-#find_package(ROOT REQUIRED)
-#if (ROOT_FOUND)
-#  include_directories(${ROOT_INCLUDE_DIRS})
-#  target_link_libraries (layeredPolymer ${ROOT_LIBRARIES})
-#endif (ROOT_FOUND)
-
-if(UNIX)
-  execute_process(COMMAND root-config --incdir OUTPUT_VARIABLE ROOT_INC_DIR)
-  include_directories(${ROOT_INC_DIR})
-  message(STATUS "Should have set root includes to ${ROOT_INC_DIR}")
- #  execute_process(COMMAND root-config --libdir OUTPUT_VARIABLE ROOT_LIB_DIR)
- #  link_directories(${ROOT_LIB_DIR})
-   execute_process(COMMAND root-config --cflags OUTPUT_VARIABLE ROOT_CXX_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
- #  set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${ROOT_CXX_FLAGS}")	
-   execute_process(COMMAND root-config --libs OUTPUT_VARIABLE ROOT_LD_FLAGS OUTPUT_STRIP_TRAILING_WHITESPACE)
-   set(CMAKE_EXE_LINKER_FLAGS ${ROOT_LD_FLAGS})
-   message(STATUS "Added ROOT Linking Flags: ${ROOT_LD_FLAGS}")
-endif(UNIX)
-if(WIN32)
-   find_path(ROOOT_INC_DIR)
-   include_directories(${ROOT_INC_DIR})
-   #include_external_msproject(ROOT.sln "C:\Users\LabUser\Documents\Geant4\Tools\root-build-VS")
-endif(WIN32)
-#----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(polymerFilm polymerFilm.cc ${sources} ${headers} ${macros})
 target_link_libraries(polymerFilm ${Geant4_LIBRARIES})
-#target_link_libraries(layeredPolymer ${ROOT_LD_FLAGS})
 
 #----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX

@@ -11,8 +11,7 @@
 #include <iomanip>
 
 
-EventAction::EventAction()
-	: G4UserEventAction(),
+EventAction::EventAction() : G4UserEventAction(),
 	fMessenger(this),
 	fPrintModulo(1000)
 {

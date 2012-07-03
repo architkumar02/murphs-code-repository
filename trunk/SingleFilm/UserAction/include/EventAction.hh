@@ -18,8 +18,7 @@
 /// Its value can be changed via a command defined in EventActionMassenger 
 /// class. 
 
-class EventAction : public G4UserEventAction
-{
+class EventAction : public G4UserEventAction {
 public:
   EventAction();
   virtual ~EventAction();

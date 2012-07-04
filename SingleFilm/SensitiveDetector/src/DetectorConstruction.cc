@@ -5,20 +5,9 @@
 #include "G4Box.hh"
 #include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
-#include "G4PVPlacement.hh"
-#include "G4PVReplica.hh"
 
 #include "TrackerSD.hh"
 #include "G4SDManager.hh"
-#include "G4SDChargedFilter.hh"
-#include "G4SDParticleFilter.hh"
-#include "G4MultiFunctionalDetector.hh"
-#include "G4VPrimitiveScorer.hh"
-#include "G4PSFlatSurfaceFlux.hh"
-#include "G4PSNofSecondary.hh"
-#include "G4PSDoseDeposit.hh"
-#include "G4PSEnergyDeposit.hh"
-#include "G4PSTrackLength.hh"
 
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
@@ -26,14 +15,13 @@
 #include "G4FieldManager.hh"
 #include "G4TransportationManager.hh"
 
-#include <stdio.h>
 
 
-DetectorConstruction::DetectorConstruction()
-: G4VUserDetectorConstruction(),
-fMessenger(this),
-fCheckOverlaps(true)
-{
+DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
+    fMessenger(this),fCheckOverlaps(true){
+
+	// Define materials 
+	DefineMaterials();
 }
 
 
@@ -42,14 +30,24 @@ DetectorConstruction::~DetectorConstruction(){
 }
 
 
-G4VPhysicalVolume* DetectorConstruction::Construct()
-{
-	// Define materials 
-	DefineMaterials();
+G4VPhysicalVolume* DetectorConstruction::Construct(){
 	
-	// Define volumes
-	return DefineVolumes();
+	// World
+	G4VSolid* worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ); 
+	worldLV = new G4LogicalVolume(worldS,defaultMaterial,"World");
+	G4VPhysicalVolume* worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",0,false,0,fCheckOverlaps);
 	
+    // Create the Detector
+    ConstructCalorimeter();
+
+    // Set Visulation Attributes
+    SetVisAttributes();
+
+    // Assign Sensitve Detectors
+    SetSensitiveDetectors();
+
+    // Return Physical World
+    return worldPV;
 }
 
 
@@ -130,59 +128,89 @@ void DetectorConstruction::DefineMaterials()
 	// Print materials
 	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
-}
-
-
-G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
-{
-	// Geometry parameters
-	G4double absoThickness = 50.*um;	    // Thickness of Absorber (Scintilating)
-	G4double gapThickness =  0.3175*cm;  // Thickness of Gap (Non-Scintilating)
-	G4double outerRadius  = 2.54*cm;		 // Outer Radius of Detector
-	G4double innerRadius = 0.*cm;			 // Inner radious of  Detector
-	G4double startAngle = 0.*deg;
-	G4double spanAngle = 360.*deg;
-	
-	G4double layerThickness = absoThickness + gapThickness;
-	G4double worldSizeXY = 1.2 * outerRadius;
-	G4double worldSizeZ  = 1.2 * layerThickness; 
-	
 	// Get materials
-	G4Material* defaultMaterial = G4Material::GetMaterial("Galactic");
-	G4Material* absorberMaterial = G4Material::GetMaterial("PS_Detector");
-	G4Material* gapMaterial = G4Material::GetMaterial("G4_PLEXIGLASS");
+	defaultMaterial = G4Material::GetMaterial("Galactic");
+	absorberMaterial = G4Material::GetMaterial("PS_Detector");
+	gapMaterial = G4Material::GetMaterial("G4_PLEXIGLASS");
 	
 	if ( ! defaultMaterial || ! absorberMaterial || ! gapMaterial ) {
 		G4cerr << "Cannot retrieve materials already defined. " << G4endl;
 		G4cerr << "Exiting application " << G4endl;
 		exit(1);
 	}  
+}
+
+void DetectorConstruction::ComputeParameters(){
+
+	// Geometry parameters
+	absoThickness = 50.*um;	        // Thickness of Absorber
+	gapThickness =  0.3175*cm;      // Thickness of Gap 
+	outerRadius  = 2.54*cm;		    // Outer Radius of Detector
+	innerRadius = 0.*cm;			// Inner radious of  Detector
+	startAngle = 0.*deg;
+	spanAngle = 360.*deg;
 	
-	// World
-	G4VSolid* worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ); 
-	G4LogicalVolume* worldLV = new G4LogicalVolume(worldS,defaultMaterial,"World");
-	G4VPhysicalVolume* worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",0,false,0,fCheckOverlaps);
+    nofLayers = 1;                  // Number of detector layers
+    layerThickness = absoThickness + gapThickness;
+	caloThickness = layerThickness*nofLayers;
+    worldSizeXY = 1.2 * outerRadius;
+    worldSizeZ  = 1.2 * calorThickness; 
 	
-	// Absorber
-	G4Tubs* absorberS = new G4Tubs("Abso",innerRadius,outerRadius,absoThickness/2,startAngle,spanAngle);
-	G4LogicalVolume* absorberLV = new G4LogicalVolume(absorberS,absorberMaterial,"Abso");
-	new G4PVPlacement(0,G4ThreeVector(0., 0.,-gapThickness/2),absorberLV,"Abso",worldLV,false,0,fCheckOverlaps);
-	
-	// Gap
-	G4Tubs* gapS = new G4Tubs("Layer",innerRadius,outerRadius,gapThickness/2,startAngle,spanAngle);
-	G4LogicalVolume* gapLV= new G4LogicalVolume(gapS,gapMaterial,"Gap");
-	new G4PVPlacement(0,G4ThreeVector(0., 0.,absoThickness/2),gapLV,"Gap",worldLV,false,0,fCheckOverlaps); 
-	
-	// print parameters
+    // print parameters
 	G4cout << "\n------------------------------------------------------------"
-	<< absoThickness/mm << "mm of " << absorberMaterial->GetName() 
+	<<"\n---> The carlorimeter is "<< noLayers << " layers of: [ "
+    << absoThickness/mm << "mm of " << absorberMaterial->GetName() 
 	<< " + "
 	<< gapThickness/mm << "mm of " << gapMaterial->GetName() << " ] \n"
-	<< "---> Deteoctr is "<<layerThickness/cm
-	<<" cm thick with a radius of"<<outerRadius/cm<<" cm"
+	<< "\n---> A single layer is " <<layerThickness/cm << "cm thick."
+    << "\n---> The calormeter is " <<caloThickness/cm << "cm thick"
+	<<" with a radius of"<<outerRadius/cm<<" cm"
 	<< "\n------------------------------------------------------------\n";
+}
+
+/**
+ * ConstructCalorimeter()
+ *
+ * Calorimeter is constructed as a solid cylinder of the gap (non-scintillating)
+ * material with layers of the absorber (scintillating) material.
+ */
+G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
+    G4int caloCopyNum = 1000;
+
+    // Calorimeter (gap material)
+    G4Tubs* caloS = new G4Tubs("Calorimeter",innerRadius,outerRadius,
+                        caloThickness/2,startAngle,spanAngle);
+    G4LogicalVolume* caloLV = new G4LogicalVolume(caloS,gapMaterial,
+                        "Calorimeter");
+    caloPV = new G4VPlacement(0,G4ThreeVector(0,0,-caloThickness/2),
+                caloLV,"Calorimeter",worldLV,false,caloCopyNum,fCheckOverlaps);
+
+	// Absorber
+	G4Tubs* absorberS = new G4Tubs("Abso",innerRadius,outerRadius,
+                        absoThickness/2,startAngle,spanAngle);
+	G4LogicalVolume* absorberLV = new G4LogicalVolume(absorberS,
+                        absorberMaterial,"Abso",0);
 	
+    G4ThreeVector gapLayer(0,0,gapThickness);
+    G4ThreeVector actLayer(0,0,absThickness);
+    G4int layerCopyNum = caloCopyNum;
+    for(int layerIdx = 0; layerIdx < nofLayers; ++layerIdx){
+        // Calculate the new position
+        G4ThreeVector position = (layerIdx+1)*gapLayer+(layerIdx+0.5)*actLayer;
+        position -= G4ThreeVector(0,0,caloThickness/2);
+        
+        // Place the Detector
+        new G4PVPlacement(0,position,absorberLV,"Absorber",caloLV,false,
+            ++layerCopyNum,fCheckOverlaps);
+    }
+
 	
+    // Return calorimeter physical volume
+	return caloPV;
+}
+
+void DetectorConstruction::SetSensitiveDetecotrs(){
+
 	// 
 	// Scorers
 	//
@@ -195,55 +223,11 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 	SDman->AddNewDetector(gapSD);
 	gapLV->SetSensitiveDetector(gapSD);
 	
-	
-	// declare Absorber as a MultiFunctionalDetector scorer
-	G4MultiFunctionalDetector* absDetector = new G4MultiFunctionalDetector("Absorber");
-	G4SDManager::GetSDMpointer()->AddNewDetector(absDetector);
-	absorberLV->SetSensitiveDetector(absDetector);
-	
-	// Setting up Scorers
-	G4VPrimitiveScorer* primitive;
-	G4SDChargedFilter* charged = new G4SDChargedFilter("chargedFilter");
-	primitive = new G4PSEnergyDeposit("Edep");
-	absDetector->RegisterPrimitive(primitive);
-	
-	primitive = new G4PSTrackLength("TrackLength");
-	primitive ->SetFilter(charged);
-	absDetector->RegisterPrimitive(primitive);  
-	
-	// Flux and Dose Scores
-	// O is in || out, 1 is in, 2 is out
-	primitive = new G4PSFlatSurfaceFlux("TotalSurfaceFlux",1);
-	absDetector->RegisterPrimitive(primitive);
-	primitive = new G4PSDoseDeposit("TotalDose");
-	absDetector->RegisterPrimitive(primitive);
-	
-	// Number of Secondaries
-	G4SDParticleFilter* gammaFilter = new G4SDParticleFilter("gammaFilter","gamma");
-	gammaFilter->add("opticalphoton");
-	G4SDParticleFilter* electronFilter = new G4SDParticleFilter("electronFilter","e-");
-	primitive = new G4PSNofSecondary("nSecondary");
-	absDetector->RegisterPrimitive(primitive);
-	primitive = new G4PSNofSecondary("nGamma");
-	primitive->SetFilter(gammaFilter);
-	absDetector->RegisterPrimitive(primitive); 
-	primitive = new G4PSNofSecondary("nElectron");
-	primitive->SetFilter(electronFilter);
-	absDetector->RegisterPrimitive(primitive); 
-	
-	// declare Gap as a MultiFunctionalDetector scorer
-	//  
-	G4MultiFunctionalDetector* gapDetector = new G4MultiFunctionalDetector("Gap");
-	
-	primitive = new G4PSEnergyDeposit("Edep");
-	gapDetector->RegisterPrimitive(primitive);
-	
-	primitive = new G4PSTrackLength("TrackLength");
-	primitive ->SetFilter(charged);
-	gapDetector->RegisterPrimitive(primitive);  
-	
-	G4SDManager::GetSDMpointer()->AddNewDetector(gapDetector);
-	gapLV->SetSensitiveDetector(gapDetector);  
+
+}
+
+void DetectorConstruction::SetVisAttributes(){
+
 	//                                        
 	// Visualization attributes
 	//
@@ -255,9 +239,5 @@ G4VPhysicalVolume* DetectorConstruction::DefineVolumes()
 	//simpleBoxVisAtt->SetVisibility(true);
 	//calorLV->SetVisAttributes(simpleBoxVisAtt);
 	
-	//
-	// Always return the physical World
-	//
-	return worldPV;
-}
 
+}

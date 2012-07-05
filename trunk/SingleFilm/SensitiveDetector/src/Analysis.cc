@@ -31,6 +31,15 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
     //    thisRunTotEGap[i] = 0;
         thisRunTotEAbs[i] = 0;
     }
+
+    // Preparing Histograms
+    hLongProfile = new TProfile("LongProfile","Calo Long Profile",
+                    NUMLAYERS,-0.5,NUMLAYERS-0.5);
+    hLongProfile->GetXaxis()->SetTitle("Layer Num");
+    hLongProfile->GetYaxis()->SetTitle("E_{Abs} (MeV)");
+
+    hTotE = new TH1F("Total Energy","Calo Total Energy in Gap",100,0,500);
+    hTotE->GetXaxis()->SetTitle("E_{Abs} (MeV)");
 }
 
 void Analysis::EndOfEvent(const G4Event* anEvent){
@@ -41,6 +50,7 @@ void Analysis::EndOfEvent(const G4Event* anEvent){
      //   thisRunTotEGap[i] += thisEventTotEGap[i];
         thisRunTotEAbs[i] += thisEventTotEAbs[i];
     }
+
 }
 
 void Analysis::EndOfRun(const G4Run* aRun){
@@ -58,4 +68,14 @@ void Analysis::EndOfRun(const G4Run* aRun){
         <<"\n \t Abs: "<<G4BestUnit(thisRunTotEAbs[i]/numEvents,"Energy")
     }
     G4cout<<"============="<<G4endl;
+    
+    // Writing Histograms
+    char filename[256];
+    sprintf(filename,"run_%d.root",aRun->GetRunId());
+    TFile* outfile = TFile::Open(filename,"recreate");
+    hLongProfile->Write();
+    hTotE->Write();
+    outfile->Close();
+    delete hLongProfile;
+    delete hTotE;
 }

@@ -5,6 +5,9 @@
 #include "G4Event.hh"
 #include "G4Run.hh"
 
+#include "TProfile.h"
+#include "TH1F.h"
+
 // How do we want to save the results?
 using namespace G4Root;
 //using namespace G4Xml;
@@ -56,5 +59,8 @@ private:
 
     G4int thisEventNumElectrons;
     G4int thisRunNumElectrons;
+
+    TProfile* hLongProfile;
+    TH1F* hTotE;
 };
 #endif

@@ -6,8 +6,6 @@
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
-//#include "FTFP_BERT.hh"
-//#include "QGSP_BERT.hh"
 #include "PhysicsList.hh"
 
 #include "Randomize.hh"
@@ -36,8 +34,6 @@ int main(int argc,char** argv)
   DetectorConstruction* detConstruction = new DetectorConstruction();
   runManager->SetUserInitialization(detConstruction);
 
- // G4VModularPhysicsList* physicsList = new FTFP_BERT;
-  //G4VModularPhysicsList* physicsList = new QGSP_BERT;
   G4VUserPhysicsList* physicsList = new PhysicsList;
   runManager->SetUserInitialization(physicsList);
     
@@ -45,7 +41,7 @@ int main(int argc,char** argv)
   runManager->SetUserAction(new PrimaryGeneratorAction());
   runManager->SetUserAction(new RunAction());
   runManager->SetUserAction(new EventAction());
-  
+
   // Initialize G4 kernel
   runManager->Initialize();
   

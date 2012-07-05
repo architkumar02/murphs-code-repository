@@ -4,6 +4,7 @@
 #include "G4Circle.hh"
 #include "G4Colour.hh"
 #include "G4VisAttributes.hh"
+#include "G4ParticleTable.hh"
 
 G4Allocator<CaloHit> HitAllocator;
 
@@ -19,8 +20,10 @@ CaloHit::~CaloHit() {}
 
 
 void CaloHit::Print(){
-	G4cout << "  trackID: " << trackID <<" particle: "<<pid.GetParticleName()
-        <<" rank: "<<particleRank
+   static G4ParticleTable* pTable  (G4ParticleTable::GetParticleTable());
+   G4String pName = pTable->FindParticle(pdgID)->GetParticleName();
+	G4cout << "  trackID: " << trackID <<" particle: "
+        <<pName<<" rank: "<<particleRank
 		<<"\nvolume: "<<volume<<" layer number: "<<layerNumber
         <<" position[mm]: " << pos
 		<<"\nenergy deposit[MeV]: " << edep<<" Momentum: "<<momentum

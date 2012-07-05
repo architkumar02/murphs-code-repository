@@ -8,9 +8,11 @@
  */
 #include "StackingAction.hh"
 #include "G4ClassificationOfNewTrack.hh"
-#include "G4Track"
+#include "G4Track.hh"
 
 #include "G4ParticleDefinition.hh"
+#include "G4Gamma.hh"
+#include "G4Electron.hh"
 
 #include "Analysis.hh"
 
@@ -26,7 +28,7 @@ G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track* t){
         Analysis::GetInstance()->AddSecondary(1);
     }
 
-    G4ParticleDefination* particleType = t->GetDefination();
+    const G4ParticleDefinition* particleType = t->GetParticleDefinition();
     if( particleType == G4Gamma::GammaDefinition()){
         Analysis::GetInstance()->AddGammas(1);
     }

@@ -5,7 +5,6 @@
 #include "G4ThreeVector.hh"
 #include "G4Allocator.hh"
 #include "G4THitsCollection.hh"
-#include "G4ParticleDefinition.hh"
 
 
 /**
@@ -20,12 +19,9 @@
  */
 class CaloHit : public G4VHit {
 public:
-	CaloHit();
+	CaloHit(const G4int layer);
 	~CaloHit();
-	CaloHit(const CaloHit &right);
 
-	const CaloHit& operator=(const CaloHit &right);			// Allows for hits to be added
-	int operator==(const CaloHit &right) const;			// Comparison between hits
 
 	inline void* operator new(size_t);
 	inline void operator delete(void*);
@@ -39,7 +35,7 @@ private:
 	G4double stepLength;		/* Step Length */
 	G4ThreeVector momentum;		/* Momentrum of the step */
 	G4int trackID;				/* Track ID */
-	G4ParticleDefinition pid;	/* Particle */
+	G4int pdgID;	            /* Particle PDG*/
     G4int particleRank;         /* Primary, Secondary, Teritiary particle */
 	G4String volume;			/* Name of Volume */
     G4int layerNumber;          /* Copy Number of Layer */
@@ -50,7 +46,7 @@ public:
 	void SetPosition(G4ThreeVector p)			{pos = p;};
 	void SetStepLength(G4double dl)				{stepLength = dl;};
 	void SetMomentum(G4ThreeVector p)			{momentum = p;};
-	void SetParticle(G4ParticleDefinition p)	{pid = p;};
+	void SetParticle(G4int p)	                {pdgID = p;};
 	void SetParticleRank(G4int rank)            {particleRank = rank;};
     void SetVolume(G4String v)					{volume = v;};
     void SetLayerNumber(G4int layer)            {layerNumber = layer;};
@@ -60,7 +56,7 @@ public:
 	G4ThreeVector GetMomentum()			{return momentum;};
 	G4double GetEdep()					{return edep;};
 	G4double GetStepLength()			{return stepLength;};
-	G4ParticleDefinition GetParticle()	{return pid;};
+	G4int GetParticle()	                {return pdgID;};
     G4int GetParticleRank()             {return particleRank;};
 	G4String GetVolume()				{return volume;};
     G4int GetLayerNumber()              {return layerNumber;};

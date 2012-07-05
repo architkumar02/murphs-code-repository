@@ -4,44 +4,44 @@
 #include "G4ThreeVector.hh"
 #include "G4SDManager.hh"
 #include "G4ios.hh"
-
-#include "RootIO.hh"
-
+#include "G4TouchableHistory.hh"
 
 CaloSensitiveDetector::CaloSensitiveDetector(G4String name) :G4VSensitiveDetector(name) {
-  G4String HCname;
-  collectionName.insert(HCname="trackerCollection");
+  
+ 
+  G4String HCname = hitCollection;
+  collectionName.insert(HCname="hitCollection");
+  G4cout<<"Creating SD with name: "<<name<<G4endl;
 }
 
 
-CaloSensitiveDetector::~CaloSensitiveDetector(){ 
-  RootIO::GetInstance()->Close();
-}
+CaloSensitiveDetector::~CaloSensitiveDetector(){ }
 
 
 void CaloSensitiveDetector::Initialize(G4HCofThisEvent* HCE){
-  trackerCollection = new HitsCollection(SensitiveDetectorName,collectionName[0]); 
+  hitCollection = new HitsCollection(SensitiveDetectorName,collectionName[0]); 
   static G4int HCID = -1;
   if(HCID<0)
   { HCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]); }
-  HCE->AddHitsCollection( HCID, trackerCollection ); 
+  HCE->AddHitsCollection( HCID, hitCollection ); 
 }
 
 
 G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
+  
+  // Energy Deposition.  If no energy is depsoited then we can leave
   G4double edep = aStep->GetTotalEnergyDeposit();
+  if(edep==0.) return true;
 
-  if(edep==0.) return false;
-
-  TrackerHit* newHit = new TrackerHit();
+  CaloHit* newHit = new CaloHit();
   newHit->SetTrackID	(aStep->GetTrack()->GetTrackID());
   newHit->SetEdep		(edep);
   newHit->SetStepLength	(aStep->GetStepLength());
   newHit->SetMomentum	(aStep->GetTrack()->GetMomentum());
-  newHit->SetParticle	(aStep->GetTrack()->GetParticleDefinition()->GetParticleName());
+  newHit->SetParticle	(aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding());
   newHit->SetPosition	(aStep->GetPostStepPoint()->GetPosition());
   newHit->SetVolume		(aStep->GetTrack()->GetVolume()->GetName());
-  trackerCollection->insert( newHit );
+  hitCollection->insert( newHit );
   
   //newHit->Print();
   //newHit->Draw();
@@ -52,21 +52,7 @@ G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
 
 void CaloSensitiveDetector::EndOfEvent(G4HCofThisEvent*)
 {
-  // storing the hits in ROOT file
-  G4int NbHits = trackerCollection->entries();
-  std::vector<TrackerHit*> hitsVector;
-
-  { 
-    G4cout << "\n-------->Storing hits in the ROOT file: in this event there are " << NbHits 
-           << " hits in the tracker chambers: " << G4endl;
-    for (G4int i=0;i<NbHits;i++) (*trackerCollection)[i]->Print();
-  } 
-
-  
-  for (G4int i=0;i<NbHits;i++) 
-    hitsVector.push_back((*trackerCollection)[i]);
-  
-  RootIO::GetInstance()->Write(&hitsVector);
+    hitCollection->PrintAllHits();
 
 }
 

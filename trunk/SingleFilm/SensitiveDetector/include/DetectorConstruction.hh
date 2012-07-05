@@ -3,7 +3,6 @@
 
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
-#include "DetectorMessenger.hh"
 
 class G4Box;
 class G4VPhysicalVolume;
@@ -36,9 +35,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
     // Geometry Names
     G4LogicalVolume* worldLV;
     G4VPhysicalVolume* caloPV;
-    G4VPhysicalVolume* layerPV;
-    G4VPhysicalVolume* gapPV;
-    G4VPhysicalVolume* absorberPV;
 	
     // Materials
     G4Material* defaultMaterial;    // Vacumun
@@ -60,7 +56,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
     G4double worldSizeZ;
 
     // data members
-    DetectorMessenger  fMessenger; // messenger 
     G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
 };
 

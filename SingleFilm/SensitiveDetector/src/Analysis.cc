@@ -1,5 +1,6 @@
 #include "Analysis.hh"
 #include "G4UnitsTable.hh"
+#include "TFile.h"
 
 Analysis* Analysis::singleton = 0;
 

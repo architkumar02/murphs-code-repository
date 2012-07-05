@@ -1,25 +1,25 @@
-#ifndef TrackerSD_h
-#define TrackerSD_h 1
+#ifndef CaloSensitiveDetector_h
+#define CaloSensitiveDetector_h 1
 
 #include "G4VSensitiveDetector.hh"
-#include "TrackerHit.hh"
+#include "CaloHit.hh"
 
 class G4Step;
 class G4HCofThisEvent;
+class G4TouchableHistory;
 
-
-class TrackerSD : public G4VSensitiveDetector
+class CaloSensitiveDetector : public G4VSensitiveDetector
 {
   public:
-      TrackerSD(G4String);
-     ~TrackerSD();
+      CaloSensitiveDetector(G4String);
+     ~CaloSensitiveDetector();
 
       void Initialize(G4HCofThisEvent*);
       G4bool ProcessHits(G4Step*, G4TouchableHistory*);
       void EndOfEvent(G4HCofThisEvent*);
 
   private:
-      HitsCollection* trackerCollection;
+      HitsCollection* hitCollection;
 
 };
 

@@ -6,7 +6,7 @@
 #include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
 
-#include "TrackerSD.hh"
+#include "CaloSensitiveDetector.hh"
 #include "G4SDManager.hh"
 
 #include "G4VisAttributes.hh"
@@ -18,7 +18,7 @@
 
 
 DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
-    fMessenger(this),fCheckOverlaps(true){
+    fCheckOverlaps(true){
 
 	// Define materials 
 	DefineMaterials();
@@ -215,14 +215,9 @@ void DetectorConstruction::SetSensitiveDetecotrs(){
 	// Scorers
 	//
 	G4SDManager* SDman = G4SDManager::GetSDMpointer();
-	TrackerSD* absoSD = new TrackerSD("AbsorberSD");		// Absorber SD
+	TrackerSD* caloSD = new TrackerSD("AbsorberSD");		// Absorber SD
 	SDman->AddNewDetector(absoSD);
 	absorberLV->SetSensitiveDetector(absoSD);
-	
-	TrackerSD* gapSD = new TrackerSD("GapSD");				// Gap SD
-	SDman->AddNewDetector(gapSD);
-	gapLV->SetSensitiveDetector(gapSD);
-	
 
 }
 

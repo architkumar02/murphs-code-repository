@@ -52,7 +52,7 @@ private:
     G4double thisRunTotEAbs[NUMLAYERS];   // E Dep in each layer of Abs
 
     G4int thisEventSecondaries;
-    G4int thisRunSecondaries;
+    G4int thisRunTotSecondaries;
 
     G4int thisEventNumGammas;
     G4int thisRunNumGammas;

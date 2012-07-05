@@ -27,5 +27,5 @@ void RunAction::BeginOfRunAction(const G4Run* run)
 
 void RunAction::EndOfRunAction(const G4Run* aRun)
 {
-    Analysis::GetInstance()->EndOfRun(run);
+    Analysis::GetInstance()->EndOfRun(aRun);
 }

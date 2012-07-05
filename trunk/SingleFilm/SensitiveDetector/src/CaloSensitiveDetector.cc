@@ -1,4 +1,4 @@
-#include "TrackerSD.hh"
+#include "CaloSensitiveDetector.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"
 #include "G4ThreeVector.hh"
@@ -8,18 +8,18 @@
 #include "RootIO.hh"
 
 
-TrackerSD::TrackerSD(G4String name) :G4VSensitiveDetector(name) {
+CaloSensitiveDetector::CaloSensitiveDetector(G4String name) :G4VSensitiveDetector(name) {
   G4String HCname;
   collectionName.insert(HCname="trackerCollection");
 }
 
 
-TrackerSD::~TrackerSD(){ 
+CaloSensitiveDetector::~CaloSensitiveDetector(){ 
   RootIO::GetInstance()->Close();
 }
 
 
-void TrackerSD::Initialize(G4HCofThisEvent* HCE){
+void CaloSensitiveDetector::Initialize(G4HCofThisEvent* HCE){
   trackerCollection = new HitsCollection(SensitiveDetectorName,collectionName[0]); 
   static G4int HCID = -1;
   if(HCID<0)
@@ -28,7 +28,7 @@ void TrackerSD::Initialize(G4HCofThisEvent* HCE){
 }
 
 
-G4bool TrackerSD::ProcessHits(G4Step* aStep,G4TouchableHistory*){
+G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
   G4double edep = aStep->GetTotalEnergyDeposit();
 
   if(edep==0.) return false;
@@ -50,7 +50,7 @@ G4bool TrackerSD::ProcessHits(G4Step* aStep,G4TouchableHistory*){
 }
 
 
-void TrackerSD::EndOfEvent(G4HCofThisEvent*)
+void CaloSensitiveDetector::EndOfEvent(G4HCofThisEvent*)
 {
   // storing the hits in ROOT file
   G4int NbHits = trackerCollection->entries();

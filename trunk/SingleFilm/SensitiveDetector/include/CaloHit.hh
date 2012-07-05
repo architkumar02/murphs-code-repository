@@ -1,5 +1,5 @@
-#ifndef TrackerHit_h
-#define TrackerHit_h 1
+#ifndef CaloHit_h
+#define CaloHit_h 1
 
 #include "G4VHit.hh"
 #include "G4ThreeVector.hh"
@@ -18,14 +18,14 @@
  *  - energy deposition in volume
  *  - geometric information
  */
-class TrackerHit : public G4VHit {
+class CaloHit : public G4VHit {
 public:
-	TrackerHit();
-	~TrackerHit();
-	TrackerHit(const TrackerHit &right);
+	CaloHit();
+	~CaloHit();
+	CaloHit(const CaloHit &right);
 
-	const TrackerHit& operator=(const TrackerHit &right);			// Allows for hits to be added
-	int operator==(const TrackerHit &right) const;			// Comparison between hits
+	const CaloHit& operator=(const CaloHit &right);			// Allows for hits to be added
+	int operator==(const CaloHit &right) const;			// Comparison between hits
 
 	inline void* operator new(size_t);
 	inline void operator delete(void*);
@@ -39,8 +39,10 @@ private:
 	G4double stepLength;		/* Step Length */
 	G4ThreeVector momentum;		/* Momentrum of the step */
 	G4int trackID;				/* Track ID */
-	G4String particle;	/* Particle */
+	G4ParticleDefinition pid;	/* Particle */
+    G4int particleRank;         /* Primary, Secondary, Teritiary particle */
 	G4String volume;			/* Name of Volume */
+    G4int layerNumber;          /* Copy Number of Layer */
 
 public:
 	void SetTrackID(G4int track)				{trackID = track;};
@@ -48,31 +50,35 @@ public:
 	void SetPosition(G4ThreeVector p)			{pos = p;};
 	void SetStepLength(G4double dl)				{stepLength = dl;};
 	void SetMomentum(G4ThreeVector p)			{momentum = p;};
-	void SetParticle(G4String p)	{particle = p;};
-	void SetVolume(G4String v)					{volume = v;};
+	void SetParticle(G4ParticleDefinition p)	{pid = p;};
+	void SetParticleRank(G4int rank)            {particleRank = rank;};
+    void SetVolume(G4String v)					{volume = v;};
+    void SetLayerNumber(G4int layer)            {layerNumber = layer;};
 
 	G4int GetTrackID()					{return trackID;};
 	G4ThreeVector GetPosition()			{return pos;};
 	G4ThreeVector GetMomentum()			{return momentum;};
 	G4double GetEdep()					{return edep;};
 	G4double GetStepLength()			{return stepLength;};
-	G4String GetParticle()				{return particle;};
+	G4ParticleDefinition GetParticle()	{return pid;};
+    G4int GetParticleRank()             {return particleRank;};
 	G4String GetVolume()				{return volume;};
+    G4int GetLayerNumber()              {return layerNumber;};
 };
 
 
-typedef G4THitsCollection<TrackerHit> HitsCollection;
-extern G4Allocator<TrackerHit> HitAllocator;
+typedef G4THitsCollection<CaloHit> HitsCollection;
+extern G4Allocator<CaloHit> HitAllocator;
 
-inline void* TrackerHit::operator new(size_t){
+inline void* CaloHit::operator new(size_t){
   void *aHit;
   aHit = (void *) HitAllocator.MallocSingle();
   return aHit;
 }
 
 
-inline void TrackerHit::operator delete(void *aHit){
-  HitAllocator.FreeSingle((TrackerHit*) aHit);
+inline void CaloHit::operator delete(void *aHit){
+  HitAllocator.FreeSingle((CaloHit*) aHit);
 }
 #endif
 

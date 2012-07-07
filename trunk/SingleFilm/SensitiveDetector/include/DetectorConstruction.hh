@@ -4,6 +4,8 @@
 #include "G4VUserDetectorConstruction.hh"
 #include "globals.hh"
 
+#include "CaloSensitiveDetector.hh"
+
 class G4Box;
 class G4VPhysicalVolume;
 class G4LogicalVolume;
@@ -43,17 +45,20 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 	
     // Geometry parameters
     G4int nofLayers;                // Number of Layers
-	G4double absoThickness;	        // Thickness of Absorber
+	G4double absThickness;	        // Thickness of Absorber
 	G4double gapThickness;          // Thickness of Gap 
 	G4double outerRadius;		    // Outer Radius of Detector
 	G4double innerRadius;			// Inner radious of  Detector
 	G4double startAngle;
 	G4double spanAngle;
 	
-	G4double layerThicknes;         // Thickness of a single layer
+	G4double layerThickness;        // Thickness of a single layer
 	G4double caloThickness;         // Thickness of entire calorimeter
     G4double worldSizeXY;
     G4double worldSizeZ;
+
+    // Sensitive Detectors
+    CaloSensitiveDetector* caloSD;
 
     // data members
     G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps

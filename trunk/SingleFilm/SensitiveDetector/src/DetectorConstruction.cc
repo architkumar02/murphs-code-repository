@@ -5,6 +5,7 @@
 #include "G4Box.hh"
 #include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
+#include "G4PVPlacement.hh"
 
 #include "CaloSensitiveDetector.hh"
 #include "G4SDManager.hh"
@@ -35,7 +36,8 @@ G4VPhysicalVolume* DetectorConstruction::Construct(){
 	// World
 	G4VSolid* worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ); 
 	worldLV = new G4LogicalVolume(worldS,defaultMaterial,"World");
-	G4VPhysicalVolume* worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",0,false,0,fCheckOverlaps);
+	G4VPhysicalVolume* worldPV = new G4PVPlacement(0,G4ThreeVector(),
+                                 worldLV,"World",0,false,0,fCheckOverlaps);
 	
     // Create the Detector
     ConstructCalorimeter();
@@ -143,7 +145,7 @@ void DetectorConstruction::DefineMaterials()
 void DetectorConstruction::ComputeParameters(){
 
 	// Geometry parameters
-	absoThickness = 50.*um;	        // Thickness of Absorber
+	absThickness = 50.*um;	        // Thickness of Absorber
 	gapThickness =  0.3175*cm;      // Thickness of Gap 
 	outerRadius  = 2.54*cm;		    // Outer Radius of Detector
 	innerRadius = 0.*cm;			// Inner radious of  Detector
@@ -151,15 +153,15 @@ void DetectorConstruction::ComputeParameters(){
 	spanAngle = 360.*deg;
 	
     nofLayers = 1;                  // Number of detector layers
-    layerThickness = absoThickness + gapThickness;
+    layerThickness = absThickness + gapThickness;
 	caloThickness = layerThickness*nofLayers;
     worldSizeXY = 1.2 * outerRadius;
-    worldSizeZ  = 1.2 * calorThickness; 
+    worldSizeZ  = 1.2 * caloThickness; 
 	
     // print parameters
 	G4cout << "\n------------------------------------------------------------"
-	<<"\n---> The carlorimeter is "<< noLayers << " layers of: [ "
-    << absoThickness/mm << "mm of " << absorberMaterial->GetName() 
+	<<"\n---> The carlorimeter is "<< nofLayers << " layers of: [ "
+    << absThickness/mm << "mm of " << absorberMaterial->GetName() 
 	<< " + "
 	<< gapThickness/mm << "mm of " << gapMaterial->GetName() << " ] \n"
 	<< "\n---> A single layer is " <<layerThickness/cm << "cm thick."
@@ -182,12 +184,12 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
                         caloThickness/2,startAngle,spanAngle);
     G4LogicalVolume* caloLV = new G4LogicalVolume(caloS,gapMaterial,
                         "Calorimeter");
-    caloPV = new G4VPlacement(0,G4ThreeVector(0,0,-caloThickness/2),
+    caloPV = new G4PVPlacement(0,G4ThreeVector(0,0,-caloThickness/2),
                 caloLV,"Calorimeter",worldLV,false,caloCopyNum,fCheckOverlaps);
 
 	// Absorber
 	G4Tubs* absorberS = new G4Tubs("Abso",innerRadius,outerRadius,
-                        absoThickness/2,startAngle,spanAngle);
+                        absThickness/2,startAngle,spanAngle);
 	G4LogicalVolume* absorberLV = new G4LogicalVolume(absorberS,
                         absorberMaterial,"Abso",0);
 	
@@ -209,15 +211,15 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 	return caloPV;
 }
 
-void DetectorConstruction::SetSensitiveDetecotrs(){
+void DetectorConstruction::SetSensitiveDetectors(){
 
 	// 
 	// Scorers
 	//
 	G4SDManager* SDman = G4SDManager::GetSDMpointer();
-	TrackerSD* caloSD = new TrackerSD("AbsorberSD");		// Absorber SD
-	SDman->AddNewDetector(absoSD);
-	absorberLV->SetSensitiveDetector(absoSD);
+	caloSD = new CaloSensitiveDetector("AbsorberSD");
+	SDman->AddNewDetector(caloSD);
+    caloPV->GetLogicalVolume()->SetSensitiveDetector(caloSD);
 
 }
 

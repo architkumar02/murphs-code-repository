@@ -26,7 +26,6 @@ public:
 	inline void* operator new(size_t);
 	inline void operator delete(void*);
 
-	void Draw();
 	void Print();
 
 private:

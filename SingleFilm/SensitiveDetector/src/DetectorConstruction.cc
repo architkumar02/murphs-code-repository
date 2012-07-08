@@ -155,7 +155,7 @@ void DetectorConstruction::ComputeParameters(){
 	startAngle = 0.*deg;
 	spanAngle = 360.*deg;
 	
-    nofLayers = 10;              // Number of detector layers
+    nofLayers = 1;              // Number of detector layers
     layerThickness = absThickness + gapThickness;
 	caloThickness = layerThickness*nofLayers;
     worldSizeXY = 1.2 * outerRadius;

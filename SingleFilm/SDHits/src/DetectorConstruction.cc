@@ -5,7 +5,6 @@
 #include "G4Box.hh"
 #include "G4Tubs.hh"
 #include "G4LogicalVolume.hh"
-#include "G4PVPlacement.hh"
 
 #include "CaloSensitiveDetector.hh"
 #include "G4SDManager.hh"
@@ -23,9 +22,6 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
 
 	// Define materials 
 	DefineMaterials();
-
-    // Compute parameters
-    ComputeParameters();
 }
 
 
@@ -39,8 +35,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct(){
 	// World
 	G4VSolid* worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ); 
 	worldLV = new G4LogicalVolume(worldS,defaultMaterial,"World");
-	G4VPhysicalVolume* worldPV = new G4PVPlacement(0,G4ThreeVector(),
-                                 worldLV,"World",0,false,0,fCheckOverlaps);
+	G4VPhysicalVolume* worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",0,false,0,fCheckOverlaps);
 	
     // Create the Detector
     ConstructCalorimeter();
@@ -131,7 +126,7 @@ void DetectorConstruction::DefineMaterials()
 	nistManager->FindOrBuildMaterial("G4_AIR",fromIsotopes);
 	
 	// Print materials
-	//G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
 	// Get materials
 	defaultMaterial = G4Material::GetMaterial("Galactic");
@@ -148,7 +143,7 @@ void DetectorConstruction::DefineMaterials()
 void DetectorConstruction::ComputeParameters(){
 
 	// Geometry parameters
-	absThickness = 50.*um;	        // Thickness of Absorber
+	absoThickness = 50.*um;	        // Thickness of Absorber
 	gapThickness =  0.3175*cm;      // Thickness of Gap 
 	outerRadius  = 2.54*cm;		    // Outer Radius of Detector
 	innerRadius = 0.*cm;			// Inner radious of  Detector
@@ -156,20 +151,20 @@ void DetectorConstruction::ComputeParameters(){
 	spanAngle = 360.*deg;
 	
     nofLayers = 1;                  // Number of detector layers
-    layerThickness = absThickness + gapThickness;
+    layerThickness = absoThickness + gapThickness;
 	caloThickness = layerThickness*nofLayers;
     worldSizeXY = 1.2 * outerRadius;
-    worldSizeZ  = 1.2 * caloThickness; 
+    worldSizeZ  = 1.2 * calorThickness; 
 	
     // print parameters
-	G4cout << "\n------------ Calorimeter Parameters ---------------------"
-	<<"\n--> The carlorimeter is "<< nofLayers << " layers of: \n\t\t[ "
-    << absThickness/mm << "mm of " << absorberMaterial->GetName() 
+	G4cout << "\n------------------------------------------------------------"
+	<<"\n---> The carlorimeter is "<< noLayers << " layers of: [ "
+    << absoThickness/mm << "mm of " << absorberMaterial->GetName() 
 	<< " + "
-	<< gapThickness/mm << "mm of " << gapMaterial->GetName() << " ]"
-	<< "\n--> A single layer is " <<layerThickness/cm << "cm thick."
-    << "\n--> The calormeter is " <<caloThickness/cm << "cm thick"
-	<<" with a radius of "<<outerRadius/cm<<" cm"
+	<< gapThickness/mm << "mm of " << gapMaterial->GetName() << " ] \n"
+	<< "\n---> A single layer is " <<layerThickness/cm << "cm thick."
+    << "\n---> The calormeter is " <<caloThickness/cm << "cm thick"
+	<<" with a radius of"<<outerRadius/cm<<" cm"
 	<< "\n------------------------------------------------------------\n";
 }
 
@@ -187,12 +182,12 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
                         caloThickness/2,startAngle,spanAngle);
     G4LogicalVolume* caloLV = new G4LogicalVolume(caloS,gapMaterial,
                         "Calorimeter");
-    caloPV = new G4PVPlacement(0,G4ThreeVector(0,0,-caloThickness/2),
+    caloPV = new G4VPlacement(0,G4ThreeVector(0,0,-caloThickness/2),
                 caloLV,"Calorimeter",worldLV,false,caloCopyNum,fCheckOverlaps);
 
 	// Absorber
 	G4Tubs* absorberS = new G4Tubs("Abso",innerRadius,outerRadius,
-                        absThickness/2,startAngle,spanAngle);
+                        absoThickness/2,startAngle,spanAngle);
 	G4LogicalVolume* absorberLV = new G4LogicalVolume(absorberS,
                         absorberMaterial,"Abso",0);
 	
@@ -214,15 +209,15 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 	return caloPV;
 }
 
-void DetectorConstruction::SetSensitiveDetectors(){
+void DetectorConstruction::SetSensitiveDetecotrs(){
 
 	// 
 	// Scorers
 	//
 	G4SDManager* SDman = G4SDManager::GetSDMpointer();
-	caloSD = new CaloSensitiveDetector("AbsorberSD");
-	SDman->AddNewDetector(caloSD);
-    caloPV->GetLogicalVolume()->SetSensitiveDetector(caloSD);
+	TrackerSD* caloSD = new TrackerSD("AbsorberSD");		// Absorber SD
+	SDman->AddNewDetector(absoSD);
+	absorberLV->SetSensitiveDetector(absoSD);
 
 }
 

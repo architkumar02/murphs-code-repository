@@ -66,27 +66,6 @@ target_link_libraries(polymerFilm ${Geant4_LIBRARIES})
 #target_link_libraries(layeredPolymer ${ROOT_LD_FLAGS})
 
 #----------------------------------------------------------------------------
-# Copy all scripts to the build directory, i.e. the directory in which we
-# build B2a. This is so that we can run the executable directly because it
-# relies on these scripts being in the current working directory.
-#
-set(EXAMPLEB2A_SCRIPTS
-  gui.mac
-  init.mac
-  init_vis.mac
-  run1.mac
-  vis.mac
-  )
-
-foreach(_script ${EXAMPLEB2A_SCRIPTS})
-  configure_file(
-    ${PROJECT_SOURCE_DIR}/${_script}
-    ${PROJECT_BINARY_DIR}/${_script}
-    COPYONLY
-    )
-endforeach()
-
-#----------------------------------------------------------------------------
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})

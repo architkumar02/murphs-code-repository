@@ -148,14 +148,14 @@ void DetectorConstruction::DefineMaterials()
 void DetectorConstruction::ComputeParameters(){
 
 	// Geometry parameters
-	absThickness = 50.*um;	        // Thickness of Absorber
-	gapThickness =  0.3175*cm;      // Thickness of Gap 
-	outerRadius  = 2.54*cm;		    // Outer Radius of Detector
-	innerRadius = 0.*cm;			// Inner radious of  Detector
+	absThickness = 50.*um;	      // Thickness of Absorber
+	gapThickness =  0.3175*cm;    // Thickness of Gap 
+	outerRadius  = 2.54*cm;		   // Outer Radius of Detector
+	innerRadius = 0.*cm;				// Inner radious of  Detector
 	startAngle = 0.*deg;
 	spanAngle = 360.*deg;
 	
-    nofLayers = 1;                  // Number of detector layers
+    nofLayers = 10;              // Number of detector layers
     layerThickness = absThickness + gapThickness;
 	caloThickness = layerThickness*nofLayers;
     worldSizeXY = 1.2 * outerRadius;
@@ -225,7 +225,7 @@ void DetectorConstruction::SetSensitiveDetectors(){
     caloPV->GetLogicalVolume()->SetSensitiveDetector(caloSD);
 
 }
-
+#include "G4Colour.hh"
 void DetectorConstruction::SetVisAttributes(){
 
 	//                                        
@@ -235,6 +235,9 @@ void DetectorConstruction::SetVisAttributes(){
 	//G4VisAttributes* gapVisAtt = new G4VisAttributes(G4Color(1,0,0,0.5));
 	//gapVisAtt->SetVisibility(true);
 	//gapLV->SetVisAttributes(gapVisAtt);
+	G4VisAttributes* absVisAtt = new G4VisAttributes(G4Colour::Blue());
+	absVisAtt->SetVisibility(true);
+	caloPV->GetLogicalVolume()->SetVisAttributes(absVisAtt);
 	//G4VisAttributes* simpleBoxVisAtt= new G4VisAttributes(G4Colour(1.0,1.0,1.0));
 	//simpleBoxVisAtt->SetVisibility(true);
 	//calorLV->SetVisAttributes(simpleBoxVisAtt);

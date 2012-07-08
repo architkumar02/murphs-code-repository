@@ -71,13 +71,10 @@ target_link_libraries(polymerFilm ${Geant4_LIBRARIES})
 # relies on these scripts being in the current working directory.
 #
 set(EXAMPLEB2A_SCRIPTS
-  exampleB2a.out
-  exampleB2.in
   gui.mac
   init.mac
   init_vis.mac
   run1.mac
-  run2.mac
   vis.mac
   )
 

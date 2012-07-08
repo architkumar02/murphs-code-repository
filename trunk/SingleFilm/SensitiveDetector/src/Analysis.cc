@@ -75,9 +75,13 @@ void Analysis::EndOfRun(const G4Run* aRun){
     char filename[256];
     sprintf(filename,"run_%d.root",aRun->GetRunID());
     TFile* outfile = TFile::Open(filename,"recreate");
+    G4cout<<"Created file "<<filename<<G4endl;
     hLongProfile->Write();
     hTotE->Write();
+    G4cout<<"Wrote file "<<filename<<G4endl;
     outfile->Close();
+    G4cout<<"Closed file "<<filename<<G4endl;
+
     delete hLongProfile;
     delete hTotE;
 }

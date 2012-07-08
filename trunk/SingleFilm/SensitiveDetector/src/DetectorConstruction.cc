@@ -23,6 +23,9 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
 
 	// Define materials 
 	DefineMaterials();
+
+    // Compute parameters
+    ComputeParameters();
 }
 
 
@@ -128,7 +131,7 @@ void DetectorConstruction::DefineMaterials()
 	nistManager->FindOrBuildMaterial("G4_AIR",fromIsotopes);
 	
 	// Print materials
-	G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+	//G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
 	// Get materials
 	defaultMaterial = G4Material::GetMaterial("Galactic");
@@ -159,14 +162,14 @@ void DetectorConstruction::ComputeParameters(){
     worldSizeZ  = 1.2 * caloThickness; 
 	
     // print parameters
-	G4cout << "\n------------------------------------------------------------"
-	<<"\n---> The carlorimeter is "<< nofLayers << " layers of: [ "
+	G4cout << "\n------------ Calorimeter Parameters ---------------------"
+	<<"\n--> The carlorimeter is "<< nofLayers << " layers of: \n\t\t[ "
     << absThickness/mm << "mm of " << absorberMaterial->GetName() 
 	<< " + "
-	<< gapThickness/mm << "mm of " << gapMaterial->GetName() << " ] \n"
-	<< "\n---> A single layer is " <<layerThickness/cm << "cm thick."
-    << "\n---> The calormeter is " <<caloThickness/cm << "cm thick"
-	<<" with a radius of"<<outerRadius/cm<<" cm"
+	<< gapThickness/mm << "mm of " << gapMaterial->GetName() << " ]"
+	<< "\n--> A single layer is " <<layerThickness/cm << "cm thick."
+    << "\n--> The calormeter is " <<caloThickness/cm << "cm thick"
+	<<" with a radius of "<<outerRadius/cm<<" cm"
 	<< "\n------------------------------------------------------------\n";
 }
 

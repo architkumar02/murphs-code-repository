@@ -67,14 +67,15 @@ target_link_libraries(polymerFilm ${Geant4_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
-# build B2a. This is so that we can run the executable directly because it
+# build. This is so that we can run the executable directly because it
 # relies on these scripts being in the current working directory.
 #
 set(EXAMPLEB2A_SCRIPTS
   gui.mac
   init.mac
   init_vis.mac
-  run1.mac
+  gammaRun.mac
+  neutronRun.mac
   vis.mac
   )
 

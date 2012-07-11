@@ -28,7 +28,7 @@ class DetectorMessenger: public G4UImessenger
     G4UIcmdWithAString*        GapMaterCmd;
     G4UIcmdWithADoubleAndUnit* AbsThickCmd;
     G4UIcmdWithADoubleAndUnit* GapThickCmd;
-    G4UIcmdWithADoubleAndUnit* SizeYZCmd;
+    G4UIcmdWithADoubleAndUnit* SizeRadiusCmd;
     G4UIcmdWithAnInteger*      NbLayersCmd;    
     G4UIcmdWithoutParameter*   UpdateCmd;
 };

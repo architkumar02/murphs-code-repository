@@ -185,12 +185,12 @@ void DetectorConstruction::PrintCaloParameters(){
 
 	// print parameters
 	G4cout << "\n------------ Calorimeter Parameters ---------------------"
-		<<"\n--> The carlorimeter is "<< nofLayers << " layers of: \n\t\t[ "
+		<<"\n--> The carlorimeter is "<< nofLayers << " layers of: \n\t[ "
 		<< absThickness/mm << "mm of " << absMaterial->GetName() 
 		<< " + "
 		<< gapThickness/mm << "mm of " << gapMaterial->GetName() << " ]"
-		<< "\n--> A single layer is " <<layerThickness/cm << "cm thick."
-		<< "\n--> The calormeter is " <<caloThickness/cm << "cm thick"
+		<< "\n--> A single layer is " <<layerThickness/cm << " cm thick."
+		<< "\n--> The calormeter is " <<caloThickness/cm << " cm thick"
 		<< " with a radius of "<<oRadius/cm<<" cm"
 		<< "\n------------------------------------------------------------\n"
 		<<G4endl;
@@ -217,8 +217,9 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 	// World
 	worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ); 
 	worldLV = new G4LogicalVolume(worldS,defaultMaterial,"World");
-	worldPV = new G4PVPlacement(0,G4ThreeVector(0.,0.,worldSizeZ/2),
-			worldLV,"World",0,false,0,fCheckOverlaps);
+	worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",
+                0,false,0,fCheckOverlaps);
+
 	//
 	// Setting up the Calorimeter
 	//

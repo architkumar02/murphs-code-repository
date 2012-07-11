@@ -1,6 +1,7 @@
 #include "Analysis.hh"
 #include "G4UnitsTable.hh"
 #include "TFile.h"
+#include "globals.hh"
 
 Analysis* Analysis::singleton = 0;
 
@@ -15,7 +16,7 @@ Analysis::Analysis() :
 }
 
 void Analysis::PrepareNewEvent(const G4Event* anEvent){
-    thisEventSecondaries = 0;
+	thisEventSecondaries = 0;
     thisEventNumGammas = 0;
     thisEventNumElectrons = 0;
     for(int i = 0; i<NUMLAYERS; i++){

@@ -23,20 +23,20 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 
 		void PrintCaloParameters();
 
-		G4double GetWorldSizeX()			{return worldSizeX;};
-		G4double GetWorldSizeYZ()			{return worldSizeYZ;};
+		G4double GetWorldSizeXY()			{return worldSizeXY;};
+		G4double GetWorldSizeZ()			{return worldSizeZ;};
 		G4double GetCaloThickness()		{return caloThickness;};
-		G4double GetCaloRadius()			{return outerRadius;};
+		G4double GetCaloRadius()			{return oRadius;};
 
 		G4int GetNumberOfLayers()			{return nofLayers;};
 
-		G4Material* GetAbsorberMaterial()		{return absorberMaterial;};
+		G4Material* GetAbsorberMaterial()		{return absMaterial;};
 		G4double	 GetAbsorberThickness()			{return absThickness;};
 
 		G4Material* GetGapMaterial()				{return gapMaterial;};
 		G4double	 GetGapThickness()				{return gapThickness;};
 
-		const G4VPhysicalVolume* GetPhysicalWorld()		{return woldPV;};
+		const G4VPhysicalVolume* GetPhysicalWorld()		{return worldPV;};
 		const G4VPhysicalVolume* GetAbsorber()				{return absPV;};
 		const G4VPhysicalVolume* GetGap()					{return gapPV;};
 
@@ -64,36 +64,36 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 
 		// Geometry Names
 		G4LogicalVolume* worldLV;			// Pointer to world logical volume
-		G4VPhysicalVolume* woldPV;			// Pointer to world physical volume
-		G4VSolid* wolrdS;							// Pointer to world's solid
+		G4VPhysicalVolume* worldPV;		// Pointer to world physical volume
+		G4VSolid* worldS;						// Pointer to world's solid
 
 		G4LogicalVolume* caloLV;			// Pointer to the calorimeter LV
 		G4VPhysicalVolume* caloPV;			// Pointer to the calorimater PV
-		G4Tubs* caloS;							// Pointer to the calorimeter soild
+		G4VSolid* caloS;						// Pointer to the calorimeter soild
 
 		G4LogicalVolume* layerLV;			// Pointer to a layer logical volume
 		G4VPhysicalVolume* layerPV;		// Pointer to a layer physical volume
-		G4Tubs* layerS;						// Pointer to a layer's solid
+		G4VSolid* layerS;						// Pointer to a layer's solid
 
 		G4LogicalVolume* absLV;				// Pointer to the absorber LV
 		G4VPhysicalVolume* absPV;			// Pointer to the absorber PV
-		G4Tubs*	absorberS;					// Pointer to the solid absorber
+		G4VSolid*	absS;						// Pointer to the solid absorber
 
 		G4LogicalVolume* gapLV;				// Pointer to the gap logical volume
 		G4VPhysicalVolume* gapPV;			// Pointer to the gap physical volume
-		G4Tubs* gapS;							// Pointer to the gap's solid 
+		G4VSolid* gapS;						// Pointer to the gap's solid 
 
 		// Materials
-		G4Material* defaultMaterial;    // Vacumun
-		G4Material* absorberMaterial;   // Detector material
-		G4Material* gapMaterial;        // Gap material
+		G4Material* defaultMaterial;    	// Vacumun
+		G4Material* absMaterial;   		// Detector material
+		G4Material* gapMaterial;        	// Gap material
 
 		// Geometry parameters
-		G4int nofLayers;                // Number of Layers
-		G4double absThickness;	        // Thickness of Absorber
-		G4double gapThickness;          // Thickness of Gap 
-		G4double outerRadius;		    // Outer Radius of Detector
-		G4double innerRadius;			// Inner radious of  Detector
+		G4int nofLayers;              	// Number of Layers
+		G4double absThickness;	      	// Thickness of Absorber
+		G4double gapThickness;        	// Thickness of Gap 
+		G4double oRadius;		    			// Outer Radius of Detector
+		G4double iRadius;						// Inner radious of  Detector
 		G4double startAngle;
 		G4double spanAngle;
 
@@ -110,6 +110,5 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 
 		DetectorMessenger* detectorMessenger;		// Pointer to the messenger
 };
-
 #endif
 

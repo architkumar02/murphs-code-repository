@@ -8,6 +8,8 @@
 #include "TProfile.h"
 #include "TH1F.h"
 
+#include "globals.hh"
+
 // How do we want to save the results?
 using namespace G4Root;
 //using namespace G4Xml;

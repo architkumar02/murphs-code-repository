@@ -15,13 +15,14 @@
 #include "G4Electron.hh"
 
 #include "Analysis.hh"
+#include "globals.hh"
 
 StackingAction::StackingAction(){}
 
 StackingAction::~StackingAction(){}
 
 G4ClassificationOfNewTrack StackingAction::ClassifyNewTrack(const G4Track* t){
-
+	G4cout<<" Classifing a new track"<<G4endl;
     G4ClassificationOfNewTrack result(fUrgent);
     G4int parentID = t->GetParentID();
     if (parentID > 0){

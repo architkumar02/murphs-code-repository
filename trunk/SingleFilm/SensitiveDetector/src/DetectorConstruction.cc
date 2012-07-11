@@ -42,7 +42,7 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
 		startAngle = 0.*deg;
 		spanAngle = 360.*deg;
 
-		nofLayers = 1;              // Number of detector layers
+		nofLayers = 10;              // Number of detector layers
 
 		// Compute parameters
 		ComputeParameters();
@@ -239,7 +239,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 			startAngle,spanAngle);
 	layerLV = new G4LogicalVolume(layerS,defaultMaterial,"Layer");
 	if (nofLayers > 1){
-		layerPV = new G4PVReplica("Layer",layerLV,caloLV,kXAxis,
+		layerPV = new G4PVReplica("Layer",layerLV,caloLV,kZAxis,
 					nofLayers,layerThickness);
 	}else{
 		layerPV = new G4PVPlacement(0,G4ThreeVector(),layerLV,"Layer",
@@ -282,7 +282,7 @@ void DetectorConstruction::SetSensitiveDetectors(){
 	G4SDManager* SDman = G4SDManager::GetSDMpointer();
 	caloSD = new CaloSensitiveDetector("AbsorberSD");
 	SDman->AddNewDetector(caloSD);
-	caloPV->GetLogicalVolume()->SetSensitiveDetector(caloSD);
+	absLV->SetSensitiveDetector(caloSD);
 
 }
 /**

@@ -10,9 +10,12 @@ project(polymerFilm)
 # to build a batch mode only executable
 #
 
-option(WITH_GEANT4_UIVIS "Build example with Geant4 UI and Vis drivers" ON)
-if(WITH_GEANT4_UIVIS)
-  find_package(Geant4 REQUIRED ui_all vis_all PATHS "/opt/geant4.9.5/lib/Geant4-9.5.1/" "/Applications/Geant4/geant4.9.5-install/lib/Geant4-9.5.0")
+option(WITH_GEANT4_UI "Build example with Geant4 UI drivers" off)
+option(WITH_GEANT4_VIS "Build example with Geant4 Vis drivers" ON)
+if(WITH_GEANT4_UI)
+  find_package(Geant4 REQUIRED ui_all PATHS "/opt/geant4.9.5/lib/Geant4-9.5.1/" "/Applications/Geant4/geant4.9.5-install/lib/Geant4-9.5.0")
+else(WITH_GEANT4_VIS)
+  find_package(Geant4 REQUIRED vis_all PATHS "/opt/geant4.9.5/lib/Geant4-9.5.1/" "/Applications/Geant4/geant4.9.5-install/lib/Geant4-9.5.0")
 else()
   find_package(Geant4 REQUIRED PATHS "/opt/geant4.9.5/lib/Geant4-9.5.1/" "/Applications/Geant4/geant4.9.5-install/lib/Geant4-9.5.0")
 endif()
@@ -35,11 +38,6 @@ file(GLOB macros  ${PROJECT_SOURCE_DIR}/*.mac)
 #----------------------------------------------------------------------------
 # Find Root package
 #
-#find_package(ROOT REQUIRED)
-#if (ROOT_FOUND)
-#  include_directories(${ROOT_INCLUDE_DIRS})
-#  target_link_libraries (layeredPolymer ${ROOT_LIBRARIES})
-#endif (ROOT_FOUND)
 
 if(UNIX)
   execute_process(COMMAND root-config --incdir OUTPUT_VARIABLE ROOT_INC_DIR)
@@ -54,16 +52,17 @@ if(UNIX)
    message(STATUS "Added ROOT Linking Flags: ${ROOT_LD_FLAGS}")
 endif(UNIX)
 if(WIN32)
-   find_path(ROOOT_INC_DIR)
-   include_directories(${ROOT_INC_DIR})
-   #include_external_msproject(ROOT.sln "C:\Users\LabUser\Documents\Geant4\Tools\root-build-VS")
+find_package(ROOT REQUIRED)
+    if (ROOT_FOUND)
+        include_directories(${ROOT_INCLUDE_DIRS})
+        target_link_libraries (layeredPolymer ${ROOT_LIBRARIES})
+    endif (ROOT_FOUND)
 endif(WIN32)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
 add_executable(polymerFilm polymerFilm.cc ${sources} ${headers} ${macros})
 target_link_libraries(polymerFilm ${Geant4_LIBRARIES})
-#target_link_libraries(layeredPolymer ${ROOT_LD_FLAGS})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we

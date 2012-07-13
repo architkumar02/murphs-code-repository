@@ -10,7 +10,7 @@ project(polymerFilm)
 # to build a batch mode only executable
 #
 
-option(WITH_GEANT4_UI "Build example with Geant4 UI drivers" off)
+option(WITH_GEANT4_UI "Build example with Geant4 UI drivers" OFF)
 option(WITH_GEANT4_VIS "Build example with Geant4 Vis drivers" ON)
 if(WITH_GEANT4_UI)
   find_package(Geant4 REQUIRED ui_all PATHS "/opt/geant4.9.5/lib/Geant4-9.5.1/" "/Applications/Geant4/geant4.9.5-install/lib/Geant4-9.5.0")

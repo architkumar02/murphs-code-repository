@@ -6,6 +6,7 @@
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
+
 #include "PhysicsList.hh"
 
 #include "Randomize.hh"
@@ -14,7 +15,6 @@
 #include "G4VisExecutive.hh"
 #endif
 
-//#undef G4UI_USE
 #ifdef G4UI_USE
 #include "G4UIExecutive.hh"
 #endif
@@ -73,7 +73,7 @@ int main(int argc,char** argv)
       UImanager->ApplyCommand("/control/execute init.mac"); 
 #endif
       if (ui->IsGUI())
-  //      UImanager->ApplyCommand("/control/execute gui.mac");
+        UImanager->ApplyCommand("/control/execute gui.mac");
       ui->SessionStart();
       delete ui;
 #endif

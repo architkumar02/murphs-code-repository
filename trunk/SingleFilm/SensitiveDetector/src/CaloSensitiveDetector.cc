@@ -9,10 +9,11 @@
 
 #include "Analysis.hh"
 
-CaloSensitiveDetector::CaloSensitiveDetector(G4String name) :G4VSensitiveDetector(name) {
+CaloSensitiveDetector::CaloSensitiveDetector(const G4String& name,
+                                            const G4String& HCname) :
+  G4VSensitiveDetector(name),hitCollection(NULL) {
   
-  G4cout<<"Creating SD with name: "<<name<<G4endl;
-  collectionName.insert("CaloHitCollection");
+  collectionName.insert(HCname);
 }
 
 
@@ -21,50 +22,52 @@ CaloSensitiveDetector::~CaloSensitiveDetector(){ }
 
 void CaloSensitiveDetector::Initialize(G4HCofThisEvent* HCE){
   
+  // Create Hits Collection
   hitCollection = new HitsCollection(SensitiveDetectorName,collectionName[0]); 
-  static G4int HCID = -1;
-  if(HCID<0){ 
-      HCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]); 
-  }
+  G4int HCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
   HCE->AddHitsCollection( HCID, hitCollection );
 }
 
 
 G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
-  // Energy Deposition.  If no energy is depsoited then we can leave
+  
   G4double edep = aStep->GetTotalEnergyDeposit();
-  if(edep==0.) return true;
+  G4double stepLength = aStep->GetStepLength();
+  // Only saving a hit if there was energy depostion
+  // if ( edep == 0. && stepLength == 0.) return false;
 
-    // Getting the copy number
-    G4TouchableHandle touchable=aStep->GetPreStepPoint()->GetTouchableHandle();
-    G4int copyNo = touchable->GetVolume(0)->GetCopyNo();
-    G4int layerIndex = copyNo - 1000;
-   
- G4cout<<"Added as Hit with layerIndex "<<layerIndex
-	 <<" Energy depsoition is "<<edep<<G4endl;
-    Analysis::GetInstance()->AddEDepAbs(layerIndex,edep);
-
+  // Getting the copy number
+  G4TouchableHistory* touchable = (G4TouchableHistory*)
+        (aStep->GetPreStepPoint()->GetTouchable());
+  G4int layerIndex = touchable->GetReplicaNumber(1);
+ 
     
   CaloHit* newHit = new CaloHit(layerIndex);
   newHit->SetTrackID	(aStep->GetTrack()->GetTrackID());
   newHit->SetEdep		(edep);
-  newHit->SetStepLength	(aStep->GetStepLength());
-  newHit->SetMomentum	(aStep->GetTrack()->GetMomentum());
-  newHit->SetParticle	(aStep->GetTrack()->GetParticleDefinition()->GetPDGEncoding());
-  newHit->SetPosition	(aStep->GetPostStepPoint()->GetPosition());
-  newHit->SetVolume		(aStep->GetTrack()->GetVolume()->GetName());
+  newHit->SetStepLength	(stepLength);
+  newHit->SetPosition	(aStep->GetPreStepPoint()->GetPosition());
+  newHit->SetLayerNumber(layerIndex);
+  newHit->SetMomentum	(aStep->GetPreStepPoint()->GetMomentum());
+  newHit->SetEnergy     (aStep->GetPreStepPoint()->GetTotalEnergy());
+  newHit->SetParticle   (aStep->GetTrack()->GetDefinition());
+  newHit->SetVolume		(aStep->GetTrack()->GetVolume());
+  
+  
+  Analysis::GetInstance()->AddHit(newHit);
   hitCollection->insert( newHit );
   
-  newHit->Print();
-  //newHit->Draw();
-
   return true;
 }
 
 
 void CaloSensitiveDetector::EndOfEvent(G4HCofThisEvent*)
 {
-    hitCollection->PrintAllHits();
-
+    if (verboseLevel > 1){
+        G4int nOfHits = hitCollection->entries();
+        G4cout<<"\n-----> Hits Collection: in this event they are "<<
+        nOfHits<<" hits:"<<G4endl;
+        for (G4int i=0; i<nOfHits; i++) (*hitCollection)[i]->Print();
+    }
 }
 

@@ -6,17 +6,18 @@
 #include "G4VisAttributes.hh"
 #include "G4ParticleTable.hh"
 
+#include <iomanip>
 G4Allocator<CaloHit> HitAllocator;
 
-CaloHit::CaloHit(const G4int layer): 
-    layerNumber(layer),
-    edep(0){
+CaloHit::CaloHit(const G4int layer): G4VHit(), 
+    layerNumber(layer){
     // Initilization preformed in intilization list
 }
 
-
+/**
+ * Destroctor of CaloHit
+ */
 CaloHit::~CaloHit() {}
-
 
 
 void CaloHit::Print(){

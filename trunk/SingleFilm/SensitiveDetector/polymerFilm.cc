@@ -3,6 +3,7 @@
 #include "RunAction.hh"
 #include "EventAction.hh"
 #include "SteppingVerbose.hh"
+#include "StackingAction.hh"
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
@@ -42,7 +43,7 @@ int main(int argc,char** argv)
   runManager->SetUserAction(new PrimaryGeneratorAction());
   runManager->SetUserAction(new RunAction());
   runManager->SetUserAction(new EventAction());
-
+  runManager->SetUserAction(new StackingAction());
   // Initialize G4 kernel
   runManager->Initialize();
   

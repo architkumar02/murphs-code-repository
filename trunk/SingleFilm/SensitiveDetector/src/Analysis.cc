@@ -23,6 +23,8 @@ void Analysis::PrepareNewEvent(const G4Event* anEvent){
       //  thisEventTotEGap[i] = 0;
         thisEventTotEAbs[i] = 0;
     }
+
+    G4cout<<"Preparing new event "<<anEvent->GetEventID()<<G4endl;
 }
 
 void Analysis::PrepareNewRun(const G4Run* aRun){

@@ -75,6 +75,8 @@ set(EXAMPLEB2A_SCRIPTS
   init_vis.mac
   gammaRun.mac
   neutronRun.mac
+  electronRun.mac
+  alphaRun.mac
   vis.mac
   )
 

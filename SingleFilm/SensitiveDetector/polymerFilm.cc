@@ -2,7 +2,6 @@
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
-#include "SteppingVerbose.hh"
 #include "StackingAction.hh"
 
 #include "G4RunManager.hh"
@@ -25,9 +24,6 @@ int main(int argc,char** argv)
 {
   // Choose the Random engine
   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
-  
-  // Stepping Class (Hopefully a ton of output . . .)
-  G4VSteppingVerbose::SetInstance(new SteppingVerbose);
   
   // Construct the default run manager
   G4RunManager * runManager = new G4RunManager;

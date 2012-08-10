@@ -49,7 +49,8 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
 
 		// Define materials 
 		DefineMaterials();
-		SetAbsorberMaterial("PS_Detector");
+		SetAbsorberMaterial("G4_PLEXIGLASS");
+		//SetAbsorberMaterial("PS_Detector");
 		SetGapMaterial("G4_PLEXIGLASS");
 
 		// Create commands for interactive defiantions of the calorimeter

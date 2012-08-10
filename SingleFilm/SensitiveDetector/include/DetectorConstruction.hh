@@ -103,7 +103,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4double worldSizeZ;
 
 		// Sensitive Detectors
-		CaloSensitiveDetector* caloSD;
+		CaloSensitiveDetector* absSD;
+		CaloSensitiveDetector* gapSD;
 
 		// data members
 		G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps

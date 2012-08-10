@@ -35,8 +35,8 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
 	fCheckOverlaps(true){
 
 		// Geometry parameters
-		absThickness = 50.*um;	      // Thickness of Absorber
-		gapThickness =  0.3175*cm;    // Thickness of Gap 
+		absThickness = 1.*cm;	      // Thickness of Absorber
+		gapThickness =  1.*cm;    // Thickness of Gap 
 		oRadius  = 2.54*cm;		   // Outer Radius of Detector
 		iRadius = 0.*cm;				// Inner radious of  Detector
 		startAngle = 0.*deg;
@@ -68,18 +68,15 @@ DetectorConstruction::~DetectorConstruction(){
  */
 G4VPhysicalVolume* DetectorConstruction::Construct(){
 
-
-	// Create the Detector
-	ConstructCalorimeter();
+	// Return Physical World
+	G4VPhysicalVolume* calo = ConstructCalorimeter();
 
 	// Set Visulation Attributes
 	SetVisAttributes();
-
-	// Assign Sensitve Detectors
+	
+    // Assign Sensitve Detectors
 	SetSensitiveDetectors();
-
-	// Return Physical World
-	return ConstructCalorimeter();
+    return calo;
 }
 
 
@@ -223,10 +220,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 	//
 	// Setting up the Calorimeter
 	//
-	caloS = 0; caloLV = 0; caloPV = 0;
-	layerS = 0; layerLV = 0; layerPV = 0;
 
-	// Calorimeter (gap material)
+    // Calorimeter (gap material)
 	caloS = new G4Tubs("Calorimeter",iRadius,oRadius,caloThickness/2,
 			startAngle,spanAngle);
 	caloLV = new G4LogicalVolume(caloS,gapMaterial,
@@ -245,26 +240,24 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 		layerPV = new G4PVPlacement(0,G4ThreeVector(),layerLV,"Layer",
 					caloLV,false,0);
 	}
-
+	
+    
 	// Absorber
-	absS = 0; absLV = 0; absPV = 0;
 	if (absThickness > 0.0){
 		absS = new G4Tubs("Abso",iRadius,oRadius,absThickness/2,
 				startAngle,spanAngle);
-		absLV = new G4LogicalVolume(absS,absMaterial,absMaterial->GetName(),0);
+		absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
 		absPV = new G4PVPlacement(0,G4ThreeVector(-gapThickness/2,0.0,0.0),
-				absLV,absMaterial->GetName(),layerLV,false,0);
+				absLV,"Absorber",layerLV,false,0);
 	}
 
 	// Gap
-	gapS = 0; gapLV = 0; gapPV = 0;
 	if (gapThickness > 0.0){
 		gapS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,
 				startAngle,spanAngle);
-		gapLV = new G4LogicalVolume(gapS,gapMaterial,
-				gapMaterial->GetName(),0);
+		gapLV = new G4LogicalVolume(gapS,gapMaterial,"Gap",0);
 		gapPV = new G4PVPlacement(0,G4ThreeVector(-gapThickness/2,0.0,0.0),
-				gapLV,gapMaterial->GetName(),layerLV,false,0);
+				gapLV,"Gap",layerLV,false,0);
 	}
 
 	PrintCaloParameters();
@@ -278,12 +271,15 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
  * Setting the Sensitive Detectors of the Detector
  */
 void DetectorConstruction::SetSensitiveDetectors(){
-
 	G4SDManager* SDman = G4SDManager::GetSDMpointer();
-	caloSD = new CaloSensitiveDetector("AbsorberSD");
-	SDman->AddNewDetector(caloSD);
-	absLV->SetSensitiveDetector(caloSD);
+	absSD = new CaloSensitiveDetector("SD/AbsSD","AbsHitCollection");
+	SDman->AddNewDetector(absSD);
+	absLV->SetSensitiveDetector(absSD);
 
+	gapSD = new CaloSensitiveDetector("SD/GapSD","GapHitCollection");
+	SDman->AddNewDetector(gapSD);
+	gapLV->SetSensitiveDetector(gapSD);
+    
 }
 /**
  * SetVisAttributes()

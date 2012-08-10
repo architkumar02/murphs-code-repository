@@ -11,7 +11,7 @@ class G4TouchableHistory;
 class CaloSensitiveDetector : public G4VSensitiveDetector
 {
   public:
-      CaloSensitiveDetector(G4String);
+      CaloSensitiveDetector(const G4String& name, const G4String& HCname);
      ~CaloSensitiveDetector();
 
       void Initialize(G4HCofThisEvent*);

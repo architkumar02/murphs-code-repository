@@ -7,6 +7,9 @@
 
 #include "TProfile.h"
 #include "TH1F.h"
+#include "TFile.h"
+
+#include "CaloHit.hh"
 
 #include "globals.hh"
 
@@ -14,7 +17,7 @@
 using namespace G4Root;
 //using namespace G4Xml;
 
-#define NUMLAYERS 1
+#define NUMLAYERS 10
 
 class Analysis {
 
@@ -34,10 +37,7 @@ public:
     void EndOfRun(const G4Run* aRun);
 
     // Event Accumulation
-    void AddEDepGap(G4int layer, G4double edep) 
-        {thisEventTotEGap[layer] += edep;};
-    void AddEDepAbs(G4int layer, G4double edep) 
-        {thisEventTotEAbs[layer] += edep;};
+    void AddHit(CaloHit* hit);
     void AddSecondary(G4int num) {thisEventSecondaries += num;};
     void AddGammas(G4int numGammas) {thisEventNumGammas += numGammas;};
     void AddElectrons(G4int numE) { thisEventNumElectrons += numE;};
@@ -45,13 +45,16 @@ private:
     // Singleton Analysis
     Analysis();
     static Analysis *singleton;
-
-    // Fields
-    G4double thisEventTotEGap[NUMLAYERS];   // E Dep in each layer of gap
-    G4double thisEventTotEAbs[NUMLAYERS];   // E Dep in each layer of Abs
     
-    G4double thisRunTotEGap[NUMLAYERS];   // E Dep in each layer of gap
-    G4double thisRunTotEAbs[NUMLAYERS];   // E Dep in each layer of Abs
+    // Energy Deposition - using the last array position as the total for 
+    // all of the layers
+    G4double thisEventTotEGap[NUMLAYERS+1];   // E Dep in each layer of gap
+    G4double thisEventTotEAbs[NUMLAYERS+1];   // E Dep in each layer of Abs
+    G4int    thisEventTotNumSecondaries[NUMLAYERS+1];
+
+    G4double thisRunTotEGap[NUMLAYERS+1];   // E Dep in each layer of gap
+    G4double thisRunTotEAbs[NUMLAYERS+1];   // E Dep in each layer of Abs
+    G4int    thisRunTotNumSecondaries[NUMLAYERS+1];
 
     G4int thisEventSecondaries;
     G4int thisRunTotSecondaries;
@@ -62,7 +65,16 @@ private:
     G4int thisEventNumElectrons;
     G4int thisRunNumElectrons;
 
-    TProfile* hLongProfile;
-    TH1F* hTotE;
+    TProfile* hProfileEGap;             // Average energy in the Gap, per Layer
+    TProfile* hProfileEAbs;             // Average energy in the abs, per layer
+    TProfile* hProfileNumSec;           // Average num of secondaries, per layer
+    
+    
+    TH1F* hTotEGap;
+    TH1F* hTotEAbs;
+    TH1F *hEDepGapLayer[NUMLAYERS];     // Energy dep per layer, histogram
+    TH1F *hEDepAbsLayer[NUMLAYERS];     // Energy dep per layer, histogram
+
+    TFile* outfile;
 };
 #endif

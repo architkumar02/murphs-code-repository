@@ -309,11 +309,11 @@ void DetectorConstruction::SetVisAttributes(){
   atb->SetForceSolid(true);
   gapLV->SetVisAttributes(atb);}
 	
-	/*
+	
 	G4VisAttributes* absVisAtt = new G4VisAttributes(G4Colour::Blue());
-	absVisAtt->SetVisibility(true);
-	caloPV->GetLogicalVolume()->SetVisAttributes(absVisAtt);
-*/
+	absVisAtt->SetVisibility(false);
+	worldPV->GetLogicalVolume()->SetVisAttributes(absVisAtt);
+
 }
 
 /**

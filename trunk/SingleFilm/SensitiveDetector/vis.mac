@@ -29,6 +29,7 @@
 #
 # Draw geometry:
 /vis/drawVolume
+#/vis/viewer/set/hiddenEdge 1
 #
 # Specify view angle:
 #/vis/viewer/set/viewpointThetaPhi 70. 20.
@@ -43,12 +44,17 @@
 # Draw coordinate axes:
 #/vis/scene/add/axes 0 0 0 1 m
 #
-# Draw smooth trajectories at end of event, showing trajectory points
+# Draw trajectories at end of event, showing trajectory points
 # as markers 2 pixels wide:
-/vis/scene/add/trajectories smooth
-/vis/modeling/trajectories/create/drawByCharge
-/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
-/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 1
+/vis/scene/add/trajectories rich smooth
+/vis/modeling/trajectories/create/drawByParticleID
+/vis/modeling/trajectories/drawByParticleID-0/set e- red
+/vis/modeling/trajectories/drawByParticleID-0/set gamma yellow
+/vis/modeling/trajectories/drawByParticleID-0/set neutron cyan
+/vis/modeling/trajectories/drawByParticleID-0/set alpha green
+#/vis/modeling/trajectories/create/drawByCharge
+#/vis/modeling/trajectories/drawByCharge-0/default/setDrawStepPts true
+#/vis/modeling/trajectories/drawByCharge-0/default/setStepPtsSize 1
 # (if too many tracks cause core dump => /tracking/storeTrajectory 0)
 #
 # Draw hits at end of event:

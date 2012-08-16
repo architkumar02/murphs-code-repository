@@ -8,7 +8,8 @@
 /run/verbose 2
 #
 # Use this open statement to create an OpenGL view:
-/vis/open OGL 600x600-0+0
+/vis/open OGL 500x500-0+0 #OGLSX OGLIXm OGLSXm
+#
 #
 # Use this open statement to create a .prim file suitable for
 # viewing in DAWN:
@@ -68,11 +69,6 @@
 # keep the above two lines but also add:
 #/vis/filtering/trajectories/particleFilter-0/invert true
 #
-# Many other options are available with /vis/modeling and /vis/filtering.
-# For example, to select colour by particle ID:
-#/vis/modeling/trajectories/create/drawByParticleID
-#/vis/modeling/trajectories/drawByPartcildeID-0/set neutron cyan
-#/vis/modeling/trajectories/drawByParticleID-0/set e- blue
 #
 # To superimpose all of the events from a given run:
 /vis/scene/endOfEventAction accumulate
@@ -81,5 +77,3 @@
 /vis/viewer/set/autoRefresh true
 /vis/verbose warnings
 #
-# For file-based drivers, use this to create an empty detector view:
-#/vis/viewer/flush

@@ -24,7 +24,7 @@
 
 #include "G4FieldManager.hh"
 #include "G4TransportationManager.hh"
-
+#include "G4UserLimits.hh"
 
 /**
  * DetectorConstruction
@@ -35,22 +35,23 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
     fCheckOverlaps(true){
 
         // Geometry parameters
-        absThickness = 1.*cm;	      // Thickness of Absorber
-        gapThickness =  1.5*cm;    // Thickness of Gap 
+        absThickness =  2*cm;	      // Thickness of Absorber
+        gapThickness =  2.0*cm;    // Thickness of Gap 
         oRadius  = 2.54*cm;		   // Outer Radius of Detector
         iRadius = 0.*cm;				// Inner radious of  Detector
         startAngle = 0.*deg;
         spanAngle = 360.*deg;
 
-        nofLayers = 10;              // Number of detector layers
+        nofLayers = 1;              // Number of detector layers
 
         // Compute parameters
         ComputeParameters();
 
         // Define materials 
         DefineMaterials();
-        SetAbsorberMaterial("G4_PLEXIGLASS");
+        //SetAbsorberMaterial("G4_PLEXIGLASS");
         //SetAbsorberMaterial("PS_Detector");
+        SetAbsorberMaterial("6LiF");
         SetGapMaterial("G4_PLEXIGLASS");
 
         // Create commands for interactive defiantions of the calorimeter
@@ -264,6 +265,10 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     }
 
     PrintCaloParameters();
+
+    // Setting the Maximum Step Size
+    G4double maxStep = 0.5*absThickness;
+    absLV->SetUserLimits(new G4UserLimits(maxStep));
 
     // Return the worlds physical volume
     return worldPV;

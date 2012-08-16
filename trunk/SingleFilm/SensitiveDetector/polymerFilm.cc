@@ -33,6 +33,7 @@ int main(int argc,char** argv)
   DetectorConstruction* detConstruction = new DetectorConstruction();
   runManager->SetUserInitialization(detConstruction);
 
+  // G4VUserPhysicsList* physicsList = new PhysicsList;
   G4VUserPhysicsList* physicsList = new PhysicsList;
   runManager->SetUserInitialization(physicsList);
     

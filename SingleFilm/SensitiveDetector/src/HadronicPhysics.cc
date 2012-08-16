@@ -40,8 +40,8 @@ void HadronicPhysics::ConstructProcess(){
 			//Elastic Process
 			G4HadronElasticProcess* neutronElasticProcess = new G4HadronElasticProcess();
 			G4NeutronHPElastic* neutronHPElasticModel = new G4NeutronHPElastic();
-			neutronHPElasticModel->SetMinEnergy(4.*eV);
-			neutronHPElasticModel->SetMaxEnergy(20.*MeV);
+			neutronHPElasticModel->SetMinEnergy(0.00001*eV);
+			neutronHPElasticModel->SetMaxEnergy(10.*MeV);
 			G4NeutronHPElasticData* neutronElasticData = new G4NeutronHPElasticData;
 			neutronElasticProcess->AddDataSet(neutronElasticData);
 			neutronElasticProcess->RegisterMe(neutronHPElasticModel);
@@ -50,7 +50,7 @@ void HadronicPhysics::ConstructProcess(){
 			// Inelastic Processes
 			G4NeutronInelasticProcess* neutronInelasticProcess = new G4NeutronInelasticProcess(); 
 			G4NeutronHPInelastic* neutronHPInelastic = new G4NeutronHPInelastic();
-			neutronHPInelastic->SetMaxEnergy(20.*MeV);
+			neutronHPInelastic->SetMaxEnergy(10.*MeV);
 			G4NeutronHPInelasticData* neutronInelasticData = new G4NeutronHPInelasticData;
 			neutronInelasticProcess->AddDataSet(neutronInelasticData);
 			neutronInelasticProcess->RegisterMe(neutronHPInelastic);
@@ -59,7 +59,7 @@ void HadronicPhysics::ConstructProcess(){
 			// Fissions
 			G4HadronFissionProcess* thenFission = new G4HadronFissionProcess();
 			G4NeutronHPFission* thenHPFissionModel = new G4NeutronHPFission();
-			thenHPFissionModel->SetMaxEnergy(20.*MeV);
+			thenHPFissionModel->SetMaxEnergy(10.*MeV);
 			G4NeutronHPFissionData* neutronFissionData = new G4NeutronHPFissionData;
 			thenFission->AddDataSet(neutronFissionData);
 			thenFission->RegisterMe(thenHPFissionModel);

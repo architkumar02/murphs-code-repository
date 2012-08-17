@@ -71,20 +71,25 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 	hProfileNumSec->GetXaxis()->SetTitle("Layer Num");
 	hProfileNumSec->GetYaxis()->SetTitle("Number Secondaries");
 
-	hTotEGap = new TH1F("TotEGap","Calo Total Energy in Gap",100,0,500);
+    G4double maxEnergy = 1010;      // in Kev
+    G4double minEnergy = 0.01;      // in Kev
+    G4int nBins = 100;
+	hTotEGap = new TH1F("TotEGap","Total Energy in Gap",
+                nBins,minEnergy,maxEnergy);
 	hTotEGap->GetXaxis()->SetTitle("E_{Gap} (keV)");
-	hTotEAbs = new TH1F("TotEAbs","Calo Total Energy in Abs",100,0,500);
+	hTotEAbs = new TH1F("TotEAbs","Total Energy in Abs",
+                nBins,minEnergy,maxEnergy);
 	hTotEAbs->GetXaxis()->SetTitle("E_{Abs} (keV)");
 
 	for(int i=0; i<NUMLAYERS; i++){
 		char* histName = new char[30];
 		sprintf(histName,"h_EGapLayer_%d",i);
-		hEDepGapLayer[i] = new TH1F(histName,"",100,0,500);
+		hEDepGapLayer[i] = new TH1F(histName,"",nBins,minEnergy,maxEnergy);
 	}
 	for(int i=0; i<NUMLAYERS; i++){
 		char* histName = new char[30];
 		sprintf(histName,"h_EAbsLayer_%d",i);
-		hEDepAbsLayer[i] = new TH1F(histName,"",100,0,500);
+		hEDepAbsLayer[i] = new TH1F(histName,"",nBins,minEnergy,maxEnergy);
 	}
 }
 

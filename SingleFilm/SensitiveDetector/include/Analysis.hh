@@ -17,7 +17,7 @@
 using namespace G4Root;
 //using namespace G4Xml;
 
-#define NUMLAYERS 10
+#define NUMLAYERS 1
 
 class Analysis {
 

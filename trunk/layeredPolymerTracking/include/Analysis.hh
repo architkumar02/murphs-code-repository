@@ -5,6 +5,7 @@
 #include "G4Event.hh"
 #include "G4Run.hh"
 
+#include "TNtuple.h"
 #include "TProfile.h"
 #include "TH1F.h"
 #include "TFile.h"
@@ -15,7 +16,6 @@
 
 // How do we want to save the results?
 using namespace G4Root;
-//using namespace G4Xml;
 
 #define NUMLAYERS 1
 
@@ -36,16 +36,16 @@ public:
     void EndOfEvent(const G4Event* anEvent);
     void EndOfRun(const G4Run* aRun);
 
-    // Event Accumulation
-    void AddHit(CaloHit* hit);
-    void AddSecondary(G4int num) {thisEventSecondaries += num;};
-    void AddGammas(G4int numGammas) {thisEventNumGammas += numGammas;};
-    void AddElectrons(G4int numE) { thisEventNumElectrons += numE;};
 private:
     // Singleton Analysis
     Analysis();
     static Analysis *singleton;
     
+    // Event NTuple, last bin is sum of all layers
+    TNtuple* runTupleGap[NUMLAYERS+1];        // Gap 
+    TNtuple* runTupleAbs[NUMLAYERS+1];        // Absorber
+    TNtuple* runTupleLayer[NUMLAYERS+1];      // Layer
+
     // Energy Deposition - using the last array position as the total for 
     // all of the layers
     G4double thisEventTotEGap[NUMLAYERS+1];   // E Dep in each layer of gap

@@ -14,8 +14,8 @@
  * Contians:
  *  - Particle Information (type and rank (primary, secondary, tertiary ...))
  *  - Positon and time
- *  - momentum and energy
- *  - energy deposition in volume
+ *  - momentum and kinetic energy
+ *  -  deposition in volume
  *  - geometric information
  */
 class CaloHit : public G4VHit {
@@ -34,7 +34,7 @@ class CaloHit : public G4VHit {
 		G4ThreeVector pos;			        /* Position of the hit */
 		G4double stepLength;		        /* Step Length */
 		G4ThreeVector momentum;		        /* Momentrum of the step */
-		G4double energy;                    /* Energy of the hit */
+		G4double kEnergy;                   /* Kinetic Energy of the particle */
 		G4int trackID;				        /* Track ID */
 		G4ParticleDefinition* particle;     /* Particle Definition */
 		G4int particleRank;                 /* Primary, Secondary, etc particle */
@@ -47,7 +47,7 @@ class CaloHit : public G4VHit {
 		void SetPosition(G4ThreeVector p)			{pos = p;};
 		void SetStepLength(G4double dl)				{stepLength = dl;};
 		void SetMomentum(G4ThreeVector p)			{momentum = p;};
-		void SetEnergy(G4double E)                  {energy = E;};
+		void SetKineticEnergy(G4double E)           {kEnergy = E;};
 		void SetParticle(G4ParticleDefinition* pdef)
 		{particle = pdef;};
 		void SetParticleRank(G4int rank)            {particleRank = rank;};
@@ -57,7 +57,7 @@ class CaloHit : public G4VHit {
 		G4int GetTrackID()					{return trackID;};
 		G4ThreeVector GetPosition()			{return pos;};
 		G4ThreeVector GetMomentum()			{return momentum;};
-		G4double GetEnergy()                {return energy;};
+		G4double GetKineticEnergy()         {return kEnergy;};
 		G4double GetEdep()					{return edep;};
 		G4double GetStepLength()			{return stepLength;};
 		G4ParticleDefinition* GetParticle() {return particle;};
@@ -67,7 +67,7 @@ class CaloHit : public G4VHit {
 };
 
 
-typedef G4THitsCollection<CaloHit> HitsCollection;
+typedef G4THitsCollection<CaloHit> CaloHitsCollection;
 extern G4Allocator<CaloHit> HitAllocator;
 
 inline void* CaloHit::operator new(size_t){

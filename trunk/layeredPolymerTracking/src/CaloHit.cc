@@ -18,13 +18,19 @@ CaloHit::CaloHit(const G4int layer): G4VHit(),
  */
 CaloHit::~CaloHit() {}
 
-
+/**
+ * Print
+ *
+ * Print's out information about the hit
+ */
 void CaloHit::Print(){
 	G4cout << "  trackID: " << trackID <<" particle: "
         <<particle->GetParticleName()<<" rank: "<<particleRank
 		<<"\nvolume: "<<volume->GetName()<<" layer number: "<<layerNumber
-        <<" position[mm]: " << pos
-		<<"\nenergy deposit[MeV]: " << edep<<" Momentum: "<<momentum
-		<<" step length [mm]: "<< stepLength/mm<<G4endl;
+        <<" position[mm]: " << pos/mm
+        <<"\n Momentum "<<momentum<<" Kinetic Energy[keV]"<<kEnergy/keV
+		<<"\nenergy deposit[keV]: " << edep/keV<<" step length [mm]: "
+        << stepLength/mm
+        <<G4endl;
 }
 

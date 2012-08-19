@@ -19,7 +19,7 @@ class CaloSensitiveDetector : public G4VSensitiveDetector
       void EndOfEvent(G4HCofThisEvent*);
 
   private:
-      HitsCollection* hitCollection;
+      CaloHitsCollection* hitCollection;
 
 };
 

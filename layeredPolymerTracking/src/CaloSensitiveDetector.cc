@@ -7,8 +7,6 @@
 #include "G4ios.hh"
 #include "G4TouchableHistory.hh"
 
-#include "Analysis.hh"
-
 CaloSensitiveDetector::CaloSensitiveDetector(const G4String& name,
                                             const G4String& HCname) :
   G4VSensitiveDetector(name),hitCollection(NULL) {
@@ -23,12 +21,16 @@ CaloSensitiveDetector::~CaloSensitiveDetector(){ }
 void CaloSensitiveDetector::Initialize(G4HCofThisEvent* HCE){
   
   // Create Hits Collection
-  hitCollection = new HitsCollection(SensitiveDetectorName,collectionName[0]); 
+  hitCollection = new CaloHitsCollection(SensitiveDetectorName,collectionName[0]); 
   G4int HCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
   HCE->AddHitsCollection( HCID, hitCollection );
 }
 
-
+/**
+ * ProcessHits
+ *
+ * Adds a hit to the sensitive detector, depending on the step
+ */
 G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
   
   G4double edep = aStep->GetTotalEnergyDeposit();
@@ -51,12 +53,10 @@ G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
   newHit->SetPosition	(aStep->GetPreStepPoint()->GetPosition());
   newHit->SetLayerNumber(layerIndex);
   newHit->SetMomentum	(aStep->GetPreStepPoint()->GetMomentum());
-  newHit->SetEnergy     (aStep->GetPreStepPoint()->GetTotalEnergy());
+  newHit->SetKineticEnergy (aStep->GetPreStepPoint()->GetKineticEnergy());
   newHit->SetParticle   (aStep->GetTrack()->GetDefinition());
   newHit->SetVolume		(aStep->GetTrack()->GetVolume());
   
-  
-  Analysis::GetInstance()->AddHit(newHit);
   hitCollection->insert( newHit );
   
   return true;

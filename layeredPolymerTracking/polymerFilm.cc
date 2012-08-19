@@ -2,7 +2,6 @@
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
-#include "StackingAction.hh"
 #include "TrackingAction.hh"
 
 #include "G4RunManager.hh"
@@ -42,7 +41,6 @@ int main(int argc,char** argv)
   runManager->SetUserAction(new RunAction());
   runManager->SetUserAction(new TrackingAction());
   runManager->SetUserAction(new EventAction());
-  runManager->SetUserAction(new StackingAction());
   // Initialize G4 kernel
   runManager->Initialize();
   

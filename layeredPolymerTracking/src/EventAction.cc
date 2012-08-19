@@ -24,8 +24,14 @@ void EventAction::BeginOfEventAction(const G4Event* event){
     Analysis::GetInstance()->PrepareNewEvent(event);
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+/**
+ * EndOfEventAction
+ *
+ * @param const G4Event* event - event to be processed
+ *
+ * At the end of an event we want to call analysis to proccess
+ * this event, and record the useful information.
+ */
 void EventAction::EndOfEventAction(const G4Event* event){  
 
     Analysis::GetInstance()->EndOfEvent(event);

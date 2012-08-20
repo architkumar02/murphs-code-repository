@@ -12,6 +12,7 @@ TrackingAction::TrackingAction() : G4UserTrackingAction() {
  * Setting the trajectory to be a rich trajectory to hold additional info.
  */
 void TrackingAction::PreUserTrackingAction(const G4Track* aTrack){
+    fpTrackingManager->SetStoreTrajectory(true);
     fpTrackingManager->SetTrajectory(new G4RichTrajectory(aTrack));
 }
 

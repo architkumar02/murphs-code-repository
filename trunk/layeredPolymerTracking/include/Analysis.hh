@@ -12,12 +12,16 @@
 
 #include "CaloHit.hh"
 
+#include "G4String.hh"
 #include "globals.hh"
 
 // How do we want to save the results?
 using namespace G4Root;
 
-#define NUMLAYERS 1
+#define NUMLAYERS 1     // Number of layers in the detector
+#define WORLDNUM 0      // Map between material and Number
+#define GAPNUM 1
+#define ABSNUM 2
 
 class Analysis {
 
@@ -41,10 +45,13 @@ private:
     Analysis();
     static Analysis *singleton;
     
-    // Event NTuple, last bin is sum of all layers
-    TNtuple* runTupleGap[NUMLAYERS+1];        // Gap 
-    TNtuple* runTupleAbs[NUMLAYERS+1];        // Absorber
-    TNtuple* runTupleLayer[NUMLAYERS+1];      // Layer
+    int GetCopyNumber(G4String s);
+    int GetVolumeNumber(G4String s);
+    
+    // Run NTuple
+    TNtuple* runTuple; 
+
+
 
     // Energy Deposition - using the last array position as the total for 
     // all of the layers
@@ -70,6 +77,12 @@ private:
     TProfile* hProfileNumSec;           // Average num of secondaries, per layer
     
     
+  
+    // Initial Kinetic Energy of Teriary Particles
+    TH1F* hAlphaKESec[NUMLAYERS];
+    TH1F* hTritonKESec[NUMLAYERS];
+    TH1F* hElectronKESec[NUMLAYERS];
+    TH1F* hGammaKESec[NUMLAYERS];
     TH1F* hTotEGap;
     TH1F* hTotEAbs;
     TH1F *hEDepGapLayer[NUMLAYERS];     // Energy dep per layer, histogram

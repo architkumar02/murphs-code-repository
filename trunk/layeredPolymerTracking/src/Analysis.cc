@@ -1,11 +1,16 @@
 #include "Analysis.hh"
 #include "G4UnitsTable.hh"
 #include "globals.hh"
-#include <string.h>
 
 #include "G4String.hh"
 #include "G4AttDef.hh"
 #include "G4AttValue.hh"
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <iostream>
+#include <string>
+#include <sstream>
 #include <vector>
 #include <map>
 
@@ -15,6 +20,7 @@
 #include "G4RichTrajectoryPoint.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Event.hh"
+#include "G4ThreeVector.hh"
 
 Analysis* Analysis::singleton = 0;
 
@@ -22,20 +28,20 @@ Analysis::Analysis(){
     // Empty Constructor, assingment done in constuctor list
 }
 /*
-void Analysis::AddHit(CaloHit* hit){
-    G4int layerNum = hit->GetLayerNumber();
-    if (strcmp(hit->GetVolume()->GetName(),"Gap")){
-        thisEventTotEGap[layerNum] += hit->GetEdep();
-    }else if(strcmp(hit->GetVolume()->GetName(),"Absorber")){
-        thisEventTotEAbs[layerNum] += hit->GetEdep();
-    }
-    else{
-        G4cout<<"ERROR - Unkown Volume for sensitive detector"<<G4endl;
-    }
-    if (hit->GetParticleRank() > 1)
-        thisEventTotNumSecondaries[layerNum]++;
-}
-*/
+   void Analysis::AddHit(CaloHit* hit){
+   G4int layerNum = hit->GetLayerNumber();
+   if (strcmp(hit->GetVolume()->GetName(),"Gap")){
+   thisEventTotEGap[layerNum] += hit->GetEdep();
+   }else if(strcmp(hit->GetVolume()->GetName(),"Absorber")){
+   thisEventTotEAbs[layerNum] += hit->GetEdep();
+   }
+   else{
+   G4cout<<"ERROR - Unkown Volume for sensitive detector"<<G4endl;
+   }
+   if (hit->GetParticleRank() > 1)
+   thisEventTotNumSecondaries[layerNum]++;
+   }
+   */
 
 void Analysis::PrepareNewEvent(const G4Event* anEvent){
     // Nothing to be done before an event
@@ -58,90 +64,136 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 
     // Creating NTuples
     runTuple = new TNtuple("runTuple","Run Records",
-        "EventID:ParentID:TrackID:layerNum:IsAbs:pdgID:kinE");
+            "EventID:ParentID:TrackID:pvNum:layerNum:posX:posY:posZ:kinE:pdgID");
 
 }
 
 void Analysis::EndOfEvent(const G4Event* event){
+    // Allocating defaults for items to fill in runTuple
+    G4int eventID;
+    G4int parentID;
+    G4int trackID;
+    int copyNum = -1;
+    int pVNum = -1;
+    G4double posX;
+    G4double posY;
+    G4double posZ;
+    G4double kinE;
+    G4int pdgID;
+
+    eventID = event->GetEventID();
+
     // Getting the trajectories
     G4TrajectoryContainer* trajCont = event->GetTrajectoryContainer();
     G4int nTraj = 0;
     if (trajCont){
         nTraj = trajCont->entries();
-        G4cout<<"There are "<<nTraj<<" trajectories in event "
-              <<event->GetEventID()<<"."<<G4endl;
 
         // Looping through all of the trajectories
-       G4cout<<"\tParticle name\tIntial Kinetic Energy (keV)\tTrackID\tParentID"<<G4endl;
         for(int i = 0; i < nTraj; i++){
             G4RichTrajectory* traj =(G4RichTrajectory*) (*trajCont)[i];
-            G4cout<<"\t "<<traj->GetParticleName()
-                <<"\t\t "<<traj->GetInitialKineticEnergy()
-                <<"\t "<<traj->GetTrackID()
-                <<"\t "<<traj->GetParentID()
-                <<G4endl;
-        
+            parentID = traj->GetParentID();
+            trackID = traj->GetTrackID();
+            pdgID = traj->GetPDGEncoding();
+            kinE = traj->GetInitialKineticEnergy();
+
+            // Looping through the Trajectory Attributes to get the IVPath
             std::vector<G4AttValue> *atts = traj->CreateAttValues();
             std::vector<G4AttValue>::iterator itr;
             for(itr = atts->begin(); itr != atts->end(); itr++){
-                G4cout<<itr->GetName()<<"  "<<itr->GetValue()<<G4endl;
+                if (itr->GetName().compareTo("IVPath")){
+                    copyNum = GetCopyNumber(itr->GetValue());
+                    pVNum = GetVolumeNumber(itr->GetValue());
+                    break;
+                }
             }
 
-            // Can Get all of the positions and volumes by itterating through
-            // G4RichTrajectoryPoint
-            
-            /*
+
+            // Getting the position of interaction 
             G4RichTrajectoryPoint *p = (G4RichTrajectoryPoint*) traj->GetPoint(0);
-            G4cout<<p->GetPosition()<<G4endl;
-            std::vector<G4AttValue> *atts = p->CreateAttValues();
-            std::vector<G4AttValue>::iterator itr;
-            for(itr = atts->begin(); itr != atts->end(); itr++){
-                G4cout<<itr->GetName()<<"  "<<itr->GetValue()<<G4endl;
-            }
-            */     
-        
-        //"EventID:ParentID:TrackID:layerNum:IsAbs:pdgID:kinE");
+            posX = p->GetPosition().getX();
+            posY = p->GetPosition().getY();
+            posZ = p->GetPosition().getZ();
+
+            // Filling runTuple
+            runTuple->Fill(eventID,parentID,trackID,pVNum,copyNum,
+                    posX,posY,posZ,kinE,pdgID);
         }
     }
 
 
     // Looping through the hit collection
+    /*
     G4VHitsCollection *hc = event->GetHCofThisEvent()->GetHC(0);
     for(int i = 0; i < hc->GetSize(); i++){
         // Works 8/19/2012, MJU, 9:40 PM
         //hc->GetHit(i)->Print();
     }
+    */
 }
 
 /**
- * GetLayerNumber
+ * GetCopyNumber
  *
  * @param G4String s - detector string
  *
  * @brief Parses string s for the layer number.
  * Returns either the layer number, or -1 if not a layer
  */
-int Analysis::GetLayerNumber(G4String s){
-   
-   char *tok = strtok(s,":");
-   while (tok != NULL){
-        
-        if(strcmp(tok,"Layer") ==0){
-            tok = strtok(NULL,":");
-            return tok[1];
+int Analysis::GetCopyNumber(G4String input){
+
+    std::string s = (std::string) input;
+    std::string token;
+    std::string pVolume;
+    std::string sCopyNum;
+    std::istringstream iss(s);
+    while ( getline(iss,token,'/')) {
+        size_t loc = token.find(":");
+        pVolume = token.substr(0,loc);
+        sCopyNum = token.substr(loc+1);
+        if( pVolume.compare("Layer") ==0){
+            return atoi(sCopyNum.c_str());
         }
-        tok = strtok(NULL,":");
-   }
-   return -1;
+    }
+    return -1;
 }
+/**
+ * GetVolumeNumber
+ *
+ * @param G4String input
+ *
+ * @brief Takes an input string an parses it for physical volume
+ *
+ */
+int Analysis::GetVolumeNumber(G4String input){
+
+    std::string s = (std::string) input;
+    std::string token;
+    std::string pVolume;
+    std::istringstream iss(s);
+    while ( getline(iss,token,'/')) {
+        size_t loc = token.find(":");
+        pVolume = token.substr(0,loc);
+
+        // Switching based on the pVolume
+        if( pVolume.compare("World") ==0)
+            return WORLDNUM;
+        else if (pVolume.compare("Absorber") == 0)
+            return ABSNUM;
+        else if (pVolume.compare("Gap") == 0)
+            return GAPNUM;
+
+    }
+    return -1;
+}
+
 /**
  * EndOfRun
  *
  * Called at the end of a run, which summerizes the run
  */
 void Analysis::EndOfRun(const G4Run* aRun){
-   
-    G4cout<<"Testing GetLayerNumber"<<G4endl;
+
     outfile->Write();
     outfile->Close();
     delete outfile;

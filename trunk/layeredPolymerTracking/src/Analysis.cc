@@ -22,49 +22,52 @@
 #include "G4Event.hh"
 #include "G4ThreeVector.hh"
 
+#include "TString.h"
+
 Analysis* Analysis::singleton = 0;
 
 Analysis::Analysis(){
     // Empty Constructor, assingment done in constuctor list
 }
-/*
-   void Analysis::AddHit(CaloHit* hit){
-   G4int layerNum = hit->GetLayerNumber();
-   if (strcmp(hit->GetVolume()->GetName(),"Gap")){
-   thisEventTotEGap[layerNum] += hit->GetEdep();
-   }else if(strcmp(hit->GetVolume()->GetName(),"Absorber")){
-   thisEventTotEAbs[layerNum] += hit->GetEdep();
-   }
-   else{
-   G4cout<<"ERROR - Unkown Volume for sensitive detector"<<G4endl;
-   }
-   if (hit->GetParticleRank() > 1)
-   thisEventTotNumSecondaries[layerNum]++;
-   }
-   */
 
 void Analysis::PrepareNewEvent(const G4Event* anEvent){
     // Nothing to be done before an event
-    thisEventSecondaries = 0;
-    thisEventNumGammas = 0;
-    thisEventNumElectrons = 0;
-    for(int i = 0; i<NUMLAYERS+1; i++){
-        thisEventTotEGap[i] = 0;
-        thisEventTotEAbs[i] = 0;
-        thisEventTotNumSecondaries[i] = 0;
-    }
 }
 
 void Analysis::PrepareNewRun(const G4Run* aRun){
 
-    char filename[256];
-    sprintf(filename,"run_%d.root",aRun->GetRunID());
-    outfile = new TFile(filename,"recreate");
-
+    char name[256];
+    char title[256];
+    sprintf(name,"run_%d.root",aRun->GetRunID());
+    outfile = new TFile(name,"recreate");
 
     // Creating NTuples
     runTuple = new TNtuple("runTuple","Run Records",
-            "EventID:ParentID:TrackID:pvNum:layerNum:posX:posY:posZ:kinE:pdgID");
+            "EventID:ParentID:TrackID:pvNum:layerNum:posX:posY:posZ:kinE:pdgID");   
+    hitTuple = new TNtuple("hitTuple","Hit Records",
+            "xPos:yPos:zPos:layerNum:pvNum:eDep:pdgID");
+
+    // Creating Energy Distributions of Hits (over event) and per Hit
+    G4double binMin = 0*eV;
+    G4double binMax = 5*MeV;
+    G4int numBins = 500;
+    for(int i = 0; i < NUMLAYERS; i++){
+        sprintf(name,"eventTupleLayer%2i",i);
+        sprintf(title,"Total Energy Deposited in an Event (Layer %2i)",i);
+        tEventTotEDep[i] = new TNtuple(name,title,"eDepGap:eDepAbs:eDepTot");
+
+        sprintf(name,"totHitEDepAbs_%2i",i);
+        sprintf(title,"Total Energy Deposited in a Hit (Abs Layer %2i)",i);
+        hHitTotEDepAbs[i] = new TH1F(name,title,numBins,binMin,binMax);
+
+        sprintf(name,"totHitEDepGap_%2i",i);
+        sprintf(title,"Total Energy Deposited in a Hit (Gap Layer %2i)",i);
+        hHitTotEDepGap[i] = new TH1F(name,title,numBins,binMin,binMax);
+
+    }
+    tEventTotEDep[NUMLAYERS] = new TNtuple("eventTupleAllLayers",
+            "Total Energy Deposited in an Event (all layers)",
+            "eDepGap:eDepAbs:eDepTot");
 
 }
 
@@ -108,9 +111,9 @@ void Analysis::EndOfEvent(const G4Event* event){
                 }
             }
 
-
             // Getting the position of interaction 
-            G4RichTrajectoryPoint *p = (G4RichTrajectoryPoint*) traj->GetPoint(0);
+            G4RichTrajectoryPoint *p = 
+                (G4RichTrajectoryPoint*) traj->GetPoint(0);
             posX = p->GetPosition().getX();
             posY = p->GetPosition().getY();
             posZ = p->GetPosition().getZ();
@@ -121,17 +124,68 @@ void Analysis::EndOfEvent(const G4Event* event){
         }
     }
 
-
-    // Looping through the hit collection
-    /*
-    G4VHitsCollection *hc = event->GetHCofThisEvent()->GetHC(0);
-    for(int i = 0; i < hc->GetSize(); i++){
-        // Works 8/19/2012, MJU, 9:40 PM
-        //hc->GetHit(i)->Print();
+    // Processing all of the hit collections
+    G4int numHitColl = event->GetHCofThisEvent()->GetNumberOfCollections();
+    for(G4int i = 0; i < numHitColl; i++){
+        ProcessHitCollection( event->GetHCofThisEvent()->GetHC(i));
     }
-    */
 }
 
+/**
+ * ProcessHitCollection
+ *
+ * @param G4VHitsCollection *hc
+ *
+ * Helper method to process hit collections
+ */
+void Analysis::ProcessHitCollection(G4VHitsCollection *hc){
+
+    // Looping through the hit collection
+    G4double eventEDepAbs[NUMLAYERS+1];
+    G4double eventEDepGap[NUMLAYERS+1];
+    for(int i= 0; i < NUMLAYERS+1; i++){
+        eventEDepAbs[i] = 0.0;
+        eventEDepGap[i] = 0.0;
+    }
+
+    // Energy Deposition of the event
+    for(int i = 0; i < hc->GetSize(); i++){
+        CaloHit* hit = (CaloHit*) hc->GetHit(i);
+
+        G4double eDep = hit->GetEdep();
+        G4int layerNum = hit->GetLayerNumber();
+        G4double xPos = hit->GetPosition().getX();
+        G4double yPos = hit->GetPosition().getY();
+        G4double zPos = hit->GetPosition().getZ();
+        G4int pdgID = hit->GetParticle()->GetPDGEncoding();
+
+        if (strcmp(hit->GetVolume()->GetName(),"Gap")){
+            // Hit occured in the Gap
+            eventEDepGap[layerNum] += eDep;
+            (hHitTotEDepGap[layerNum])->Fill(eDep);
+            hitTuple->Fill(xPos,yPos,zPos,layerNum,GAPNUM,eDep,pdgID);
+        }else if(strcmp(hit->GetVolume()->GetName(),"Absorber")){
+            // Hit occured in the Abs
+            eventEDepAbs[layerNum] += eDep;
+            (hHitTotEDepAbs[layerNum])->Fill(eDep);
+            hitTuple->Fill(xPos,yPos,zPos,layerNum,ABSNUM,eDep,pdgID);
+        }
+        else{
+            G4cout<<"ERROR - Unkown Volume for sensitive detector"<<G4endl;
+        }
+
+
+        for (int i = 0; i < NUMLAYERS; i++){
+            eventEDepAbs[NUMLAYERS] += eventEDepAbs[i];
+            eventEDepGap[NUMLAYERS] += eventEDepGap[i];
+        }
+        // Filling event energy deposition tuple
+        for(int i= 0; i < NUMLAYERS+1; i++){
+            (tEventTotEDep[i])->Fill(eventEDepAbs[i],eventEDepGap[i],
+                    (eventEDepAbs[i]+eventEDepGap[i]));
+        }
+    }
+}
 /**
  * GetCopyNumber
  *

@@ -45,7 +45,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
     runTuple = new TNtuple("runTuple","Run Records",
             "EventID:ParentID:TrackID:pvNum:layerNum:posX:posY:posZ:kinE:pdgID");   
     hitTuple = new TNtuple("hitTuple","Hit Records",
-          "xPos:yPos:zPos:layerNum:pvNum:eDep:pdgID:trackID:parentID:eventID");
+          "xPos:yPos:zPos:layerNum:pvNum:eDep:kinE:pdgID:trackID:parentID:eventID");
 
     // Creating Energy Distributions of Hits (over event) and per Hit
     G4double binMin = 0*eV;
@@ -161,6 +161,7 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
         G4int pdgID = hit->GetParticle()->GetPDGEncoding();
         G4int trackID = hit->GetTrackID();
         G4int parentID = hit->GetParentID();
+        G4double kEnergy = hit->GetKineticEnergy();
 
         if (strcmp(hit->GetVolume()->GetName(),"Gap")){
             // Hit occured in the Gap
@@ -172,7 +173,7 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
             // Hit occured in the Abs
             eventEDepAbs[layerNum] += eDep;
             (hHitTotEDepAbs[layerNum])->Fill(eDep);
-            hitTuple->Fill(xPos,yPos,zPos,layerNum,ABSNUM,eDep,pdgID,
+            hitTuple->Fill(xPos,yPos,zPos,layerNum,ABSNUM,eDep,kEnergy,pdgID,
                 trackID,parentID,eventID);
         }
         else{

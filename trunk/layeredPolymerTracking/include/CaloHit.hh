@@ -45,11 +45,11 @@ class CaloHit : public G4VHit {
 	public:
 		void SetTrackID(G4int track)				{trackID = track;};
 		void SetParentID(G4int id)				    {parentID = id;};
-		void SetEdep(G4double de)					{edep = de;};
+		void SetEdep(G4double de)					{edep = de/eV;};
 		void SetPosition(G4ThreeVector p)			{pos = p;};
 		void SetStepLength(G4double dl)				{stepLength = dl;};
 		void SetMomentum(G4ThreeVector p)			{momentum = p;};
-		void SetKineticEnergy(G4double E)           {kEnergy = E;};
+		void SetKineticEnergy(G4double E)           {kEnergy = E/keV;};
 		void SetParticle(G4ParticleDefinition* pdef)
 		{particle = pdef;};
 		void SetParticleRank(G4int rank)            {particleRank = rank;};

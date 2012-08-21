@@ -36,13 +36,15 @@ class CaloHit : public G4VHit {
 		G4ThreeVector momentum;		        /* Momentrum of the step */
 		G4double kEnergy;                   /* Kinetic Energy of the particle */
 		G4int trackID;				        /* Track ID */
-		G4ParticleDefinition* particle;     /* Particle Definition */
-		G4int particleRank;                 /* Primary, Secondary, etc particle */
+		G4int parentID;                     /* Parent ID */
+        G4ParticleDefinition* particle;     /* Particle Definition */
+		G4int particleRank;                 /* Primary, Secondary, etc */
 		G4VPhysicalVolume* volume;			/* Physical Volume */
 		G4int layerNumber;                  /* Copy Number of Layer */
 
 	public:
 		void SetTrackID(G4int track)				{trackID = track;};
+		void SetParentID(G4int id)				    {parentID = id;};
 		void SetEdep(G4double de)					{edep = de;};
 		void SetPosition(G4ThreeVector p)			{pos = p;};
 		void SetStepLength(G4double dl)				{stepLength = dl;};
@@ -55,6 +57,7 @@ class CaloHit : public G4VHit {
 		void SetLayerNumber(G4int layer)            {layerNumber = layer;};
 
 		G4int GetTrackID()					{return trackID;};
+        G4int GetParentID()                 {return parentID;};
 		G4ThreeVector GetPosition()			{return pos;};
 		G4ThreeVector GetMomentum()			{return momentum;};
 		G4double GetKineticEnergy()         {return kEnergy;};

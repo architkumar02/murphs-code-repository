@@ -18,7 +18,7 @@ EventAction::EventAction() : G4UserEventAction(){
 
 void EventAction::BeginOfEventAction(const G4Event* event){
 
-    G4cout<<"Starting Event: "<<event->GetEventID()<<G4endl;
+    //G4cout<<"Starting Event: "<<event->GetEventID()<<G4endl;
     if(event->GetEventID() % 1000 == 0)
         G4cout<<"Starting Event: "<<event->GetEventID()<<G4endl;
 
@@ -36,18 +36,4 @@ void EventAction::BeginOfEventAction(const G4Event* event){
 void EventAction::EndOfEventAction(const G4Event* event){  
 
     Analysis::GetInstance()->EndOfEvent(event);
-
-    // Some Work with the trajectories and sensitve detector
-   /*
-    if(event->GetEventID() % 100 == 0){
-        G4TrajectoryContainer* trajCont = event->GetTrajectoryContainer();
-        G4int nTraj = 0;
-        if (trajCont){
-            nTraj = trajCont->entries();
-            G4cout<<"   "<<nTraj<<" trajectories stored in this event"<<G4endl;
-        }
-        G4VHitsCollection *hc = event->GetHCofThisEvent()->GetHC(0);
-        G4cout<<"    "<<hc->GetSize()<<" hits stored in this event"<<G4endl;
-    }
-    */
 }

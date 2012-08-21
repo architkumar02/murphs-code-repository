@@ -19,36 +19,26 @@
 #include "G4UIExecutive.hh"
 #endif
 
-
 int main(int argc,char** argv)
 {
   // Choose the Random engine
   CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
-  
-  // Construct the default run manager
+ 
+
+    // ----------------- User Application Setting -----------------
   G4RunManager * runManager = new G4RunManager;
-
-  // Set mandatory initialization classes
-  DetectorConstruction* detConstruction = new DetectorConstruction();
-  runManager->SetUserInitialization(detConstruction);
-
-  // G4VUserPhysicsList* physicsList = new PhysicsList;
-  G4VUserPhysicsList* physicsList = new PhysicsList;
-  runManager->SetUserInitialization(physicsList);
-    
-  // Set user action classes
+  
+  runManager->SetUserInitialization(new DetectorConstruction);
+  runManager->SetUserInitialization(new PhysicsList);
   runManager->SetUserAction(new PrimaryGeneratorAction());
   runManager->SetUserAction(new RunAction());
   runManager->SetUserAction(new TrackingAction());
   runManager->SetUserAction(new EventAction());
-  // Initialize G4 kernel
   runManager->Initialize();
   
 #ifdef G4VIS_USE
   // Initialize visualization
   G4VisManager* visManager = new G4VisExecutive;
-  // G4VisExecutive can take a verbosity argument - see /vis/verbose guidance.
-  // G4VisManager* visManager = new G4VisExecutive("Quiet");
   visManager->Initialize();
 #endif
 
@@ -76,11 +66,9 @@ int main(int argc,char** argv)
       delete ui;
 #endif
     }
-
-  // Job termination
-  // Free the store: user actions, physics_list and detector_description are
-  // owned and deleted by the run manager, so they should not be deleted 
-  // in the main() program !
+ 
+ 
+ // Job termination
 
 #ifdef G4VIS_USE
   delete visManager;

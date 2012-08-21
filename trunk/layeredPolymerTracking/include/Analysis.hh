@@ -46,7 +46,7 @@ private:
     Analysis();
     static Analysis *singleton;
 
-    void ProcessHitCollection(G4VHitsCollection* hc);
+    void ProcessHitCollection(G4VHitsCollection* hc, G4int eventID);
     int GetCopyNumber(G4String s);
     int GetVolumeNumber(G4String s);
     

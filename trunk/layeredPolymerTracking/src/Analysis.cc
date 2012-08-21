@@ -45,7 +45,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
     runTuple = new TNtuple("runTuple","Run Records",
             "EventID:ParentID:TrackID:pvNum:layerNum:posX:posY:posZ:kinE:pdgID");   
     hitTuple = new TNtuple("hitTuple","Hit Records",
-            "xPos:yPos:zPos:layerNum:pvNum:eDep:pdgID");
+          "xPos:yPos:zPos:layerNum:pvNum:eDep:pdgID:trackID:parentID:eventID");
 
     // Creating Energy Distributions of Hits (over event) and per Hit
     G4double binMin = 0*eV;
@@ -54,7 +54,8 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
     for(int i = 0; i < NUMLAYERS; i++){
         sprintf(name,"eventTupleLayer%2i",i);
         sprintf(title,"Total Energy Deposited in an Event (Layer %2i)",i);
-        tEventTotEDep[i] = new TNtuple(name,title,"eDepGap:eDepAbs:eDepTot");
+        tEventTotEDep[i] = new TNtuple(name,title,
+            "eDepGap:eDepAbs:eDepTot");
 
         sprintf(name,"totHitEDepAbs_%2i",i);
         sprintf(title,"Total Energy Deposited in a Hit (Abs Layer %2i)",i);
@@ -127,7 +128,7 @@ void Analysis::EndOfEvent(const G4Event* event){
     // Processing all of the hit collections
     G4int numHitColl = event->GetHCofThisEvent()->GetNumberOfCollections();
     for(G4int i = 0; i < numHitColl; i++){
-        ProcessHitCollection( event->GetHCofThisEvent()->GetHC(i));
+        ProcessHitCollection( event->GetHCofThisEvent()->GetHC(i),eventID);
     }
 }
 
@@ -138,7 +139,7 @@ void Analysis::EndOfEvent(const G4Event* event){
  *
  * Helper method to process hit collections
  */
-void Analysis::ProcessHitCollection(G4VHitsCollection *hc){
+void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
 
     // Looping through the hit collection
     G4double eventEDepAbs[NUMLAYERS+1];
@@ -158,17 +159,21 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc){
         G4double yPos = hit->GetPosition().getY();
         G4double zPos = hit->GetPosition().getZ();
         G4int pdgID = hit->GetParticle()->GetPDGEncoding();
+        G4int trackID = hit->GetTrackID();
+        G4int parentID = hit->GetParentID();
 
         if (strcmp(hit->GetVolume()->GetName(),"Gap")){
             // Hit occured in the Gap
             eventEDepGap[layerNum] += eDep;
             (hHitTotEDepGap[layerNum])->Fill(eDep);
-            hitTuple->Fill(xPos,yPos,zPos,layerNum,GAPNUM,eDep,pdgID);
+            hitTuple->Fill(xPos,yPos,zPos,layerNum,GAPNUM,eDep,pdgID,
+                trackID,parentID,eventID);
         }else if(strcmp(hit->GetVolume()->GetName(),"Absorber")){
             // Hit occured in the Abs
             eventEDepAbs[layerNum] += eDep;
             (hHitTotEDepAbs[layerNum])->Fill(eDep);
-            hitTuple->Fill(xPos,yPos,zPos,layerNum,ABSNUM,eDep,pdgID);
+            hitTuple->Fill(xPos,yPos,zPos,layerNum,ABSNUM,eDep,pdgID,
+                trackID,parentID,eventID);
         }
         else{
             G4cout<<"ERROR - Unkown Volume for sensitive detector"<<G4endl;

@@ -9,7 +9,7 @@
 /gun/energy 1.0 MeV
 /gun/direction 0 0 1
 /gun/position 0 0 -3 cm
-/run/beamOn 1000000
+/run/beamOn 10000
 
 #
 # Activate/inactivate physics processes

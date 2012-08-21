@@ -4,6 +4,7 @@
 #include "g4analysis_defs.hh"
 #include "G4Event.hh"
 #include "G4Run.hh"
+#include "G4VHitsCollection.hh"
 
 #include "TNtuple.h"
 #include "TProfile.h"
@@ -44,49 +45,20 @@ private:
     // Singleton Analysis
     Analysis();
     static Analysis *singleton;
-    
+
+    void ProcessHitCollection(G4VHitsCollection* hc);
     int GetCopyNumber(G4String s);
     int GetVolumeNumber(G4String s);
     
     // Run NTuple
     TNtuple* runTuple; 
 
-
-
     // Energy Deposition - using the last array position as the total for 
     // all of the layers
-    G4double thisEventTotEGap[NUMLAYERS+1];   // E Dep in each layer of gap
-    G4double thisEventTotEAbs[NUMLAYERS+1];   // E Dep in each layer of Abs
-    G4int    thisEventTotNumSecondaries[NUMLAYERS+1];
-
-    G4double thisRunTotEGap[NUMLAYERS+1];   // E Dep in each layer of gap
-    G4double thisRunTotEAbs[NUMLAYERS+1];   // E Dep in each layer of Abs
-    G4int    thisRunTotNumSecondaries[NUMLAYERS+1];
-
-    G4int thisEventSecondaries;
-    G4int thisRunTotSecondaries;
-
-    G4int thisEventNumGammas;
-    G4int thisRunNumGammas;
-
-    G4int thisEventNumElectrons;
-    G4int thisRunNumElectrons;
-
-    TProfile* hProfileEGap;             // Average energy in the Gap, per Layer
-    TProfile* hProfileEAbs;             // Average energy in the abs, per layer
-    TProfile* hProfileNumSec;           // Average num of secondaries, per layer
-    
-    
-  
-    // Initial Kinetic Energy of Teriary Particles
-    TH1F* hAlphaKESec[NUMLAYERS];
-    TH1F* hTritonKESec[NUMLAYERS];
-    TH1F* hElectronKESec[NUMLAYERS];
-    TH1F* hGammaKESec[NUMLAYERS];
-    TH1F* hTotEGap;
-    TH1F* hTotEAbs;
-    TH1F *hEDepGapLayer[NUMLAYERS];     // Energy dep per layer, histogram
-    TH1F *hEDepAbsLayer[NUMLAYERS];     // Energy dep per layer, histogram
+    TNtuple* tEventTotEDep[NUMLAYERS+1];
+    TNtuple* hitTuple;
+    TH1F* hHitTotEDepGap[NUMLAYERS]; 
+    TH1F* hHitTotEDepAbs[NUMLAYERS]; 
 
     TFile* outfile;
 };

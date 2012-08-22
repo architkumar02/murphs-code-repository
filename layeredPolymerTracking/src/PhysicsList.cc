@@ -9,7 +9,8 @@
 #include "G4IonPhysics.hh"
 #include "HadronicPhysics.hh"
 #include "HadronPhysicsQGSP_BERT_HP.hh"
-
+#include "G4EmDNAPhysics.hh"
+#include "G4EmLivermorePhysics.hh"
 
 PhysicsList::PhysicsList() : G4VModularPhysicsList(){
 	// Registering the physics
@@ -18,8 +19,9 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList(){
 //	RegisterPhysics(new HadronicPhysics("Neutron"));
 	RegisterPhysics(new HadronPhysicsQGSP_BERT_HP());
 
-	RegisterPhysics(new G4EmStandardPhysics());
-	
+	//RegisterPhysics(new G4EmStandardPhysics());
+    RegisterPhysics(new G4EmLivermorePhysics());
+    //RegisterPhysics(new G4EmDNAPhysics());      // Microdoisemtry	
 //	RegisterPhysics(new G4QStoppingPhysics());		// TODO: Do I really want a CHiral Phase Invariant Space Model here?
 //	RegisterPhysics(new HadronPhysicsQGSC_BERT());
 	

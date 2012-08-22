@@ -27,7 +27,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList(){
 	
 
 	//RegisterPhysics(new G4NeutronHPInelastic());
-	defaultCutValue = 1*um;		// Setting Default Cut Value
+	defaultCutValue = 0.1*um;		// Setting Default Cut Value
 }
 
 PhysicsList::~PhysicsList(){

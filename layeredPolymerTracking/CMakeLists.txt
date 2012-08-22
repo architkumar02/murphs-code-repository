@@ -92,4 +92,5 @@ endforeach()
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
-install(TARGETS polymerFilm DESTINATION bin)
+#install(TARGETS polymerFilm DESTINATION bin)
+install(TARGETS polymerFilm DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})

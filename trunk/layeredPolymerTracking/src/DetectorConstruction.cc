@@ -216,7 +216,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 
 
     // World
-    worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ); 
+    worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ*0.5); 
     worldLV = new G4LogicalVolume(worldS,defaultMaterial,"World");
     worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",
             0,false,0,fCheckOverlaps);

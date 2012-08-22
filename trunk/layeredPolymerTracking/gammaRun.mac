@@ -8,7 +8,6 @@
 /gun/particle gamma
 /gun/energy 1.0 MeV
 /gun/direction 0 0 1
-/gun/position 0 0 -3 cm
 /run/beamOn 10000
 
 #

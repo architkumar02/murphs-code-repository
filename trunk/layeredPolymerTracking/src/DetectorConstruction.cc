@@ -155,7 +155,7 @@ void DetectorConstruction::DefineMaterials()
 
     nistManager->FindOrBuildMaterial("G4_PLEXIGLASS",fromIsotopes);
     nistManager->FindOrBuildMaterial("G4_AIR",fromIsotopes);
-
+    nistManager->FindOrBuildMaterial("G4_WATEr",fromIsotopes);
     // Print materials
     //G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 

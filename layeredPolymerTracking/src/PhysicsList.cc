@@ -11,6 +11,7 @@
 #include "HadronPhysicsQGSP_BERT_HP.hh"
 #include "G4EmDNAPhysics.hh"
 #include "G4EmLivermorePhysics.hh"
+#include "G4OpticalPhysics.hh"
 
 PhysicsList::PhysicsList() : G4VModularPhysicsList(){
 	// Registering the physics
@@ -21,13 +22,14 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList(){
 
 	//RegisterPhysics(new G4EmStandardPhysics());
     RegisterPhysics(new G4EmLivermorePhysics());
-    //RegisterPhysics(new G4EmDNAPhysics());      // Microdoisemtry	
+    RegisterPhysics(new G4OpticalPhysics());
+    RegisterPhysics(new G4EmDNAPhysics());      // Microdoisemtry	
 //	RegisterPhysics(new G4QStoppingPhysics());		// TODO: Do I really want a CHiral Phase Invariant Space Model here?
 //	RegisterPhysics(new HadronPhysicsQGSC_BERT());
 	
 
 	//RegisterPhysics(new G4NeutronHPInelastic());
-	defaultCutValue = 0.1*um;		// Setting Default Cut Value
+	defaultCutValue = 0.1*nm;		// Setting Default Cut Value
 }
 
 PhysicsList::~PhysicsList(){
@@ -36,6 +38,6 @@ PhysicsList::~PhysicsList(){
 
 void PhysicsList::SetCuts(){
 	// Changed the default range cut to 0.1 um
-	SetDefaultCutValue(0.1*um);
+	SetDefaultCutValue(0.1*nm);
 	SetCutsWithDefault();
 }

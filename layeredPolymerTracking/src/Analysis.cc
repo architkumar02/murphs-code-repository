@@ -31,7 +31,12 @@ Analysis::Analysis(){
 }
 
 void Analysis::PrepareNewEvent(const G4Event* anEvent){
-    // Nothing to be done before an event
+
+    // Resetting Accumulation Varaibles
+    for(int i= 0; i < NUMLAYERS+1; i++){
+        eventEDepTot_Abs[i] = 0.0;
+        eventEDepTot_Gap[i] = 0.0;
+    }
 }
 
 void Analysis::PrepareNewRun(const G4Run* aRun){
@@ -42,10 +47,10 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
     outfile = new TFile(name,"recreate");
 
     // Creating NTuples
-    runTuple = new TNtuple("runTuple","Run Records",
-            "EventID:ParentID:TrackID:pvNum:layerNum:posX:posY:posZ:kinE:pdgID");   
+    trajTuple = new TNtuple("trajTuple","Run Records",
+            "EventID:ParentID:TrackID:pvNum:layerNum:posX:posY:posZ:kinE:fKinE:pdgID");   
     hitTuple = new TNtuple("hitTuple","Hit Records",
-          "xPos:yPos:zPos:layerNum:pvNum:eDep:kinE:pdgID:trackID:parentID:eventID");
+            "xPos:yPos:zPos:layerNum:pvNum:eDep:kinE:pdgID:trackID:parentID:eventID");
 
     // Creating Energy Distributions of Hits (over event) and per Hit
     G4double binMin = 0*eV;
@@ -55,7 +60,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
         sprintf(name,"eventTupleLayer%2i",i);
         sprintf(title,"Total Energy Deposited in an Event (Layer %2i)",i);
         tEventTotEDep[i] = new TNtuple(name,title,
-            "eDepGap:eDepAbs:eDepTot");
+                "eDepGap:eDepAbs:eDepTot");
 
         sprintf(name,"totHitEDepAbs_%2i",i);
         sprintf(title,"Total Energy Deposited in a Hit (Abs Layer %2i)",i);
@@ -73,7 +78,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 }
 
 void Analysis::EndOfEvent(const G4Event* event){
-    // Allocating defaults for items to fill in runTuple
+    // Allocating defaults for items to fill in trajTuple
     G4int eventID;
     G4int parentID;
     G4int trackID;
@@ -83,6 +88,7 @@ void Analysis::EndOfEvent(const G4Event* event){
     G4double posY;
     G4double posZ;
     G4double kinE;
+    G4double fKinE;
     G4int pdgID;
 
     eventID = event->GetEventID();
@@ -105,13 +111,17 @@ void Analysis::EndOfEvent(const G4Event* event){
             std::vector<G4AttValue> *atts = traj->CreateAttValues();
             std::vector<G4AttValue>::iterator itr;
             for(itr = atts->begin(); itr != atts->end(); itr++){
-                if (itr->GetName().compareTo("IVPath")){
+                if (itr->GetName().compareTo("IVPath")  == 0 ){
                     copyNum = GetCopyNumber(itr->GetValue());
                     pVNum = GetVolumeNumber(itr->GetValue());
-                    break;
+                }
+                if (itr->GetName().compareTo("FKE") == 0){
+                    // Getting Final Kinetic Energy
+                    float val;
+                    sscanf(itr->GetValue().data(),"%f eV",&val);
+                    fKinE = (G4double) val*eV;
                 }
             }
-
             // Getting the position of interaction 
             G4RichTrajectoryPoint *p = 
                 (G4RichTrajectoryPoint*) traj->GetPoint(0);
@@ -119,9 +129,9 @@ void Analysis::EndOfEvent(const G4Event* event){
             posY = p->GetPosition().getY();
             posZ = p->GetPosition().getZ();
 
-            // Filling runTuple
-            runTuple->Fill(eventID,parentID,trackID,pVNum,copyNum,
-                    posX,posY,posZ,kinE,pdgID);
+            // Filling trajTuple
+            trajTuple->Fill(eventID,parentID,trackID,pVNum,copyNum,
+                    posX,posY,posZ,kinE/keV,fKinE/keV,pdgID);
         }
     }
 
@@ -129,6 +139,12 @@ void Analysis::EndOfEvent(const G4Event* event){
     G4int numHitColl = event->GetHCofThisEvent()->GetNumberOfCollections();
     for(G4int i = 0; i < numHitColl; i++){
         ProcessHitCollection( event->GetHCofThisEvent()->GetHC(i),eventID);
+    }
+    // Filling event energy deposition tuple
+    for(int i= 0; i < NUMLAYERS+1; i++){
+        (tEventTotEDep[i])->Fill((eventEDepTot_Abs[i])/eV,      // Abs
+                                 (eventEDepTot_Gap[i])/eV,      // Gap
+                (eventEDepTot_Abs[i]+eventEDepTot_Gap[i])/eV);  // Abs+Gap
     }
 }
 
@@ -142,11 +158,11 @@ void Analysis::EndOfEvent(const G4Event* event){
 void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
 
     // Looping through the hit collection
-    G4double eventEDepAbs[NUMLAYERS+1];
-    G4double eventEDepGap[NUMLAYERS+1];
+    G4double hitColEDepTot_Abs[NUMLAYERS+1];   // Total EDep (abs) for Hit Collection
+    G4double hitColEDepTot_Gap[NUMLAYERS+1];   // Total EDep (gap) for Hit Collection
     for(int i= 0; i < NUMLAYERS+1; i++){
-        eventEDepAbs[i] = 0.0;
-        eventEDepGap[i] = 0.0;
+        hitColEDepTot_Abs[i] = 0.0;
+        hitColEDepTot_Gap[i] = 0.0;
     }
 
     // Energy Deposition of the event
@@ -165,31 +181,31 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
 
         if (strcmp(hit->GetVolume()->GetName(),"Gap")){
             // Hit occured in the Gap
-            eventEDepGap[layerNum] += eDep;
+            hitColEDepTot_Gap[layerNum] += eDep;
             (hHitTotEDepGap[layerNum])->Fill(eDep);
-            hitTuple->Fill(xPos,yPos,zPos,layerNum,GAPNUM,eDep,pdgID,
-                trackID,parentID,eventID);
+            hitTuple->Fill(xPos,yPos,zPos,layerNum,GAPNUM,eDep/eV,kEnergy/keV,pdgID,
+                    trackID,parentID,eventID);
         }else if(strcmp(hit->GetVolume()->GetName(),"Absorber")){
             // Hit occured in the Abs
-            eventEDepAbs[layerNum] += eDep;
+            hitColEDepTot_Abs[layerNum] += eDep;
             (hHitTotEDepAbs[layerNum])->Fill(eDep);
-            hitTuple->Fill(xPos,yPos,zPos,layerNum,ABSNUM,eDep,kEnergy,pdgID,
-                trackID,parentID,eventID);
+            hitTuple->Fill(xPos,yPos,zPos,layerNum,ABSNUM,eDep/eV,kEnergy/keV,pdgID,
+                    trackID,parentID,eventID);
         }
         else{
             G4cout<<"ERROR - Unkown Volume for sensitive detector"<<G4endl;
         }
 
+    }
+    // Adding this Hit collection's energy deposited to event total
+    for (int i = 0; i < NUMLAYERS; i++){
+        // Incrementing each individual bin
+        eventEDepTot_Abs[i] += hitColEDepTot_Abs[i];
+        eventEDepTot_Gap[i] += hitColEDepTot_Gap[i];
 
-        for (int i = 0; i < NUMLAYERS; i++){
-            eventEDepAbs[NUMLAYERS] += eventEDepAbs[i];
-            eventEDepGap[NUMLAYERS] += eventEDepGap[i];
-        }
-        // Filling event energy deposition tuple
-        for(int i= 0; i < NUMLAYERS+1; i++){
-            (tEventTotEDep[i])->Fill(eventEDepAbs[i],eventEDepGap[i],
-                    (eventEDepAbs[i]+eventEDepGap[i]));
-        }
+        // Last bin is Calorimter Total (all Abs layers and all Gap layers)
+        eventEDepTot_Abs[NUMLAYERS] += hitColEDepTot_Abs[i];
+        eventEDepTot_Gap[NUMLAYERS] += hitColEDepTot_Gap[i];
     }
 }
 /**

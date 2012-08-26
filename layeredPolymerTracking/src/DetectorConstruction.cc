@@ -51,8 +51,10 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
         DefineMaterials();
         //SetAbsorberMaterial("G4_PLEXIGLASS");
         //SetAbsorberMaterial("PS_Detector");
-        SetAbsorberMaterial("6LiF");
-        SetGapMaterial("G4_PLEXIGLASS");
+        //SetAbsorberMaterial("6LiF");
+        SetAbsorberMaterial("G4_WATER");
+        //SetGapMaterial("G4_PLEXIGLASS");
+        SetGapMaterial("G4_WATER");
 
         // Create commands for interactive defiantions of the calorimeter
         detectorMessenger = new DetectorMessenger(this);
@@ -155,7 +157,7 @@ void DetectorConstruction::DefineMaterials()
 
     nistManager->FindOrBuildMaterial("G4_PLEXIGLASS",fromIsotopes);
     nistManager->FindOrBuildMaterial("G4_AIR",fromIsotopes);
-    nistManager->FindOrBuildMaterial("G4_WATEr",fromIsotopes);
+    nistManager->FindOrBuildMaterial("G4_WATER",fromIsotopes);
     // Print materials
     //G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 

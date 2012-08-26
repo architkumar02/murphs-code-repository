@@ -35,14 +35,14 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
     fCheckOverlaps(true){
 
         // Geometry parameters
-        absThickness =  2*cm;	      // Thickness of Absorber
-        gapThickness =  2.0*cm;    // Thickness of Gap 
+        absThickness = 50*um;	      // Thickness of Absorber
+        gapThickness = 0.5*cm;    // Thickness of Gap 
         oRadius  = 2.54*cm;		   // Outer Radius of Detector
         iRadius = 0.*cm;				// Inner radious of  Detector
         startAngle = 0.*deg;
         spanAngle = 360.*deg;
 
-        nofLayers = 1;              // Number of detector layers
+        nofLayers = 10;              // Number of detector layers
 
         // Compute parameters
         ComputeParameters();
@@ -50,11 +50,11 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
         // Define materials 
         DefineMaterials();
         //SetAbsorberMaterial("G4_PLEXIGLASS");
-        //SetAbsorberMaterial("PS_Detector");
+        SetAbsorberMaterial("PS_Detector");
         //SetAbsorberMaterial("6LiF");
-        SetAbsorberMaterial("G4_WATER");
-        //SetGapMaterial("G4_PLEXIGLASS");
-        SetGapMaterial("G4_WATER");
+        //SetAbsorberMaterial("G4_WATER");
+        SetGapMaterial("G4_PLEXIGLASS");
+        //SetGapMaterial("G4_WATER");
 
         // Create commands for interactive defiantions of the calorimeter
         detectorMessenger = new DetectorMessenger(this);

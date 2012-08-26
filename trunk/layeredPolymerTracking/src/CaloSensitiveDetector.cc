@@ -36,7 +36,7 @@ G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
     G4double edep = aStep->GetTotalEnergyDeposit();
     G4double stepLength = aStep->GetStepLength();
     // Only saving a hit if there was energy depostion
-    G4double minEDep = 1*eV;
+    G4double minEDep = 0.*eV;
 
     if ( edep <= minEDep || stepLength == 0.) return false;
 

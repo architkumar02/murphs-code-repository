@@ -50,16 +50,16 @@ private:
     int GetCopyNumber(G4String s);
     int GetVolumeNumber(G4String s);
     
-    // Run NTuple
-    TNtuple* runTuple; 
-
-    // Energy Deposition - using the last array position as the total for 
-    // all of the layers
-    TNtuple* tEventTotEDep[NUMLAYERS+1];
-    TNtuple* hitTuple;
-    TH1F* hHitTotEDepGap[NUMLAYERS]; 
+    // ROOT output objects
+    TNtuple* trajTuple;                     /* Ntuple of trajectory data        */
+    TNtuple* tEventTotEDep[NUMLAYERS+1];    /* Total Energy Deposited per Event */
+    TNtuple* hitTuple;                      /* Ntuple of CaloHit data           */
+    TH1F* hHitTotEDepGap[NUMLAYERS];        /* Total Energy Deposited per Event */
     TH1F* hHitTotEDepAbs[NUMLAYERS]; 
-
     TFile* outfile;
+
+    // Accumulation Variables
+   G4double eventEDepTot_Abs[NUMLAYERS+1];  /* Total Energy deposited in Abs */
+   G4double eventEDepTot_Gap[NUMLAYERS+1];  /* Total Energy deposited in Gap */
 };
 #endif

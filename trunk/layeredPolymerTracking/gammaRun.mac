@@ -8,7 +8,7 @@
 /gun/particle gamma
 /gun/energy 1.0 MeV
 /gun/direction 0 0 1
-/run/beamOn 10000
+/run/beamOn 100000
 
 #
 # Activate/inactivate physics processes

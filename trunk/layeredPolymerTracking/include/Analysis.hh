@@ -19,7 +19,7 @@
 // How do we want to save the results?
 using namespace G4Root;
 
-#define NUMLAYERS 10     // Number of layers in the detector
+#define NUMLAYERS 1     // Number of layers in the detector
 #define WORLDNUM 0      // Map between material and Number
 #define GAPNUM 1
 #define ABSNUM 2

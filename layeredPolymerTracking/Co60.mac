@@ -5,9 +5,9 @@
 # neutrons, electrons can be shot with: neutron, e-
 /tracking/verbose 0 
 
-/gun/particle gamma
-/gun/energy 1.0 MeV
 /gun/direction 0 0 1
+/gun/particle ion
+/gun/ion 27 60
 /run/beamOn 100000
 
 #

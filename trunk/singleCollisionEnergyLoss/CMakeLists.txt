@@ -2,7 +2,7 @@
 # Setup the project
 #
 cmake_minimum_required(VERSION 2.6 FATAL_ERROR)
-project(waterEnergyDepositon)
+project(singleCollsionEDep)
 
 #----------------------------------------------------------------------------
 # Find Geant4 package, activating all available UI and Vis drivers by default
@@ -61,8 +61,8 @@ endif(WIN32)
 #----------------------------------------------------------------------------
 # Add the executable, and link it to the Geant4 libraries
 #
-add_executable(waterEnergyDepositon waterEnergyDepositon.cc ${sources} ${headers} ${macros})
-target_link_libraries(waterEnergyDepositon ${Geant4_LIBRARIES})
+add_executable(singleCollsionEDep singleCollsionEDep.cc ${sources} ${headers} ${macros})
+target_link_libraries(singleCollsionEDep ${Geant4_LIBRARIES})
 
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
@@ -92,5 +92,5 @@ endforeach()
 # Install the executable to 'bin' directory under CMAKE_INSTALL_PREFIX
 #
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
-#install(TARGETS waterEnergyDepositon DESTINATION bin)
-install(TARGETS waterEnergyDepositon DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+#install(TARGETS singleCollsionEDep DESTINATION bin)
+install(TARGETS singleCollsionEDep DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})

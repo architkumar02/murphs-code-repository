@@ -6,10 +6,11 @@
 /tracking/verbose 0 
 
 /gun/particle gamma
-/gun/energy 1.0 MeV
 /gun/direction 0 0 1
-/run/beamOn 100000
-
+/gun/energy 1.1732 MeV
+/run/beamOn 1000000
+/gun/energy 1.3326 MeV
+/run/beamOn 1000000
 #
 # Activate/inactivate physics processes
 #

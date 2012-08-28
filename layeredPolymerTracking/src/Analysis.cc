@@ -119,7 +119,7 @@ void Analysis::EndOfEvent(const G4Event* event){
                     // Getting Final Kinetic Energy
                     float val;
                     sscanf(itr->GetValue().data(),"%f eV",&val);
-                    fKinE = (G4double) val*eV;
+                    fKinE = (G4double) val;
                 }
             }
             // Getting the position of interaction 
@@ -131,7 +131,7 @@ void Analysis::EndOfEvent(const G4Event* event){
 
             // Filling trajTuple
             trajTuple->Fill(eventID,parentID,trackID,pVNum,copyNum,
-                    posX,posY,posZ,kinE/keV,fKinE/keV,pdgID);
+                    posX,posY,posZ,kinE,fKinE,pdgID);
         }
     }
 
@@ -142,9 +142,9 @@ void Analysis::EndOfEvent(const G4Event* event){
     }
     // Filling event energy deposition tuple
     for(int i= 0; i < NUMLAYERS+1; i++){
-        (tEventTotEDep[i])->Fill((eventEDepTot_Abs[i])/eV,      // Abs
-                                 (eventEDepTot_Gap[i])/eV,      // Gap
-                (eventEDepTot_Abs[i]+eventEDepTot_Gap[i])/eV);  // Abs+Gap
+        (tEventTotEDep[i])->Fill((eventEDepTot_Abs[i]),      // Abs
+                                 (eventEDepTot_Gap[i]),      // Gap
+                (eventEDepTot_Abs[i]+eventEDepTot_Gap[i]));  // Abs+Gap
     }
 }
 
@@ -183,13 +183,13 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
             // Hit occured in the Gap
             hitColEDepTot_Gap[layerNum] += eDep;
             (hHitTotEDepGap[layerNum])->Fill(eDep);
-            hitTuple->Fill(xPos,yPos,zPos,layerNum,GAPNUM,eDep/eV,kEnergy/keV,pdgID,
+            hitTuple->Fill(xPos,yPos,zPos,layerNum,GAPNUM,eDep,kEnergy,pdgID,
                     trackID,parentID,eventID);
         }else if(strcmp(hit->GetVolume()->GetName(),"Absorber")){
             // Hit occured in the Abs
             hitColEDepTot_Abs[layerNum] += eDep;
             (hHitTotEDepAbs[layerNum])->Fill(eDep);
-            hitTuple->Fill(xPos,yPos,zPos,layerNum,ABSNUM,eDep/eV,kEnergy/keV,pdgID,
+            hitTuple->Fill(xPos,yPos,zPos,layerNum,ABSNUM,eDep,kEnergy,pdgID,
                     trackID,parentID,eventID);
         }
         else{

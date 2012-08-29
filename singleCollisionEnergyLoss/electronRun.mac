@@ -3,11 +3,11 @@
 #
 # Shooting a photon at the detector
 # neutrons, electrons can be shot with: neutron, e-
-/tracking/verbose 0
+/tracking/verbose 1
 /gun/particle e-
 /gun/energy 500 eV
 /gun/direction 0 0 1
-/run/beamOn 100000
+/run/beamOn 100
 
 #
 # Activate/inactivate physics processes

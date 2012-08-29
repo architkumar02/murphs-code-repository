@@ -3,12 +3,13 @@
 #include "RunAction.hh"
 #include "EventAction.hh"
 #include "TrackingAction.hh"
+#include "StackingAction.hh"
+#include "SteppingAction.hh"
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
 
 #include "PhysicsList.hh"
-#include "MicroDosePhysicsList.hh"
 
 #include "Randomize.hh"
 
@@ -34,8 +35,10 @@ int main(int argc,char** argv)
   //runManager->SetUserInitialization(new MicroDosePhysicsList);
   runManager->SetUserAction(new PrimaryGeneratorAction());
   runManager->SetUserAction(new RunAction());
-  runManager->SetUserAction(new TrackingAction());
   runManager->SetUserAction(new EventAction());
+  runManager->SetUserAction(new StackingAction());
+  runManager->SetUserAction(new TrackingAction());
+  runManager->SetUserAction(new SteppingAction());
   runManager->Initialize();
   
 #ifdef G4VIS_USE

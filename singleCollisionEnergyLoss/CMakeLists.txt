@@ -73,8 +73,7 @@ set(EXAMPLEB2A_SCRIPTS
   gui.mac
   init.mac
   init_vis.mac
-  gammaRun.mac
-  neutronRun.mac
+  protonRun.mac
   electronRun.mac
   alphaRun.mac
   vis.mac

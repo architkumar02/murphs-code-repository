@@ -15,10 +15,6 @@
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
 
-
-#include "CaloSensitiveDetector.hh"
-#include "G4SDManager.hh"
-
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
 
@@ -74,8 +70,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct(){
     // Set Visulation Attributes
     SetVisAttributes();
 
-    // Assign Sensitve Detectors
-    SetSensitiveDetectors();
     return calo;
 }
 
@@ -270,22 +264,6 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 
     // Return the worlds physical volume
     return worldPV;
-}
-/**
- * SetSensitiveDetectors
- *
- * Setting the Sensitive Detectors of the Detector
- */
-void DetectorConstruction::SetSensitiveDetectors(){
-    G4SDManager* SDman = G4SDManager::GetSDMpointer();
-    absSD = new CaloSensitiveDetector("SD/AbsSD","AbsHitCollection");
-    SDman->AddNewDetector(absSD);
-    absLV->SetSensitiveDetector(absSD);
-
-    gapSD = new CaloSensitiveDetector("SD/GapSD","GapHitCollection");
-    SDman->AddNewDetector(gapSD);
-    gapLV->SetSensitiveDetector(gapSD);
-
 }
 /**
  * SetVisAttributes()

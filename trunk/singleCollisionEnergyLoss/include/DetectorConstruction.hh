@@ -5,7 +5,6 @@
 #include "globals.hh"
 
 #include "G4VSolid.hh"
-#include "CaloSensitiveDetector.hh"
 
 class G4Box;
 class G4VPhysicalVolume;
@@ -59,8 +58,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4VPhysicalVolume* ConstructCalorimeter();
 		//! Sets the visualtiation attributes
 		void SetVisAttributes();
-		//! Sets the Sensitve Detectors
-		void SetSensitiveDetectors();
 
 		// Geometry Names
 		G4LogicalVolume* worldLV;			// Pointer to world logical volume
@@ -101,10 +98,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4double caloThickness;         // Thickness of entire calorimeter
 		G4double worldSizeXY;
 		G4double worldSizeZ;
-
-		// Sensitive Detectors
-		CaloSensitiveDetector* absSD;
-		CaloSensitiveDetector* gapSD;
 
 		// data members
 		G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps

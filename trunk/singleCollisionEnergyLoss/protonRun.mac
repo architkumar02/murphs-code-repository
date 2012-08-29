@@ -1,14 +1,21 @@
 # Can be run in batch, without graphic
 # or interactively: Idle> /control/execute run1.mac
 #
-# Shooting a proton at the detector
+# Shooting a photon at the detector
 # neutrons, electrons can be shot with: neutron, e-
-/tracking/verbose 2 
-
+/tracking/verbose 0
 /gun/particle proton
-/gun/energy 1  MeV
 /gun/direction 0 0 1
-/run/beamOn 100
+/gun/energy 30 eV
+/run/beamOn 100000
+/gun/energy 50 eV
+/run/beamOn 100000
+/gun/energy 100 eV
+/run/beamOn 100000
+/gun/energy 500 eV
+/run/beamOn 100000
+/gun/energy 1 keV
+/run/beamOn 100000
 
 #
 # Activate/inactivate physics processes

@@ -30,8 +30,7 @@ Analysis::Analysis(){
 }
 
 void Analysis::PrepareNewEvent(const G4Event* anEvent){
-
-    // Resetting Accumulation Varaibles
+    killTrackStatus = false;
 }
 
 void Analysis::PrepareNewRun(const G4Run* aRun){
@@ -42,7 +41,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 
     // Creating NTuples
     trajTuple = new TNtuple("trajTuple","Run Records",
-            "EventID:kinE:fKinE:kinEdE:pdgID");   
+            "EventID:kinE:fKinE:eLossColl:pdgID");   
 }
 
 void Analysis::EndOfEvent(const G4Event* event){
@@ -75,30 +74,8 @@ void Analysis::EndOfEvent(const G4Event* event){
                 break;
             }
         }
-        // Getting the points of interaction along the trajectory 
-        /*
-        G4RichTrajectoryPoint *p;
-        for (G4int j = 0; j < traj->GetPointEntries(); j++){
-            p = (G4RichTrajectoryPoint*) traj->GetPoint(j);
-            atts = p->CreateAttValues();
-            for(itr = atts->begin(); itr != atts->end(); itr++){
-            //  G4cout<<itr->GetName()<<"\t"<<itr->GetValue()<<G4endl;
-              if (itr->GetName().compareTo("RE") == 0){
-                    // Getting  Kinetic Energy
-                    float val;
-                    sscanf(itr->GetValue().data(),"%f eV",&val);
-                    fKinE = (G4double) val;
-                }
-            }
-        }
-        */
         // Filling trajTuple
         trajTuple->Fill(eventID,kinE,fKinE,(kinE-fKinE),pdgID);
-        /*
-        G4cout<<"\n\t Initial Kinetic Energy "<<kinE / eV <<" [eV]"
-              <<" Final Kinetic Energy "<<fKinE / eV<<" [eV]"
-              <<" Difference "<<(kinE-fKinE) / eV <<" [eV]"<<G4endl;
-        */
     }
 }
 

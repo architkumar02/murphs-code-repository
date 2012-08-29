@@ -18,8 +18,6 @@ using namespace G4Root;
 
 #define NUMLAYERS 1     // Number of layers in the detector
 #define WORLDNUM 0      // Map between material and Number
-#define GAPNUM 1
-#define ABSNUM 2
 
 class Analysis {
 
@@ -38,6 +36,9 @@ public:
     void EndOfEvent(const G4Event* anEvent);
     void EndOfRun(const G4Run* aRun);
 
+    void SetKillStatus(bool value)  {killTrackStatus = value;};
+    bool GetKillStatus()            {return killTrackStatus;};
+
 private:
     // Singleton Analysis
     Analysis();
@@ -47,5 +48,7 @@ private:
     TNtuple* trajTuple;                     /* Ntuple of trajectory data        */
     TFile* outfile;
 
+    // Kill Status After e-_G4DNAIonisation Process
+    bool killTrackStatus;
 };
 #endif

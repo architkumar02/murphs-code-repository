@@ -5,9 +5,17 @@
 # neutrons, electrons can be shot with: neutron, e-
 /tracking/verbose 1
 /gun/particle e-
-/gun/energy 500 eV
 /gun/direction 0 0 1
-/run/beamOn 100
+/gun/energy 30 eV
+/run/beamOn 1000000
+/gun/energy 50 eV
+/run/beamOn 1000000
+/gun/energy 100 eV
+/run/beamOn 1000000
+/gun/energy 500 eV
+/run/beamOn 1000000
+/gun/energy 1 keV
+/run/beamOn 1000000
 
 #
 # Activate/inactivate physics processes

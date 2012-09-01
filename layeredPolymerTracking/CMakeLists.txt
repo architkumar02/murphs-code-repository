@@ -75,6 +75,7 @@ set(EXAMPLEB2A_SCRIPTS
   init_vis.mac
   gammaRun.mac
   Co60.mac
+  gammaAbsThickness.mac
   neutronRun.mac
   electronRun.mac
   alphaRun.mac

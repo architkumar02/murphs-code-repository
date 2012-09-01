@@ -1,6 +1,7 @@
 #include "PhysicsList.hh"
 
 #include "G4EmDNAPhysics.hh"
+#include "G4EmStandardPhysics.hh"
 #include "G4EmLivermorePhysics.hh"
 #include "G4OpticalPhysics.hh"
 #include "HadronPhysicsQGSP_BERT_HP.hh"
@@ -18,8 +19,8 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList() {
 
     // Adding Physics List
     //RegisterPhysics( new G4EmDNAPhysics());
+    RegisterPhysics( new G4EmStandardPhysics());
     RegisterPhysics( new G4EmLivermorePhysics());
-    RegisterPhysics( new G4OpticalPhysics());
     RegisterPhysics( new HadronPhysicsQGSP_BERT_HP());
     RegisterPhysics( new G4IonPhysics());
 }

@@ -49,7 +49,7 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
 
         // Define materials 
         DefineMaterials();
-        SetAbsorberMaterial("PS_Detector");
+        SetAbsorberMaterial("G4_PLEXIGLASS");
         //SetAbsorberMaterial("6LiF");
         SetGapMaterial("G4_PLEXIGLASS");
 

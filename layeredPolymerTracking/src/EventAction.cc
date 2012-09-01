@@ -18,10 +18,6 @@ EventAction::EventAction() : G4UserEventAction(){
 
 void EventAction::BeginOfEventAction(const G4Event* event){
 
-    //G4cout<<"Starting Event: "<<event->GetEventID()<<G4endl;
-    if(event->GetEventID() % 1000 == 0)
-        G4cout<<"Starting Event: "<<event->GetEventID()<<G4endl;
-
     Analysis::GetInstance()->PrepareNewEvent(event);
 }
 

@@ -31,7 +31,6 @@ int main(int argc,char** argv)
   
   runManager->SetUserInitialization(new DetectorConstruction);
   runManager->SetUserInitialization(new PhysicsList);
-  //runManager->SetUserInitialization(new MicroDosePhysicsList);
   runManager->SetUserAction(new PrimaryGeneratorAction());
   runManager->SetUserAction(new RunAction());
   runManager->SetUserAction(new TrackingAction());

@@ -74,6 +74,7 @@ set(EXAMPLEB2A_SCRIPTS
   init.mac
   init_vis.mac
   gammaRun.mac
+  getHistData.C
   Co60.mac
   gammaAbsThickness.mac
   neutronRun.mac

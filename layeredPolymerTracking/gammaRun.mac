@@ -1,9 +1,9 @@
 #
-/tracking/verbose 0 
+/tracking/verbose 2 
 #
 # Setting up the detector
 #
-/PolymerTransport/det/setAbsMat PS_Detector
+/PolymerTransport/det/setAbsMat PS_PLEXIGLASS
 /PolymerTransport/det/setGapMat G4_POLYSTYRENE
 /PolymerTransport/det/setAbsThick 25 um
 /PolymerTransport/det/setGapThick 0.3175 cm
@@ -13,51 +13,5 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 663 keV
-/run/beamOn 10000000
-#
-# Increasing Abosrber thickness, and Shooting Again
-/PolymerTransport/det/setAbsThick 50 um
-/PolymerTransport/det/update
-/gun/energy 663 keV
-/run/beamOn 10000000
-#
-/PolymerTransport/det/setAbsThick 100 um
-/PolymerTransport/det/update
-/gun/energy 663 keV
-/run/beamOn 10000000
-#
-/PolymerTransport/det/setAbsThick 150 um
-/PolymerTransport/det/update
-/gun/energy 663 keV
-/run/beamOn 10000000
-#
-/PolymerTransport/det/setAbsThick 300 um
-/PolymerTransport/det/update
-/gun/energy 663 keV
-/run/beamOn 10000000
-#
-/PolymerTransport/det/setAbsThick 600 um
-/PolymerTransport/det/update
-/gun/energy 663 keV
-/run/beamOn 10000000
-#
-/PolymerTransport/det/setAbsThick 1000 um # 0.1 cm
-/PolymerTransport/det/update
-/gun/energy 663 keV
-/run/beamOn 10000000
-#
-/PolymerTransport/det/setAbsThick 5000 um # 0.5cm
-/PolymerTransport/det/update
-/gun/energy 663 keV
-/run/beamOn 10000000
-#
-/PolymerTransport/det/setAbsThick 10000 um # 1cm
-/PolymerTransport/det/update
-/gun/energy 663 keV
-/run/beamOn 10000000
-#
-/PolymerTransport/det/setAbsThick 2 cm
-/PolymerTransport/det/update
-/gun/energy 663 keV
-/run/beamOn 10000000
+/run/beamOn 1000000
 #

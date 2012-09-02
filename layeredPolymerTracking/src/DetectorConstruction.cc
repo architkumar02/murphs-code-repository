@@ -35,7 +35,7 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
     fCheckOverlaps(true){
 
         // Geometry parameters
-        absThickness = 25*um;	      // Thickness of Absorber
+        absThickness = 50*um;	      // Thickness of Absorber
         gapThickness = (1.0/8.0*2.54)*cm;    // Thickness of Gap 
         oRadius  = 2.54*cm;		   // Outer Radius of Detector
         iRadius = 0.*cm;				// Inner radious of  Detector

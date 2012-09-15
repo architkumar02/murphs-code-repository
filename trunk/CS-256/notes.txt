@@ -1,0 +1,5 @@
+*.base is for training purpose
+
+Probably don't need the user ID, but have the option to ignore an option
+
+Due on September 27

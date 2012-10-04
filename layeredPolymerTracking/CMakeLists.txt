@@ -81,6 +81,7 @@ set(EXAMPLEB2A_SCRIPTS
   electronRun.mac
   alphaRun.mac
   vis.mac
+  testRun.mac
   )
 
 foreach(_script ${EXAMPLEB2A_SCRIPTS})

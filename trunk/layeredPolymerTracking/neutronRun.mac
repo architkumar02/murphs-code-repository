@@ -1,18 +1,15 @@
-# Can be run in batch, without graphic
-# or interactively: Idle> /control/execute run1.mac
 #
-# Shooting a photon at the detector
-# neutrons, electrons can be shot with: neutron, e-
-/tracking/verbose 
+# Setting up the detector
+#
+#/PolymerTransport/det/setAbsMat PS_Detector
+#/PolymerTransport/det/setGapMat G4_POLYSTYRENE
+#/PolymerTransport/det/setAbsThick 1 cm
+#/PolymerTransport/det/setGapThick 0.3175 cm
+#/PolymerTransport/det/update
+/tracking/verbose 2
 
 /gun/particle neutron
 /gun/energy 0.025 eV
 /gun/direction 0 0 1
-/run/beamOn 10000
+/run/beamOn 100
 
-#
-# Activate/inactivate physics processes
-#
-# /process/list
-# /process/inactivate eBrem
-#

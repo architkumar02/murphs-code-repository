@@ -265,9 +265,6 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 
     PrintCaloParameters();
 
-    // Setting the Maximum Step Size
-    G4double maxStep = 0.5*absThickness;
-    absLV->SetUserLimits(new G4UserLimits(maxStep));
 
     // Return the worlds physical volume
     return worldPV;
@@ -287,6 +284,9 @@ void DetectorConstruction::SetSensitiveDetectors(){
     SDman->AddNewDetector(gapSD);
     gapLV->SetSensitiveDetector(gapSD);
 
+    // Setting the Maximum Step Size
+    G4double maxStep = 0.5*absThickness;
+    absLV->SetUserLimits(new G4UserLimits(maxStep));
 }
 /**
  * SetVisAttributes()
@@ -386,4 +386,13 @@ void DetectorConstruction::SetNumberOfLayers(G4int val){
 
 void DetectorConstruction::UpdateGeometry(){
     G4RunManager::GetRunManager()->DefineWorldVolume(ConstructCalorimeter());
+    
+    absLV->SetSensitiveDetector(absSD);
+    gapLV->SetSensitiveDetector(gapSD);
+
+    // Setting the Maximum Step Size
+    G4double maxStep = 0.5*absThickness;
+    absLV->SetUserLimits(new G4UserLimits(maxStep));
+
+    G4RunManager::GetRunManager()->GeometryHasBeenModified();
 }

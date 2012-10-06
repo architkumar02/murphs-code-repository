@@ -64,6 +64,8 @@ endif(WIN32)
 add_executable(polymerFilm polymerFilm.cc ${sources} ${headers} ${macros})
 target_link_libraries(polymerFilm ${Geant4_LIBRARIES})
 
+#add_executable(mpiPolymerFilm mpiPolymerFilm.cc ${sources} ${headers} ${macros})
+#target_link_libraries(mpiPolymerFilm ${Geant4_LIBRARIES})
 #----------------------------------------------------------------------------
 # Copy all scripts to the build directory, i.e. the directory in which we
 # build. This is so that we can run the executable directly because it
@@ -97,4 +99,5 @@ endforeach()
 #
 set(CMAKE_INSTALL_PREFIX ${PROJECT_SOURCE_DIR})
 #install(TARGETS polymerFilm DESTINATION bin)
-install(TARGETS polymerFilm DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+#install(TARGETS polymerFilm DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})
+install(TARGETS polymerFilm mpiPolymerFilm DESTINATION ${CMAKE_CURRENT_SOURCE_DIR})

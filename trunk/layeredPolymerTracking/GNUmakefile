@@ -7,6 +7,8 @@ name := polymerFilm
 G4TARGET := $(name)
 G4EXLIB := true
 
+LDLIBS += /usr/lib64/libexpat.so.1.6.0
+
 ifndef G4INSTALL
   G4INSTALL = ../../..
 endif

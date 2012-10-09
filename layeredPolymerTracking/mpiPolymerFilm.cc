@@ -6,9 +6,7 @@
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
-#include "TrackingAction.hh"
 #include "PhysicsList.hh"
-#include "MicroDosePhysicsList.hh"
 
 // MPI session
 #include "G4MPImanager.hh"
@@ -48,7 +46,6 @@ int main(int argc,char** argv)
   runManager->SetUserInitialization(new PhysicsList);
   runManager->SetUserAction(new PrimaryGeneratorAction());
   runManager->SetUserAction(new RunAction());
-  runManager->SetUserAction(new TrackingAction());
   runManager->SetUserAction(new EventAction());
   runManager->Initialize();
 

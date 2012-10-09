@@ -6,8 +6,6 @@
 #include "G4SDManager.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4UnitsTable.hh"
-#include "G4TrajectoryContainer.hh"
-#include "G4Trajectory.hh"
 #include "G4ios.hh"
 
 EventAction::EventAction() : G4UserEventAction(){

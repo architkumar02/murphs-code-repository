@@ -6,6 +6,7 @@
 #include "G4AttDef.hh"
 #include "G4AttValue.hh"
 
+#include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
@@ -15,14 +16,16 @@
 #include <map>
 
 #include "G4Trajectory.hh"
-#include "G4RichTrajectory.hh"
-#include "G4TrajectoryContainer.hh"
-#include "G4RichTrajectoryPoint.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Event.hh"
 #include "G4ThreeVector.hh"
+#include <fstream>
 
 #include "TString.h"
+
+#ifdef G4MPIUSE
+    #include "G4MPImanager.hh"
+#endif
 
 Analysis* Analysis::singleton = 0;
 
@@ -41,14 +44,26 @@ void Analysis::PrepareNewEvent(const G4Event* anEvent){
 
 void Analysis::PrepareNewRun(const G4Run* aRun){
 
-    char name[256];
+    char name[256] ="/home/tmp_scale/murffer/";
     char title[256];
+    char buffer[64];
+    //strcat(name,"/home/tmp_scale/murffer/\0");
+
+#ifdef G4MPIUSE
+    char hostName[64];
+    gethostname(hostName,64);
+    G4int rank= G4MPImanager::GetManager()-> GetRank();
+    sprintf(buffer,"run_%d_\0",aRun->GetRunID());
+    strcat(name,buffer);
+    strcat(name,hostName);  
+    sprintf(buffer,"_%03d.root",rank);
+    strcat(name,buffer);
+#else
     sprintf(name,"run_%d.root",aRun->GetRunID());
-    outfile = new TFile(name,"recreate");
+#endif
+    outfile = new TFile(name,"RECREATE");
 
     // Creating NTuples
-    trajTuple = new TNtuple("trajTuple","Run Records",
-            "EventID:ParentID:TrackID:pvNum:layerNum:posX:posY:posZ:kinE:fKinE:pdgID");   
     hitTuple = new TNtuple("hitTuple","Hit Records",
             "xPos:yPos:zPos:layerNum:pvNum:eDep:kinE:pdgID:trackID:parentID:eventID");
 
@@ -74,71 +89,16 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
     tEventTotEDep[NUMLAYERS] = new TNtuple("eventTupleAllLayers",
             "Total Energy Deposited in an Event (all layers)",
             "eDepGap:eDepAbs:eDepTot");
-
 }
 
 void Analysis::EndOfEvent(const G4Event* event){
-    // Allocating defaults for items to fill in trajTuple
-    G4int eventID;
-    G4int parentID;
-    G4int trackID;
-    int copyNum = -1;
-    int pVNum = -1;
-    G4double posX;
-    G4double posY;
-    G4double posZ;
-    G4double kinE;
-    G4double fKinE;
-    G4int pdgID;
-
-    eventID = event->GetEventID();
-
-    // Getting the trajectories
-    G4TrajectoryContainer* trajCont = event->GetTrajectoryContainer();
-    G4int nTraj = 0;
-    if (trajCont){
-        nTraj = trajCont->entries();
-
-        // Looping through all of the trajectories
-        for(int i = 0; i < nTraj; i++){
-            G4RichTrajectory* traj =(G4RichTrajectory*) (*trajCont)[i];
-            parentID = traj->GetParentID();
-            trackID = traj->GetTrackID();
-            pdgID = traj->GetPDGEncoding();
-            kinE = traj->GetInitialKineticEnergy();
-
-            // Looping through the Trajectory Attributes to get the IVPath
-            std::vector<G4AttValue> *atts = traj->CreateAttValues();
-            std::vector<G4AttValue>::iterator itr;
-            for(itr = atts->begin(); itr != atts->end(); itr++){
-                if (itr->GetName().compareTo("IVPath")  == 0 ){
-                    copyNum = GetCopyNumber(itr->GetValue());
-                    pVNum = GetVolumeNumber(itr->GetValue());
-                }
-                if (itr->GetName().compareTo("FKE") == 0){
-                    // Getting Final Kinetic Energy
-                    float val;
-                    sscanf(itr->GetValue().data(),"%f eV",&val);
-                    fKinE = (G4double) val;
-                }
-            }
-            // Getting the position of interaction 
-            G4RichTrajectoryPoint *p = 
-                (G4RichTrajectoryPoint*) traj->GetPoint(0);
-            posX = p->GetPosition().getX();
-            posY = p->GetPosition().getY();
-            posZ = p->GetPosition().getZ();
-
-            // Filling trajTuple
-            trajTuple->Fill(eventID,parentID,trackID,pVNum,copyNum,
-                    posX,posY,posZ,kinE,fKinE,pdgID);
-        }
-    }
+    
+    
 
     // Processing all of the hit collections
     G4int numHitColl = event->GetHCofThisEvent()->GetNumberOfCollections();
     for(G4int i = 0; i < numHitColl; i++){
-        ProcessHitCollection( event->GetHCofThisEvent()->GetHC(i),eventID);
+        ProcessHitCollection( event->GetHCofThisEvent()->GetHC(i),event->GetEventID());
     }
     // Filling event energy deposition tuple
     for(int i= 0; i < NUMLAYERS+1; i++){

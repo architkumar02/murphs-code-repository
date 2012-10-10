@@ -47,14 +47,12 @@ private:
     static Analysis *singleton;
 
     void ProcessHitCollection(G4VHitsCollection* hc, G4int eventID);
-    int GetCopyNumber(G4String s);
-    int GetVolumeNumber(G4String s);
     
     // ROOT output objects
-    TNtuple* trajTuple;                     /* Ntuple of trajectory data        */
-    TNtuple* tEventTotEDep[NUMLAYERS+1];    /* Total Energy Deposited per Event */
-    TNtuple* hitTuple;                      /* Ntuple of CaloHit data           */
-    TH1F* hHitTotEDepGap[NUMLAYERS];        /* Total Energy Deposited per Event */
+    TH1F* hEventTotEDepGap[NUMLAYERS+1];    /* Total Energy Deposited per Event */
+    TH1F* hEventTotEDepAbs[NUMLAYERS+1];
+    TH1F* hEventTotCalo;
+    TH1F* hHitTotEDepGap[NUMLAYERS];        /* Total Energy Deposited per Hit */
     TH1F* hHitTotEDepAbs[NUMLAYERS]; 
     TFile* outfile;
 

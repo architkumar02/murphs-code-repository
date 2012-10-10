@@ -47,7 +47,6 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
     char name[256] ="/home/tmp_scale/murffer/";
     char title[256];
     char buffer[64];
-    //strcat(name,"/home/tmp_scale/murffer/\0");
 
 #ifdef G4MPIUSE
     char hostName[64];
@@ -63,49 +62,52 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 #endif
     outfile = new TFile(name,"RECREATE");
 
-    // Creating NTuples
-    hitTuple = new TNtuple("hitTuple","Hit Records",
-            "xPos:yPos:zPos:layerNum:pvNum:eDep:kinE:pdgID:trackID:parentID:eventID");
-
-    // Creating Energy Distributions of Hits (over event) and per Hit
     G4double binMin = 0*eV;
     G4double binMax = 5*MeV;
-    G4int numBins = 500;
+    G4int numBins = 2000;
     for(int i = 0; i < NUMLAYERS; i++){
-        sprintf(name,"eventTupleLayer%2i",i);
-        sprintf(title,"Total Energy Deposited in an Event (Layer %2i)",i);
-        tEventTotEDep[i] = new TNtuple(name,title,
-                "eDepGap:eDepAbs:eDepTot");
-
-        sprintf(name,"totHitEDepAbs_%2i",i);
+        /*  Hit Histograms */
+        sprintf(name,"totHitEDepAbs_%02i",i);
         sprintf(title,"Total Energy Deposited in a Hit (Abs Layer %2i)",i);
         hHitTotEDepAbs[i] = new TH1F(name,title,numBins,binMin,binMax);
 
-        sprintf(name,"totHitEDepGap_%2i",i);
+        sprintf(name,"totHitEDepGap_%02i",i);
         sprintf(title,"Total Energy Deposited in a Hit (Gap Layer %2i)",i);
         hHitTotEDepGap[i] = new TH1F(name,title,numBins,binMin,binMax);
-
+        
+        /* Event Histograms */
+        sprintf(name,"totEventEDepGap_%02i",i);
+        sprintf(title,"Total Energy Deposited in an Event (Gap Layer %2i)",i);
+        hEventTotEDepGap[i] = new TH1F(name,title,numBins,binMin,binMax);
+        
+        sprintf(name,"totEventEDepAbs_%02i",i);
+        sprintf(title,"Total Energy Deposited in an Event (Abs Layer %2i)",i);
+        hEventTotEDepAbs[i] = new TH1F(name,title,numBins,binMin,binMax);
     }
-    tEventTotEDep[NUMLAYERS] = new TNtuple("eventTupleAllLayers",
-            "Total Energy Deposited in an Event (all layers)",
-            "eDepGap:eDepAbs:eDepTot");
+    /* Event Histogram (All Layers) */
+    hEventTotEDepGap[NUMLAYERS] = new TH1F("totEventEDepGap",
+        "Total Energy Deposited in an Event (All Gap Layers)",numBins,binMin,binMax);
+    hEventTotEDepAbs[NUMLAYERS] = new TH1F("totEventEDepAbs",
+        "Total Energy Deposited in an Event (All Abs Layers)",numBins,binMin,binMax);
+    hEventTotCalo = new TH1F("totEventEDepCalo",
+        "Total Energy Deposited in Calorimeter",numBins,binMin,binMax);
 }
 
 void Analysis::EndOfEvent(const G4Event* event){
     
-    
-
     // Processing all of the hit collections
+    // (Fills the hit histograms)
     G4int numHitColl = event->GetHCofThisEvent()->GetNumberOfCollections();
     for(G4int i = 0; i < numHitColl; i++){
         ProcessHitCollection( event->GetHCofThisEvent()->GetHC(i),event->GetEventID());
     }
-    // Filling event energy deposition tuple
+    // Filling event enery histograms
     for(int i= 0; i < NUMLAYERS+1; i++){
-        (tEventTotEDep[i])->Fill((eventEDepTot_Abs[i]),      // Abs
-                                 (eventEDepTot_Gap[i]),      // Gap
-                (eventEDepTot_Abs[i]+eventEDepTot_Gap[i]));  // Abs+Gap
+        (hEventTotEDepAbs[i])->Fill(eventEDepTot_Abs[i]);     // Abs
+        (hEventTotEDepGap[i])->Fill(eventEDepTot_Gap[i]);     // Gap
     }
+    // Event total for calorimeter (Abs+Gap)
+    hEventTotCalo->Fill(eventEDepTot_Abs[NUMLAYERS]+eventEDepTot_Gap[NUMLAYERS]); 
 }
 
 /**
@@ -131,26 +133,15 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
 
         G4double eDep = hit->GetEdep();
         G4int layerNum = hit->GetLayerNumber();
-        G4double xPos = hit->GetPosition().getX();
-        G4double yPos = hit->GetPosition().getY();
-        G4double zPos = hit->GetPosition().getZ();
-        G4int pdgID = hit->GetParticle()->GetPDGEncoding();
-        G4int trackID = hit->GetTrackID();
-        G4int parentID = hit->GetParentID();
-        G4double kEnergy = hit->GetKineticEnergy();
-
         if (strcmp(hit->GetVolume()->GetName(),"Gap")){
             // Hit occured in the Gap
             hitColEDepTot_Gap[layerNum] += eDep;
             (hHitTotEDepGap[layerNum])->Fill(eDep);
-            hitTuple->Fill(xPos,yPos,zPos,layerNum,GAPNUM,eDep,kEnergy,pdgID,
-                    trackID,parentID,eventID);
+        
         }else if(strcmp(hit->GetVolume()->GetName(),"Absorber")){
             // Hit occured in the Abs
             hitColEDepTot_Abs[layerNum] += eDep;
             (hHitTotEDepAbs[layerNum])->Fill(eDep);
-            hitTuple->Fill(xPos,yPos,zPos,layerNum,ABSNUM,eDep,kEnergy,pdgID,
-                    trackID,parentID,eventID);
         }
         else{
             G4cout<<"ERROR - Unkown Volume for sensitive detector"<<G4endl;
@@ -167,60 +158,6 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
         eventEDepTot_Abs[NUMLAYERS] += hitColEDepTot_Abs[i];
         eventEDepTot_Gap[NUMLAYERS] += hitColEDepTot_Gap[i];
     }
-}
-/**
- * GetCopyNumber
- *
- * @param G4String s - detector string
- *
- * @brief Parses string s for the layer number.
- * Returns either the layer number, or -1 if not a layer
- */
-int Analysis::GetCopyNumber(G4String input){
-
-    std::string s = (std::string) input;
-    std::string token;
-    std::string pVolume;
-    std::string sCopyNum;
-    std::istringstream iss(s);
-    while ( getline(iss,token,'/')) {
-        size_t loc = token.find(":");
-        pVolume = token.substr(0,loc);
-        sCopyNum = token.substr(loc+1);
-        if( pVolume.compare("Layer") ==0){
-            return atoi(sCopyNum.c_str());
-        }
-    }
-    return -1;
-}
-/**
- * GetVolumeNumber
- *
- * @param G4String input
- *
- * @brief Takes an input string an parses it for physical volume
- *
- */
-int Analysis::GetVolumeNumber(G4String input){
-
-    std::string s = (std::string) input;
-    std::string token;
-    std::string pVolume;
-    std::istringstream iss(s);
-    while ( getline(iss,token,'/')) {
-        size_t loc = token.find(":");
-        pVolume = token.substr(0,loc);
-
-        // Switching based on the pVolume
-        if( pVolume.compare("World") ==0)
-            return WORLDNUM;
-        else if (pVolume.compare("Absorber") == 0)
-            return ABSNUM;
-        else if (pVolume.compare("Gap") == 0)
-            return GAPNUM;
-
-    }
-    return -1;
 }
 
 /**

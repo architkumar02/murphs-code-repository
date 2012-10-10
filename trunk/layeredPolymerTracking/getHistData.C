@@ -1,5 +1,9 @@
+void showTuple(const int run, const char* dirname="outputs",const char *ext=".root")
 {
 	gROOT->Reset();
+    TSystemDirectory dir(dirname,dirname);
+    Tlist* files = dir.GetListOfFiles();
+    if (files){
 
 	// Getting Files
 	TFile* f0 = new TFile("run_0.root","r");

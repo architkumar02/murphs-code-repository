@@ -22,9 +22,36 @@
     h100->Draw("same");
     h1mm->Draw("same");
     h1cm->Draw("same");
-    
+  
+    // Scaling
+    int numEvents = 1000000000;
+    float scale = 1.0/(float)numEvents;
+    h25->Scale(scale);
+    h50->Scale(scale);
+    h100->Scale(scale);
+    h1mm->Scale(scale);
+    h1cm->Scale(scale);
+
+    // Plot Refinement
+    h50->SetLineColor(2);       // Red
+    h100->SetLineColor(3);      // Light Green
+    h1mm->SetLineColor(4);      // Blue
+    h1cm->SetLineColor(5);      // Yellow
+
     TAxis *xaxis = h25->GetXaxis();
     xaxis->SetRangeUser(0,0.67);
+    
+    TLegend* leg = new TLegend(0.8,0.7,0.9,0.9);
+    leg->AddEntry(h25,"25 um","l");
+    leg->AddEntry(h50,"50 um","l");
+    leg->AddEntry(h100,"100 um","l");
+    leg->AddEntry(h1mm,"1 mm","l");
+    leg->AddEntry(h1cm,"1 cm","l");
+    leg->Draw("same");
+
+    h25->GetXaxis()->SetTitle("Energy Deposition per Event (MeV)");
+    h25->GetYaxis()->SetTitle("Frequency");
+    h25->SetTitle("Cs-137 Energy Deposition");
     
     gPad->SetLogy();
 }

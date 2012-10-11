@@ -23,6 +23,13 @@
     h1mm->Draw("same");
     h1cm->Draw("same");
   
+    // Getting the number of entries
+    fprintf(stdout,"25 um has %5.4e entries\n",(h25->GetEntries()-h25->GetBinContent(1)));
+    fprintf(stdout,"50 um has %5.4e entries\n",(h50->GetEntries()-h50->GetBinContent(1)));
+    fprintf(stdout,"100 um has %5.4e entries\n",(h100->GetEntries()-h100->GetBinContent(1)));
+    fprintf(stdout,"1 mm has %5.4e entries\n",(h1mm->GetEntries()-h1mm->GetBinContent(1)));
+    fprintf(stdout,"1 cm has %5.4e entries\n",(h1cm->GetEntries()-h1cm->GetBinContent(1)));
+    
     // Scaling
     int numEvents = 1000000000;
     float scale = 1.0/(float)numEvents;
@@ -54,4 +61,19 @@
     h25->SetTitle("Cs-137 Energy Deposition");
     
     gPad->SetLogy();
+
+    // Energy Deposition
+    fprintf(stdout,"\nMean \n");
+    fprintf(stdout,"25 um has %5.4e MeV deposited\n",h25->GetMean());
+    fprintf(stdout,"50 um has %5.4e MeV deposited\n",h50->GetMean());
+    fprintf(stdout,"100 um has %5.4e MeV deposited\n",h100->GetMean());
+    fprintf(stdout,"1 mm has %5.4e MeV deposited\n",h1mm->GetMean());
+    fprintf(stdout,"1 cm has %5.4e MeV deposited\n",h1cm->GetMean());
+    
+    fprintf(stdout,"\nIntegral \n");
+    fprintf(stdout,"25 um has %5.4e MeV deposited\n",h25->Integral("width"));
+    fprintf(stdout,"50 um has %5.4e MeV deposited\n",h50->Integral("width"));
+    fprintf(stdout,"100 um has %5.4e MeV deposited\n",h100->Integral("width"));
+    fprintf(stdout,"1 mm has %5.4e MeV deposited\n",h1mm->Integral("width"));
+    fprintf(stdout,"1 cm has %5.4e MeV deposited\n",h1cm->Integral("width"));
 }

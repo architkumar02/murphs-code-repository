@@ -48,9 +48,9 @@
 # Trying with a thicker detector
 /PolymerTransport/det/setAbsThick 5 mm
 /PolymerTransport/det/update
-/run/beamOn 100000000
+/run/beamOn 1000000000
 #
 # Trying with a thicker detector
 /PolymerTransport/det/setAbsThick 1 cm
 /PolymerTransport/det/update
-/run/beamOn 100000000
+/run/beamOn 1000000000

@@ -141,9 +141,9 @@ void DetectorConstruction::DefineMaterials()
     scintillant->AddMaterial(POPOP,1-fractionPPO);
 
     // Polymer PS Based Detector
-    G4double fractionPolymer = 0.65;
+    G4double fractionPolymer = 0.85;
     G4double fractionScintillant = 0.05;
-    G4double fractionAbsorber = 0.30;
+    G4double fractionAbsorber = 0.10;
     G4Material* psDetector = new G4Material("PS_Detector",density=1.1*g/cm3,nComponents=3,kStateSolid);
     psDetector->AddMaterial(nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes),fractionPolymer);
     psDetector->AddMaterial(scintillant,fractionScintillant);

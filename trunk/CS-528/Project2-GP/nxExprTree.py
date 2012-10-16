@@ -181,11 +181,17 @@ def countChildren(G,node=0):
     i = 0     
     return sum(i+1 for n in nx.algorithms.dfs_postorder_nodes(G,node))
 
+):
+
+    
 def main():
     # Creating a Random Expression Tree
     R = RandomExprTree(2)
     writeExprTree(R)
     print evalExprTree(R)
+
+
+    
 
 if __name__ == "__main__":
     sys.exit(main())

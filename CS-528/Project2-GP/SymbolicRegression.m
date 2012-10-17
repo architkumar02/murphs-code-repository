@@ -11,10 +11,12 @@ tProbability = ones(numel(tSet),1)/numel(tSet);
 tSetMap = containers.Map(tSet,tProbability);
 
 %% Building the Initial Population
+%matlabpool local
 populationSize = 100;
-treeDepth = 10;
+treeDepth = 5;
 forest = cell(populationSize,1);
 tic;
+
 for tree=1:populationSize
     forest{tree} = ExpTree(treeDepth,fSetMap,tSetMap);
 end
@@ -39,3 +41,13 @@ fprintf(1,'%d Tree evaluations in %f s\n',populationSize,toc);
 hist(values,25);
 % Can test for tree equality by just evaluating.  This isn't a strict
 % equality of tree equality
+%matlabpool close
+
+%% Test Swap
+t1 = ExpTree(); 
+t1.WriteExprTree('test.dot'); 
+t2 = ExpTree();
+t2.WriteExprTree('test2.dot');
+[t1,t2] = t1.swap(t2,2);
+t1.WriteExprTree('Swap1.dot');
+t2.WriteExprTree('Swap2.dot');

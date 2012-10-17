@@ -1,8 +1,7 @@
-
 function [avgFittness,generation] = SymbolicRegression(GPInit,GPOptions,dataSet)
 
 % Intilizing the population
-forest = initPopulation(GPInit,GPOptions);
+forest = initPopulation(GPInit);
 
 maxItter = 100;
 maxFitness = 0;
@@ -11,6 +10,7 @@ minFit = zeros(maxItter,1);
 avgFit = zeros(maxItter,1);
 itter = 1;
 bestFitness = Inf;
+fprintf(1,'Itteration\tMean Fitness\n');
 while itter < maxItter && bestFitness < maxFitness
    % Evaluate the current population
    [fit,maxFit(itter),minFit(itter),avgFit(itter)] = fitness(forest,dataSet);
@@ -25,6 +25,9 @@ while itter < maxItter && bestFitness < maxFitness
    
    if numel(forest) < GPOptions.minPopSize
        forest = rabits(forest,GPOptions);
+   end
+   if mod(itter,10) == 1
+        fprintf(1,'\t%d\t\t%f\n',itter,meanFit);
    end
 end
 
@@ -63,8 +66,8 @@ I = I(1:numSpartans);
 forest = forest(I);
 end
 
-function forest = initPopulation(GPInit,GPOptions)
-% forest = initPopulation(GPInit,GPOptions)
+function forest = initPopulation(GPInit)
+% forest = initPopulation(GPInit)
 %   inputs:
 %       GPInit - input stucture of tree building arguments
 %           functionSet -> Collection Map between function and probability
@@ -99,13 +102,13 @@ end
 
 % Applying other variations to the methods
 initMethod = GPInit.initPopMethod;
-if initMethod.name ~= full
+if ~strcmp(initMethod.name,'full')
     pruneItter = 1;
     numPruned = floor(initMethod.popFraction*GPInit.population);
-    while pruneItter < intitMethod.numPrunes
+    while pruneItter < numPruned
         
         parfor tree=1:numPruned
-            depth = randi([initMethod.pruneDepth,GPInit.treeDepth]);
+            depth = randi([initMethod.pruneDepth,GPInit.treeDepth-1]);
             forest{tree} = forest{tree}.prune(depth);
         end
     end
@@ -195,7 +198,7 @@ end
 
 maxFit = max(fit);
 minFit = min(fit);
-avgFit = mean(fit);
+avgFit = nanmean(fit);
 
 end
 

@@ -1,14 +1,66 @@
 
 function [avgFittness,generation] = SymbolicRegression(GPInit,GPOptions,dataSet)
 
+% Intilizing the population
 forest = initPopulation(GPInit,GPOptions);
-testValues = [-pi,0,pi];
-for v = testValues
-    [values,sameTrees] = computeDiversity(forest,v);
-    fprintf(1,'\tValue: %f mean: %f std: %f numSameTrees %f\n',...
-        v,nanmean(values),nanstd(values),numel(sameTrees));
+
+maxItter = 100;
+maxFitness = 0;
+maxFit = zeros(maxItter,1);
+minFit = zeros(maxItter,1);
+avgFit = zeros(maxItter,1);
+itter = 1;
+bestFitness = Inf;
+while itter < maxItter && bestFitness < maxFitness
+   % Evaluate the current population
+   [fit,maxFit(itter),minFit(itter),avgFit(itter)] = fitness(forest,dataSet);
+   bestFitness = minFit(itter);
+   
+   % Select best individuals
+   forest = fitnessSelection(forest,fit,GPOptions);
+   
+   % Perform genetic operators
+   forest = crossOver(forest,GPOptions);
+   forest = mutate(forest,GPOptions);
+   
+   if numel(forest) < GPOptions.minPopSize
+       forest = rabits(forest,GPOptions);
+   end
 end
-forest = crossOver(forest,GPOptions);
+
+% Plot Fitness trend
+itter = 1:maxItter;
+plot(itter,maxFit,'-g',itter,avgFit,'+k',minFit,'-r',itter);
+legend('Lowest','Average', 'Highest');
+xlabel('Generation');
+ylabel('Fitness (SSE)');
+
+end
+
+function forest = rabits(forest,GPOptions)
+% forest = rabits(forest,GPOptions)
+%   Adds trees by crossover to replensish the population
+    newPopSize = GPOptions.minPopSize*2;
+    newForest = cell(newPopSize,1);
+    for tree = 1:newPopSize
+       if ~isempty(forest{tree})
+           newForest{tree} = forest{tree};
+       else
+           parents = randperm(numel(forest),2);
+           newForest{tree} = forest{parents(1)}.swap(forest{parents(2)},2);
+           newForest{tree} = newForest{tree}.mutate(1);
+       end
+    end
+    forest = newForest;
+end
+
+function forest = fitnessSelection(forest,fit,GPOptions)
+% forest = fitnessSelection(forest,fit,GPOptions)
+
+numSpartans = floor(numel(forest)*GPOptions.reproduceFraction);
+[v,I] = sort(fit);
+I = I(1:numSpartans);
+forest = forest(I);
 end
 
 function forest = initPopulation(GPInit,GPOptions)
@@ -46,7 +98,7 @@ parfor tree=1:populationSize
 end
 
 % Applying other variations to the methods
-initMethod = GPOptions.initPopMethod;
+initMethod = GPInit.initPopMethod;
 if initMethod.name ~= full
     pruneItter = 1;
     numPruned = floor(initMethod.popFraction*GPInit.population);
@@ -118,8 +170,8 @@ end
 
 end
 
-function [fit,max,min,avg] = fitness(forest,dataSet)
-% [fit,max,min,avg] = fitness(forest,dataSet)
+function [fit,maxFit,minFit,avgFit] = fitness(forest,dataSet)
+% [fit,maxFit,minFit,avgFit] = fitness(forest,dataSet)
 %   Calculates the fitness of a data set. Fitness is computed as the sum
 %   squared error for all of the X values in the data set.
 %   Inputs:
@@ -129,11 +181,21 @@ function [fit,max,min,avg] = fitness(forest,dataSet)
 
 X = dataSet(:,1);
 Y = dataSet(:,2);
-values = zeros(numel(forest),1);
+fit = zeros(numel(forest),1);
+p = zeros(size(dataSet(X)));
+
 for tree = 1:numel(forest)
-    
+    % Evaluating
+    for i = 1:numel(X)
+       p(i) = forest{tree}.eval(X(i)); 
+    end
+   % Calculating the SSE
+   fit(tree) = sse(p-Y);
 end
 
+maxFit = max(fit);
+minFit = min(fit);
+avgFit = mean(fit);
 
 end
 

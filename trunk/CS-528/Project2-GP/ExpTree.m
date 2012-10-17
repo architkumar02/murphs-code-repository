@@ -35,7 +35,7 @@ classdef ExpTree
                 tSetMap = containers.Map(tSet,tProbability);
                 
                 % Calling Private constructor
-                obj = obj.RandomExpTree(6,fSetMap,tSetMap);
+                obj = obj.RandomExpTree(4,fSetMap,tSetMap);
             else
                 % Better hope that the user provided the correct arguments
                 obj = obj.RandomExpTree(varargin{1},varargin{2},varargin{3});
@@ -56,6 +56,7 @@ classdef ExpTree
             end
             t = exprTree.binaryTree;
             internalNodes = 2^(exprTree.maxDepth)-1;
+            value = Inf;
             for node=internalNodes:-1:1
                 pC = t{node};
                 if ~isempty(pC)
@@ -65,17 +66,17 @@ classdef ExpTree
                         s = sprintf('%s(%s,%s)',pC{1},lC{1},rC{1});
                         value = eval(s);
                         if value == 0
-                           value = zeroValue; 
+                            value = zeroValue;
                         end
                     elseif ~isempty(rC)
                         s = sprintf('%s(%s)',pC{1},rC{1});
                         value = eval(s);
                         if value == 0
-                           value = zeroValue; 
+                            value = zeroValue;
                         end
                     end
                     t{node}= {sprintf('%10.8e',value)};
-                    fprintf(1,'Evaluated node %d with %s = %5.3f\n',node,s,value);
+                    %fprintf(1,'Evaluated node %d with %s = %5.3f\n',node,s,value);
                 end
             end
         end
@@ -92,39 +93,48 @@ classdef ExpTree
             %   Returns:
             %       numNodes - the number of non-empty nodes at that depth
             %       nodeRange - all possible nodes at that depth
-           nodeRange = 2^(depth):(2^(depth+1)-1);
-           nodes = cell(numel(nodeRange),1);
-           numNodes = 0;
-           for node = nodeRange
-              if ~isempty(exprTree.binaryTree{node})
-                  numNodes = numNodes +1;
-                  nodes{node} = node;
-              end
-           end
-           % Removing the empty spaces
-           nodes = nodes(~cellfun(@isempty,nodes));
+            nodeRange = 2^(depth):(2^(depth+1)-1);
+            nodes = cell(numel(nodeRange),1);
+            numNodes = 0;
+            for node = nodeRange
+                if ~isempty(exprTree.binaryTree{node})
+                    numNodes = numNodes +1;
+                    nodes{node} = node;
+                end
+            end
+            % Removing the empty spaces
+            nodes = nodes(~cellfun(@isempty,nodes));
+        end
+        
+       function [t1,t2] = swap(t1,t2,depth)
+            % [t1,t2] = swap(t1,t2,depth)
+            %   Swaps the two trees t1 and t2 from a node choosen at random
+            %   from a given depth
+            [numNodes,nodes] = getNumNodesAtDepth(t1,depth);
+            node = nodes{randi(numNodes)};
+            swapNodes = ExpTree.getChildren(node,t1.maxNodes,[]);
+            for n = swapNodes
+                temp = t1.binaryTree{n};
+                t1.binaryTree{n} = t2.binaryTree{n};
+                t2.binaryTree{n} = temp;
+
+            end
         end
         
         function exprTree = prune(exprTree,depth)
             % exprTree = prune(exprTree,depth)
-            %   Prunes (removes) all chidren from a node randomly selected 
+            %   Prunes (removes) all chidren from a node randomly selected
             %   at the supplied depth. The node is then set to a randomly
             %   drawn leaf.
             [numNodes,nodes] = getNumNodesAtDepth(exprTree,depth);
-            node = nodes{randi(numel(numNodes))};
-            n = node;
-            while n <= exprTree.maxNodes
-                exprTree.binaryTree{node} = [];
-                node = node*2;
-            end
-            n = node;
-            while n <= exprTree.maxNodes
-                exprTree.binaryTree{node} = [];
-                node = node*2+1;
+            node = nodes{randi(numNodes)};
+            deadNodes = ExpTree.getChildren(node,exprTree.maxNodes,[]);
+            for n = deadNodes
+                exprTree.binaryTree{n} = [];
             end
             
             % Setting the node to be a leaf
-            exprTree.binaryTree{node} = exprTree.chooseLeaf();
+            exprTree.binaryTree{node} = exprTree.chooseTerminal();
         end
         
         
@@ -167,6 +177,17 @@ classdef ExpTree
     end
     %% Start of Static Methods
     methods (Static = true)
+        function children = getChildren(node,maxNodes,children)
+            % Recusively computes the nodes that should be killed
+            % deadNodes = getDeadNodes(2,15,[])
+            if node > maxNodes
+                return
+            else
+                children = [children,node,...
+                    ExpTree.getChildren(2*node,maxNodes,children),...
+                    ExpTree.getChildren(2*node+1,maxNodes,children)];
+            end
+        end
         
     end
     

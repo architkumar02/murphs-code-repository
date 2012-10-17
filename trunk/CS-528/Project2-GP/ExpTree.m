@@ -88,6 +88,13 @@ classdef ExpTree
             warning('subTree:ExpTree','Method subTree is not implemented\n');
         end
         
+        function [tf] = equals(tree1,tree2)
+           % tf = equals(tree1,tree2)
+           %    Test for tree inequality by strict comparison of the the
+           %    cell arrays
+           tf = isequal(tree1.binaryTree,tree2.binaryTree);
+        end
+        
         function [numNodes,nodes] = getNumNodesAtDepth(exprTree,depth)
             % [numNodes,nodeRange] = getNumNodesAtDepth(exprTree,depth)
             %   Returns:

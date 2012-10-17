@@ -144,6 +144,17 @@ classdef ExpTree
             exprTree.binaryTree{node} = exprTree.chooseTerminal();
         end
         
+        function exprTree = mutate(exprTree,mutationRate)
+           % exprTree = mutate(exprTree,nodeFraction)
+           %    Inputs:
+           %        muationRate - probability that a leaf will be mutated
+           firstLeaf = 2^exprTree.maxDepth;
+           for node = firstLeaf:exprTree.maxNodes
+              if rand() < mutationRate
+                 exprTree.binaryTree{node} = chooseTerminal(); 
+              end
+           end
+        end
         
         function WriteExprTree(exprTree,fileName)
             % Writes the ExprTree to fileName.  The format is .dot, which

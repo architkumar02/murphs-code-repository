@@ -70,7 +70,7 @@ tic;
 for t1=1:popSize
     for t2=(t1+1):popSize
         if forest{t2}.equals(forest{t1})
-           numEqual(end) = t1; 
+           numEqual(end+1) = t1; 
         end
     end
 end

@@ -134,6 +134,9 @@ classdef ExpTree
             %   at the supplied depth. The node is then set to a randomly
             %   drawn leaf.
             [numNodes,nodes] = getNumNodesAtDepth(exprTree,depth);
+            if numNodes == 0
+               return; 
+            end
             node = nodes{randi(numNodes)};
             deadNodes = ExpTree.getChildren(node,exprTree.maxNodes,[]);
             for n = deadNodes

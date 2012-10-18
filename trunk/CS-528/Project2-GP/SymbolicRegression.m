@@ -1,19 +1,21 @@
-function [avgFittness,generation] = SymbolicRegression(GPInit,GPOptions,dataSet)
+function [avgFittness,generation] = SymbolicRegression(GPInit,GPOptions,data)
 
 % Intilizing the population
+fprintf(1,'Intitializing the population\n');
 forest = initPopulation(GPInit);
 
-maxItter = 100;
+maxItter = 2;
 maxFitness = 0;
 maxFit = zeros(maxItter,1);
 minFit = zeros(maxItter,1);
 avgFit = zeros(maxItter,1);
 itter = 1;
 bestFitness = Inf;
+fprintf(1,'\n\t\t\t Starting Evoluation\n\n');
 fprintf(1,'Itteration\tMean Fitness\n');
 while itter < maxItter && bestFitness > maxFitness
     % Evaluate the current population
-    [fit,maxFit(itter),minFit(itter),avgFit(itter)] = fitness(forest,dataSet);
+    [fit,maxFit(itter),minFit(itter),avgFit(itter)] = populationFitness(forest,data);
     bestFitness = minFit(itter);
     
     % Select best individuals
@@ -27,13 +29,14 @@ while itter < maxItter && bestFitness > maxFitness
         forest = rabits(forest,GPOptions);
     end
     if mod(itter,10) == 1
-        fprintf(1,'\t%d\t\t%f\n',itter,meanFit);
+        fprintf(1,'\t%d\t\t%f\n',itter,avgFit(itter));
     end
 end
 
 % Plot Fitness trend
 itter = 1:maxItter;
-plot(itter,maxFit,'-g',itter,avgFit,'-k',minFit,'-r',itter);
+hold all;
+plot(itter,maxFit,'-g',itter,avgFit,'-k',itter,minFit,'-r');
 legend('Lowest','Average', 'Highest');
 xlabel('Generation');
 ylabel('Fitness (SSE)');
@@ -45,14 +48,14 @@ function forest = rabits(forest,GPOptions)
 %   Adds trees by crossover to replensish the population
 newPopSize = GPOptions.minPopSize*2;
 newForest = cell(newPopSize,1);
-for tree = 1:newPopSize
-    if ~isempty(forest{tree})
-        newForest{tree} = forest{tree};
-    else
-        parents = randperm(numel(forest),2);
-        newForest{tree} = forest{parents(1)}.swap(forest{parents(2)},2);
-        newForest{tree} = newForest{tree}.mutate(1);
-    end
+
+for tree = 1:numel(forest)
+    newForest{tree} = forest{tree};
+end
+for tree = numel(forest):newPopSize
+    parents = randperm(numel(forest),2);
+    newForest{tree} = forest{parents(1)}.swap(forest{parents(2)},2);
+    newForest{tree} = newForest{tree}.mutate(1);
 end
 forest = newForest;
 end
@@ -143,9 +146,8 @@ function forest = mutate(forest,GPOptions)
 popSize = floor(numel(forest)*GPOptions.mutationFraction);
 order = randperm(numel(forest),popSize);
 mutRate = GPOptions.mutationRate;
-parfor tree = order
+for tree = order
     forest{tree} = forest{tree}.mutate(mutRate);
-    
 end
 end
 
@@ -171,7 +173,7 @@ end
 
 end
 
-function [fit,maxFit,minFit,avgFit] = fitness(forest,dataSet)
+function [fit,maxFit,minFit,avgFit] = populationFitness(forest,dataSet)
 % [fit,maxFit,minFit,avgFit] = fitness(forest,dataSet)
 %   Calculates the fitness of a data set. Fitness is computed as the sum
 %   squared error for all of the X values in the data set.
@@ -183,7 +185,7 @@ function [fit,maxFit,minFit,avgFit] = fitness(forest,dataSet)
 X = dataSet(:,1);
 Y = dataSet(:,2);
 fit = zeros(numel(forest),1);
-p = zeros(size(dataSet(X)));
+p = zeros(size(X));
 
 for tree = 1:numel(forest)
     % Evaluating

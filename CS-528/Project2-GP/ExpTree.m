@@ -64,19 +64,23 @@ classdef ExpTree
                     rC = t{2*node+1};
                     if ~isempty(lC) && ~isempty(rC)
                         s = sprintf('%s(%s,%s)',pC{1},lC{1},rC{1});
+                        fprintf(1,'Evaluated node %d with %s =',node,s);
                         value = eval(s);
+                        fprintf(1,'%5.3f\n',value);
                         if value == 0
                             value = zeroValue;
                         end
                     elseif ~isempty(rC)
                         s = sprintf('%s(%s)',pC{1},rC{1});
+                        fprintf(1,'Evaluated node %d with %s =',node,s);
                         value = eval(s);
+                        fprintf(1,'%5.3f\n',value);
                         if value == 0
                             value = zeroValue;
                         end
                     end
                     t{node}= {sprintf('%10.8e',value)};
-                    %fprintf(1,'Evaluated node %d with %s = %5.3f\n',node,s,value);
+                    
                 end
             end
         end
@@ -89,10 +93,10 @@ classdef ExpTree
         end
         
         function [tf] = equals(tree1,tree2)
-           % tf = equals(tree1,tree2)
-           %    Test for tree inequality by strict comparison of the the
-           %    cell arrays
-           tf = isequal(tree1.binaryTree,tree2.binaryTree);
+            % tf = equals(tree1,tree2)
+            %    Test for tree inequality by strict comparison of the the
+            %    cell arrays
+            tf = isequal(tree1.binaryTree,tree2.binaryTree);
         end
         
         function [numNodes,nodes] = getNumNodesAtDepth(exprTree,depth)
@@ -113,18 +117,22 @@ classdef ExpTree
             nodes = nodes(~cellfun(@isempty,nodes));
         end
         
-       function [t1,t2] = swap(t1,t2,depth)
+        function [t1,t2] = swap(t1,t2,depth)
             % [t1,t2] = swap(t1,t2,depth)
             %   Swaps the two trees t1 and t2 from a node choosen at random
             %   from a given depth
             [numNodes,nodes] = getNumNodesAtDepth(t1,depth);
+            if isempty(numNodes) || numNodes == 0
+                [t1,t2] = swap(t1,t2,depth-1);
+            end
             node = nodes{randi(numNodes)};
-            swapNodes = ExpTree.getChildren(node,t1.maxNodes,[]);
+            swapNodesT1 = t1.getChildren(node,t1.maxNodes,[]);
+            swapNodesT2 = t2.getChildren(node,t1.maxNodes,[]);
             for n = swapNodes
                 temp = t1.binaryTree{n};
                 t1.binaryTree{n} = t2.binaryTree{n};
                 t2.binaryTree{n} = temp;
-
+                
             end
         end
         
@@ -135,7 +143,7 @@ classdef ExpTree
             %   drawn leaf.
             [numNodes,nodes] = getNumNodesAtDepth(exprTree,depth);
             if numNodes == 0
-               return; 
+                return;
             end
             node = nodes{randi(numNodes)};
             deadNodes = ExpTree.getChildren(node,exprTree.maxNodes,[]);
@@ -148,15 +156,15 @@ classdef ExpTree
         end
         
         function exprTree = mutate(exprTree,mutationRate)
-           % exprTree = mutate(exprTree,nodeFraction)
-           %    Inputs:
-           %        muationRate - probability that a leaf will be mutated
-           firstLeaf = 2^exprTree.maxDepth;
-           for node = firstLeaf:exprTree.maxNodes
-              if rand() < mutationRate
-                 exprTree.binaryTree{node} = chooseTerminal(); 
-              end
-           end
+            % exprTree = mutate(exprTree,nodeFraction)
+            %    Inputs:
+            %        muationRate - probability that a leaf will be mutated
+            firstLeaf = 2^exprTree.maxDepth;
+            for node = firstLeaf:exprTree.maxNodes
+                if rand() < mutationRate
+                    exprTree.binaryTree{node} = exprTree.chooseTerminal();
+                end
+            end
         end
         
         function WriteExprTree(exprTree,fileName)
@@ -226,14 +234,14 @@ classdef ExpTree
             numInternalNodes= 2^(obj.maxDepth) - 1;        % Up to the leaves
             obj.binaryTree{1} = obj.chooseFunction();
             weights = cell2mat(obj.functionSet.values);
-            weights(1:2) = weights(1:2)/(obj.maxDepth);
+            %             weights(1:2) = weights(1:2)/(obj.maxDepth);
             for node = 2:obj.maxNodes
                 if node <= numInternalNodes
                     depth = floor(log2(node))+1;
-                    weights(1:2) = weights(1:2)/exp(-depth/(obj.maxDepth^(1)));
-                    weights(3:8) = weights(3:8)*exp(-depth/(obj.maxDepth^(1)));
-                    weights = weights/sum(weights);
-                    f = obj.chooseFunction();
+                    %                     weights(1:2) = weights(1:2)/exp(-depth/(obj.maxDepth^(1)));
+                    %                     weights(3:8) = weights(3:8)*exp(-depth/(obj.maxDepth^(1)));
+                    %                     weights = weights/sum(weights);
+                    f = obj.chooseFunction(depth);
                 else
                     f = obj.chooseTerminal();
                 end
@@ -256,15 +264,33 @@ classdef ExpTree
             end
         end
         
-        function func = chooseFunction(exprTree,weights)
+        function func = chooseFunction(exprTree,depth)
             % func = chooseFunction(exprTree)
             % func = chooseFunction(exprTree,weights)
             %    returns a function according to it's probability
             v = exprTree.functionSet.values;
             f = exprTree.functionSet.keys;
+            weights = cell2mat(v);
             if nargin ==1
-                func = f(find(rand<cumsum(cell2mat(v)),1,'first'));
-            else
+                func = f(find(rand<cumsum(weights),1,'first'));
+            else  
+                for key = 1:numel(f);
+                    if depth <=3
+                        if strcmp(f{key},'plus') || strcmp(f{key},'minus')
+                            weights(key) = 10;
+                        end
+                    elseif depth <=4
+                        if strcmp(f{key},'cos') || strcmp(f{key},'sin')
+                            weights(key) = 10;
+                        end
+                    else
+                        if (strcmp(f{key},'plus') || strcmp(f{key},'minus') || ...
+                                strcmp(f{key},'mldivide') || strcmp(f{key},'times'))
+                            weights(key) = 10;
+                        end
+                    end
+                end
+                weights = weights/sum(weights);
                 func = f(find(rand<cumsum(weights),1,'first'));
             end
         end

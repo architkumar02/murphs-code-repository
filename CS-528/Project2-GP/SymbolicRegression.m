@@ -11,29 +11,29 @@ avgFit = zeros(maxItter,1);
 itter = 1;
 bestFitness = Inf;
 fprintf(1,'Itteration\tMean Fitness\n');
-while itter < maxItter && bestFitness < maxFitness
-   % Evaluate the current population
-   [fit,maxFit(itter),minFit(itter),avgFit(itter)] = fitness(forest,dataSet);
-   bestFitness = minFit(itter);
-   
-   % Select best individuals
-   forest = fitnessSelection(forest,fit,GPOptions);
-   
-   % Perform genetic operators
-   forest = crossOver(forest,GPOptions);
-   forest = mutate(forest,GPOptions);
-   
-   if numel(forest) < GPOptions.minPopSize
-       forest = rabits(forest,GPOptions);
-   end
-   if mod(itter,10) == 1
+while itter < maxItter && bestFitness > maxFitness
+    % Evaluate the current population
+    [fit,maxFit(itter),minFit(itter),avgFit(itter)] = fitness(forest,dataSet);
+    bestFitness = minFit(itter);
+    
+    % Select best individuals
+    forest = fitnessSelection(forest,fit,GPOptions);
+    
+    % Perform genetic operators
+    forest = crossOver(forest,GPOptions);
+    forest = mutate(forest,GPOptions);
+    
+    if numel(forest) < GPOptions.minPopSize
+        forest = rabits(forest,GPOptions);
+    end
+    if mod(itter,10) == 1
         fprintf(1,'\t%d\t\t%f\n',itter,meanFit);
-   end
+    end
 end
 
 % Plot Fitness trend
 itter = 1:maxItter;
-plot(itter,maxFit,'-g',itter,avgFit,'+k',minFit,'-r',itter);
+plot(itter,maxFit,'-g',itter,avgFit,'-k',minFit,'-r',itter);
 legend('Lowest','Average', 'Highest');
 xlabel('Generation');
 ylabel('Fitness (SSE)');
@@ -43,18 +43,18 @@ end
 function forest = rabits(forest,GPOptions)
 % forest = rabits(forest,GPOptions)
 %   Adds trees by crossover to replensish the population
-    newPopSize = GPOptions.minPopSize*2;
-    newForest = cell(newPopSize,1);
-    for tree = 1:newPopSize
-       if ~isempty(forest{tree})
-           newForest{tree} = forest{tree};
-       else
-           parents = randperm(numel(forest),2);
-           newForest{tree} = forest{parents(1)}.swap(forest{parents(2)},2);
-           newForest{tree} = newForest{tree}.mutate(1);
-       end
+newPopSize = GPOptions.minPopSize*2;
+newForest = cell(newPopSize,1);
+for tree = 1:newPopSize
+    if ~isempty(forest{tree})
+        newForest{tree} = forest{tree};
+    else
+        parents = randperm(numel(forest),2);
+        newForest{tree} = forest{parents(1)}.swap(forest{parents(2)},2);
+        newForest{tree} = newForest{tree}.mutate(1);
     end
-    forest = newForest;
+end
+forest = newForest;
 end
 
 function forest = fitnessSelection(forest,fit,GPOptions)
@@ -96,7 +96,7 @@ treeDepth = GPInit.treeDepth;
 forest = cell(populationSize,1);
 
 parfor tree=1:populationSize
-
+    
     forest{tree} = ExpTree(treeDepth,fSetMap,tSetMap);
 end
 
@@ -105,13 +105,11 @@ initMethod = GPInit.initPopMethod;
 if ~strcmp(initMethod.name,'full')
     pruneItter = 1;
     numPruned = floor(initMethod.popFraction*GPInit.population);
-    while pruneItter < numPruned
-        
-        parfor tree=1:numPruned
-            depth = randi([initMethod.pruneDepth,GPInit.treeDepth-1]);
-            forest{tree} = forest{tree}.prune(depth);
-        end
+    parfor tree=1:numPruned
+        depth = randi([initMethod.pruneDepth,GPInit.treeDepth-1]);
+        forest{tree} = forest{tree}.prune(depth);
     end
+    
 end
 end
 
@@ -147,13 +145,13 @@ order = randperm(numel(forest),popSize);
 mutRate = GPOptions.mutationRate;
 parfor tree = order
     forest{tree} = forest{tree}.mutate(mutRate);
-
+    
 end
 end
 
 function [values,numEqual] = computeDiversity(forest,testValue)
 % [values,numEqual] = computeDiversity(forest,testValue)
-% 
+%
 popSize = numel(forest);
 values = zeros(popSize,1);
 
@@ -190,10 +188,10 @@ p = zeros(size(dataSet(X)));
 for tree = 1:numel(forest)
     % Evaluating
     for i = 1:numel(X)
-       p(i) = forest{tree}.eval(X(i)); 
+        p(i) = forest{tree}.eval(X(i));
     end
-   % Calculating the SSE
-   fit(tree) = sse(p-Y);
+    % Calculating the SSE
+    fit(tree) = sse(p-Y);
 end
 
 maxFit = max(fit);

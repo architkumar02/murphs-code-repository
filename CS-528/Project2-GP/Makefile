@@ -6,22 +6,24 @@
 # -------------------------------------------------------------------------
 
 
-CC=gcc
-CFLAGS+=-Wall -g
-LDFLAGS+=-lm
-SOURCES=exprTree.c
-OJBECTS=$(SOURCES:.c=.o)
-EXECUTABLE=exprTree
+IDIR = ../include
+CC = gcc
+CFLAGS += -Wall -g -I$(IDIR)
+LDFLAGS += -lm
+SOURCES = exprTree.c
+OJBECTS = $(patsubst %.c %.o,$(SOURCES))
 
-all: $(SOURCES) $(EXECUTABLE)
 
-$(EXECUTABLE): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $@
+all: exprTree
 
-.c.o:
-	$(CC) $(CFLAGS) $< -o $@
+exprTree: $(OBJECTS)
+	$(CC) $(CFLAGS) $(OBJECTS) -o $@
+
+%.o : %.c
+	$(CC) $(CFLAGS) -c $<
+
 
 clean:
-	rm -rf *o $(EXECUTABLE)
+	rm -rf *.o 
 
 # DO NOT DELETE

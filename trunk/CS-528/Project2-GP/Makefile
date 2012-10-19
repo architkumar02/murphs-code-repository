@@ -5,25 +5,23 @@
 #  10/19/2012
 # -------------------------------------------------------------------------
 
-
-IDIR = ../include
+INCLUDE =include
 CC = gcc
-CFLAGS += -Wall -g -I$(IDIR)
+CFLAGS += -Wall -g -I $(INCLUDE)
 LDFLAGS += -lm
-SOURCES = exprTree.c
-OJBECTS = $(patsubst %.c %.o,$(SOURCES))
+EXEC = exprTree
+SOURCES = $(wildcard *.c)
+OJBECTS = $(SOURCES:.c=.o)
 
+# Main Target
+$(EXEC): $(OBJECTS)
+	$(CC) $(OBJECTS) -o $(EXEC)
 
-all: exprTree
-
-exprTree: $(OBJECTS)
-	$(CC) $(CFLAGS) $(OBJECTS) -o $@
-
-%.o : %.c
-	$(CC) $(CFLAGS) -c $<
-
+# Object Files
+%.o:%.c
+	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:
-	rm -rf *.o 
+	rm -rf $(OBJECTS) $(EXEC)
 
 # DO NOT DELETE

@@ -3,25 +3,39 @@
 #define __EXPRTREE_H__
 
 #include <math.h>
-#include "nodeSet.h"
 
+/**
+ * Node Functions
+ */
+#define NUMFUNCTIONS 8
+extern char* FUNCTIONS[NUMFUNCTIONS];
+extern char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","^","cos","sin"};
+
+/**
+ * Terminal Functions 
+ */
+#define NUMTERMINALS 4 
+extern char *TERMINALS[NUMTERMINALS] = {"0","-1","pi","x"};
 /**
  * Node structure
  */
-struct node_t {
+typedef struct node_t{
     char *name;
-    struct node *right;
-    struct node *left;
-}
+    struct node_t *right;
+    struct node_t *left;
+} node;
 
-struct node_t* createNode(char* name);
-struct node_t* leafNode();
-struct node_t* funcNode();
+node* createNode(char* name);
+node* leafNode();
+node* funcNode();
 
-void buildTree(node_t **tree, int depth,double pruneProb);
-void deleteTree(node_t **tree);
+void buildTree(node **tree, int depth,double pruneProb);
+void deleteTree(node **tree);
 
-double evalNode(node_t *n);
+double evalNode(node *n);
+
+
+void printNode(node *n);
 
 #endif
 /* $end exprTree.h */

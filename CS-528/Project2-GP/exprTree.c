@@ -4,60 +4,69 @@
 
 #include "exprTree.h"
 
-struct node_t *createNode(char *name){
-    struct node_t *node = NULL;
-    if ( node = malloc(sizeof(node_t))){
+void printNode(node *n){
+    fprintf(stdout,"Node %X:\n\tname: %s\n\tright: %X\n\tLeft:%X\n",n,
+        n->name,n->left,n->right);
+}
+
+node *createNode(char *name){
+    node *node = NULL;
+    if ( (node = malloc(sizeof(node)))){
         node->name = name;
         node->left = NULL;
-        node-right = NULL;
+        node->right = NULL;
+        printNode(node);
         return node;
     }
     else
         return node;
 }
 
-struct node_t *leafNode(){
-    char* TERMINALS;
-    int choice = rand() % NUMTERMINALS;
+node *leafNode(){
+    int choice = (rand() % NUMTERMINALS);
     return createNode(TERMINALS[choice]);
 }
 
-struct node_t *funcNode(){
-    char* FUNCTIONS;
+node *funcNode(){
     int choice = rand() % NUMFUNCTIONS;
     return createNode(FUNCTIONS[choice]);
 }
 
-void buildTree(node_t **tree, int depth, double pruneProb){
+void buildTree(node **tree, int depth, double pruneProb){
     if (depth == 0){
         *tree = leafNode();
     }
-    else if ( (1.0 - (rand() / (double) RAND_MAX)) < pruneProb) {
+    else if (  (rand() / (double) RAND_MAX) < pruneProb) {
         *tree = leafNode();
     }
     else{
-        buildTree(&(*tree)-left,depth-1,pruneProp);
-        buildTree(&(*tree)-right,depth-1,pruneProp);
+        buildTree(&(*tree)->left,depth-1,pruneProb);
+        buildTree(&(*tree)->right,depth-1,pruneProb);
     }
 
 }
 
-void deleteTree(node_t **tree){
+void deleteTree(node **tree){
     if( *tree == NULL)
         return;
     else{
-        return(deleteTree((*node)->left));
-        return(deleteTree((*node)->right));
-        free(*node);
-        *node = NULL:
+        return(deleteTree(&(*tree)->left));
+        return(deleteTree(&(*tree)->right));
+        free(*tree);
+        *tree = NULL;
+        return;
     }
 }
 
 
 int main(int argc, char *argv[]){
-    root = NULL;
+    
+    //char *TERMINALS[NUMTERMINALS] = {"0","-1","pi","x"};
+    //char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","^","cos","sin"};
+    node *root = NULL;
     fprintf(stdout,"\n Building a tree\n");
-    buildTree(root);
+    buildTree(&root,3,0.1);
     fprintf(stdout,"Deleting a tree\n");
-    deleteTree(root);
+    deleteTree(&root);
+    return EXIT_SUCCESS;
 }

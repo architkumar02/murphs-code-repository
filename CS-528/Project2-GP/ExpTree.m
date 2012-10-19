@@ -145,8 +145,7 @@ classdef ExpTree
                 t2.binaryTree{swapNodes2(n)} = temp;
             end
             
-        end
-        
+        end     
         
         function exprTree = prune(exprTree,depth)
             % exprTree = prune(exprTree,depth)

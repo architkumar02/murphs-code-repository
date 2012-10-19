@@ -4,7 +4,7 @@ function [avgFittness,generation] = SymbolicRegression(GPInit,GPOptions,data)
 fprintf(1,'Intitializing the population\n');
 forest = initPopulation(GPInit);
 
-maxItter = 2;
+maxItter = 5;
 maxFitness = 0;
 maxFit = zeros(maxItter,1);
 minFit = zeros(maxItter,1);
@@ -28,9 +28,9 @@ while itter < maxItter && bestFitness > maxFitness
     if numel(forest) < GPOptions.minPopSize
         forest = rabits(forest,GPOptions);
     end
-    if mod(itter,10) == 1
-        fprintf(1,'\t%d\t\t%f\n',itter,avgFit(itter));
-    end
+    %if mod(itter,1) == 1
+        fprintf(1,'\t%d\t\t%5.3e\n',itter,avgFit(itter));
+    %end
 end
 
 % Plot Fitness trend

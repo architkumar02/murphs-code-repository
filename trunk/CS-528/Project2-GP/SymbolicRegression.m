@@ -4,7 +4,7 @@ function [avgFittness,generation] = SymbolicRegression(GPInit,GPOptions,data)
 fprintf(1,'Intitializing the population\n');
 forest = initPopulation(GPInit);
 
-maxItter = 5;
+maxItter = 100;
 maxFitness = 0;
 maxFit = zeros(maxItter,1);
 minFit = zeros(maxItter,1);
@@ -23,7 +23,7 @@ while itter < maxItter && bestFitness > maxFitness
     
     % Perform genetic operators
     forest = crossOver(forest,GPOptions);     
-    forest = mutate(forest,GPOptions);
+%     forest = mutate(forest,GPOptions);
     
     if numel(forest) < GPOptions.minPopSize
         forest = rabits(forest,GPOptions);

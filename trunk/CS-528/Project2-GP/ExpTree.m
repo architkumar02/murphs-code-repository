@@ -62,22 +62,28 @@ classdef ExpTree
                 if ~isempty(pC)
                     lC = t{2*node};
                     rC = t{2*node+1};
-                    if ~isempty(lC) && ~isempty(rC)
-                        s = sprintf('%s(%s,%s)',pC{1},lC{1},rC{1});
-%                          fprintf(1,'Evaluated node %d with %s =',node,s);
+                    if exprTree.terminalSet.isKey(pC{1})
+                        s = sprintf('%s',pC{1});
+%                         fprintf(1,'Evaluated node %d with %s =',node,s);
                         value = eval(s);
-%                          fprintf(1,'%5.3f\n',value);
-%                         if value == 0
-%                             value = zeroValue;
-%                         end
+%                         fprintf(1,'%5.3f\n',value);
+                        
+                    elseif ~isempty(lC) && ~isempty(rC)
+                        s = sprintf('%s(%s,%s)',pC{1},lC{1},rC{1});
+%                         fprintf(1,'Evaluated node %d with %s =',node,s);
+                        value = eval(s);
+%                         fprintf(1,'%5.3f\n',value);
+                        %                         if value == 0
+                        %                             value = zeroValue;
+                        %                         end
                     elseif ~isempty(rC)
                         s = sprintf('%s(%s)',pC{1},rC{1});
-%                          fprintf(1,'Evaluated node %d with %s =',node,s);
+%                         fprintf(1,'Evaluated node %d with %s =',node,s);
                         value = eval(s);
-%                          fprintf(1,'%5.3f\n',value);
-%                         if value == 0
-%                             value = zeroValue;
-%                         end
+%                         fprintf(1,'%5.3f\n',value);
+                        %                         if value == 0
+                        %                             value = zeroValue;
+                        %                         end
                     end
                     t{node}= {sprintf('%10.8e',value)};
                     
@@ -121,17 +127,22 @@ classdef ExpTree
             % [t1,t2] = swap(t1,t2,depth)
             %   Swaps the two trees t1 and t2 from a node choosen at random
             %   from a given depth
-            [numNodes,nodes] = getNumNodesAtDepth(t1,depth);
-            if isempty(numNodes) || numNodes == 0
+            [numNodes1,nodes1] = getNumNodesAtDepth(t1,depth);
+            [numNodes2,nodes2] = getNumNodesAtDepth(t2,depth);
+            if (isempty(numNodes1) || numNodes1 == 0 || ...
+                    isempty(numNodes2) || numNodes2 == 0)
                 return;
             end
-            node = nodes{randi(numNodes)};
-            swapNodes = t1.getChildren(node,t1.maxNodes,[]);
+            node1 = nodes1{randi(numNodes1)};
+            node2 = nodes2{randi(numNodes2)};
             
-            for n = swapNodes
-                temp = t1.binaryTree{n};
-                t1.binaryTree{n} = t2.binaryTree{n};
-                t2.binaryTree{n} = temp;
+            swapNodes1 = t1.getChildren(node1,t1.maxNodes,[]);
+            swapNodes2 = t1.getChildren(node2,t2.maxNodes,[]);
+            
+            for n = 1:numel(swapNodes1)
+                temp = t1.binaryTree{swapNodes1(n)};
+                t1.binaryTree{swapNodes1(n)} = t2.binaryTree{swapNodes2(n)};
+                t2.binaryTree{swapNodes2(n)} = temp;
             end
             
         end

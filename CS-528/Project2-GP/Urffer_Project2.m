@@ -14,7 +14,7 @@ tProbability = ones(numel(tSet),1)/numel(tSet);
 tSetMap = containers.Map(tSet,tProbability);
 
 %% Running Symbolic Regression
-% matlabpool open
+%matlabpool open
 load Data.mat
 dataSet = [x,y];
 
@@ -27,4 +27,4 @@ GPOptions = struct('crossOverFraction',0.7,'crossOverDepth',2,...
     'reproduceFraction',0.95,'minPopSize',100);
 SymbolicRegression(GPInit,GPOptions,dataSet)
 
-matlabpool close
+%matlabpool close

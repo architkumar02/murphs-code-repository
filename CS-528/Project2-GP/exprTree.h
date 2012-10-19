@@ -2,21 +2,26 @@
 #ifndef __EXPRTREE_H__
 #define __EXPRTREE_H__
 
+#include <math.h>
+#include "nodeSet.h"
 
-enum nodetype_t {
-	UNARY,
-	BINARY,
-	UNKOWN
-} nodetype;
-
+/**
+ * Node structure
+ */
 struct node_t {
-	nodetype = UNKOWN;
-	double (*unaryfunc) (double);
-	double (*binaryfunc)(double,double);
-	struct node *right;
-	struct node *left;
+    char *name;
+    struct node *right;
+    struct node *left;
 }
 
-}
+struct node_t* createNode(char* name);
+struct node_t* leafNode();
+struct node_t* funcNode();
+
+void buildTree(node_t **tree, int depth,double pruneProb);
+void deleteTree(node_t **tree);
+
+double evalNode(node_t *n);
+
 #endif
 /* $end exprTree.h */

@@ -15,15 +15,22 @@ fprintf(1,'\n\t\t\t Starting Evoluation\n\n');
 fprintf(1,'Itteration\tMean Fitness\n');
 while itter < maxItter && bestFitness > maxFitness
     % Evaluate the current population
+    tic
     [fit,maxFit(itter),minFit(itter),avgFit(itter)] = populationFitness(forest,data);
     bestFitness = minFit(itter);
-    
+    fprintf(1,'\t Computed fitness of generation %d in %f s\n',itter,toc);
+
     % Select best individuals
     forest = fitnessSelection(forest,fit,GPOptions);
     
     % Perform genetic operators
+    tic
     forest = crossOver(forest,GPOptions);     
-%     forest = mutate(forest,GPOptions);
+    fprintf(1,'\tCompleted CrossOver of generation %d in %f s\n',itter,toc);
+    
+    tic
+    forest = mutate(forest,GPOptions);
+    fprintf(1,'\tCompleted mutations of generation %d in %f s\n',itter,toc);
     
     if numel(forest) < GPOptions.minPopSize
         forest = rabits(forest,GPOptions);
@@ -106,10 +113,12 @@ end
 % Applying other variations to the methods
 initMethod = GPInit.initPopMethod;
 if ~strcmp(initMethod.name,'full')
-    pruneItter = 1;
+  
     numPruned = floor(initMethod.popFraction*GPInit.population);
+    pDepth = initMethod.pruneDepth;
+    tDepth = GPInit.treeDepth-1;
     parfor tree=1:numPruned
-        depth = randi([initMethod.pruneDepth,GPInit.treeDepth-1]);
+        depth = randi([pDepth, tDepth]);
         forest{tree} = forest{tree}.prune(depth);
     end
     
@@ -185,13 +194,14 @@ function [fit,maxFit,minFit,avgFit] = populationFitness(forest,dataSet)
 X = dataSet(:,1);
 Y = dataSet(:,2);
 fit = zeros(numel(forest),1);
-p = zeros(size(X));
 
 for tree = 1:numel(forest)
     % Evaluating
+    p = zeros(size(X));
     for i = 1:numel(X)
         p(i) = forest{tree}.eval(X(i));
     end
+    forest{tree}.WriteExprTree('CurrentTree.dot');
     % Calculating the SSE
     fit(tree) = sse(p-Y);
 end

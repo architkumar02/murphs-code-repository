@@ -4,7 +4,7 @@
 
 %% Terminal and Function Set
 % Default Function Set
-fSet = {'sin','cos','plus','minus','mldivide','times'};
+fSet = {'sin','cos','plus','minus','div','times'};
 fProbability = ones(numel(fSet),1)/numel(fSet);
 fSetMap = containers.Map(fSet,fProbability);
 
@@ -20,7 +20,7 @@ dataSet = [x,y];
 
 initMethod = struct('name','rampedHalfHalf','popFraction',0.5,'pruneDepth',2);
 GPInit = struct('functionSet',fSetMap,'terminalSet',tSetMap,...
-    'population',100,'treeDepth',6,...
+    'population',200,'treeDepth',6,...
     'initPopMethod',initMethod);
 GPOptions = struct('crossOverFraction',0.7,'crossOverDepth',2,...
     'mutationFraction',0.7,'mutationRate',0.1,...

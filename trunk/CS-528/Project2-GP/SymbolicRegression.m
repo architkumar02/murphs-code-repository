@@ -22,7 +22,7 @@ while itter < maxItter && bestFitness > maxFitness
     forest = fitnessSelection(forest,fit,GPOptions);
     
     % Perform genetic operators
-    forest = crossOver(forest,GPOptions);
+    forest = crossOver(forest,GPOptions);     
     forest = mutate(forest,GPOptions);
     
     if numel(forest) < GPOptions.minPopSize

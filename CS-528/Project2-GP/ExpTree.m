@@ -42,18 +42,12 @@ classdef ExpTree
             end
             
         end
+   
         
-        function value = eval(exprTree,x,varargin)
+        function value = eval(exprTree,x)
             % value = eval(exprTree,x)
-            % value = eval(exprTreee,x,zeroValue)
-            %    Evaluates an expression tree given the value of x.  If
-            %    zeroValue is provided, that value is used to replace any
-            %    zeros that appear in the expression.
-            if isempty(varargin)
-                zeroValue = pi;
-            else
-                zeroValue = varargin{1};
-            end
+            %    Evaluates an expression tree given the value of x. 
+
             t = exprTree.binaryTree;
             internalNodes = 2^(exprTree.maxDepth)-1;
             value = Inf;
@@ -73,17 +67,12 @@ classdef ExpTree
 %                         fprintf(1,'Evaluated node %d with %s =',node,s);
                         value = eval(s);
 %                         fprintf(1,'%5.3f\n',value);
-                        %                         if value == 0
-                        %                             value = zeroValue;
-                        %                         end
+
                     elseif ~isempty(rC)
                         s = sprintf('%s(%s)',pC{1},rC{1});
 %                         fprintf(1,'Evaluated node %d with %s =',node,s);
                         value = eval(s);
-%                         fprintf(1,'%5.3f\n',value);
-                        %                         if value == 0
-                        %                             value = zeroValue;
-                        %                         end
+
                     end
                     t{node}= {sprintf('%10.8e',value)};
                     

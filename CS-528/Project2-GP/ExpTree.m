@@ -35,7 +35,7 @@ classdef ExpTree
                 tSetMap = containers.Map(tSet,tProbability);
                 
                 % Calling Private constructor
-                obj = obj.RandomExpTree(4,fSetMap,tSetMap);
+                obj = obj.RandomExpTree(6,fSetMap,tSetMap);
             else
                 % Better hope that the user provided the correct arguments
                 obj = obj.RandomExpTree(varargin{1},varargin{2},varargin{3});
@@ -64,20 +64,20 @@ classdef ExpTree
                     rC = t{2*node+1};
                     if ~isempty(lC) && ~isempty(rC)
                         s = sprintf('%s(%s,%s)',pC{1},lC{1},rC{1});
-                        fprintf(1,'Evaluated node %d with %s =',node,s);
+%                          fprintf(1,'Evaluated node %d with %s =',node,s);
                         value = eval(s);
-                        fprintf(1,'%5.3f\n',value);
-                        if value == 0
-                            value = zeroValue;
-                        end
+%                          fprintf(1,'%5.3f\n',value);
+%                         if value == 0
+%                             value = zeroValue;
+%                         end
                     elseif ~isempty(rC)
                         s = sprintf('%s(%s)',pC{1},rC{1});
-                        fprintf(1,'Evaluated node %d with %s =',node,s);
+%                          fprintf(1,'Evaluated node %d with %s =',node,s);
                         value = eval(s);
-                        fprintf(1,'%5.3f\n',value);
-                        if value == 0
-                            value = zeroValue;
-                        end
+%                          fprintf(1,'%5.3f\n',value);
+%                         if value == 0
+%                             value = zeroValue;
+%                         end
                     end
                     t{node}= {sprintf('%10.8e',value)};
                     
@@ -123,18 +123,19 @@ classdef ExpTree
             %   from a given depth
             [numNodes,nodes] = getNumNodesAtDepth(t1,depth);
             if isempty(numNodes) || numNodes == 0
-                [t1,t2] = swap(t1,t2,depth-1);
+                return;
             end
             node = nodes{randi(numNodes)};
-            swapNodesT1 = t1.getChildren(node,t1.maxNodes,[]);
-            swapNodesT2 = t2.getChildren(node,t1.maxNodes,[]);
+            swapNodes = t1.getChildren(node,t1.maxNodes,[]);
+            
             for n = swapNodes
                 temp = t1.binaryTree{n};
                 t1.binaryTree{n} = t2.binaryTree{n};
                 t2.binaryTree{n} = temp;
-                
             end
+            
         end
+        
         
         function exprTree = prune(exprTree,depth)
             % exprTree = prune(exprTree,depth)
@@ -159,6 +160,7 @@ classdef ExpTree
             % exprTree = mutate(exprTree,nodeFraction)
             %    Inputs:
             %        muationRate - probability that a leaf will be mutated
+            
             firstLeaf = 2^exprTree.maxDepth;
             for node = firstLeaf:exprTree.maxNodes
                 if rand() < mutationRate
@@ -233,14 +235,9 @@ classdef ExpTree
             % Sequentially adding internal nodes
             numInternalNodes= 2^(obj.maxDepth) - 1;        % Up to the leaves
             obj.binaryTree{1} = obj.chooseFunction();
-            weights = cell2mat(obj.functionSet.values);
-            %             weights(1:2) = weights(1:2)/(obj.maxDepth);
             for node = 2:obj.maxNodes
                 if node <= numInternalNodes
                     depth = floor(log2(node))+1;
-                    %                     weights(1:2) = weights(1:2)/exp(-depth/(obj.maxDepth^(1)));
-                    %                     weights(3:8) = weights(3:8)*exp(-depth/(obj.maxDepth^(1)));
-                    %                     weights = weights/sum(weights);
                     f = obj.chooseFunction(depth);
                 else
                     f = obj.chooseTerminal();
@@ -264,16 +261,17 @@ classdef ExpTree
             end
         end
         
+        
         function func = chooseFunction(exprTree,depth)
             % func = chooseFunction(exprTree)
-            % func = chooseFunction(exprTree,weights)
+            % func = chooseFunction(exprTree,depth)
             %    returns a function according to it's probability
             v = exprTree.functionSet.values;
             f = exprTree.functionSet.keys;
             weights = cell2mat(v);
             if nargin ==1
                 func = f(find(rand<cumsum(weights),1,'first'));
-            else  
+            else
                 for key = 1:numel(f);
                     if depth <=3
                         if strcmp(f{key},'plus') || strcmp(f{key},'minus')
@@ -285,7 +283,7 @@ classdef ExpTree
                         end
                     else
                         if (strcmp(f{key},'plus') || strcmp(f{key},'minus') || ...
-                                strcmp(f{key},'mldivide') || strcmp(f{key},'times'))
+                                strcmp(f{key},'div') || strcmp(f{key},'times'))
                             weights(key) = 10;
                         end
                     end

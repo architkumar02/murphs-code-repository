@@ -2,6 +2,7 @@
 #ifndef __EXPRTREE_H__
 #define __EXPRTREE_H__
 
+#include <stdio.h>
 #include <math.h>
 
 /**
@@ -33,9 +34,9 @@ void buildTree(node **tree, int depth,double pruneProb);
 void deleteTree(node **tree);
 
 double evalNode(node *n);
-
-
 void printNode(node *n);
 
+void writeTree(node **tree,char *filename);
+void writeTreeHelper(node **tree, FILE *f);
 #endif
 /* $end exprTree.h */

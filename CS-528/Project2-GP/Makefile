@@ -11,14 +11,14 @@ CFLAGS += -Wall -g -I $(INCLUDE)
 LDFLAGS += -lm
 EXEC = exprTree
 SOURCES = $(wildcard *.c)
-OJBECTS = $(SOURCES:.c=.o)
+OBJECTS = $(SOURCES:.c=.o)
 
 # Main Target
 $(EXEC): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $(EXEC)
 
 # Object Files
-%.o:%.c
+%.o: %.c
 	$(CC) -c $(CFLAGS) $< -o $@
 
 clean:

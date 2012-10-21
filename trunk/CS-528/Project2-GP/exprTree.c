@@ -7,6 +7,18 @@
 #include "tree.h"
 #include "exprTree.h"
 
+/**
+ * Node Functions
+ */
+#define NUMFUNCTIONS 7
+char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","^","cos","sin"};
+
+/**
+ * Terminal Functions 
+ */
+#define NUMTERMINALS 4 
+char *TERMINALS[NUMTERMINALS] = {"0","-1","pi","x"};
+
 node *leafNode(){
     int choice = (rand() % NUMTERMINALS);
     return createNode(TERMINALS[choice]);
@@ -134,30 +146,21 @@ void printSet(){
         fprintf(stdout,"\t%s",FUNCTIONS[i]);
     fprintf(stdout,"\n");
 }
+/*
 int main(int argc, char *argv[]){
     srand( time(NULL));
     node *root = NULL;
     int treeDepth = 0;
     int i;
-    /* Processing Command Line Inputs */
-    for (i = 1;  i < argc; i++){
-        if (strcmp(argv[i],"--maxDepth")==0){
-            sscanf(argv[++i],"%d",&treeDepth);
-        }
-    }
     printSet();
 
-    /* Testing Expression Building */
-    /*
     fprintf(stdout,"Testing Read Expression\n");
     char expr[128] = "0 pi +";
     root = readExpr(expr);
     writePostfix(root,NULL);
     deleteTree(root);
-*/
     StressTest(15,100000);
 
-/*
     fprintf(stdout,"Building an expression tree with depth %d\n",treeDepth);
     root = buildTree(treeDepth,0.1);
 
@@ -170,6 +173,6 @@ int main(int argc, char *argv[]){
 
     fprintf(stdout,"Deleting a tree\n");
     deleteTree(root);
-    */
   return EXIT_SUCCESS;
 }
+    */

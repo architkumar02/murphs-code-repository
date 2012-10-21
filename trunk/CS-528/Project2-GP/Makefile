@@ -15,11 +15,11 @@ OBJECTS = $(SOURCES:.c=.o)
 
 # Main Target
 $(EXEC): $(OBJECTS)
-	$(CC) $(OBJECTS) -o $(EXEC)
+	$(CC) $(LDFLAGS) $(OBJECTS) -o $(EXEC)
 
 # Object Files
 %.o: %.c
-	$(CC) -c $(CFLAGS) $< -o $@
+	$(CC) -c  $(CFLAGS) $< -o $@
 
 clean:
 	rm -rf $(OBJECTS) $(EXEC)

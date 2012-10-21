@@ -13,11 +13,19 @@ typedef struct node_t node;
 struct stack{
     struct node_t* head;
 };
-
+/**
+ * Stack Functions 
+ */
 int isempty(struct stack *s);
 void push(struct stack *s, node *n);
 node* pop(struct stack *s);
 
+/**
+ * Tree Functions
+ */
 node* createNode(char* name);
+void deleteTree(node *tree);
+void writeTree(node *tree,char *filename);
+void writeTreeHelper(node *tree, FILE *f);
 
 #endif

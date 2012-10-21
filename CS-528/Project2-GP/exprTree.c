@@ -59,18 +59,15 @@ node* readExpr(char *postfix){
     node *newnode;
     char *p;
     int i;
-    fprintf(stdout,"Parsing expression %s\n",postfix);
     p = strtok(postfix," ");
     while (p != NULL){
-
         // Checking is it is a known terminal
         for (i = 0; i < NUMTERMINALS; i++){
             if (strcmp(p,TERMINALS[i]) == 0){
                 newnode = createNode(TERMINALS[i]);
-                printNode(newnode);
                 push(&s,newnode);
                 p = strtok(NULL," "); 
-                continue;
+                break;
             }
         }
         // Checking if it a known function
@@ -79,15 +76,11 @@ node* readExpr(char *postfix){
                 newnode = createNode(FUNCTIONS[i]);
                 newnode->right = pop(&s);
                 newnode->left = pop(&s);
-                printNode(newnode);
                 push(&s,newnode);
                 p = strtok(NULL," "); 
-                continue;
+                break;
             }
-            // Control should only reach here in error
-            fprintf(stderr,"Token %s is not reconized\n",p);
         }
-        fprintf(stdout,"Completed expression parsing of %s\n",postfix);
     }
     return pop(&s);
 }

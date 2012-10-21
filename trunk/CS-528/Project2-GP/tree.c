@@ -46,14 +46,12 @@ node *pop(struct stack *s){
  * @brief Deletes a tree
  */
 void deleteTree(node *tree){
-    if( tree == NULL)
-        return;
-    else{
+    if( tree){
         return(deleteTree(tree->left));
         return(deleteTree(tree->right));
+        free(tree->name);
         free(tree);
         tree = NULL;
-        return;
     }
 }
 
@@ -70,8 +68,8 @@ void printNode(node *n){
  * @return the created node, or NULL is malloc failed
  */
 node *createNode(char *name){
-    node *node = NULL;
-    if ( (node = malloc(sizeof(struct node_t)))){
+    node *node = malloc(sizeof(struct node_t));
+    if (node){
         node->name = name;
         node->left = NULL;
         node->right = NULL;

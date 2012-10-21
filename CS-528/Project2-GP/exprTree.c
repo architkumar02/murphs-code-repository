@@ -1,6 +1,5 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <ctype.h>
 #include <math.h>
 #include <string.h>
 #include <time.h>
@@ -19,19 +18,18 @@ node *funcNode(){
 }
 
 node *buildTree(int depth, double pruneProb){
-    node* tree = NULL;
     if (depth == 0){
-        tree = leafNode();
+        return leafNode();
     } 
     else if (  (rand() / (double) RAND_MAX) < pruneProb) {
-        return tree = leafNode();
+        return leafNode();
     }
     else{
-        tree = funcNode();
+        node *tree = funcNode();
         tree->left = buildTree(depth-1,pruneProb);
         tree->right= buildTree(depth-1,pruneProb);
+        return tree;
     }
-    return tree;
 }
 
 void writePostfix(node *tree, char *filename){
@@ -121,7 +119,7 @@ void StressTest(int maxDepth, int numItter){
     node *t;
     for (i=0; i < numItter; i++){
         depth = rand() % maxDepth;
-        t = buildTree(depth,0.2);
+        t = buildTree(depth,0.5);
         deleteTree(t);
     }
 }
@@ -147,18 +145,19 @@ int main(int argc, char *argv[]){
             sscanf(argv[++i],"%d",&treeDepth);
         }
     }
-
     printSet();
 
     /* Testing Expression Building */
+    /*
     fprintf(stdout,"Testing Read Expression\n");
     char expr[128] = "0 pi +";
     root = readExpr(expr);
     writePostfix(root,NULL);
     deleteTree(root);
+*/
+    StressTest(15,100000);
 
-    //StressTest(20,100);
-
+/*
     fprintf(stdout,"Building an expression tree with depth %d\n",treeDepth);
     root = buildTree(treeDepth,0.1);
 
@@ -171,5 +170,6 @@ int main(int argc, char *argv[]){
 
     fprintf(stdout,"Deleting a tree\n");
     deleteTree(root);
-    return EXIT_SUCCESS;
+    */
+  return EXIT_SUCCESS;
 }

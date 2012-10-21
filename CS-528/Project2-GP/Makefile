@@ -9,7 +9,7 @@ INCLUDE =include
 CC = gcc
 CFLAGS += -Wall -g -I $(INCLUDE)
 LDFLAGS += -lm
-EXEC = exprTree
+EXEC = genetic
 SOURCES = $(wildcard *.c)
 OBJECTS = $(SOURCES:.c=.o)
 

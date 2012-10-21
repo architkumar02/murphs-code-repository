@@ -6,20 +6,6 @@
 #include <math.h>
 #include "tree.h"
 
-/**
- * Node Functions
- */
-#define NUMFUNCTIONS 7
-// Setting up function and teriminals sets
-char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","^","cos","sin"};
-//extern char *FUNCTIONS[NUMFUNCTIONS];
-
-/**
- * Terminal Functions 
- */
-#define NUMTERMINALS 4 
-char *TERMINALS[NUMTERMINALS] = {"0","-1","pi","x"};
-//extern char *TERMINALS[NUMTERMINALS];
 
 node* leafNode();
 node* funcNode();

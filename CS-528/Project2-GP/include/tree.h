@@ -6,10 +6,11 @@
  */
 struct node_t{
     char *name;
-    int depth;
+    struct node_t *parent;
     struct node_t *right;
     struct node_t *left;
 };
+
 typedef struct node_t node;
 struct stack{
     struct node_t* head;
@@ -30,5 +31,5 @@ void deleteTree(node *tree);
 void writeTree(node *tree,char *filename);
 void writeTreeHelper(node *tree, FILE *f);
 
-int compareTree(node* t1, node *t2);
+int isequal(node* t1, node *t2);
 #endif

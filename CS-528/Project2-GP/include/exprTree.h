@@ -10,7 +10,7 @@ void printSet();
 node* leafNode();
 node* funcNode();
 
-node* buildTree(int depth,double pruneProb);
+node* buildTree(node* parent,int depth,double pruneProb);
 
 /**
  * Evaluation and Write
@@ -25,6 +25,7 @@ node* readPostfix(char *filename);
  */
 void swap(node *t1, node *t2, double swapProp);
 void mutate(node *tree,double mutateRate);
+node* chooseNode(node *tree, double p);
 
 #endif
 /* $end exprTree.h */

@@ -46,7 +46,7 @@ void createForest(node *forest[],int numTrees,int maxDepth, double pruneFraction
     }
     else {
         for(tree = 0; tree < numTrees; tree++){
-            canidate = buildTree(maxDepth,pruneFraction);
+            canidate = buildTree(NULL,maxDepth,pruneFraction);
                while (uniqueTree(forest,canidate,tree-1)!=0){
                deleteTree(canidate);
                canidate = buildTree(maxDepth,pruneFraction);
@@ -248,7 +248,7 @@ int main(int argc, char *argv[]){
     
         // Genetic Operations
         mutatePop(forest,populationSize,mutationRate);
-        crossOver(forest,populationSize,swapRate);
+    //    crossOver(forest,populationSize,swapRate);
     }
 
     // Clean up, clean up, everybody do your share

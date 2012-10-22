@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
-#include <time.h>
 
 #include "tree.h"
 #include "exprTree.h"
@@ -135,6 +134,7 @@ void StressTest(int maxDepth, int numItter){
         deleteTree(t);
     }
 }
+
 void printSet(){
     int i;
     fprintf(stdout,"TERMINAL Set:\n");
@@ -146,33 +146,3 @@ void printSet(){
         fprintf(stdout,"\t%s",FUNCTIONS[i]);
     fprintf(stdout,"\n");
 }
-/*
-int main(int argc, char *argv[]){
-    srand( time(NULL));
-    node *root = NULL;
-    int treeDepth = 0;
-    int i;
-    printSet();
-
-    fprintf(stdout,"Testing Read Expression\n");
-    char expr[128] = "0 pi +";
-    root = readExpr(expr);
-    writePostfix(root,NULL);
-    deleteTree(root);
-    StressTest(15,100000);
-
-    fprintf(stdout,"Building an expression tree with depth %d\n",treeDepth);
-    root = buildTree(treeDepth,0.1);
-
-    fprintf(stdout," Writing a tree\n");
-    writeTree(root,"tree.dot");
-    writePostfix(root,NULL);
-    double x = 0;
-    fprintf(stdout," Evaluating a tree\n\tTree(%5.2f)=%5.2f\n",x,evalTree(root,x));
-
-
-    fprintf(stdout,"Deleting a tree\n");
-    deleteTree(root);
-  return EXIT_SUCCESS;
-}
-    */

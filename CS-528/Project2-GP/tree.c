@@ -5,6 +5,7 @@
  */
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "tree.h"
 
 /**
@@ -47,12 +48,30 @@ node *pop(struct stack *s){
  */
 void deleteTree(node *tree){
     if( tree){
-        return(deleteTree(tree->left));
-        return(deleteTree(tree->right));
-        free(tree->name);
+        deleteTree(tree->left);
+        deleteTree(tree->right);
         free(tree);
         tree = NULL;
     }
+}
+
+/**
+ * @breif compareTree
+ * @param Tree one and tree two to compare
+ * @return 0 if they are not structurally identical
+ */
+int compareTree(node* t1, node *t2){
+    // Both Empty -> True
+    if ( t1 == NULL && t2 == NULL) {
+        return 1 ;
+    }
+    else if( t1!= NULL && t2 != NULL){
+        return ( strcmp(t1->name,t2->name) &&
+                compareTree(t1->left,t2->left) &&
+                compareTree(t1->right,t2->right));
+    }
+    // One tree is empty, other is not
+    else return 0;
 }
 
 /**

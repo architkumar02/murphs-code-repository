@@ -49,7 +49,7 @@ void createForest(node *forest[],int numTrees,int maxDepth, double pruneFraction
             canidate = buildTree(NULL,maxDepth,pruneFraction);
                while (uniqueTree(forest,canidate,tree-1)!=0){
                deleteTree(canidate);
-               canidate = buildTree(maxDepth,pruneFraction);
+               canidate = buildTree(NULL,maxDepth,pruneFraction);
                }
             forest[tree] = canidate;
        }

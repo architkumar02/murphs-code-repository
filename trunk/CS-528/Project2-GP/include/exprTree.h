@@ -25,7 +25,8 @@ node* readPostfix(char *filename);
  */
 void swap(node *t1, node *t2, double swapProp);
 void mutate(node *tree,double mutateRate);
-node* chooseNode(node *tree, double p);
+node* choosSubTree(node *tree, double p);
+node* chooseParent(node *tree, double p);
 
 #endif
 /* $end exprTree.h */

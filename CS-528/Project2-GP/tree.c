@@ -56,6 +56,46 @@ void deleteTree(node *tree){
 }
 
 /**
+ * @brief Determines if the nodes is the left child
+ * @param n - node in question
+ * @param p - parent node
+ * @return 1 if the child is the left node, 0 otherwise
+ */
+int isLeftChilde(node *n, node *p){
+    if (p->left == n) {return 1;}
+    else {return 0;}
+}
+
+/**
+ * @brief Determines if the nodes is the right child
+ * @param n - node in question
+ * @param p - parent node
+ * @return 1 if the child is the right node, 0 otherwise
+ */
+int isRightChilde(node *n, node *p){
+    if (p->right == n) {return 1;}
+    else {return 0;}
+}
+
+/**
+ * @brief Determines if the node is the head node
+ * @param n - the node in question
+ * @return 1 if the node is the head node, 0 otherwise
+ */
+int isHead(node *n){
+    if (n->parent == NULL){return 1;}
+    else {return 0;}
+}
+/**
+ * @brief Determines if the node is a parent
+ * @param n - node in question
+ * @return 1 if the node has two children, 0 otherwiese
+ */
+int isParent(node *p){
+    if (p->left && p->right){return 1;}
+    else {return 0;}
+}
+/**
  * @brief isequal
  * @param Tree one and tree two to compare
  * @return 0 if they are not structurally identical
@@ -114,7 +154,7 @@ void writeTree(node *tree, char *filename){
 }
 
 /**
- * @brief
+ * @brief writes the nodes of the tree to a file
  */
 void writeTreeHelper(node *tree, FILE* f){
     fprintf(f,"%ld [label=\"%s\"];\n",(long int)tree,tree->name);

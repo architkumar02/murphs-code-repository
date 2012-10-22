@@ -150,67 +150,66 @@ void mutate(node *tree, double mR){
 
 void swap(node *t1, node* t2, double swapP){
     node *temp = NULL;
-    node *choice1 = NULL;
-    node *choice2 = NULL;
-   
-    node *subTree1 = t1;
-    node *subTree2 = t2;
 
-    while (subTree1 && (subTree1->left || subTree1->right) &&
-        rand() / (double) RAND_MAX < swapP){
-        if (subTree1->left && subTree1->right){
-            if (rand() % 2)
-                subTree = subTree->left;
-            else
-                subTree = subTree->right;
-        }
-        else if (subTree->left){
-            subTree = subTree->left;
-        }
-        else if (subTree->right)
-            subTree = subTree->right;
+    // Choosing nodes
+    int choice = rand() % 4;
+    node *p1 = chooseParent(t1,swapP);
+    node *p2 = chooseParent(t2,swapP);
+
+    switch (choice){
+        case 0:     // Swap Right with Left (right w/ left)
+        case 1:     // Swap Left with Right
+            temp = p1->left;
+            p1->left = p2->right;
+            p2->right = temp;
+        case 2:     // Swap Left with Left
+            temp = p1->left;
+            p1->left = p2->left;
+            p2->left = temp;
+        default:    // Swap Right with Right
+            temp = p1->right;
+            p1->right = p2->right;
+            p2->right = temp;
     }
-    
-    chooseNode(t2,swapP);
+}
+node *chooseSubTree(node *tree, double p){
+    // Skipping the head node
+    if (rand() %2)
+        tree = tree->left;
+        else
+            tree = tree->right;
+    while(isParent(tree) && (rand()/(double) RAND_MAX < p)){
 
-    chooseNode(t1,swapP);
-    // Update parents
-    
-
-
-        if (t1->left != NULL && t1->right != NULL &&
-                t2->left != NULL && t2->right != NULL){
-            if (rand() / (double) RAND_MAX < swapP){
-                temp = t1->left;
-                t1->left = t2->right;
-                t2->right = temp;
-
-                temp = t2->right;
-                t1->right = t2->left;
-                t2->left = temp;
-            }
-        }
+        // Pick Left or Right Branch
+            if (rand() % 2)
+                    tree = tree->left;
+            else
+                tree = tree->right;
+    }
+    return tree;
 }
 
-node *chooseNode(node *tree, double p){
-    if(tree){
-        if (tree->left != NULL && tree->right != NULL){
-            // Pick Left or Right Branch
-            if (rand() % 2){
-                if ( rand() / (double) RAND_MAX < p)
-                    return tree;
-                else
-                    return chooseNode(tree->left,p);
-            }
-            else{
-                if ( rand() / (double) RAND_MAX < p)
-                    return tree;
-                else
-                    return chooseNode(tree->left,p);
-            }
-            // Return the leaf
+node *chooseParent(node *tree, double p){
+    // Skipping the head node
+    if (rand() %2)
+        tree = tree->left;
+        else
+            tree = tree->right;
+     //Going throught the subtrees
+    while(isParent(tree) && (rand()/(double) RAND_MAX < p)){
+        if (isParent(tree->left) && isParent(tree->right)){
+        // Pick Left or Right Branch
+            if (rand() % 2)
+                    tree = tree->left;
             else
-                return tree;
+                tree = tree->right;
+        }
+        else {
+                if (isParent(tree->left))
+                    tree = tree->left;
+                else
+                    tree = tree->right;
         }
     }
+    return tree;
 }

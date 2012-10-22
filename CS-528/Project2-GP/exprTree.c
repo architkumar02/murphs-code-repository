@@ -149,10 +149,35 @@ void mutate(node *tree, double mR){
 }
 
 void swap(node *t1, node* t2, double swapP){
+    node *temp = NULL;
+    node *choice1 = NULL;
+    node *choice2 = NULL;
+   
+    node *subTree1 = t1;
+    node *subTree2 = t2;
 
-    node *choice1 = chooseNode(t1);
-    node *choice2 = chooseNode(t2);
-    if (t1 && t2){
+    while (subTree1 && (subTree1->left || subTree1->right) &&
+        rand() / (double) RAND_MAX < swapP){
+        if (subTree1->left && subTree1->right){
+            if (rand() % 2)
+                subTree = subTree->left;
+            else
+                subTree = subTree->right;
+        }
+        else if (subTree->left){
+            subTree = subTree->left;
+        }
+        else if (subTree->right)
+            subTree = subTree->right;
+    }
+    
+    chooseNode(t2,swapP);
+
+    chooseNode(t1,swapP);
+    // Update parents
+    
+
+
         if (t1->left != NULL && t1->right != NULL &&
                 t2->left != NULL && t2->right != NULL){
             if (rand() / (double) RAND_MAX < swapP){
@@ -165,7 +190,6 @@ void swap(node *t1, node* t2, double swapP){
                 t2->left = temp;
             }
         }
-    }
 }
 
 node *chooseNode(node *tree, double p){
@@ -176,13 +200,13 @@ node *chooseNode(node *tree, double p){
                 if ( rand() / (double) RAND_MAX < p)
                     return tree;
                 else
-                    return chooseNode(tree->left,p)
+                    return chooseNode(tree->left,p);
             }
             else{
                 if ( rand() / (double) RAND_MAX < p)
                     return tree;
                 else
-                    return chooseNode(tree->left,p)
+                    return chooseNode(tree->left,p);
             }
             // Return the leaf
             else

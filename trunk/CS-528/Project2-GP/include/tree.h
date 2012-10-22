@@ -27,5 +27,6 @@ node* createNode(char* name);
 void deleteTree(node *tree);
 void writeTree(node *tree,char *filename);
 void writeTreeHelper(node *tree, FILE *f);
+int compareTree(node* t1, node *t2);
 
 #endif

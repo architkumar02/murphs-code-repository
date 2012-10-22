@@ -78,8 +78,7 @@ int compareTree(node* t1, node *t2){
  * @brief prints a node
  */
 void printNode(node *n){
-    fprintf(stdout,"Node %p:\n\tname: %s\n\tright: %p\n\tLeft:%p\n",n,
-            n->name,n->left,n->right);
+    fprintf(stdout,"Node %p:\n\tname: %s\n\tdepth: %d\n\tright: %p\n\tLeft:%p\n",n,n->name,n->depth,n->left,n->right);
 }
 
 /**
@@ -117,13 +116,13 @@ void writeTree(node *tree, char *filename){
  * @brief
  */
 void writeTreeHelper(node *tree, FILE* f){
-    fprintf(f,"%d [label=\"%s\"];\n",(long int)tree,tree->name);
+    fprintf(f,"%ld [label=\"%s\"];\n",(long int)tree,tree->name);
     if( tree->left){
-        fprintf(f,"%d -> %d;\n",(long int)tree->left,(long int)tree);
+        fprintf(f,"%ld -> %ld;\n",(long int)tree->left,(long int)tree);
         writeTreeHelper(tree->left,f);
     }
     if (tree->right){
-        fprintf(f,"%d -> %d;\n",(long int)tree->right,(long int)tree);
+        fprintf(f,"%ld -> %ld;\n",(long int)tree->right,(long int)tree);
         writeTreeHelper(tree->right,f);
     }
 }

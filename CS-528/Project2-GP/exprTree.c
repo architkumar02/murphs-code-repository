@@ -28,15 +28,28 @@ node *funcNode(){
     return createNode(FUNCTIONS[choice]);
 }
 
+void printSet(){
+    int i;
+    fprintf(stdout,"TERMINAL Set:\n");
+    for (i = 0; i < NUMTERMINALS; i++)
+        fprintf(stdout,"\t%s",TERMINALS[i]);
+
+    fprintf(stdout,"\n\nFUCNTION Set:\n");
+    for (i = 0; i < NUMFUNCTIONS; i++)
+        fprintf(stdout,"\t%s",FUNCTIONS[i]);
+    fprintf(stdout,"\n\n");
+}
+
 node *buildTree(int depth, double pruneProb){
-    if (depth == 0){
-        return leafNode();
-    } 
-    else if (  (rand() / (double) RAND_MAX) < pruneProb) {
-        return leafNode();
+    node *tree = NULL;
+    if (depth == 0 ||(rand() / (double) RAND_MAX) < pruneProb) {
+        tree = leafNode();
+        tree->depth = depth;
+        return tree;
     }
     else{
         node *tree = funcNode();
+        tree->depth = depth;
         tree->left = buildTree(depth-1,pruneProb);
         tree->right= buildTree(depth-1,pruneProb);
         return tree;
@@ -124,25 +137,35 @@ double evalTree(node *tree, double x){
     }
 }
 
-void StressTest(int maxDepth, int numItter){
-    int i=0;
-    int depth = 0;
-    node *t;
-    for (i=0; i < numItter; i++){
-        depth = rand() % maxDepth;
-        t = buildTree(depth,0.5);
-        deleteTree(t);
+void mutate(node *tree, double mR){
+    if (tree){
+        // Leafs have no children, so mutate
+        if (tree->left == NULL && tree->right == NULL && rand() < mR){
+            tree->name = TERMINALS[ (rand() % NUMTERMINALS)];
+        }
+        mutate(tree->left,mR);
+        mutate(tree->right,mR);
     }
 }
 
-void printSet(){
-    int i;
-    fprintf(stdout,"TERMINAL Set:\n");
-    for (i = 0; i < NUMTERMINALS; i++)
-        fprintf(stdout,"\t%s",TERMINALS[i]);
+void swap(node *t1, node* t2, double swapP){
+    node *temp;
 
-    fprintf(stdout,"\n\nFUCNTION Set:\n");
-    for (i = 0; i < NUMFUNCTIONS; i++)
-        fprintf(stdout,"\t%s",FUNCTIONS[i]);
-    fprintf(stdout,"\n");
+    // Swap left and right subtrees
+    if (t1->left != NULL && t1->right != NULL &&
+            t2->left != NULL && t2->right != NULL){
+        if (rand() / (double) RAND_MAX < swapP){
+            temp = t1->left;
+            t1->left = t2->right;
+            t2->right = temp;
+
+            temp = t2->right;
+            t1->right = t2->left;
+            t2->left = temp;
+        }
+        swap(t1->right, t2->right,swapP);
+        swap(t1->right, t2->left,swapP);
+        swap(t1->left, t2->right,swapP);
+        swap(t1->left, t2->left,swapP);
+    }
 }

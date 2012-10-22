@@ -6,21 +6,25 @@
 #include <math.h>
 #include "tree.h"
 
-
+void printSet(); 
 node* leafNode();
 node* funcNode();
 
 node* buildTree(int depth,double pruneProb);
 
-double evalNode(node *n);
-void printNode(node *n);
-void StressTest(int maxDepth, int numItter);
-
-
+/**
+ * Evaluation and Write
+ */
+double evalTree(node *n, double x);
 void writePostfix(node *tree, char *filename);
 void writePostfixHelper(node *tree, FILE *f);
 node* readPostfix(char *filename);
 
-void printSet(); 
+/**
+ * Genetic Methods
+ */
+void swap(node *t1, node *t2, double swapProp);
+void mutate(node *tree,double mutateRate);
+
 #endif
 /* $end exprTree.h */

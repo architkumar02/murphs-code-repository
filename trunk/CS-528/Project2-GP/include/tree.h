@@ -6,6 +6,7 @@
  */
 struct node_t{
     char *name;
+    int depth;
     struct node_t *right;
     struct node_t *left;
 };
@@ -24,9 +25,10 @@ node* pop(struct stack *s);
  * Tree Functions
  */
 node* createNode(char* name);
+void printNode(node *n);
 void deleteTree(node *tree);
 void writeTree(node *tree,char *filename);
 void writeTreeHelper(node *tree, FILE *f);
-int compareTree(node* t1, node *t2);
 
+int compareTree(node* t1, node *t2);
 #endif

@@ -56,19 +56,19 @@ void deleteTree(node *tree){
 }
 
 /**
- * @breif compareTree
+ * @brief isequal
  * @param Tree one and tree two to compare
  * @return 0 if they are not structurally identical
  */
-int compareTree(node* t1, node *t2){
+int isequal(node* t1, node *t2){
     // Both Empty -> True
     if ( t1 == NULL && t2 == NULL) {
         return 1 ;
     }
     else if( t1!= NULL && t2 != NULL){
-        return ( strcmp(t1->name,t2->name) &&
-                compareTree(t1->left,t2->left) &&
-                compareTree(t1->right,t2->right));
+        return ( strcmp(t1->name,t2->name)==0 &&
+                isequal(t1->left,t2->left) &&
+                isequal(t1->right,t2->right));
     }
     // One tree is empty, other is not
     else return 0;
@@ -78,7 +78,7 @@ int compareTree(node* t1, node *t2){
  * @brief prints a node
  */
 void printNode(node *n){
-    fprintf(stdout,"Node %p:\n\tname: %s\n\tdepth: %d\n\tright: %p\n\tLeft:%p\n",n,n->name,n->depth,n->left,n->right);
+    fprintf(stdout,"Node %p:\n\tname: %s\n\tdepth: %d\n\tparent: %p\n\tright: %p\n\tLeft:%p\n",n,n->name,n->depth,n->parent,n->left,n->right);
 }
 
 /**
@@ -89,6 +89,7 @@ node *createNode(char *name){
     node *node = malloc(sizeof(struct node_t));
     if (node){
         node->name = name;
+        node->parent = NULL;
         node->left = NULL;
         node->right = NULL;
     }

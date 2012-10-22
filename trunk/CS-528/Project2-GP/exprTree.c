@@ -40,18 +40,18 @@ void printSet(){
     fprintf(stdout,"\n\n");
 }
 
-node *buildTree(int depth, double pruneProb){
+node *buildTree(node* parent,int depth, double pruneProb){
     node *tree = NULL;
     if (depth == 0 ||(rand() / (double) RAND_MAX) < pruneProb) {
         tree = leafNode();
-        tree->depth = depth;
+        tree->parent = parent;
         return tree;
     }
     else{
         node *tree = funcNode();
-        tree->depth = depth;
-        tree->left = buildTree(depth-1,pruneProb);
-        tree->right= buildTree(depth-1,pruneProb);
+        tree->parent = parent;
+        tree->left = buildTree(tree,depth-1,pruneProb);
+        tree->right= buildTree(tree,depth-1,pruneProb);
         return tree;
     }
 }
@@ -110,25 +110,25 @@ node* readExpr(char *postfix){
 double evalTree(node *tree, double x){
     double l;
     double r;
-    if (strcmp(tree->name, "x"))      {return x; }
-    else if (strcmp(tree->name,"0"))   {return 0;}
-    else if (strcmp(tree->name,"-1"))  {return -1;}
-    else if (strcmp(tree->name,"pi"))  {return acos(-1);}
+    if (strcmp(tree->name, "x")==0)      {return x; }
+    else if (strcmp(tree->name,"0")==0)   {return 0;}
+    else if (strcmp(tree->name,"-1")==0)  {return -1;}
+    else if (strcmp(tree->name,"pi")==0)  {return acos(-1);}
     else {
         l = evalTree(tree->left,x);
         r = evalTree(tree->right,x);
-        if (strcmp(tree->name,"+")){ return l+r; }
-        else if (strcmp(tree->name,"-")){ return l-r; }
-        else if (strcmp(tree->name, "*")){ return l*r; }
-        else if (strcmp(tree->name, "/")){
+        if (strcmp(tree->name,"+")==0){ return l+r; }
+        else if (strcmp(tree->name,"-")==0){ return l-r; }
+        else if (strcmp(tree->name, "*")==0){ return l*r; }
+        else if (strcmp(tree->name, "/")==0){
             if (r < 1E-6)
                 return 0;
             else
                 return l/r;
         }
-        else if (strcmp(tree->name ,"^")){ return pow(l,r); }
-        else if (strcmp(tree->name,"cos")){return l*cos(r);}
-        else if (strcmp(tree->name, "sin")){ return l*sin(r); }
+        else if (strcmp(tree->name ,"^")==0){ return pow(l,r); }
+        else if (strcmp(tree->name,"cos")==0){return l*cos(r);}
+        else if (strcmp(tree->name, "sin")==0){ return l*sin(r); }
         else {
             fprintf(stderr,"No operator for %s\n",tree->name);
             printNode(tree);
@@ -149,23 +149,44 @@ void mutate(node *tree, double mR){
 }
 
 void swap(node *t1, node* t2, double swapP){
-    node *temp;
 
-    // Swap left and right subtrees
-    if (t1->left != NULL && t1->right != NULL &&
-            t2->left != NULL && t2->right != NULL){
-        if (rand() / (double) RAND_MAX < swapP){
-            temp = t1->left;
-            t1->left = t2->right;
-            t2->right = temp;
+    node *choice1 = chooseNode(t1);
+    node *choice2 = chooseNode(t2);
+    if (t1 && t2){
+        if (t1->left != NULL && t1->right != NULL &&
+                t2->left != NULL && t2->right != NULL){
+            if (rand() / (double) RAND_MAX < swapP){
+                temp = t1->left;
+                t1->left = t2->right;
+                t2->right = temp;
 
-            temp = t2->right;
-            t1->right = t2->left;
-            t2->left = temp;
+                temp = t2->right;
+                t1->right = t2->left;
+                t2->left = temp;
+            }
         }
-        swap(t1->right, t2->right,swapP);
-        swap(t1->right, t2->left,swapP);
-        swap(t1->left, t2->right,swapP);
-        swap(t1->left, t2->left,swapP);
+    }
+}
+
+node *chooseNode(node *tree, double p){
+    if(tree){
+        if (tree->left != NULL && tree->right != NULL){
+            // Pick Left or Right Branch
+            if (rand() % 2){
+                if ( rand() / (double) RAND_MAX < p)
+                    return tree;
+                else
+                    return chooseNode(tree->left,p)
+            }
+            else{
+                if ( rand() / (double) RAND_MAX < p)
+                    return tree;
+                else
+                    return chooseNode(tree->left,p)
+            }
+            // Return the leaf
+            else
+                return tree;
+        }
     }
 }

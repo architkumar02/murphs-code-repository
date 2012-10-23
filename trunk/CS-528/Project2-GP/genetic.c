@@ -185,27 +185,60 @@ void crossOver(node *forest[], int numTrees, double sR){
     }
 }
 
+typedef struct {
+    double sse;
+    int index;
+} ssePoint;
+
+int compareSSEPoint(ssePoint *a, ssePoint *b){
+    return (a->sse - b->sse);
+}
+
 void breedGeneration(node *forest[], int numTrees, double sseError[], struct genParam *param){
+    
+    ssePoint rankSSE[MAXPOP];
     int tournamentNumber = floor(numTrees* param->tournamentFraction);
     int rankNumber = floor(numTrees* param->rankFraction);
     
+
     node* temp;
     int tree = 0;
     int t1;
     int t2;
+    int i;
+    
+    
     for (tree = 0; tree < tournamentNumber; tree++){
         t1 = rand() % (numTrees- tree) + tree;
         t2 = rand() % (numTrees - tree) + tree;
         if (sseError[t1] > sseError[t2]){
             // Keep t2
             temp = forest[tree];
-            forest[tree] = 
+            forest[tree] = forest[t2];
+            forest[t1] = temp;
         }else{
             // Keep t1
-
+            temp = forest[tree];
+            forest[tree] = forest[t1];
+            forest[t2] = temp;
         }
     }
     
+    for (i = 0; i < numTrees; i++){
+        rankSSE[i].sse = sseError[i];
+        rankSSE[i].index = i;
+    }
+    qsort(rankSSE,numTrees,sizeof(ssePoint),compareSSEPoint);
+    for (i = 0; i < rankNumber; i ++){
+        if (i + tree > numTrees) break;
+        
+        t1 = 
+        temp = forest[tree+i];
+        
+
+    }
+        
+    // Mutation and cross over on the new generation
         mutatePop(forest,populationSize,param->mutationRate);
         crossOver(forest,populationSize,param->swapRate);
 

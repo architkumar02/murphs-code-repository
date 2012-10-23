@@ -20,6 +20,7 @@ struct stack{
  */
 int isempty(struct stack *s);
 void push(struct stack *s, node *n);
+void printStack(struct stack *s);
 node* pop(struct stack *s);
 
 /**

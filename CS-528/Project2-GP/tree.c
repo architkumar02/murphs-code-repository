@@ -23,9 +23,9 @@ int isempty(struct stack *s){
  */
 void push(struct stack *s, node *n){
     if (s->head == NULL){
-        n->left = NULL;
+        n->parent = NULL;
     }
-    n->left = s->head;
+    n->parent = s->head;
     s->head = n;
 }
 
@@ -39,10 +39,19 @@ node *pop(struct stack *s){
         fprintf(stderr,"Stack is empty\n");
     }
     n = s->head;
-    s->head = n->left;
+    s->head = n->parent;
     return n;
 }
 
+void printStack(struct stack *s){
+    node *n = NULL;
+    n = s->head;
+    while (n){
+        fprintf(stdout,"[%p (%s)] ->",n,n->name);
+        n = n->parent;
+    }
+    fprintf(stdout,"\n");
+}
 /**
  * @brief Deletes a tree
  */
@@ -92,7 +101,8 @@ int isHead(node *n){
  * @return 1 if the node has two children, 0 otherwiese
  */
 int isParent(node *p){
-    if (p->left && p->right){return 1;}
+    if (p == NULL) {return 0;}
+    else if (p->left && p->right){return 1;}
     else {return 0;}
 }
 /**
@@ -118,7 +128,7 @@ int isequal(node* t1, node *t2){
  * @brief prints a node
  */
 void printNode(node *n){
-    fprintf(stdout,"Node %p:\n\tname: %s\n\tdepth: %d\n\tparent: %p\n\tright: %p\n\tLeft:%p\n",n,n->name,n->depth,n->parent,n->left,n->right);
+    fprintf(stdout,"Node %p:\n\tname: %s\n\tparent: %p\n\tright: %p\n\tLeft:%p\n",n,n->name,n->parent,n->left,n->right);
 }
 
 /**

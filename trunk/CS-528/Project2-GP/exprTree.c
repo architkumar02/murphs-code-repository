@@ -63,6 +63,7 @@ void writePostfix(node *tree, char *filename){
     }
     else if ((f = fopen(filename,"w"))){
         writePostfixHelper(tree,f);
+        fprintf(f,"\0\n");
         fclose(f);
     }
     else
@@ -76,35 +77,33 @@ void writePostfixHelper(node *tree, FILE *f){
         fprintf(f," %s ",tree->name);
     }
 }
-node* readExpr(char *postfix){
+node* readPostfix(char *postfix){
     struct stack s;
     node *newnode;
     char *p;
     int i;
-    p = strtok(postfix," ");
+    p = strtok(postfix,"   \t");
     while (p != NULL){
+
         // Checking is it is a known terminal
         for (i = 0; i < NUMTERMINALS; i++){
             if (strcmp(p,TERMINALS[i]) == 0){
                 newnode = createNode(TERMINALS[i]);
                 push(&s,newnode);
-                p = strtok(NULL," "); 
-                break;
             }
         }
         // Checking if it a known function
         for (i = 0; i < NUMFUNCTIONS; i++){
             if (strcmp(p,FUNCTIONS[i]) == 0){
                 newnode = createNode(FUNCTIONS[i]);
-                newnode->right = pop(&s);
                 newnode->left = pop(&s);
+                newnode->right = pop(&s);
                 push(&s,newnode);
-                p = strtok(NULL," "); 
-                break;
             }
         }
+                p = strtok(NULL,"   \t"); 
     }
-    return pop(&s);
+    return  pop(&s);
 }
 
 double evalTree(node *tree, double x){
@@ -148,13 +147,17 @@ void mutate(node *tree, double mR){
     }
 }
 
-void swap(node *t1, node* t2, double swapP){
-    node *temp = NULL;
+void swap(const node *t1, const node* t2, double swapP){
+    
 
     // Choosing nodes
+    node *temp = NULL;
     int choice = rand() % 4;
     node *p1 = chooseParent(t1,swapP);
     node *p2 = chooseParent(t2,swapP);
+    
+    // Do not operate on the head node
+    if (isHead(p1) || isHead(p2)) {return;}
 
     switch (choice){
         case 0:     // Swap Right with Left (right w/ left)
@@ -162,7 +165,7 @@ void swap(node *t1, node* t2, double swapP){
             temp = p1->left;
             p1->left = p2->right;
             p2->right = temp;
-        case 2:     // Swap Left with Left
+       case 2:     // Swap Left with Left
             temp = p1->left;
             p1->left = p2->left;
             p2->left = temp;
@@ -189,27 +192,18 @@ node *chooseSubTree(node *tree, double p){
     return tree;
 }
 
-node *chooseParent(node *tree, double p){
-    // Skipping the head node
-    if (rand() %2)
-        tree = tree->left;
-        else
-            tree = tree->right;
-     //Going throught the subtrees
-    while(isParent(tree) && (rand()/(double) RAND_MAX < p)){
-        if (isParent(tree->left) && isParent(tree->right)){
+node *chooseParent(const node *tree, double p){
+    node *ptr = tree;    
+    while(isParent(ptr)){
+        if( rand()/(double) RAND_MAX < p)
+            return ptr;
+        if (isParent(ptr->left) && isParent(ptr->right)){
         // Pick Left or Right Branch
             if (rand() % 2)
-                    tree = tree->left;
+                    tree = ptr->left;
             else
-                tree = tree->right;
-        }
-        else {
-                if (isParent(tree->left))
-                    tree = tree->left;
-                else
-                    tree = tree->right;
+                tree = ptr->right;
         }
     }
-    return tree;
+    return ptr;
 }

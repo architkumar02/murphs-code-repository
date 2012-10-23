@@ -9,9 +9,9 @@ INCLUDE =include
 CC = gcc
 CFLAGS += -Wall -g -I $(INCLUDE)
 LDFLAGS += -lm
-EXEC = genetic
-SOURCES = $(wildcard *.c)
-OBJECTS = $(SOURCES:.c=.o)
+EXEC = geneticDriver
+SOURCES = $(wildcard src/*.c)
+OBJECTS = $(addprefix obj/ , $(notdir $(SOURCES:.c=.o))
 
 # Main Target
 $(EXEC): $(OBJECTS)

@@ -27,6 +27,7 @@ node* pop(struct stack *s);
  * Tree Functions
  */
 node* createNode(char* name);
+node* copy(node* root);
 void printNode(node *n);
 void deleteTree(node *tree);
 void writeTree(node *tree,char *filename);

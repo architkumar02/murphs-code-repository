@@ -70,7 +70,7 @@ void deleteTree(node *tree){
  * @param p - parent node
  * @return 1 if the child is the left node, 0 otherwise
  */
-int isLeftChilde(node *n, node *p){
+int isLeftChild(node *n, node *p){
     if (p->left == n) {return 1;}
     else {return 0;}
 }
@@ -81,7 +81,7 @@ int isLeftChilde(node *n, node *p){
  * @param p - parent node
  * @return 1 if the child is the right node, 0 otherwise
  */
-int isRightChilde(node *n, node *p){
+int isRightChild(node *n, node *p){
     if (p->right == n) {return 1;}
     else {return 0;}
 }
@@ -124,6 +124,22 @@ int isequal(node* t1, node *t2){
     else return 0;
 }
 
+/**
+ * @brief copy 
+ * @param tree to copy
+ * @return new tree
+ */
+node *copy(node *tree){
+    node *newroot;
+    if (tree != NULL){
+        newroot = createNode(tree->name);
+        newroot->left = copy(tree->left);
+        newroot->right = copy(tree->right);
+    }else if (tree == NULL) return NULL;
+    return newroot;
+
+
+}
 /**
  * @brief prints a node
  */

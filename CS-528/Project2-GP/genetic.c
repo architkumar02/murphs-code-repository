@@ -11,14 +11,14 @@
 #include "tree.h"
 
 #define NUMPOINTS 101
-#define MAXPOP 1000i
+#define MAXPOP 1000
 
-typedef struct {
+struct breedingParam{
     double mutationRate;
     double swapRate;
     double touramentFraction;
     double rankFraction;
-} breedingPram;
+} ;
 
 /**
  * @brief counts the number of times the tree occurs
@@ -89,6 +89,35 @@ void rampedHalfHalf(node *forest[], int numTrees, int maxDepth, double pruneFrac
         forest[tree] = canidate;
     }
 }
+void bestTreeSummary(FILE* out,char *filename,double val[][2]){
+
+    FILE *bestTreeIn = fopen(filename,"r");
+    char postfixExpr[512];
+    node *bestTree = NULL;
+    if( bestTreeIn){
+        fgets(postfixExpr,512,bestTreeIn);
+        bestTree = readPostfix(postfixExpr);
+        fclose(bestTreeIn);
+    }
+    if (!bestTree){
+        fprintf(stdout,"Could not open or convert %s to a tree\n",filename);
+        return;
+    }
+    fprintf(out,"\nBestTree:\n");
+    writePostfixHelper(bestTree,out);
+    fprintf(out,"\n");
+    fprintf(out," (x,y)  Tree(x)  |y-Tree(x)|\n");
+    double e = 0;
+    double tVal;
+    int i;
+    for (i = 0; i < NUMPOINTS; i++){
+        tVal = evalTree(bestTree,val[i][0]);
+        e += pow(abs(val[i][1]-tVal),2);
+        fprintf(out,"% 5.3f \t % 5.3f % 5.3f % 5.3f\n",val[i][0],val[i][1],tVal,fabs(val[i][1]-tVal));
+    }
+    fprintf(out,"SSE: % 5.3e\n",e);
+    deleteTree(bestTree);
+}
 /**
  * @brief deletes a forest of trees
  * @param forest    - the forest of trees
@@ -124,23 +153,29 @@ double diversity(node *forest[], int numTrees){
     int t1;
     int t2;
     int numSame = 0;
-    unsigned short equal[MAXPOP];
+    int eq[MAXPOP];
     for (t1 = 0; t1 < MAXPOP; t1 ++)
-        equal[t1] = 0;
+        eq[t1] = 0;
     for( t1 = 0; t1 < numTrees-1; t1++){
         for (t2 = t1+1; t2 < numTrees; t2++)
             if (isequal(forest[t2],forest[t1])){
-                equal[t1] = 1; 
-                equal[t2] = 1;
+                eq[t1] = 1; 
+                eq[t2] = 1;
             }
     }
     for (t1 = 0; t1 < numTrees; t1++){
-        if (equal[t1] == 0)
+        if (eq[t1] == 0)
             numSame ++;
     }
 
     return ((double) numSame / (double) numTrees);
 }
+/**
+ * @brief Computes the sse
+ * @param tree
+ * @param 2D array of values
+ * @return the Sum Squared Error
+ */
 double sse(node *t, double val[][2]){
     double e = 0;
     double tVal;
@@ -151,27 +186,45 @@ double sse(node *t, double val[][2]){
     }
     return e;
 }
+/**
+ * @brif Computes the SSE of the forest
+ * @param forest of trees
+ * @param number of trees in forest
+ * @param data set
+ * @param data sutructre for the generational SSSE, where:
+ *          e[0] = worst
+ *          e[1] = mean
+ *          e[2] = best
+ * @param array to hold the sse per index
+ * @return the mean SSE
+ */
 double SSE(node *forest[], int numTrees,double val[][2],double *e,double sseError[]){
     int tree;
-    e[0] = 0;     // Worst (max)
+   e[0] = 0;     // Worst (max)
     e[1] = 0;     // Mean 
     e[2] = DBL_MAX;     // Best (min)
 
     for( tree = 0; tree < numTrees; tree++){
 
-        sseError[i] = sse(forest[tree],val);
-        e[1] += sseError[i];
-        if ( sseError[i] < e[2]){
-            e[2] = sseError[i];
+        sseError[tree] = sse(forest[tree],val);
+        if (sseError[tree] <= 0.0){
+            writeTree(forest[tree],"zeroTree.dot");
+            writePostfix(forest[tree],"zeroTree.postfix");
+            bestTreeSummary(stdout,"zeroTree.postfix", val);
+            exit(EXIT_FAILURE);
+        }
+        e[1] += sseError[tree];
+        if ( sseError[tree] < e[2]){
+            e[2] = sseError[tree];
             writeTree(forest[tree],"bestTree.dot");
             writePostfix(forest[tree],"bestTree.postfix");
         }
-        else if ( sseError[i] > e[0])
-            e[0] = sseError[i];
+        else if ( sseError[tree] > e[0])
+            e[0] = sseError[tree];
 
     }
     e[1] = e[1] / (double) numTrees;
-    return e[1];
+    return e[2];
 }
 void mutatePop(node *forest[], int numTrees,double mR){
     int tree = 0;
@@ -185,92 +238,65 @@ void crossOver(node *forest[], int numTrees, double sR){
     }
 }
 
-typedef struct {
+struct ssePoint {
     double sse;
     int index;
-} ssePoint;
+};
 
-int compareSSEPoint(ssePoint *a, ssePoint *b){
+
+int compareSSEPoint(struct ssePoint *a, struct ssePoint *b){
     return (a->sse - b->sse);
 }
 
-void breedGeneration(node *forest[], int numTrees, double sseError[], struct genParam *param){
-    
-    ssePoint rankSSE[MAXPOP];
-    int tournamentNumber = floor(numTrees* param->tournamentFraction);
+void breedGeneration(node *forest[], int numTrees, double sseError[], struct breedingParam *param){
+
+    struct ssePoint rankSSE[MAXPOP];
+    node *newforest[MAXPOP];
+
+    int tournamentNumber = floor(numTrees* param->touramentFraction);
     int rankNumber = floor(numTrees* param->rankFraction);
-    
 
     node* temp;
     int tree = 0;
     int t1;
     int t2;
     int i;
-    
-    
+
+    // Tournamnet Selection
     for (tree = 0; tree < tournamentNumber; tree++){
         t1 = rand() % (numTrees- tree) + tree;
         t2 = rand() % (numTrees - tree) + tree;
-        if (sseError[t1] > sseError[t2]){
+        if (sseError[t1] >= sseError[t2])
             // Keep t2
-            temp = forest[tree];
-            forest[tree] = forest[t2];
-            forest[t1] = temp;
-        }else{
+            newforest[tree] = copy(forest[t2]);
+        else
             // Keep t1
-            temp = forest[tree];
-            forest[tree] = forest[t1];
-            forest[t2] = temp;
-        }
+            newforest[tree] = copy(forest[t1]);
     }
-    
+
+    // Rank Selection
     for (i = 0; i < numTrees; i++){
         rankSSE[i].sse = sseError[i];
         rankSSE[i].index = i;
     }
-    qsort(rankSSE,numTrees,sizeof(ssePoint),compareSSEPoint);
+    qsort(rankSSE,numTrees,sizeof(struct ssePoint),compareSSEPoint);
     for (i = 0; i < rankNumber; i ++){
         if (i + tree > numTrees) break;
-        
-        t1 = 
-        temp = forest[tree+i];
-        
-
+        newforest[tree+i] = copy(forest[rankSSE[i].index]);    
     }
-        
+    
+    // Copying over the trees
+    for (tree = 0; tree < numTrees; tree ++){
+        temp = forest[tree];
+        forest[tree] = newforest[tree];
+        newforest[tree] = temp;
+    }
+    deleteForest(newforest,numTrees);
+    
     // Mutation and cross over on the new generation
-        mutatePop(forest,populationSize,param->mutationRate);
-        crossOver(forest,populationSize,param->swapRate);
+    mutatePop(forest,numTrees,param->mutationRate);
+    crossOver(forest,numTrees,param->swapRate);
 
-}
-void bestTreeSummary(FILE* out,char *filename,double val[][2]){
-
-    FILE *bestTreeIn = fopen(filename,"r");
-    char postfixExpr[512];
-    node *bestTree = NULL;
-    if( bestTreeIn){
-        fgets(postfixExpr,512,bestTreeIn);
-        bestTree = readPostfix(postfixExpr);
-        fclose(bestTreeIn);
-    }
-    if (!bestTree){
-        fprintf(stdout,"Could not open or convert %s to a tree\n",filename);
-        return;
-    }
-    fprintf(out,"\nBestTree:\n");
-    writePostfixHelper(bestTree,out);
-    fprintf(out,"\n");
-    fprintf(out," (x,y)  Tree(x)  |y-Tree(x)|\n");
-    double e = 0;
-    double tVal;
-    int i;
-    for (i = 0; i < NUMPOINTS; i++){
-        tVal = evalTree(bestTree,val[i][0]);
-        e += pow(abs(val[i][1]-tVal),2);
-        fprintf(out,"% 5.3f \t % 5.3f % 5.3f % 5.3f\n",val[i][0],val[i][1],tVal,fabs(val[i][1]-tVal));
-    }
-    fprintf(out,"SSE: % 5.3e\n",e);
-    deleteTree(bestTree);
 }
 void splash(FILE *f){
     fprintf(f,"\n");
@@ -300,13 +326,15 @@ void splash(FILE *f){
 }
 int main(int argc, char *argv[]){
 
-    int populationSize = 500;
-    int treeDepth = 10;
-    int maxGenerations = 10;
-    double mseGoal = 0.5;
-    double pruneFactor = 0.8;
-    double mutationRate = 0.1;
-    double swapRate = 0.1;
+    int populationSize = 1000;
+    int treeDepth = 20;
+    int maxGenerations = 20;
+    double sseGoal = 0.5;
+    double pruneFactor = 0.25;
+    double mutationRate = 0.80;
+    double swapRate = 0.7;
+    double tournamentFraction = 0.90;
+    double rankFraction = 0.10;
 
     /* Processing Command Line Inputs */
     int i = 1;
@@ -320,8 +348,8 @@ int main(int argc, char *argv[]){
         else if (strcmp(argv[i],"--pruneFactor")==0){
             pruneFactor = (double)atof(argv[++i]);
         }
-        else if (strcmp(argv[i],"--mseGoal")==0){
-            mseGoal = (double)atof(argv[++i]);
+        else if (strcmp(argv[i],"--sseGoal")==0){
+            sseGoal = (double)atof(argv[++i]);
         }
         else if (strcmp(argv[i],"--mutationRate")==0){
             mutationRate = (double)atof(argv[++i]);
@@ -353,7 +381,7 @@ int main(int argc, char *argv[]){
     fprintf(out,"Parameters:\n");
     fprintf(out,"\tPopulation Size: %d\n\tMax Tree Depth: %d\n",populationSize,treeDepth);
     fprintf(out,"\tPrune factor: %3.2f\n",pruneFactor);
-    fprintf(out,"\tMSE Goal: %3.2f\n\tMax Generations: %d\n",mseGoal,maxGenerations);
+    fprintf(out,"\tSSE Goal: %3.2f\n\tMax Generations: %d\n",sseGoal,maxGenerations);
     fprintf(out,"\tMutation Rate: %3.2f\n\tSwap Rate: %3.2f\n",mutationRate,swapRate);
     printSet();
 
@@ -367,10 +395,8 @@ int main(int argc, char *argv[]){
     //createForest(forest,populationSize,treeDepth,pruneFactor);
     rampedHalfHalf(forest,populationSize,treeDepth,pruneFactor);
 
-    double tournmentFraction = 0.5;
-    double rankFraction;
-    genParam = {mutationRate,swapRate,tournamentFraction,rankFraction};
-    
+    struct breedingParam genParam = {mutationRate,swapRate,tournamentFraction,rankFraction};
+
     /* Creating performance variables */
     double genDiv = 0;
     double genSSE[3] = {0,0,0};     // worst, avg, best
@@ -378,20 +404,25 @@ int main(int argc, char *argv[]){
 
     /* Running Generations */
     int gen = 0;
+    double bestSSE = DBL_MAX; 
     fprintf(out,"Generation\tDiversity\tMean SSE\tBest SSE\n");
-    for(gen = 0; gen < maxGenerations; gen++){
+    for(gen = 0; (gen < maxGenerations &&  bestSSE > sseGoal); gen++){
         // Diversity and SSE
         genDiv = diversity(forest,populationSize);
-        SSE(forest,populationSize,val,genSSE); 
-        fprintf(out,"\t%d\t%3.2f\t\t%3.2e\t%3.2e\n",gen,genDiv,genSSE[1],genSSE[2]);
+        bestSSE = SSE(forest,populationSize,val,genSSE,sseError); 
+        fprintf(out,"\t%d\t\t%3.2f\t\t%3.2e\t%3.2e\n",gen,genDiv,genSSE[1],genSSE[2]);
 
         // Genetic Operations
-        breedGeneration(forest,populationSize,&genParam);
+        breedGeneration(forest,populationSize,sseError,&genParam);
     }
 
     /* Looking at the performance of the best tree */
-    bestTreeSummary(out,"bestTree.postfix",val);
-
+    char response[128] = "Y";
+   // fprintf(stdout,"Do you want to print the performance of the best tree [y/n]: \n");
+   // fscanf(stdin,"%s",response);
+    if (strcmp(response,"y")==0 || strcmp(response,"Y")==0){
+        bestTreeSummary(out,"bestTree.postfix",val);
+    }
     // Clean up, clean up, everybody do your share
     deleteForest(forest,populationSize);
 

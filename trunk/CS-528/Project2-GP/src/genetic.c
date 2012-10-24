@@ -79,7 +79,7 @@ void rampedHalfHalf(node *forest[], int numTrees, int maxDepth, double pruneFrac
         }
     }
 }
-void bestTreeSummary(FILE* out,char *filename,double val[][2]){
+node* bestTreeSummary(FILE* out,char *filename,double val[][2]){
 
     char postfixExpr[512];
     double e = 0;
@@ -94,7 +94,7 @@ void bestTreeSummary(FILE* out,char *filename,double val[][2]){
     }
     if (!bestTree){
         fprintf(stdout,"Could not open or convert %s to a tree\n",filename);
-        return;
+        exit(EXIT_FAILURE);
     }
     fprintf(out,"\nBestTree:\n");
     writePostfixHelper(bestTree,out);
@@ -106,7 +106,7 @@ void bestTreeSummary(FILE* out,char *filename,double val[][2]){
         fprintf(out,"% 5.3f \t % 5.3f % 5.3f % 5.3f\n",val[i][0],val[i][1],tVal,fabs(val[i][1]-tVal));
     }
     fprintf(out,"SSE: % 5.3e\n",e);
-    deleteTree(bestTree);
+    return bestTree;
 }
 /**
  * @brief deletes a forest of trees

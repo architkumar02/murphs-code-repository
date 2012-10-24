@@ -29,27 +29,26 @@ int uniqueTree(node **forest, node *n, int numTrees){
 /**
  * @brief Creates a forest of trees
  * @param numTrees  - number of trees in the forest
- * @param maxDepth  - maximum depth of the tree
- * @param pruneFraction - fraction of branches to prune
+ * @param geneticParam - tree parameters
  */
-void createForest(node *forest[],int numTrees,int maxDepth, double pruneFraction,double constProb){
+void createForest(node *forest[],int numTrees, struct geneticParam *param){
     int tree;
     int attempt = 0;
     int maxTries = 100;
     node *canidate;
     for(tree = 0; tree < numTrees; tree++){
         attempt = 0;
-        canidate = buildTree(NULL,maxDepth,pruneFraction,constProb);
+        canidate = buildTree(NULL,param->maxDepth,param->pruneFraction,param->constProb);
         while (uniqueTree(forest,canidate,tree-1)!=0 && attempt < maxTries){
             deleteTree(canidate);
-            canidate = buildTree(NULL,maxDepth,pruneFraction,constProb);
+            canidate = buildTree(NULL,param->maxDepth,param->pruneFraction,param->constProb);
             attempt ++;
         }
         forest[tree] = canidate;
     }
 }
 
-void rampedHalfHalf(node *forest[], int numTrees, int maxDepth, double pruneFraction,double constProb){
+void rampedHalfHalf(node *forest[], int numTrees, struct geneticParam *param){
 
     int tree;
     int attempt = 0;
@@ -58,21 +57,21 @@ void rampedHalfHalf(node *forest[], int numTrees, int maxDepth, double pruneFrac
     node *canidate;
     for(tree = 0; tree < numTrees/2; tree++){
         attempt = 0;
-        canidate = buildTree(NULL,maxDepth,1,constProb);
+        canidate = buildTree(NULL,param->maxDepth,1,param->constProb);
         while (uniqueTree(forest,canidate,tree-1)!=0 && attempt < maxTries){
             deleteTree(canidate);
-            canidate = buildTree(NULL,maxDepth,1,constProb);
+            canidate = buildTree(NULL,param->maxDepth,1,param->constProb);
             attempt ++;
         }
         forest[tree] = canidate;
     }
     for( ;tree < numTrees; tree++){
-        for (depth = 2; depth < maxDepth; depth++){
+        for (depth = 3; depth < param->maxDepth; depth++){
             attempt = 0;
-            canidate = buildTree(NULL,maxDepth,pruneFraction,constProb);
+            canidate = buildTree(NULL,param->maxDepth,param->pruneFraction,param->constProb);
             while (uniqueTree(forest,canidate,tree-1)!=0 && attempt < maxTries){
                 deleteTree(canidate);
-                canidate = buildTree(NULL,depth,pruneFraction,constProb);
+                canidate = buildTree(NULL,depth,param->pruneFraction,param->constProb);
                 attempt ++;
             }
             forest[tree] = canidate;
@@ -197,6 +196,7 @@ double SSE(node *forest[], int numTrees,double val[][2],
     int tree;
     char buffer[128];
     int numNAN = 0;
+    node *temp;
     e[0] = 0;           /* Worst (max) */
     e[1] = 0;           /* Mean  */
     e[2] = DBL_MAX;     /* Best (min) */
@@ -212,6 +212,14 @@ double SSE(node *forest[], int numTrees,double val[][2],
                 writeTree(forest[tree],buffer);
                 sprintf(buffer,"%s.postfix",bestTreeName);
                 writePostfix(forest[tree],buffer);
+                /*
+                temp = readPostfix(buffer);
+                if (e[2] != sse(temp,val)){
+                    fprintf(stderr,"SSE errors on written tree do not MATCH!\n");
+                    exit(EXIT_FAILURE);
+                }
+                deleteTree(temp);
+                */
             }
             else if ( sseError[tree] > e[0])
                 e[0] = sseError[tree];
@@ -246,11 +254,11 @@ int compareSSEPoint(const void *a, const void *b){
     else 
         return 0;
 }
-void breedGeneration(node *forest[], int numTrees, double sseError[], struct breedingParam *param){
+void breedGeneration(node *forest[], int numTrees, double sseError[], struct geneticParam *param){
 
     struct ssePoint rankSSE[MAXPOP];
     node *newforest[MAXPOP];
-
+    int freshTrees = floor(0.06*numTrees);
     int tournamentNumber = floor(numTrees* param->touramentFraction);
     int rankNumber = floor(numTrees* param->rankFraction);
 
@@ -260,8 +268,11 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct bre
     int t2;
     int i;
 
+    /* Fresh Trees */
+    rampedHalfHalf(newforest,freshTrees,param);
+
     /* Tournamnet Selection */
-    for (tree = 0; tree < tournamentNumber; tree++){
+    for (tree=freshTrees; tree < tournamentNumber; tree++){
         t1 = rand() % (numTrees- tree) + tree;
         t2 = rand() % (numTrees - tree) + tree;
         if (sseError[t1] >= sseError[t2])

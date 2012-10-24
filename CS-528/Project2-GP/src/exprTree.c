@@ -49,7 +49,7 @@ void printSet(){
 
 node *buildTree(node* parent,int depth, double pruneProb, double constProb){
     node *tree = NULL;
-    if (depth == 0 ||(rand() / (double) RAND_MAX) < pruneProb) {
+    if (depth == 0 || ((rand() / (double) RAND_MAX) < pruneProb && parent != NULL)) {
         tree = leafNode(constProb);
         tree->parent = parent;
         return tree;
@@ -145,12 +145,12 @@ double evalTree(node *tree, double x){
         }
         else if (strcmp(tree->name ,"^")==0){ return pow(l,r); }
         else if (strcmp(tree->name,"cos")==0){
-            /* return l*cos(r); */
-            return cos(r+r);
+             return l*cos(r); 
+            /* return cos(r+r); */
             }
         else if (strcmp(tree->name, "sin")==0){ 
-            /* return l*sin(r); */
-            return l*sin(r); 
+             return l*sin(r); 
+       /*     return l*sin(r); */
             }
         else {
             fprintf(stderr,"No operator for %s\n",tree->name);
@@ -183,7 +183,6 @@ void mutate(node *tree, double mR){
 }
 
 void swap(node *t1, node* t2, double swapP){
-    
 
     /* Choosing nodes */
     node *temp = NULL;

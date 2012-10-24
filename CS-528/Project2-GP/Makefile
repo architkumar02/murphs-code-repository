@@ -45,7 +45,7 @@ buildrepo:
 	@$(call make-repo)
 
 dist:
-	@tar czf murffer_project2.tgz $(ALLFILES) README proj2-data.dat bestTree.postfix
+	@tar czf murffer_project2.tgz $(ALLFILES) Makefile README proj2-data.dat bestTree.postfix
 
 define make-repo
 	for dir in $(SRCDIRS); \

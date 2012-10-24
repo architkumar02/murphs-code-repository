@@ -13,12 +13,15 @@
 
 #define NUMPOINTS 101
 
-struct breedingParam{
+struct geneticParam{
     double mutationRate;
     double swapRate;
     double touramentFraction;
     double rankFraction;
-} ;
+    int maxDepth;
+    double pruneFraction;
+    double constProb;
+};
 
 /**
  * @brief counts the number of times the tree occurs
@@ -32,21 +35,18 @@ struct breedingParam{
 int uniqueTree(node **forest, node *n, int numTrees);
 /**
  * @brief Creates a forest of trees
+ * @param forest    - forest of trees
  * @param numTrees  - number of trees in the forest
- * @param maxDepth  - maximum depth of the tree
- * @param pruneFraction - fraction of branches to prune
- * @param cosntProb - probability that a leaf is a randomly chosen constant
+ * @param geneticParma - pruning, maxDepth, and constant probiblity
  */
-void createForest(node *forest[],int numTrees,int maxDepth, double pruneFraction, double constProb);
+void createForest(node *forest[],int numTrees, struct geneticParam *param);
 /**
  * @brief rampedHalfHalf
  * @param forest    - forest of trees
- * @param numbTrees - number of trees in the population
- * @param maxDepth  - maximum depth of a tree
- * @param pruneFraction - probability that a branch will be pruned 
- * @param cosntProb - probability that a leaf is a randomly chosen constant
+ * @param numTrees - number of trees in the population
+ * @param geneticParma - pruning, maxDepth, and constant probiblity
  */
-void rampedHalfHalf(node *forest[], int numTrees, int maxDepth, double pruneFraction, double constProb);
+void rampedHalfHalf(node *forest[], int numTrees,  struct geneticParam *param);
 
 /**
  * @brief Summerizes the best tree
@@ -134,5 +134,5 @@ int compareSSEPoint(const void *a, const void *b);
  *  - tournament selection
  *  - rank selection
  */
-void breedGeneration(node *forest[], int numTrees, double sseError[], struct breedingParam *param);
+void breedGeneration(node *forest[], int numTrees, double sseError[], struct geneticParam *param);
 #endif

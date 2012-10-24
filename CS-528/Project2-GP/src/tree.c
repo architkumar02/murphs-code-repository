@@ -7,6 +7,16 @@
 #include <stdlib.h>
 #include <string.h>
 #include "tree.h"
+/*
+ * @brief Returns a random double between min and max (uniformly)
+ * @param min   - the minimum value
+ * @param max   - the maximum value
+ * @return a random double between min and max
+ */
+double drand(double min, double max){
+    double f = rand() / (double) RAND_MAX;
+    return min + f*(max - min);
+}
 
 /**
  * @brief  checks
@@ -165,7 +175,7 @@ node *createNode(char *name){
     if (node){
         node->name = name;
         if (strcmp(name,"value")==0)
-            node->value = rand() / (double) RAND_MAX;
+            node->value = drand(-1,1);
         node->parent = NULL;
         node->left = NULL;
         node->right = NULL;

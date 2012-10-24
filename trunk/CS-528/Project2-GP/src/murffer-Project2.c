@@ -62,13 +62,13 @@ int main(int argc, char *argv[]){
     int treeDepth = 15;                 /* Maximum Tree Depth */
     int maxGenerations = 50;            /* Maximum Number of generations */
     double sseGoal = 0.5;               /* SSE error goal (for spartan) */
-    double pruneFactor = 0.25;          /* Probability that a branch will be prunned */
-    double constProb = 0.75;            /* Probability that a leaf will be a randomly choose (0,1) constant */
+    double pruneFactor = 0.15;          /* Probability that a branch will be prunned */
+    double constProb = 0.60;            /* Probability that a leaf will be a randomly choose (0,1) constant */
     double mutationRate = 0.80;         /* Mutation Rate (probability that a node will be mutated */
     double swapRate = 0.7;              /* Probability that crossover will occur */
     double tournamentFraction = 0.90;   /* fraction of individuals selected by tournament */
     double rankFraction = 0.10;         /* fraction of individual selected by rank */
-    struct breedingParam genParam;      /* compat representation of generation */
+    struct geneticParam genParam;       /* compat representation of generation */
     node *forest[MAXPOP];               /* Forest of trees */
     node *bestTree;
     /* Output Variables */
@@ -147,6 +147,9 @@ int main(int argc, char *argv[]){
     genParam.swapRate = swapRate;
     genParam.touramentFraction = tournamentFraction;
     genParam.rankFraction = rankFraction;
+    genParam.constProb = constProb;
+    genParam.maxDepth = treeDepth;
+    genParam.pruneFraction = pruneFactor;
     splash(out);
 
     /* Train or Run? */
@@ -181,7 +184,7 @@ int main(int argc, char *argv[]){
     if (train){
         srand( time(NULL));
         fprintf(stdout,"Creating Intial Population\n");
-        rampedHalfHalf(forest,populationSize,treeDepth,pruneFactor,constProb);
+        rampedHalfHalf(forest,populationSize,&genParam);
 
         /* Running Generations */
         fprintf(out,"Generation\tDiversity\tMean SSE\tBest SSE\n");

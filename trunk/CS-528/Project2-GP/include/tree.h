@@ -1,6 +1,11 @@
 #ifndef __TREE_H__
 #define __TREE_H__
 
+/*
+ * Utility Functon
+ */
+double drand(double min, double max);
+
 /**
  * Node structure
  */

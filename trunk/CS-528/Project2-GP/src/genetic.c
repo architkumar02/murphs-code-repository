@@ -196,7 +196,6 @@ double SSE(node *forest[], int numTrees,double val[][2],
     int tree;
     char buffer[128];
     int numNAN = 0;
-    node *temp;
     e[0] = 0;           /* Worst (max) */
     e[1] = 0;           /* Mean  */
     e[2] = DBL_MAX;     /* Best (min) */

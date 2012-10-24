@@ -12,7 +12,6 @@
 #include "tree.h"
 
 #define NUMPOINTS 101
-#define MAXPOP 1000
 
 struct breedingParam{
     double mutationRate;

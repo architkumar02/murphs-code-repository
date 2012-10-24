@@ -111,16 +111,21 @@ int isParent(node *p){
  * @return 0 if they are not structurally identical
  */
 int isequal(node* t1, node *t2){
-    // Both Empty -> True
+    /* Both Empty -> True */
     if ( t1 == NULL && t2 == NULL) {
         return 1 ;
     }
     else if( t1!= NULL && t2 != NULL){
-        return ( strcmp(t1->name,t2->name)==0 &&
-                isequal(t1->left,t2->left) &&
-                isequal(t1->right,t2->right));
+        if( strcmp(t1->name,t2->name)==0 && strcmp(t1->name,"value")){
+            return (t1->value == t2->value);
+        }
+        else {
+            return ( strcmp(t1->name,t2->name)==0 &&
+                    isequal(t1->left,t2->left) &&
+                    isequal(t1->right,t2->right));
+        }
     }
-    // One tree is empty, other is not
+    /* One tree is empty, other is not */
     else return 0;
 }
 
@@ -144,7 +149,8 @@ node *copy(node *tree){
  * @brief prints a node
  */
 void printNode(node *n){
-    fprintf(stdout,"Node %p:\n\tname: %s\n\tparent: %p\n\tright: %p\n\tLeft:%p\n",n,n->name,n->parent,n->left,n->right);
+    fprintf(stdout,"Node %p:\n\tname: %s\n\tvalue: %5.3e\n\t",n,n->name,n->value);
+    fprintf(stdout,"parent: %p\n\tright: %p\n\tLeft:%p\n",n->parent,n->left,n->right);
 }
 
 /**
@@ -155,6 +161,8 @@ node *createNode(char *name){
     node *node = malloc(sizeof(struct node_t));
     if (node){
         node->name = name;
+        if (strcmp(name,"value")==0)
+            node->value = rand() / (double) RAND_MAX;
         node->parent = NULL;
         node->left = NULL;
         node->right = NULL;

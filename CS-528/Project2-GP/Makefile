@@ -4,24 +4,54 @@
 # Matthew J. Urffer (matthew.urffer@gmail.com)
 #  10/19/2012
 # -------------------------------------------------------------------------
+APP 	= geneticDriver
 
-INCLUDE =include
+OBJDIR 	= obj
+
+SRCS 	:= $(shell find . -name '*.c')
+SRCDIRS	:= $(shell find . -name '*.c' -exec dirname {} \; | uniq)
+OBJS	:= $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
+DEPS	 =
+
 CC = gcc
-CFLAGS += -Wall -g -I $(INCLUDE)
-LDFLAGS += -lm
-EXEC = geneticDriver
-SOURCES = $(wildcard src/*.c)
-OBJECTS = $(addprefix obj/ , $(notdir $(SOURCES:.c=.o))
+DEBUG	 = -g
+INCLUDES = -I ./include
+CFLAGS	 = $(DEBUG) -Wall -pedantic $(INCLUDES) -c
+LDFLAGS  = -lm
+LIBS	 =
 
-# Main Target
-$(EXEC): $(OBJECTS)
-	$(CC) $(LDFLAGS) $(OBJECTS) -o $(EXEC)
+DEPENDS  = -MT $@ -MD -MP -MF $(subst .o,.d,$@)
 
-# Object Files
-%.o: %.c
-	$(CC) -c  $(CFLAGS) $< -o $@
+.PHONY: all clean distclean
+
+all: buildrepo $(APP)
+
+$(APP): $(OBJS)
+	$(CC) $(LDFLAGS) $^ $(LIBS) -o $@
+
+$(OBJDIR)/%.o: %.c
+	$(CC) $(CFLAGS) $(DEPENDS) $< -o $@
 
 clean:
-	rm -rf $(OBJECTS) $(EXEC)
+	rm -r $(OBJDIR)
+
+distclean: clean
+	rm $(APP)
+
+buildrepo:
+	@$(call make-repo)
+
+define make-repo
+	for dir in $(SRCDIRS); \
+	do \
+		mkdir -p $(OBJDIR)/$$dir;\
+	done
+endef
+
+ifneq "$(MAKECMDGOALS)" "distclean"
+ifneq "$(MAKECMDGOALS)" "clean"
+-include $(DEPS)
+endif
+endif
 
 # DO NOT DELETE

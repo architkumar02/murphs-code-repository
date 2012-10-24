@@ -6,6 +6,7 @@
  */
 struct node_t{
     char *name;
+    double value;
     struct node_t *parent;
     struct node_t *right;
     struct node_t *left;

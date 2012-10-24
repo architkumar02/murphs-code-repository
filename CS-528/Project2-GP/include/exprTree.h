@@ -10,7 +10,9 @@ void printSet();
 node* leafNode();
 node* funcNode();
 
-node* buildTree(node* parent,int depth,double pruneProb);
+/* */
+/* */
+node* buildTree(node* parent,int depth,double pruneProb,double constProb);
 
 /**
  * Evaluation and Write

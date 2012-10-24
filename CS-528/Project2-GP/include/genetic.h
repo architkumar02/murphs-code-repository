@@ -53,8 +53,9 @@ void rampedHalfHalf(node *forest[], int numTrees, int maxDepth, double pruneFrac
  * @param out       - output file in which to write
  * @param filename  - filename of the postfix of the best tree
  * @param val       - (x,y) values on which to compare performance
+ * @return          - pointer to the best tree
  */
-void bestTreeSummary(FILE* out,char *filename,double val[][2]);
+node *bestTreeSummary(FILE* out,char *filename,double val[][2]);
 /**
  * @brief deletes a forest of trees
  * @param forest    - the forest of trees

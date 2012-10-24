@@ -70,9 +70,11 @@ int main(int argc, char *argv[]){
     double rankFraction = 0.10;         /* fraction of individual selected by rank */
     struct breedingParam genParam;      /* compat representation of generation */
     node *forest[MAXPOP];               /* Forest of trees */
+    node *bestTree;
     /* Output Variables */
     int train = 1;
     int performance = 1;
+    double evalPoint = 0;
     FILE *out = stdout;
     char bestTreeName[128];
     char response[128] = "Y";
@@ -153,11 +155,15 @@ int main(int argc, char *argv[]){
         fscanf(stdin,"%s",response);
         if (strcmp(response,"y")==0 || strcmp(response,"Y")==0)
             train = 1;
+        else
+            train = 0;
 
         fprintf(stdout,"Do you want to print the performance of the best tree [y/n]: \n");
         fscanf(stdin,"%s",response);
         if (strcmp(response,"y")==0 || strcmp(response,"Y")==0)
             performance = 1;
+        else
+            performance = 0;
 
     }
     /* Run Information */
@@ -196,8 +202,16 @@ int main(int argc, char *argv[]){
     /* Looking at the performance of the best tree */
     if (performance){
         sprintf(response,"%s.postfix",bestTreeName);
-        bestTreeSummary(out,response,val);
+        bestTree = bestTreeSummary(out,response,val);
+        if (argc <= 1){
+        
+        fprintf(stdout,"Enter value on which to test the tree [n to escape]: \n");
+        while(fscanf(stdin,"%lf",&evalPoint)==1){
+            fprintf(stdout,"Tree(%5.3f) = %5.3f\n",evalPoint,evalTree(bestTree,evalPoint));
+        }
+        deleteTree(bestTree);
+    
+        }
     }
-
     return EXIT_SUCCESS;
 }

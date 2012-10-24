@@ -15,12 +15,15 @@ Notes:
     - Multiple command line arguments are aviable:
     - It is expected that the data file is no more than 101 lines, and is
         title "proj2-data.dat" and resides in the directory of the executable.
+        It is also expected that in order to test the best tree, the file 
+        "bestTree.postfix" exists in the same directory as the executable
     - The maximum population size is 10000 individuals
     - Typically the algorthim quickly converges to an SSE of 10. Past that
         (~10 itterations) it is anybodys guess.
 
 FILES:
 Makefile            -> makefile (for gnumake)
+bestTree.postfix    -> postfix of the best tree
 src/:
 exprTree.c          -> Implemenation of expression tree
 genetic.c           -> Contains implemenation of genetic methods

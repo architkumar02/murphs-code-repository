@@ -5,14 +5,14 @@
  * Node Functions
  */
 #define NUMFUNCTIONS 8
-extern char FUNCTIONS[NUMFUNCTIONS][4];// = {"+","-","*","/","^","cos","sin"};
+extern char FUNCTIONS[NUMFUNCTIONS][4];/* = {"+","-","*","/","^","cos","sin"}; */
 
 
 /**
  * Terminal Functions 
  */
 #define NUMTERMINALS 
-extern char TERMINALS[NUMTERMINALS][4]; // = {"0","-1","pi","x"};
+extern char TERMINALS[NUMTERMINALS][4]; /* = {"0","-1","pi","x"}; */
 /*
 double sub(double a, double b){ return a-b;}
 double add(double a, double b){return a+b;}

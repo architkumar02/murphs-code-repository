@@ -9,18 +9,25 @@
 /**
  * Node Functions
  */
+/*
 #define NUMFUNCTIONS 7
 char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","^","cos","sin"};
+*/
+#define NUMFUNCTIONS 5
+char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","cos","sin"};
 
 /**
  * Terminal Functions 
  */
-#define NUMTERMINALS 4 
-char *TERMINALS[NUMTERMINALS] = {"0","-1","pi","x"};
+#define NUMTERMINALS 2 
+char *TERMINALS[NUMTERMINALS] = {"value","x"};
 
-node *leafNode(){
-    int choice = (rand() % NUMTERMINALS);
-    return createNode(TERMINALS[choice]);
+node *leafNode(double constProb){
+    if ( (rand() / (double) RAND_MAX) < constProb){
+        return createNode(TERMINALS[0]);   
+    }
+    else
+        return createNode(TERMINALS[1]);
 }
 
 node *funcNode(){
@@ -40,18 +47,18 @@ void printSet(){
     fprintf(stdout,"\n\n");
 }
 
-node *buildTree(node* parent,int depth, double pruneProb){
+node *buildTree(node* parent,int depth, double pruneProb, double constProb){
     node *tree = NULL;
     if (depth == 0 ||(rand() / (double) RAND_MAX) < pruneProb) {
-        tree = leafNode();
+        tree = leafNode(constProb);
         tree->parent = parent;
         return tree;
     }
     else{
         node *tree = funcNode();
         tree->parent = parent;
-        tree->left = buildTree(tree,depth-1,pruneProb);
-        tree->right= buildTree(tree,depth-1,pruneProb);
+        tree->left = buildTree(tree,depth-1,pruneProb,constProb);
+        tree->right= buildTree(tree,depth-1,pruneProb,constProb);
         return tree;
     }
 }
@@ -74,25 +81,35 @@ void writePostfixHelper(node *tree, FILE *f){
     if (tree){
         writePostfixHelper(tree->left,f);
         writePostfixHelper(tree->right,f);
-        fprintf(f," %s ",tree->name);
+        if (strcmp(tree->name,TERMINALS[0])==0)
+            fprintf(f," %5.3e ",tree->value);
+        else
+            fprintf(f," %s ",tree->name);
     }
 }
 node* readPostfix(char *postfix){
     struct stack s;
+    double value;
     node *newnode;
     char *p;
     int i;
     p = strtok(postfix,"   \t");
     while (p != NULL){
 
-        // Checking is it is a known terminal
+        /* Checking is it is a known terminal */
+        value = atof(p);
+        if ( value != 0.0){
+            newnode = createNode(TERMINALS[0]);
+            newnode->value = value;
+            push(&s,newnode);
+        }
         for (i = 0; i < NUMTERMINALS; i++){
             if (strcmp(p,TERMINALS[i]) == 0){
                 newnode = createNode(TERMINALS[i]);
                 push(&s,newnode);
             }
         }
-        // Checking if it a known function
+        /* Checking if it a known function */
         for (i = 0; i < NUMFUNCTIONS; i++){
             if (strcmp(p,FUNCTIONS[i]) == 0){
                 newnode = createNode(FUNCTIONS[i]);
@@ -110,6 +127,7 @@ double evalTree(node *tree, double x){
     double l;
     double r;
     if (strcmp(tree->name, "x")==0)      {return x; }
+    else if (strcmp(tree->name, "value")==0)      {return tree->value; }
     else if (strcmp(tree->name,"0")==0)   {return 0;}
     else if (strcmp(tree->name,"-1")==0)  {return -1;}
     else if (strcmp(tree->name,"pi")==0)  {return acos(-1);}
@@ -138,9 +156,20 @@ double evalTree(node *tree, double x){
 
 void mutate(node *tree, double mR){
     if (tree){
-        // Leafs have no children, so mutate
+        /* Leafs have no children, so mutate */
         if (tree->left == NULL && tree->right == NULL && rand() < mR){
-            tree->name = TERMINALS[ (rand() % NUMTERMINALS)];
+            if (rand() % 2 ){
+                if (strcmp(tree->name,"value")==0){
+                    tree->name = TERMINALS[1];
+                }
+                else{
+                    tree->name = TERMINALS[0];
+                    tree->value = rand() / (double) RAND_MAX;
+                }
+            }
+            else if (strcmp(tree->name,"value")==0){
+               tree->value = rand() / (double) RAND_MAX;
+            }
         }
         mutate(tree->left,mR);
         mutate(tree->right,mR);
@@ -150,40 +179,40 @@ void mutate(node *tree, double mR){
 void swap(const node *t1, const node* t2, double swapP){
     
 
-    // Choosing nodes
+    /* Choosing nodes */
     node *temp = NULL;
     int choice = rand() % 4;
     node *p1 = chooseParent(t1,swapP);
     node *p2 = chooseParent(t2,swapP);
     
-    // Do not operate on the head node
+    /* Do not operate on the head node */
     if (isHead(p1) || isHead(p2)) {return;}
 
     switch (choice){
-        case 0:     // Swap Right with Left (right w/ left)
-        case 1:     // Swap Left with Right
+        case 0:     /* Swap Right with Left (right w/ left) */
+        case 1:     /* Swap Left with Right */
             temp = p1->left;
             p1->left = p2->right;
             p2->right = temp;
-       case 2:     // Swap Left with Left
+       case 2:     /* Swap Left with Left */
             temp = p1->left;
             p1->left = p2->left;
             p2->left = temp;
-        default:    // Swap Right with Right
+        default:    /* Swap Right with Right */
             temp = p1->right;
             p1->right = p2->right;
             p2->right = temp;
     }
 }
 node *chooseSubTree(node *tree, double p){
-    // Skipping the head node
+    /* Skipping the head node */
     if (rand() %2)
         tree = tree->left;
         else
             tree = tree->right;
     while(isParent(tree) && (rand()/(double) RAND_MAX < p)){
 
-        // Pick Left or Right Branch
+        /* Pick Left or Right Branch */
             if (rand() % 2)
                     tree = tree->left;
             else
@@ -198,7 +227,7 @@ node *chooseParent(const node *tree, double p){
         if( rand()/(double) RAND_MAX < p)
             return ptr;
         if (isParent(ptr->left) && isParent(ptr->right)){
-        // Pick Left or Right Branch
+        /* Pick Left or Right Branch */
             if (rand() % 2)
                     tree = ptr->left;
             else

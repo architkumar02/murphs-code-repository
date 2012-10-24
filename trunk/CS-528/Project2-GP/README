@@ -1,0 +1,18 @@
+README
+
+TO COMPILE:
+make
+
+TO RUN:
+./geneticDriver
+
+The user will be prompted to train or to evaluate the best tree. 
+Notes:
+    - It is suggested that small tree depths (<15) be evaluated
+    - Multiple command line arguments are aviable: ./geneticDriver --help
+    - It is expected that the data file is no more than 101 lines, and is
+        title "proj2-data.dat" and resides in the directory of the executable.
+    - The maximum population size is 10000 individuals
+
+FILES:
+tree.c  -> 

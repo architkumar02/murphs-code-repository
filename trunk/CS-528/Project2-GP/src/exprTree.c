@@ -70,7 +70,7 @@ void writePostfix(node *tree, char *filename){
     }
     else if ((f = fopen(filename,"w"))){
         writePostfixHelper(tree,f);
-        fprintf(f,"\0\n");
+        fprintf(f,"\n");
         fclose(f);
     }
     else
@@ -144,8 +144,14 @@ double evalTree(node *tree, double x){
                 return l/r;
         }
         else if (strcmp(tree->name ,"^")==0){ return pow(l,r); }
-        else if (strcmp(tree->name,"cos")==0){return l*cos(r);}
-        else if (strcmp(tree->name, "sin")==0){ return l*sin(r); }
+        else if (strcmp(tree->name,"cos")==0){
+            /* return l*cos(r); */
+            return cos(r+r);
+            }
+        else if (strcmp(tree->name, "sin")==0){ 
+            /* return l*sin(r); */
+            return l*sin(r); 
+            }
         else {
             fprintf(stderr,"No operator for %s\n",tree->name);
             printNode(tree);
@@ -176,7 +182,7 @@ void mutate(node *tree, double mR){
     }
 }
 
-void swap(const node *t1, const node* t2, double swapP){
+void swap(node *t1, node* t2, double swapP){
     
 
     /* Choosing nodes */
@@ -221,7 +227,7 @@ node *chooseSubTree(node *tree, double p){
     return tree;
 }
 
-node *chooseParent(const node *tree, double p){
+node *chooseParent(node *tree, double p){
     node *ptr = tree;    
     while(isParent(ptr)){
         if( rand()/(double) RAND_MAX < p)

@@ -25,10 +25,10 @@ node* readPostfix(char *filename);
 /**
  * Genetic Methods
  */
-void swap(const node *t1,const node *t2, double swapProp);
+void swap(node *t1,node *t2, double swapProp);
 void mutate(node *tree,double mutateRate);
 node* choosSubTree(node *tree, double p);
-node* chooseParent(const node *tree, double p);
+node* chooseParent(node *tree, double p);
 
 #endif
 /* $end exprTree.h */

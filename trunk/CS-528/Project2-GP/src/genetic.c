@@ -195,12 +195,11 @@ double sse(node *t, double val[][2]){
 double SSE(node *forest[], int numTrees,double val[][2],
         double *e,double *sseError, char *bestTreeName){
     int tree;
+    char buffer[128];
+    int numNAN = 0;
     e[0] = 0;           /* Worst (max) */
     e[1] = 0;           /* Mean  */
     e[2] = DBL_MAX;     /* Best (min) */
-    char buffer[128];
-    int numNAN;
-    numNAN = 0;
     for( tree = 0; tree < numTrees; tree++){
 
         sseError[tree] = sse(forest[tree],val);

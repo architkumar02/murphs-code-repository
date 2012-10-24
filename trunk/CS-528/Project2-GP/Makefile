@@ -4,14 +4,16 @@
 # Matthew J. Urffer (matthew.urffer@gmail.com)
 #  10/19/2012
 # -------------------------------------------------------------------------
-APP 	= geneticDriver
+APP 	= murffer-Project2
 
 OBJDIR 	= obj
 
 SRCS 	:= $(shell find . -name '*.c')
 SRCDIRS	:= $(shell find . -name '*.c' -exec dirname {} \; | uniq)
+HEADERS := $(shell find . -name '*.h')
 OBJS	:= $(patsubst %.c,$(OBJDIR)/%.o,$(SRCS))
 DEPS	 =
+ALLFILES:= $(SRCS) $(HEADERS) 
 
 CC = gcc
 DEBUG	 = -g
@@ -20,9 +22,10 @@ CFLAGS	 = $(DEBUG) -Wall -pedantic $(INCLUDES) -c
 LDFLAGS  = -lm
 LIBS	 =
 
-DEPENDS  = -MT $@ -MD -MP -MF $(subst .o,.d,$@)
+#DEPENDS  = -MT $@ -MD -MP -MF $(subst .o,.d,$@)
+DEPENDS  = 
 
-.PHONY: all clean distclean
+.PHONY: all clean distclean dist
 
 all: buildrepo $(APP)
 
@@ -40,6 +43,9 @@ distclean: clean
 
 buildrepo:
 	@$(call make-repo)
+
+dist:
+	@tar czf murffer_project2.tgz $(ALLFILES) README
 
 define make-repo
 	for dir in $(SRCDIRS); \

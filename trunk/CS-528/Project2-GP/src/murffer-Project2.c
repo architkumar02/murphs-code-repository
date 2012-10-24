@@ -9,7 +9,7 @@
 #include <float.h>
 #include "genetic.h"
 
-#define MAXPOP 1000
+#define MAXPOP 10000
 
 void splash(FILE *f){
     fprintf(f,"\n");
@@ -44,7 +44,7 @@ void usage(FILE *f, char *name){
     fprintf(f,"--maxDepth # --pruneFactor # --constProb # --popSize # --maxGen # ");
     fprintf(f,"--sseGoal # --mutationRate # --swapRate # ");
     fprintf(f,"--tournamentFraction # --rankFraction # --bestTreeName name\n");
-
+    fprintf(f,"\nIf input arguments are specified then it is assumed the user wants to train and test\n");
 }
 int main(int argc, char *argv[]){
 
@@ -68,7 +68,8 @@ int main(int argc, char *argv[]){
     double swapRate = 0.7;              /* Probability that crossover will occur */
     double tournamentFraction = 0.90;   /* fraction of individuals selected by tournament */
     double rankFraction = 0.10;         /* fraction of individual selected by rank */
-    struct breedingParam genParam = {mutationRate,swapRate,tournamentFraction,rankFraction};
+    struct breedingParam genParam;      /* compat representation of generation */
+    node *forest[MAXPOP];               /* Forest of trees */
     /* Output Variables */
     int train = 1;
     int performance = 1;
@@ -140,6 +141,10 @@ int main(int argc, char *argv[]){
         tournamentFraction = 0.9;
         rankFraction = 1.0 - tournamentFraction;
     }
+    genParam.mutationRate = mutationRate;
+    genParam.swapRate = swapRate;
+    genParam.touramentFraction = tournamentFraction;
+    genParam.rankFraction = rankFraction;
     splash(out);
 
     /* Train or Run? */
@@ -169,7 +174,6 @@ int main(int argc, char *argv[]){
     /* Creating the intitial population */
     if (train){
         srand( time(NULL));
-        node *forest[MAXPOP];
         fprintf(stdout,"Creating Intial Population\n");
         rampedHalfHalf(forest,populationSize,treeDepth,pruneFactor,constProb);
 

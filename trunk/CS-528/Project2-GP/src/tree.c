@@ -42,12 +42,15 @@ node *pop(struct stack *s){
     s->head = n->parent;
     return n;
 }
-
+/**
+ * @brief
+ * prints a stack
+ */
 void printStack(struct stack *s){
     node *n = NULL;
     n = s->head;
     while (n){
-        fprintf(stdout,"[%p (%s)] ->",n,n->name);
+        fprintf(stdout,"[%p (%s)] ->",(void *)n,n->name);
         n = n->parent;
     }
     fprintf(stdout,"\n");
@@ -149,8 +152,8 @@ node *copy(node *tree){
  * @brief prints a node
  */
 void printNode(node *n){
-    fprintf(stdout,"Node %p:\n\tname: %s\n\tvalue: %5.3e\n\t",n,n->name,n->value);
-    fprintf(stdout,"parent: %p\n\tright: %p\n\tLeft:%p\n",n->parent,n->left,n->right);
+    fprintf(stdout,"Node %p:\n\tname: %s\n\tvalue: %5.3e\n\t",(void *)n,n->name,n->value);
+    fprintf(stdout,"parent: %p\n\tright: %p\n\tLeft:%p\n",(void *)n->parent,(void *)n->left,(void *)n->right);
 }
 
 /**

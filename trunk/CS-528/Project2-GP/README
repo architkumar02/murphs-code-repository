@@ -1,18 +1,43 @@
 README
+Matthew J. Urffer
+(matthew.urffer@gmail.com)
 
 TO COMPILE:
 make
 
 TO RUN:
-./geneticDriver
+./murffer-Project2
+./murffer-Project2 --help
 
 The user will be prompted to train or to evaluate the best tree. 
 Notes:
     - It is suggested that small tree depths (<15) be evaluated
-    - Multiple command line arguments are aviable: ./geneticDriver --help
+    - Multiple command line arguments are aviable:
     - It is expected that the data file is no more than 101 lines, and is
         title "proj2-data.dat" and resides in the directory of the executable.
     - The maximum population size is 10000 individuals
+    - Typically the algorthim quickly converges to an SSE of 10. Past that
+        (~10 itterations) it is anybodys guess.
 
 FILES:
-tree.c  -> 
+Makefile            -> makefile (for gnumake)
+src/:
+exprTree.c          -> Implemenation of expression tree
+genetic.c           -> Contains implemenation of genetic methods
+geneticDriver.c     -> Driver file
+tree.c              -> Implemenation of tree and stack
+
+include/:           (releated headers)
+exprTree.h      
+genetic.h
+tree.h
+
+The exprTree.c, tree.c are recylced code from 15-213 / 15-211
+
+IMPLEMENATION NOTES:
+    - The trees are recusively implemeted as dymically allocated nodes. The
+        implementation was tested with valgrind and found zero memory leaks,
+        but the trees are randomly generated...
+    - The expression trees hold a string which represents what type of nodes
+        they are (function, value, or variable).  The uniary functions have
+        been redefined to be binary by added a phase.

@@ -16,8 +16,10 @@
 struct geneticParam{
     double mutationRate;
     double swapRate;
-    double touramentFraction;
-    double rankFraction;
+    double touramentFraction;       /* Fraction of population choosen from tournmanet selection */
+    double rankFraction;            /* Fraction of population choosen from rank selection */
+    double freshFraction;           /* Fraction of population from new individuals */
+    double spartanFraction;         /* Fraction of population composed of spartans */
     int maxDepth;
     double pruneFraction;
     double constProb;

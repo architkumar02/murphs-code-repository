@@ -57,10 +57,10 @@ void rampedHalfHalf(node *forest[], int numTrees, struct geneticParam *param){
     node *canidate;
     for(tree = 0; tree < numTrees/2; tree++){
         attempt = 0;
-        canidate = buildTree(NULL,param->maxDepth,1,param->constProb);
+        canidate = buildTree(NULL,param->maxDepth,0,param->constProb);
         while (uniqueTree(forest,canidate,tree-1)!=0 && attempt < maxTries){
             deleteTree(canidate);
-            canidate = buildTree(NULL,param->maxDepth,1,param->constProb);
+            canidate = buildTree(NULL,param->maxDepth,0,param->constProb);
             attempt ++;
         }
         forest[tree] = canidate;
@@ -211,14 +211,6 @@ double SSE(node *forest[], int numTrees,double val[][2],
                 writeTree(forest[tree],buffer);
                 sprintf(buffer,"%s.postfix",bestTreeName);
                 writePostfix(forest[tree],buffer);
-                /*
-                temp = readPostfix(buffer);
-                if (e[2] != sse(temp,val)){
-                    fprintf(stderr,"SSE errors on written tree do not MATCH!\n");
-                    exit(EXIT_FAILURE);
-                }
-                deleteTree(temp);
-                */
             }
             else if ( sseError[tree] > e[0])
                 e[0] = sseError[tree];
@@ -255,23 +247,45 @@ int compareSSEPoint(const void *a, const void *b){
 }
 void breedGeneration(node *forest[], int numTrees, double sseError[], struct geneticParam *param){
 
-    struct ssePoint rankSSE[MAXPOP];
-    node *newforest[MAXPOP];
-    int freshTrees = floor(0.06*numTrees);
-    int tournamentNumber = floor(numTrees* param->touramentFraction);
-    int rankNumber = floor(numTrees* param->rankFraction);
-
-    node* temp;
-    int tree = 0;
     int t1;
     int t2;
     int i;
+    struct ssePoint rankSSE[MAXPOP];
+    node *newforest[MAXPOP];
+    node* temp;
+    int tree = 0;
+    int spartanTrees = floor(numTrees*param->spartanFraction);
+    int freshTrees = floor(numTrees*param->freshFraction);
+    int tournamentTrees = floor(numTrees* param->touramentFraction);
+    int rankTrees = floor(numTrees* param->rankFraction);
+    
+    /* Check that all of the population contigents match */
+    if (spartanTrees + freshTrees+ tournamentTrees + rankTrees != numTrees){
+        fprintf(stderr,"Total number of population constitunts are not the total population\n");
+    }
 
+    /* Ranking the trees */
+    for (i = 0; i < numTrees; i++){
+        rankSSE[i].sse = sseError[i];
+        rankSSE[i].index = i;
+    }
+    qsort(rankSSE,numTrees,sizeof(struct ssePoint),compareSSEPoint);
+    
     /* Fresh Trees */
     rampedHalfHalf(newforest,freshTrees,param);
 
+    /* Rank Selection */
+    i = 0;
+    for (tree = freshTrees; tree < (rankTrees+spartanTrees); tree ++)
+        newforest[tree] = copy(forest[rankSSE[i++].index]);    
+
+    /* Copy to end */
+    for (tree = 0; tree < (freshTrees+rankTrees); tree++)
+        newforest[numTrees-tree] = newforest[tree];
+    
+
     /* Tournamnet Selection */
-    for (tree=freshTrees; tree < tournamentNumber; tree++){
+    for (tree=0; tree < tournamentTrees; tree++){
         t1 = rand() % (numTrees- tree) + tree;
         t2 = rand() % (numTrees - tree) + tree;
         if (sseError[t1] >= sseError[t2])
@@ -282,16 +296,6 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct gen
             newforest[tree] = copy(forest[t1]);
     }
 
-    /* Rank Selection */
-    for (i = 0; i < numTrees; i++){
-        rankSSE[i].sse = sseError[i];
-        rankSSE[i].index = i;
-    }
-    qsort(rankSSE,numTrees,sizeof(struct ssePoint),compareSSEPoint);
-    for (i = 0; i < rankNumber; i ++){
-        if (i + tree > numTrees) break;
-        newforest[tree+i] = copy(forest[rankSSE[i].index]);    
-    }
 
     /* Copying over the trees */
     for (tree = 0; tree < numTrees; tree ++){
@@ -301,8 +305,10 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct gen
     }
     deleteForest(newforest,numTrees);
 
-    /* Mutation and cross over on the new generation */
-    mutatePop(forest,numTrees,param->mutationRate);
-    crossOver(forest,numTrees,param->swapRate);
-
+    /**
+     * Mutation and cross over on the new generation
+     * Spartans and fresh trees are excluded from muation.
+     */
+    mutatePop(forest,numTrees-spartanTrees-freshTrees,param->mutationRate);
+    crossOver(forest,numTrees-spartanTrees-freshTrees,param->swapRate);
 }

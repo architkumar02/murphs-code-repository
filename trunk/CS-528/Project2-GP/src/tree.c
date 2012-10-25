@@ -76,7 +76,19 @@ void deleteTree(node *tree){
         tree = NULL;
     }
 }
-
+/**
+ * @brief Determines if the node is a child
+ * @param n     - node in question
+ * @return 1 if the node is a child, 0 otherwise
+ * 
+ * Child nodes are defined by nodes which do not have children
+ */
+int isChild(node *n){
+    if (n->left == NULL && n->right == NULL)
+        return 1;
+    else 
+        return 0;
+}
 /**
  * @brief Determines if the nodes is the left child
  * @param n - node in question

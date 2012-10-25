@@ -9,12 +9,8 @@
 /**
  * Node Functions
  */
-/*
-#define NUMFUNCTIONS 7
-char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","^","cos","sin"};
-*/
-#define NUMFUNCTIONS 5
-char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","cos","sin"};
+#define NUMFUNCTIONS 8
+char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","^","cos","sin","sqrt"};
 
 /**
  * Terminal Functions 
@@ -49,7 +45,7 @@ void printSet(){
 
 node *buildTree(node* parent,int depth, double pruneProb, double constProb){
     node *tree = NULL;
-    if (depth == 0 || ((rand() / (double) RAND_MAX) < pruneProb && parent != NULL)) {
+    if (depth == 0 || (drand(0,1) < pruneProb && parent != NULL)) {
         tree = leafNode(constProb);
         tree->parent = parent;
         return tree;
@@ -144,14 +140,15 @@ double evalTree(node *tree, double x){
                 return l/r;
         }
         else if (strcmp(tree->name ,"^")==0){ return pow(l,r); }
-        else if (strcmp(tree->name,"cos")==0){
-             return l*cos(r); 
-            /* return cos(r+r); */
+        else if (strcmp(tree->name,"cos")==0){return l*cos(r);}
+        else if (strcmp(tree->name, "sin")==0){  return l*sin(r); }
+        else if (strcmp(tree->name,"sqrt")==0){
+            if (r < 0){
+                return -1.0*l*sqrt(r);
             }
-        else if (strcmp(tree->name, "sin")==0){ 
-             return l*sin(r); 
-       /*     return l*sin(r); */
-            }
+            else
+                return l*sqrt(r);
+        }
         else {
             fprintf(stderr,"No operator for %s\n",tree->name);
             printNode(tree);
@@ -162,8 +159,8 @@ double evalTree(node *tree, double x){
 
 void mutate(node *tree, double mR){
     if (tree){
-        /* Leafs have no children, so mutate */
-        if (tree->left == NULL && tree->right == NULL && rand() < mR){
+        /* Mutation of leaves */
+        if (isChild(tree) && (drand(0,1) < mR)){
             if (rand() % 2 ){
                 if (strcmp(tree->name,"value")==0){
                     tree->name = TERMINALS[1];
@@ -176,6 +173,10 @@ void mutate(node *tree, double mR){
             else if (strcmp(tree->name,"value")==0){
                tree->value = rand() / (double) RAND_MAX;
             }
+        }
+        /* Mutation of the functions */
+        if ( drand(0,1) < mR){
+            tree->name = FUNCTIONS[rand() % NUMFUNCTIONS];        
         }
         mutate(tree->left,mR);
         mutate(tree->right,mR);

@@ -62,12 +62,14 @@ int main(int argc, char *argv[]){
     int treeDepth = 15;                 /* Maximum Tree Depth */
     int maxGenerations = 50;            /* Maximum Number of generations */
     double sseGoal = 0.5;               /* SSE error goal (for spartan) */
-    double pruneFactor = 0.15;          /* Probability that a branch will be prunned */
+    double pruneFactor = 0.0;          /* Probability that a branch will be prunned */
     double constProb = 0.60;            /* Probability that a leaf will be a randomly choose (0,1) constant */
     double mutationRate = 0.80;         /* Mutation Rate (probability that a node will be mutated */
     double swapRate = 0.7;              /* Probability that crossover will occur */
-    double tournamentFraction = 0.90;   /* fraction of individuals selected by tournament */
-    double rankFraction = 0.10;         /* fraction of individual selected by rank */
+    double tournamentFraction = 0.40;   /* fraction of individuals selected by tournament */
+    double rankFraction = 0.40;         /* fraction of individual selected by rank */
+    double spartanFraction = 0.1;        /* fraction of individuals selected by rank, copied as is */
+    double freshFraction = 0.1;         /* fraciton of indviduals generated fresh */
     struct geneticParam genParam;       /* compat representation of generation */
     node *forest[MAXPOP];               /* Forest of trees */
     node *bestTree;
@@ -109,7 +111,12 @@ int main(int argc, char *argv[]){
         }
         else if (strcmp(argv[i],"--rankFraction")==0){
             rankFraction = (double) atof(argv[++i]);
-            tournamentFraction = 1.0 - rankFraction;
+        }
+        else if (strcmp(argv[i],"--spartanFraction")==0){
+            spartanFraction = (double) atof(argv[++i]);
+        }
+        else if (strcmp(argv[i],"--freshFraction")==0){
+            freshFraction = (double) atof(argv[++i]);
         }
         else if (strcmp(argv[i],"--maxGen")==0){
             maxGenerations = atoi(argv[++i]);
@@ -147,6 +154,8 @@ int main(int argc, char *argv[]){
     genParam.swapRate = swapRate;
     genParam.touramentFraction = tournamentFraction;
     genParam.rankFraction = rankFraction;
+    genParam.freshFraction = freshFraction;
+    genParam.spartanFraction = spartanFraction;
     genParam.constProb = constProb;
     genParam.maxDepth = treeDepth;
     genParam.pruneFraction = pruneFactor;
@@ -174,6 +183,8 @@ int main(int argc, char *argv[]){
     fprintf(out,"\tPopulation Size: %d\n\tMax Tree Depth: %d\n",populationSize,treeDepth);
     fprintf(out,"\tPrune factor: %3.2f\n\tConstant Probability: %3.2f\n",pruneFactor,constProb);
     fprintf(out,"\tSSE Goal: %3.2f\n\tMax Generations: %d\n",sseGoal,maxGenerations);
+    fprintf(out,"\tSpartan Fraction: %3.2f\n\tFresh Fraction: %5.2f\n",spartanFraction,freshFraction);
+    fprintf(out,"\tTournament Fraction: %3.2f\n\tRank Fraction: %5.2f\n",tournamentFraction,rankFraction);
     fprintf(out,"\tMutation Rate: %3.2f\n\tSwap Rate: %3.2f\n",mutationRate,swapRate);
     printSet();
 

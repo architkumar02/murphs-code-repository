@@ -276,13 +276,15 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct gen
 
     /* Rank Selection */
     i = 0;
-    for (tree = freshTrees; tree < (rankTrees+spartanTrees); tree ++)
-        newforest[tree] = copy(forest[rankSSE[i++].index]);    
+    for (tree = 0; tree < (rankTrees+spartanTrees); tree ++)
+        newforest[freshTrees+tree] = copy(forest[rankSSE[tree].index]);    
 
     /* Copy to end */
-    for (tree = 0; tree < (freshTrees+rankTrees); tree++)
-        newforest[numTrees-tree] = newforest[tree];
-    
+    for (tree = 0; tree < (freshTrees+rankTrees+spartanTrees); tree++){
+        temp = newforest[numTrees-tree-1];
+        newforest[numTrees-tree-1] = newforest[tree];
+        newforest[tree] = temp;
+    }
 
     /* Tournamnet Selection */
     for (tree=0; tree < tournamentTrees; tree++){
@@ -296,11 +298,12 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct gen
             newforest[tree] = copy(forest[t1]);
     }
 
-
     /* Copying over the trees */
     for (tree = 0; tree < numTrees; tree ++){
         temp = forest[tree];
         forest[tree] = newforest[tree];
+        if (forest[tree] == NULL)
+            fprintf(stderr,"Tree %d is %p\n",tree,forest[tree]);
         newforest[tree] = temp;
     }
     deleteForest(newforest,numTrees);
@@ -310,5 +313,7 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct gen
      * Spartans and fresh trees are excluded from muation.
      */
     mutatePop(forest,numTrees-spartanTrees-freshTrees,param->mutationRate);
+    /*
     crossOver(forest,numTrees-spartanTrees-freshTrees,param->swapRate);
+    */
 }

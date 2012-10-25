@@ -114,7 +114,7 @@ node* readPostfix(char *postfix){
                 push(&s,newnode);
             }
         }
-                p = strtok(NULL,"   \t"); 
+        p = strtok(NULL,"   \t"); 
     }
     return  pop(&s);
 }
@@ -143,9 +143,8 @@ double evalTree(node *tree, double x){
         else if (strcmp(tree->name,"cos")==0){return l*cos(r);}
         else if (strcmp(tree->name, "sin")==0){  return l*sin(r); }
         else if (strcmp(tree->name,"sqrt")==0){
-            if (r < 0){
+            if (r < 0)
                 return -1.0*l*sqrt(r);
-            }
             else
                 return l*sqrt(r);
         }
@@ -160,23 +159,26 @@ double evalTree(node *tree, double x){
 void mutate(node *tree, double mR){
     if (tree){
         /* Mutation of leaves */
-        if (isChild(tree) && (drand(0,1) < mR)){
-            if (rand() % 2 ){
-                if (strcmp(tree->name,"value")==0){
-                    tree->name = TERMINALS[1];
+        if (isChild(tree)){
+            if (drand(0,1) < mR){
+                if (rand() % 2 ){
+                    if (strcmp(tree->name,"value")==0){
+                        tree->name = TERMINALS[1];
+                    }
+                    else{
+                        tree->name = TERMINALS[0];
+                        tree->value = rand() / (double) RAND_MAX;
+                    }
                 }
-                else{
-                    tree->name = TERMINALS[0];
+                else if (strcmp(tree->name,"value")==0){
                     tree->value = rand() / (double) RAND_MAX;
                 }
             }
-            else if (strcmp(tree->name,"value")==0){
-               tree->value = rand() / (double) RAND_MAX;
-            }
         }
         /* Mutation of the functions */
-        if ( drand(0,1) < mR){
-            tree->name = FUNCTIONS[rand() % NUMFUNCTIONS];        
+        else if ( drand(0,1) < mR){
+            int choice = rand() % NUMFUNCTIONS;
+            tree->name = FUNCTIONS[choice];        
         }
         mutate(tree->left,mR);
         mutate(tree->right,mR);
@@ -190,7 +192,7 @@ void swap(node *t1, node* t2, double swapP){
     int choice = rand() % 4;
     node *p1 = chooseParent(t1,swapP);
     node *p2 = chooseParent(t2,swapP);
-    
+
     /* Do not operate on the head node */
     if (isHead(p1) || isHead(p2)) {return;}
 
@@ -200,7 +202,7 @@ void swap(node *t1, node* t2, double swapP){
             temp = p1->left;
             p1->left = p2->right;
             p2->right = temp;
-       case 2:     /* Swap Left with Left */
+        case 2:     /* Swap Left with Left */
             temp = p1->left;
             p1->left = p2->left;
             p2->left = temp;
@@ -214,15 +216,15 @@ node *chooseSubTree(node *tree, double p){
     /* Skipping the head node */
     if (rand() %2)
         tree = tree->left;
-        else
-            tree = tree->right;
+    else
+        tree = tree->right;
     while(isParent(tree) && (rand()/(double) RAND_MAX < p)){
 
         /* Pick Left or Right Branch */
-            if (rand() % 2)
-                    tree = tree->left;
-            else
-                tree = tree->right;
+        if (rand() % 2)
+            tree = tree->left;
+        else
+            tree = tree->right;
     }
     return tree;
 }
@@ -233,9 +235,9 @@ node *chooseParent(node *tree, double p){
         if( rand()/(double) RAND_MAX < p)
             return ptr;
         if (isParent(ptr->left) && isParent(ptr->right)){
-        /* Pick Left or Right Branch */
+            /* Pick Left or Right Branch */
             if (rand() % 2)
-                    tree = ptr->left;
+                tree = ptr->left;
             else
                 tree = ptr->right;
         }

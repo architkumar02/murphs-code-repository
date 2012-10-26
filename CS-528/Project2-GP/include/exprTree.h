@@ -4,6 +4,7 @@
 
 #include <stdio.h>
 #include <math.h>
+#include <fenv.h>
 #include "tree.h"
 
 void printSet(); 
@@ -17,9 +18,9 @@ node* buildTree(node* parent,int depth,double pruneProb,double constProb);
 /**
  * Evaluation and Write
  */
-double evalTree(node *n, double x);
-void writePostfix(node *tree, char *filename);
-void writePostfixHelper(node *tree, FILE *f);
+double evalTree(const node *n, const double x);
+void writePostfix(const node *tree, char *filename);
+void writePostfixHelper(const node *tree, FILE *f);
 node* readPostfix(char *filename);
 
 /**

@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <math.h>
 #include <string.h>
+#include <fenv.h>
 
 #include "tree.h"
 #include "exprTree.h"
@@ -9,8 +10,8 @@
 /**
  * Node Functions
  */
-#define NUMFUNCTIONS 8
-char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","^","cos","sin","sqrt"};
+#define NUMFUNCTIONS 7
+char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","cos","sin","sqrt"};
 
 /**
  * Terminal Functions 
@@ -59,7 +60,7 @@ node *buildTree(node* parent,int depth, double pruneProb, double constProb){
     }
 }
 
-void writePostfix(node *tree, char *filename){
+void writePostfix(const node *tree, char *filename){
     FILE *f = NULL;
     if (!filename){
         writePostfixHelper(tree,stdout);
@@ -73,7 +74,7 @@ void writePostfix(node *tree, char *filename){
         fprintf(stderr,"Could not open file %s\n",filename);
 }
 
-void writePostfixHelper(node *tree, FILE *f){
+void writePostfixHelper(const node *tree, FILE *f){
     if (tree){
         writePostfixHelper(tree->left,f);
         writePostfixHelper(tree->right,f);
@@ -119,9 +120,11 @@ node* readPostfix(char *postfix){
     return  pop(&s);
 }
 
-double evalTree(node *tree, double x){
+double evalTree(const node *tree, const double x){
     double l;
     double r;
+    feenableexcept(FE_INVALID | FE_OVERFLOW);
+    
     if (strcmp(tree->name, "x")==0)      {return x; }
     else if (strcmp(tree->name, "value")==0)      {return tree->value; }
     else if (strcmp(tree->name,"0")==0)   {return 0;}
@@ -139,15 +142,24 @@ double evalTree(node *tree, double x){
             else
                 return l/r;
         }
-        else if (strcmp(tree->name ,"^")==0){ return pow(l,r); }
+        else if (strcmp(tree->name ,"^")==0){ 
+            if (l <= 0.0)
+                return 0.0;
+            else if (r == 0.0)
+                return 1.0;
+            else if (r < 0)
+                return pow(l,-1.0*r);
+            else
+                return pow(l,r); 
+        }
         else if (strcmp(tree->name,"cos")==0){return l*cos(r);}
         else if (strcmp(tree->name, "sin")==0){  return l*sin(r); }
         else if (strcmp(tree->name,"sqrt")==0){
             if (r < 0)
-                return -1.0*l*sqrt(r);
-            else
+                return l*sqrt(-1.0*r);
+             else
                 return l*sqrt(r);
-        }
+            }
         else {
             fprintf(stderr,"No operator for %s\n",tree->name);
             printNode(tree);

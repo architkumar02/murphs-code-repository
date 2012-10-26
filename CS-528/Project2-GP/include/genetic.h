@@ -18,7 +18,6 @@ struct geneticParam{
     double swapRate;
     double touramentFraction;       /* Fraction of population choosen from tournmanet selection */
     double rankFraction;            /* Fraction of population choosen from rank selection */
-    double freshFraction;           /* Fraction of population from new individuals */
     double spartanFraction;         /* Fraction of population composed of spartans */
     int maxDepth;
     double pruneFraction;
@@ -34,7 +33,7 @@ struct geneticParam{
  * @return number of times the tree is in the forest,
  *      or 0 if it is unique
  */
-int uniqueTree(node **forest, node *n, int numTrees);
+int uniqueTree(node **forest, const node *n, int numTrees);
 /**
  * @brief Creates a forest of trees
  * @param forest    - forest of trees
@@ -57,7 +56,7 @@ void rampedHalfHalf(node *forest[], int numTrees,  struct geneticParam *param);
  * @param val       - (x,y) values on which to compare performance
  * @return          - pointer to the best tree
  */
-node *bestTreeSummary(FILE* out,char *filename,double val[][2]);
+node *bestTreeSummary(FILE* out,char *filename, double val[][2]);
 /**
  * @brief deletes a forest of trees
  * @param forest    - the forest of trees
@@ -84,7 +83,7 @@ double diversity(node *forest[], int numTrees);
  * @param 2D array of values
  * @return the Sum Squared Error
  */
-double sse(node *t, double val[][2]);
+double sse(const node *t,  double val[][2]);
 /**
  * @brif Computes the SSE of the forest
  * @param forest of trees
@@ -98,7 +97,7 @@ double sse(node *t, double val[][2]);
  * @param bestTreeName - name of the best tree
  * @return the mean SSE
  */
-double SSE(node *forest[], int numTrees,double val[][2],double *e,double *sseError, char *bestTreeName);
+double SSE(node *forest[], int numTrees, double val[][2],double *e,double *sseError, char *bestTreeName);
 
 /**
  * @brief Mutates the Population

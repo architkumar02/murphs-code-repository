@@ -37,7 +37,25 @@ void splash(FILE *f){
     fprintf(f,"Symbolic Regression with Genetic Programing\n");
     fprintf(f,"\tMatthew J. Urffer (matthew.urffer@gmail.com)\n\n");
 }
+void test(){
+    node *t1 = buildTree(NULL,3,0,0.5);
+    node *t2 = buildTree(NULL,3,0,0.5);
+    writeTree(t1,"TreeOne.dot");
+    writeTree(t2,"TreeTwo.dot");
+    /*
+    mutate(t1,0.8);
+    mutate(t2,0.8);
+    writeTree(t1,"TreeOneMutate.dot");
+    writeTree(t2,"TreeTwoMutate.dot");
+    */
+    
+    swap(t1,t2,1);
+    writeTree(t1,"TreeOneSwap.dot");
+    writeTree(t2,"TreeTwoSwap.dot");
 
+    deleteTree(t1);
+    deleteTree(t2);
+}
 void usage(FILE *f, char *name){
 
     fprintf(f,"Usage: %s ",name);
@@ -85,6 +103,10 @@ int main(int argc, char *argv[]){
     for (i = 1;  i < argc; i++){
         if (strcmp(argv[i],"--maxDepth")==0){
             sscanf(argv[++i],"%d",&treeDepth);
+        }
+        else if (strcmp(argv[i],"--test")==0){
+            test();
+            return EXIT_SUCCESS;
         }
         else if (strcmp(argv[i],"--popSize")==0){
             populationSize = atoi(argv[++i]);

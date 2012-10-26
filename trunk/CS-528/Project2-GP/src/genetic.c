@@ -16,7 +16,7 @@
  * @return number of times the tree is in the forest,
  *      or 0 if it is unique
  */
-int uniqueTree(node **forest, node *n, int numTrees){
+int uniqueTree(node **forest, const node *n, int numTrees){
     int unique = 0;
     int tree;
     for (tree = 0; tree < numTrees; tree++){
@@ -52,9 +52,10 @@ void rampedHalfHalf(node *forest[], int numTrees, struct geneticParam *param){
 
     int tree;
     int attempt = 0;
-    int maxTries = 100;
+    int maxTries = 1000000;
     int depth = 0;
     node *canidate;
+    /* Full Trees */
     for(tree = 0; tree < numTrees/2; tree++){
         attempt = 0;
         canidate = buildTree(NULL,param->maxDepth,0,param->constProb);
@@ -78,7 +79,7 @@ void rampedHalfHalf(node *forest[], int numTrees, struct geneticParam *param){
         }
     }
 }
-node* bestTreeSummary(FILE* out,char *filename,double val[][2]){
+node* bestTreeSummary(FILE* out,char *filename, double val[][2]){
 
     char postfixExpr[512];
     double e = 0;
@@ -165,12 +166,15 @@ double diversity(node *forest[], int numTrees){
  * @param 2D array of values
  * @return the Sum Squared Error
  */
-double sse(node *t, double val[][2]){
+double sse(const node *t,  double val[][2]){
     double e = 0;
     double tVal;
     int i;
     for (i = 0; i < NUMPOINTS; i++){
         tVal = evalTree(t,val[i][0]);
+        if (isnan(tVal)){
+            fprintf(stderr,"Tree evaluated to NAN at x=%5.2f\n",val[i][0]);
+        }
         e += pow(fabs(val[i][1]-tVal),2);
     }
     if (e == NAN)
@@ -191,35 +195,29 @@ double sse(node *t, double val[][2]){
  * @param bestTreeName - name of the best tree
  * @return the best SSE
  */
-double SSE(node *forest[], int numTrees,double val[][2],
+double SSE(node *forest[], int numTrees, double val[][2],
         double *e,double *sseError, char *bestTreeName){
     int tree;
     char buffer[128];
-    int numNAN = 0;
     e[0] = 0;           /* Worst (max) */
     e[1] = 0;           /* Mean  */
     e[2] = DBL_MAX;     /* Best (min) */
     for( tree = 0; tree < numTrees; tree++){
 
         sseError[tree] = sse(forest[tree],val);
-        /* Only want to add tree if not NAN */
-        if (!isnan(sseError[tree])){
-            e[1] += sseError[tree];
-            if ( sseError[tree] < e[2]){
-                e[2] = sseError[tree];
-                sprintf(buffer,"%s.dot",bestTreeName);
-                writeTree(forest[tree],buffer);
-                sprintf(buffer,"%s.postfix",bestTreeName);
-                writePostfix(forest[tree],buffer);
-            }
-            else if ( sseError[tree] > e[0])
-                e[0] = sseError[tree];
+        e[1] += sseError[tree];
+        if ( sseError[tree] < e[2]){
+            e[2] = sseError[tree];
+            sprintf(buffer,"%s.dot",bestTreeName);
+            writeTree(forest[tree],buffer);
+            sprintf(buffer,"%s.postfix",bestTreeName);
+            writePostfix(forest[tree],buffer);
         }
-        else
-            numNAN++;
+        else if ( sseError[tree] > e[0])
+            e[0] = sseError[tree];
     }
     /* Computing average (avoid NANs and returning best) */
-    e[1] = e[1] / (double) (numTrees-numNAN);
+    e[1] = e[1] / (double) (numTrees);
     return e[2];
 }
 void mutatePop(node *forest[], int numTrees,double mR){
@@ -255,12 +253,11 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct gen
     node* temp;
     int tree = 0;
     int spartanTrees = floor(numTrees*param->spartanFraction);
-    int freshTrees = floor(numTrees*param->freshFraction);
     int tournamentTrees = floor(numTrees* param->touramentFraction);
     int rankTrees = floor(numTrees* param->rankFraction);
-    
+
     /* Check that all of the population contigents match */
-    if (spartanTrees + freshTrees+ tournamentTrees + rankTrees != numTrees){
+    if (spartanTrees +  tournamentTrees + rankTrees != numTrees){
         fprintf(stderr,"Total number of population constitunts are not the total population\n");
     }
 
@@ -270,26 +267,15 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct gen
         rankSSE[i].index = i;
     }
     qsort(rankSSE,numTrees,sizeof(struct ssePoint),compareSSEPoint);
-    
-    /* Fresh Trees */
-    rampedHalfHalf(newforest,freshTrees,param);
 
-    /* Rank Selection */
-    i = 0;
-    for (tree = 0; tree < (rankTrees+spartanTrees); tree ++)
-        newforest[freshTrees+tree] = copy(forest[rankSSE[tree].index]);    
-
-    /* Copy to end */
-    for (tree = 0; tree < (freshTrees+rankTrees+spartanTrees); tree++){
-        temp = newforest[numTrees-tree-1];
-        newforest[numTrees-tree-1] = newforest[tree];
-        newforest[tree] = temp;
+    for (tree = 0; tree < (rankTrees+spartanTrees); tree++){
+        newforest[numTrees-tree-1] = copy(forest[rankSSE[tree].index]);
     }
 
     /* Tournamnet Selection */
     for (tree=0; tree < tournamentTrees; tree++){
-        t1 = rand() % (numTrees- tree) + tree;
-        t2 = rand() % (numTrees - tree) + tree;
+        t1 = rand() % (numTrees);
+        t2 = rand() % (numTrees);
         if (sseError[t1] >= sseError[t2])
             /* Keep t2 */
             newforest[tree] = copy(forest[t2]);
@@ -302,8 +288,6 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct gen
     for (tree = 0; tree < numTrees; tree ++){
         temp = forest[tree];
         forest[tree] = newforest[tree];
-        if (forest[tree] == NULL)
-            fprintf(stderr,"Tree %d is %p\n",tree,forest[tree]);
         newforest[tree] = temp;
     }
     deleteForest(newforest,numTrees);
@@ -312,8 +296,6 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct gen
      * Mutation and cross over on the new generation
      * Spartans and fresh trees are excluded from muation.
      */
-    mutatePop(forest,numTrees-spartanTrees-freshTrees,param->mutationRate);
-    /*
-    crossOver(forest,numTrees-spartanTrees-freshTrees,param->swapRate);
-    */
+    mutatePop(forest,numTrees-spartanTrees,param->mutationRate);
+    crossOver(forest,numTrees-spartanTrees,param->swapRate); 
 }

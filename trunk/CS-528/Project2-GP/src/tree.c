@@ -135,7 +135,7 @@ int isParent(node *p){
  * @param Tree one and tree two to compare
  * @return 0 if they are not structurally identical
  */
-int isequal(node* t1, node *t2){
+int isequal(const node* t1, const node *t2){
     /* Both Empty -> True */
     if ( t1 == NULL && t2 == NULL) {
         return 1 ;
@@ -159,10 +159,12 @@ int isequal(node* t1, node *t2){
  * @param tree to copy
  * @return new tree
  */
-node *copy(node *tree){
+node *copy(const node *tree){
     node *newroot;
     if (tree != NULL){
         newroot = createNode(tree->name);
+        if (strcmp(tree->name,"value"))
+            newroot->value = tree->value;
         newroot->left = copy(tree->left);
         newroot->right = copy(tree->right);
     }else if (tree == NULL) return NULL;
@@ -173,7 +175,7 @@ node *copy(node *tree){
 /**
  * @brief prints a node
  */
-void printNode(node *n){
+void printNode(const node *n){
     fprintf(stdout,"Node %p:\n\tname: %s\n\tvalue: %5.3e\n\t",(void *)n,n->name,n->value);
     fprintf(stdout,"parent: %p\n\tright: %p\n\tLeft:%p\n",(void *)n->parent,(void *)n->left,(void *)n->right);
 }

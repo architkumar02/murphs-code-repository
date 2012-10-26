@@ -33,8 +33,8 @@ node* pop(struct stack *s);
  * Tree Functions
  */
 node* createNode(char* name);
-node* copy(node* root);
-void printNode(node *n);
+node* copy(const node* root);
+void printNode(const node *n);
 void deleteTree(node *tree);
 void writeTree(node *tree,char *filename);
 void writeTreeHelper(node *tree, FILE *f);
@@ -44,5 +44,5 @@ int isLeftChild(node *n, node *p);
 int isRightChild(node *n, node *p);
 int isHead(node *n);
 int isParent(node *n);
-int isequal(node* t1, node *t2);
+int isequal(const node* t1, const node *t2);
 #endif

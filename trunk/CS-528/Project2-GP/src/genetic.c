@@ -33,49 +33,23 @@ int uniqueTree(node **forest, const node *n, int numTrees){
  */
 void createForest(node *forest[],int numTrees, struct geneticParam *param){
     int tree;
-    int attempt = 0;
-    int maxTries = 100;
-    node *canidate;
     for(tree = 0; tree < numTrees; tree++){
-        attempt = 0;
-        canidate = buildTree(NULL,param->maxDepth,param->pruneFraction,param->constProb);
-        while (uniqueTree(forest,canidate,tree-1)!=0 && attempt < maxTries){
-            deleteTree(canidate);
-            canidate = buildTree(NULL,param->maxDepth,param->pruneFraction,param->constProb);
-            attempt ++;
-        }
-        forest[tree] = canidate;
+        forest[tree] = buildTree(NULL,param->maxDepth,param->pruneFraction,param->constProb);
     }
 }
 
 void rampedHalfHalf(node *forest[], int numTrees, struct geneticParam *param){
 
     int tree;
-    int attempt = 0;
-    int maxTries = 1000000;
     int depth = 0;
-    node *canidate;
     /* Full Trees */
     for(tree = 0; tree < numTrees/2; tree++){
-        attempt = 0;
-        canidate = buildTree(NULL,param->maxDepth,0,param->constProb);
-        while (uniqueTree(forest,canidate,tree-1)!=0 && attempt < maxTries){
-            deleteTree(canidate);
-            canidate = buildTree(NULL,param->maxDepth,0,param->constProb);
-            attempt ++;
-        }
-        forest[tree] = canidate;
+        forest[tree] = buildTree(NULL,param->maxDepth,param->pruneFraction,param->constProb);
     }
+    /* Ramped Depths */
     for( ;tree < numTrees; tree++){
-        for (depth = 3; depth < param->maxDepth; depth++){
-            attempt = 0;
-            canidate = buildTree(NULL,param->maxDepth,param->pruneFraction,param->constProb);
-            while (uniqueTree(forest,canidate,tree-1)!=0 && attempt < maxTries){
-                deleteTree(canidate);
-                canidate = buildTree(NULL,depth,param->pruneFraction,param->constProb);
-                attempt ++;
-            }
-            forest[tree] = canidate;
+        for (depth = 2; depth < param->maxDepth; depth++){
+            forest[tree] = buildTree(NULL,param->maxDepth,param->pruneFraction,param->constProb);
         }
     }
 }
@@ -158,7 +132,7 @@ double diversity(node *forest[], int numTrees){
             numSame ++;
     }
 
-    return ((double) numSame / (double) numTrees);
+    return 1.0 - ((double) numSame / (double) numTrees);
 }
 /**
  * @brief Computes the sse
@@ -172,15 +146,9 @@ double sse(const node *t,  double val[][2]){
     int i;
     for (i = 0; i < NUMPOINTS; i++){
         tVal = evalTree(t,val[i][0]);
-        if (isnan(tVal)){
-            fprintf(stderr,"Tree evaluated to NAN at x=%5.2f\n",val[i][0]);
-        }
-        e += pow(fabs(val[i][1]-tVal),2);
+        e += pow(val[i][1]-tVal,2);
     }
-    if (e == NAN)
-        return DBL_MAX;
-    else 
-        return e;
+    return e;
 }
 /**
  * @brief Computes the SSE of the forest
@@ -216,7 +184,7 @@ double SSE(node *forest[], int numTrees, double val[][2],
         else if ( sseError[tree] > e[0])
             e[0] = sseError[tree];
     }
-    /* Computing average (avoid NANs and returning best) */
+    /* Computing average */
     e[1] = e[1] / (double) (numTrees);
     return e[2];
 }
@@ -227,8 +195,12 @@ void mutatePop(node *forest[], int numTrees,double mR){
 }
 void crossOver(node *forest[], int numTrees, double sR){
     int tree = 0;
-    for (tree = 0; tree < floor(numTrees/2); tree++){
-        swap(forest[tree],forest[numTrees-tree-1],sR);
+    int t1;
+    int t2;
+    for (tree = 0; tree < numTrees; tree++){
+        t1 = rand() % numTrees;
+        t2 = rand() % numTrees;
+        swap(forest[t1],forest[t2],sR);
     }
 }
 
@@ -296,6 +268,6 @@ void breedGeneration(node *forest[], int numTrees, double sseError[], struct gen
      * Mutation and cross over on the new generation
      * Spartans and fresh trees are excluded from muation.
      */
-    mutatePop(forest,numTrees-spartanTrees,param->mutationRate);
-    crossOver(forest,numTrees-spartanTrees,param->swapRate); 
+    mutatePop(forest,(numTrees-spartanTrees),param->mutationRate);
+    crossOver(forest,(numTrees-spartanTrees),param->swapRate); 
 }

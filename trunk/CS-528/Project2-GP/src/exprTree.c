@@ -10,8 +10,8 @@
 /**
  * Node Functions
  */
-#define NUMFUNCTIONS 7
-char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","cos","sin","sqrt"};
+#define NUMFUNCTIONS 5
+char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","cos"};
 
 /**
  * Terminal Functions 
@@ -204,9 +204,6 @@ void swap(node *t1, node* t2, double swapP){
     int choice = rand() % 4;
     node *p1 = chooseParent(t1,swapP);
     node *p2 = chooseParent(t2,swapP);
-
-    /* Do not operate on the head node */
-    if (isHead(p1) || isHead(p2)) {return;}
 
     switch (choice){
         case 0:     /* Swap Right with Left (right w/ left) */

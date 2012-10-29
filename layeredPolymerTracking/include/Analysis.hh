@@ -54,6 +54,8 @@ private:
     TH1F* hEventTotCalo;
     TH1F* hHitTotEDepGap[NUMLAYERS];        /* Total Energy Deposited per Hit */
     TH1F* hHitTotEDepAbs[NUMLAYERS]; 
+    TH1F* hSecElecKinAbs[NUMLAYERS];        /* Kinetic Energy of first secondary e- */
+    
     TFile* outfile;
 
     // Accumulation Variables

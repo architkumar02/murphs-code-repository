@@ -14,94 +14,119 @@
 #include <TAxis.h>
 #include <TPad.h>
 #include <TStyle.h>
+#include <TCanvas.h>
 
-void gammaVal(char* fileName){
-
+/*
+ * Sometimes it is VERY, VERY useful to compile
+ *  root[#] .L psDetectorVal.C+g
+ */
+void energyDep(const char* fileName){
+    char histKey[128] ="totEventEDepGap_00";
     // Getting the files and thickness
     FILE* in = fopen(fileName,"r");
     TObjArray *files = new TObjArray();
     TObjArray *hist = new TObjArray();
-    char* histKey = "totEventEDepGap_00";
     TObjArray *thickness = new TObjArray();
     char* token;
     TFile* f = NULL;
     TH1F* h = NULL;
+    TH1F* hRef = NULL;
+    TObjString *s = NULL;
     if (in != NULL){
         char line[128];
         while ( fscanf(in,"%s\n",line) == 1 ){
             f = new TFile(line,"READ");
             h = (TH1F*) f->Get(histKey);
-            h->Draw("same");
             files->Add(f);
             hist->Add(h);
             token = strtok(line,"_");
-            thickness->Add(new TObjString(token));
+            s = new TObjString(token);
+            thickness->Add(s);
         }
         fclose(in);
     }
     else{
-        perror(filename);
+        perror(fileName);
     }
     fprintf(stdout,"Files:\n");
     files->Print();
     fprintf(stdout,"\nHistograms:\n");
     hist->Print();
+    fprintf(stdout,"\nThickness:\n");
+    thickness->Print();
+
     // Plotting
     int numEvents = 1000000000;
     float scale = 1.0/(float)numEvents;
     gStyle->SetOptStat(0);
+    TCanvas* c1 = new TCanvas();
+    TLegend* leg = new TLegend(0.8,0.7,0.9,0.9);
     for (int i = 0; i < hist->GetEntriesFast(); i ++){
-        h = (TH1F*) hist[i];
-        //h->Draw();
-       // (hist[i])->SetLineColor(i+1);
-       // (hist[i])->Scale(scale);
+        h = (TH1F*) hist->At(i);
+        s = (TObjString*) thickness->At(i);
+        leg->AddEntry(h,s->String().Data(),"l");
+        fprintf(stdout,"Plotting histogram %s\n",s->String().Data());
+        if (i == 0){
+            h->Draw();
+            hRef = h;
+            TAxis *xaxis = h->GetXaxis();
+            xaxis->SetRangeUser(0,1.34);
+            h->GetXaxis()->SetTitle("Energy Deposition per Event (MeV)");
+            h->GetYaxis()->SetTitle("Frequency");
+            h->SetTitle("Energy Deposition");
+        }
+        else
+            h->Draw("same");
+        h->SetLineColor(i+1);
+        h->Scale(scale);
     }
-  
-    // Getting the number of entries
     
-   // fprintf(stdout,"15 um has %5.4e entries\n",(h15->GetEntries()-h15->GetBinContent(1)));
-    
-
-    //TAxis *xaxis = h25->GetXaxis();
-    //xaxis->SetRangeUser(0,1.34);
-    
-    //TLegend* leg = new TLegend(0.8,0.7,0.9,0.9);
-    //leg->AddEntry(h25,"25 um","l");
-   // leg->Draw("same");
-/*
-    h25->GetXaxis()->SetTitle("Energy Deposition per Event (MeV)");
-    h25->GetYaxis()->SetTitle("Frequency");
-    h25->SetTitle("Co60 Energy Deposition");
-    
+    // Histogram Prettying
     gPad->SetLogy();
-*/
-    // Energy Deposition
-  //  fprintf(stdout,"\nMean \n");
-  //  fprintf(stdout,"25 um has %5.4e MeV deposited\n",h25->GetMean());
-    
-  //  fprintf(stdout,"\nIntegral \n");
-  //  fprintf(stdout,"25 um has %5.4e MeV deposited\n",h25->Integral("width"));
+    leg->Draw("same");
+    c1->Update();
 
-/*
+    // Getting some properities
+    fprintf(stdout,"\n\tInter.\t\tMean\t\tWeighted Mean\n");
+    for (int i =0; i < hist->GetEntriesFast(); i++){
+        h = (TH1F*) hist->At(i);
+        double inter = 1.0 - h->GetBinContent(1);
+        double mean = h->GetMean();
+        double i1 =0;
+        double trapEDep;
+        for (int bin  = 2; bin < h->GetNbinsX(); bin ++){
+            trapEDep = h->GetBinLowEdge(bin) + 0.5*h->GetBinWidth(bin);
+            i1 += trapEDep*h->GetBinContent(bin);
+        }
+        double i2 = h->Integral(2,h->GetNbinsX());
+        s = (TObjString*) thickness->At(i);
+        fprintf(stdout,"%s\t%5.4e\t%5.4e\t%5.4e\n",s->String().Data(),
+                inter,mean,i1/i2);
+    }
+
     // Saving Histograms
-    FILE* outFile = fopen("Co60_HistData.txt","w");
+    char buffer[128];
+    sprintf(buffer,"%s_HistData.txt",fileName);
+    FILE* outFile = fopen(buffer,"w");
+
     if (outFile != NULL){
-        fprintf(stdout,"Number of bins:\n");
-        fprintf(stdout,"\t25um %d\n\t50um %d\n\t100um %d\n\t1mm %d\n\t1cm %d\n",
-        h25->GetNbinsX(),h50->GetNbinsX(),h100->GetNbinsX(),
-        h1mm->GetNbinsX(), h1cm->GetNbinsX());
-        
-        fprintf(outFile,"\tbin\t\t25um\t\t50um\t\t100um\t\t1 mm\t\t1 cm\n");
-        for(int bin = 2; bin < h25->GetNbinsX(); bin++){
-            fprintf(outFile,"%5.4e\t%5.4e\t%5.4e\t%5.4e\t%5.4e\t%5.4e\n",
-                h25->GetBinCenter(bin),
-                h25->GetBinContent(bin),h50->GetBinContent(bin),
-                h100->GetBinContent(bin),h1mm->GetBinContent(bin),
-                h1cm->GetBinContent(bin));
+        fprintf(outFile,"\t\t");
+        for (int i = 0; i<hist->GetEntriesFast(); i++){
+            s = (TObjString*) thickness->At(i);
+            fprintf(outFile,"\t%s\t",s->String().Data());
+        }
+        fprintf(outFile,"\n");
+
+        for(int bin = 2; bin < hRef->GetNbinsX(); bin++){
+            fprintf(outFile,"%5.4e\t",hRef->GetBinCenter(bin));
+            for(int i = 0; i < hist->GetEntriesFast(); i++){
+                h = (TH1F*) hist->At(i);
+                fprintf(outFile,"%5.4e\t",h->GetBinContent(bin));
+            }
+            fprintf(outFile,"\n");
         }
         fclose(outFile);
     }
-*/
 }
 // 
 // Code used to generate the input files
@@ -115,6 +140,6 @@ void generateHADD(){
  */
 # ifndef __CINT__
 int main(){
-    gammaVal();
+    energyDep("PS_GammaList.txt");
 }
 #endif

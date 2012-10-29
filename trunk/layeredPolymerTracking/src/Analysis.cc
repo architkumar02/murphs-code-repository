@@ -83,6 +83,12 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
         sprintf(name,"totEventEDepAbs_%02i",i);
         sprintf(title,"Total Energy Deposited in an Event (Abs Layer %2i)",i);
         hEventTotEDepAbs[i] = new TH1F(name,title,numBins,binMin,binMax);
+        
+        /* Distrubtion of Secondary Electrons Kinetic Energy */
+        sprintf(name,"secElectronKinE_%02i",i);
+        sprintf(title,"Kinetic Energy of First Secondary Electron (Abs Layer %2i)",i);
+        hSecElecKinAbs[i] = new TH1F(name,title,numBins,binMin,binMax);
+
     }
     /* Event Histogram (All Layers) */
     hEventTotEDepGap[NUMLAYERS] = new TH1F("totEventEDepGap",
@@ -118,6 +124,7 @@ void Analysis::EndOfEvent(const G4Event* event){
  * Helper method to process hit collections
  */
 void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
+   
 
     // Looping through the hit collection
     G4double hitColEDepTot_Abs[NUMLAYERS+1];   // Total EDep (abs) for Hit Collection
@@ -126,9 +133,16 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
         hitColEDepTot_Abs[i] = 0.0;
         hitColEDepTot_Gap[i] = 0.0;
     }
+    
+    G4int secElectronTrackID[NUMLAYERS];
+    G4double secElectronKinE[NUMLAYERS];
+    for (int i = 0; i < NUMLAYERS; i++){
+        secElectronTrackID[i] = 0;
+        secElectronKinE[i] = 0;
+    }
 
     // Energy Deposition of the event
-    for(int i = 0; i < hc->GetSize(); i++){
+    for(G4int i = 0; i < hc->GetSize(); i++){
         CaloHit* hit = (CaloHit*) hc->GetHit(i);
 
         G4double eDep = hit->GetEdep();
@@ -142,12 +156,24 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
             // Hit occured in the Abs
             hitColEDepTot_Abs[layerNum] += eDep;
             (hHitTotEDepAbs[layerNum])->Fill(eDep);
+
+            /* Is this the first secondary electron of the event? */
+            if(hit->GetParticle()->GetPDGEncoding() == 11){
+                /* The first secondary with have the highest track id */
+                if (hit->GetTrackID() > secElectronTrackID[layerNum]){
+                    secElectronTrackID[layerNum] = hit->GetTrackID();
+                    secElectronKinE[layerNum] = hit->GetKineticEnergy();
+                }
+            }
         }
         else{
             G4cout<<"ERROR - Unkown Volume for sensitive detector"<<G4endl;
         }
-
     }
+
+    for (int i = 0; i < NUMLAYERS; i++)
+             (hSecElecKinAbs[i])->Fill(secElectronKinE[i]);
+
     // Adding this Hit collection's energy deposited to event total
     for (int i = 0; i < NUMLAYERS; i++){
         // Incrementing each individual bin

@@ -186,7 +186,7 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
 
     /* Filling Secondary Electron Energy */
     for (int i = 0; i < NUMLAYERS; i++){
-        for(int j = 0; j <= NUMPID; j++){
+        for(int j = 0; j < NUMPID; j++){
             (hSecElecKinAbs[i][j])->Fill(secElectronKinE[i][j]);
         }
     }

@@ -85,10 +85,11 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
         hEventTotEDepAbs[i] = new TH1F(name,title,numBins,binMin,binMax);
         
         /* Distrubtion of Secondary Electrons Kinetic Energy */
-        sprintf(name,"secElectronKinE_%02i",i);
-        sprintf(title,"Kinetic Energy of First Secondary Electron (Abs Layer %2i)",i);
-        hSecElecKinAbs[i] = new TH1F(name,title,numBins,binMin,binMax);
-
+        for (int j = 0; j <= NUMPID; j++){
+            sprintf(name,"secElectronKinE_%02i_%02iPID",i,j);
+            sprintf(title,"Kinetic Energy of First Secondary Electron (Abs Layer %2i, PID=%2i)",i,j);
+        hSecElecKinAbs[i][j] = new TH1F(name,title,numBins,binMin,binMax);
+        }
     }
     /* Event Histogram (All Layers) */
     hEventTotEDepGap[NUMLAYERS] = new TH1F("totEventEDepGap",
@@ -134,11 +135,14 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
         hitColEDepTot_Gap[i] = 0.0;
     }
     
-    G4int secElectronTrackID[NUMLAYERS];
-    G4double secElectronKinE[NUMLAYERS];
+    G4int secElectronTrackID[NUMLAYERS][NUMPID];
+    G4double secElectronKinE[NUMLAYERS][NUMPID];
+    G4int PID;
     for (int i = 0; i < NUMLAYERS; i++){
-        secElectronTrackID[i] = 0;
-        secElectronKinE[i] = 0;
+        for (int j = 0; j <NUMPID; j++){
+        secElectronTrackID[i][j] = 0;
+        secElectronKinE[i][j] = 0;
+        }
     }
 
     // Energy Deposition of the event
@@ -159,10 +163,19 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
 
             /* Is this the first secondary electron of the event? */
             if(hit->GetParticle()->GetPDGEncoding() == 11){
+                PID = hit->GetParentID();
+                
+                /**
+                 * PID == 1  (first secondary particle) 
+                 * PID == 2 (second secondary particle) 
+                 * PID == 3 (third secondary particle) 
+                 **/
+                if (PID <= NUMPID){
                 /* The first secondary with have the highest track id */
-                if (hit->GetTrackID() > secElectronTrackID[layerNum]){
-                    secElectronTrackID[layerNum] = hit->GetTrackID();
-                    secElectronKinE[layerNum] = hit->GetKineticEnergy();
+                if (hit->GetTrackID() > secElectronTrackID[layerNum][PID]){
+                    secElectronTrackID[layerNum][PID] = hit->GetTrackID();
+                    secElectronKinE[layerNum][PID] = hit->GetKineticEnergy();
+                }
                 }
             }
         }
@@ -171,8 +184,12 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
         }
     }
 
-    for (int i = 0; i < NUMLAYERS; i++)
-             (hSecElecKinAbs[i])->Fill(secElectronKinE[i]);
+    /* Filling Secondary Electron Energy */
+    for (int i = 0; i < NUMLAYERS; i++){
+        for(int j = 0; j <= NUMPID; j++){
+             (hSecElecKinAbs[i][j])->Fill(secElectronKinE[i][j]);
+        }
+    }
 
     // Adding this Hit collection's energy deposited to event total
     for (int i = 0; i < NUMLAYERS; i++){

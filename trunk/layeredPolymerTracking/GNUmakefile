@@ -15,6 +15,8 @@ else
   G4EXLIB := true
 endif
 
+CPPFLAGS += -g
+
 ifndef G4INSTALL
   G4INSTALL = ../../..
 endif

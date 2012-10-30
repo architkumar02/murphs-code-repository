@@ -54,7 +54,7 @@ private:
     TH1F* hEventTotCalo;
     TH1F* hHitTotEDepGap[NUMLAYERS];        /* Total Energy Deposited per Hit */
     TH1F* hHitTotEDepAbs[NUMLAYERS]; 
-    TH1F* hSecElecKinAbs[NUMLAYERS][NUMPID];/* Kinetic Energy of first secondary e- */
+    TH1F* hSecElecKinAbs[NUMLAYERS][NUMPID+1];/* Kinetic Energy of first secondary e- */
     
     TFile* outfile;
 

@@ -1,5 +1,5 @@
 #
-/tracking/verbose 0 
+/tracking/verbose 2 
 #
 # Setting up the detector
 #
@@ -13,13 +13,14 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
-/run/beamOn 1000000         # 1 Million
+/run/beamOn 10000         # 10 Million
+#
 #
 /PolymerTransport/det/setAbsThick 25 um
 /PolymerTransport/det/update
@@ -27,14 +28,13 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
-/run/beamOn 1000000         # 1 Million
-
+/run/beamOn 10000         # 10 Million
 #
 /PolymerTransport/det/setAbsThick 50 um
 /PolymerTransport/det/update
@@ -42,14 +42,27 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
-/run/beamOn 1000000         # 1 Million
-
+/run/beamOn 10000         # 10 Million
+#
+/PolymerTransport/det/setAbsThick 100 um
+/PolymerTransport/det/update
+# Cobalt 60
+/gun/particle gamma
+/gun/direction 0 0 1
+/gun/energy 1.1732 MeV
+/run/beamOn 5000       # 500 Million
+/gun/energy 1.3325 MeV
+/run/beamOn 5000       # 500 Million
+# Neutron
+/gun/particle neutron
+/gun/energy 0.025 eV
+/run/beamOn 10000         # 10 Million
 #
 /PolymerTransport/det/setAbsThick 150 um
 /PolymerTransport/det/update
@@ -57,14 +70,13 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
-/run/beamOn 1000000         # 1 Million
-
+/run/beamOn 10000         # 10 Million
 #
 /PolymerTransport/det/setAbsThick 300 um
 /PolymerTransport/det/update
@@ -72,14 +84,13 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
-/run/beamOn 1000000         # 1 Million
-
+/run/beamOn 10000         # 10 Million
 #
 /PolymerTransport/det/setAbsThick 600 um
 /PolymerTransport/det/update
@@ -87,14 +98,13 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
-/run/beamOn 1000000         # 1 Million
-
+/run/beamOn 10000         # 10 Million
 #
 /PolymerTransport/det/setAbsThick 1 mm
 /PolymerTransport/det/update
@@ -102,14 +112,27 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
-/run/beamOn 1000000         # 1 Million
-
+/run/beamOn 10000         # 10 Million
+#
+/PolymerTransport/det/setAbsThick 5 mm
+/PolymerTransport/det/update
+# Cobalt 60
+/gun/particle gamma
+/gun/direction 0 0 1
+/gun/energy 1.1732 MeV
+/run/beamOn 5000       # 500 Million
+/gun/energy 1.3325 MeV
+/run/beamOn 5000       # 500 Million
+# Neutron
+/gun/particle neutron
+/gun/energy 0.025 eV
+/run/beamOn 10000         # 10 Million
 #
 /PolymerTransport/det/setAbsThick 1 cm
 /PolymerTransport/det/update
@@ -117,10 +140,10 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000       # 500 Million
+/run/beamOn 5000       # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
-/run/beamOn 1000000         # 1 Million
+/run/beamOn 10000         # 10 Million

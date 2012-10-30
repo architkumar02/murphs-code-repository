@@ -23,7 +23,7 @@ using namespace G4Root;
 #define WORLDNUM 0      // Map between material and Number
 #define GAPNUM 1
 #define ABSNUM 2
-
+#define NUMPID 4        // PID of 0, 1, 2,3 (placeholder,neutron,Triton,alpha)
 class Analysis {
 
 public:
@@ -54,7 +54,7 @@ private:
     TH1F* hEventTotCalo;
     TH1F* hHitTotEDepGap[NUMLAYERS];        /* Total Energy Deposited per Hit */
     TH1F* hHitTotEDepAbs[NUMLAYERS]; 
-    TH1F* hSecElecKinAbs[NUMLAYERS];        /* Kinetic Energy of first secondary e- */
+    TH1F* hSecElecKinAbs[NUMLAYERS][NUMPID];/* Kinetic Energy of first secondary e- */
     
     TFile* outfile;
 

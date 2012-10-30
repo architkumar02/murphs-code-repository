@@ -24,7 +24,7 @@
 #include "TString.h"
 
 #ifdef G4MPIUSE
-    #include "G4MPImanager.hh"
+#include "G4MPImanager.hh"
 #endif
 
 Analysis* Analysis::singleton = 0;
@@ -74,34 +74,34 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
         sprintf(name,"totHitEDepGap_%02i",i);
         sprintf(title,"Total Energy Deposited in a Hit (Gap Layer %2i)",i);
         hHitTotEDepGap[i] = new TH1F(name,title,numBins,binMin,binMax);
-        
+
         /* Event Histograms */
         sprintf(name,"totEventEDepGap_%02i",i);
         sprintf(title,"Total Energy Deposited in an Event (Gap Layer %2i)",i);
         hEventTotEDepGap[i] = new TH1F(name,title,numBins,binMin,binMax);
-        
+
         sprintf(name,"totEventEDepAbs_%02i",i);
         sprintf(title,"Total Energy Deposited in an Event (Abs Layer %2i)",i);
         hEventTotEDepAbs[i] = new TH1F(name,title,numBins,binMin,binMax);
-        
+
         /* Distrubtion of Secondary Electrons Kinetic Energy */
-        for (int j = 0; j <= NUMPID; j++){
+        for (int j = 0; j < NUMPID; j++){
             sprintf(name,"secElectronKinE_%02i_%02iPID",i,j);
             sprintf(title,"Kinetic Energy of First Secondary Electron (Abs Layer %2i, PID=%2i)",i,j);
-        hSecElecKinAbs[i][j] = new TH1F(name,title,numBins,binMin,binMax);
+            hSecElecKinAbs[i][j] = new TH1F(name,title,numBins,binMin,binMax);
         }
     }
     /* Event Histogram (All Layers) */
     hEventTotEDepGap[NUMLAYERS] = new TH1F("totEventEDepGap",
-        "Total Energy Deposited in an Event (All Gap Layers)",numBins,binMin,binMax);
+            "Total Energy Deposited in an Event (All Gap Layers)",numBins,binMin,binMax);
     hEventTotEDepAbs[NUMLAYERS] = new TH1F("totEventEDepAbs",
-        "Total Energy Deposited in an Event (All Abs Layers)",numBins,binMin,binMax);
+            "Total Energy Deposited in an Event (All Abs Layers)",numBins,binMin,binMax);
     hEventTotCalo = new TH1F("totEventEDepCalo",
-        "Total Energy Deposited in Calorimeter",numBins,binMin,binMax);
+            "Total Energy Deposited in Calorimeter",numBins,binMin,binMax);
 }
 
 void Analysis::EndOfEvent(const G4Event* event){
-    
+
     // Processing all of the hit collections
     // (Fills the hit histograms)
     G4int numHitColl = event->GetHCofThisEvent()->GetNumberOfCollections();
@@ -125,7 +125,7 @@ void Analysis::EndOfEvent(const G4Event* event){
  * Helper method to process hit collections
  */
 void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
-   
+
 
     // Looping through the hit collection
     G4double hitColEDepTot_Abs[NUMLAYERS+1];   // Total EDep (abs) for Hit Collection
@@ -134,14 +134,14 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
         hitColEDepTot_Abs[i] = 0.0;
         hitColEDepTot_Gap[i] = 0.0;
     }
-    
+
     G4int secElectronTrackID[NUMLAYERS][NUMPID];
     G4double secElectronKinE[NUMLAYERS][NUMPID];
     G4int PID;
     for (int i = 0; i < NUMLAYERS; i++){
         for (int j = 0; j <NUMPID; j++){
-        secElectronTrackID[i][j] = 0;
-        secElectronKinE[i][j] = 0;
+            secElectronTrackID[i][j] = 0;
+            secElectronKinE[i][j] = 0;
         }
     }
 
@@ -155,7 +155,7 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
             // Hit occured in the Gap
             hitColEDepTot_Gap[layerNum] += eDep;
             (hHitTotEDepGap[layerNum])->Fill(eDep);
-        
+
         }else if(strcmp(hit->GetVolume()->GetName(),"Absorber")){
             // Hit occured in the Abs
             hitColEDepTot_Abs[layerNum] += eDep;
@@ -164,18 +164,18 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
             /* Is this the first secondary electron of the event? */
             if(hit->GetParticle()->GetPDGEncoding() == 11){
                 PID = hit->GetParentID();
-                
+
                 /**
                  * PID == 1  (first secondary particle) 
                  * PID == 2 (second secondary particle) 
                  * PID == 3 (third secondary particle) 
                  **/
-                if (PID <= NUMPID){
-                /* The first secondary with have the highest track id */
-                if (hit->GetTrackID() > secElectronTrackID[layerNum][PID]){
-                    secElectronTrackID[layerNum][PID] = hit->GetTrackID();
-                    secElectronKinE[layerNum][PID] = hit->GetKineticEnergy();
-                }
+                if (PID < NUMPID){
+                    /* The first secondary with have the highest track id */
+                    if (hit->GetTrackID() > secElectronTrackID[layerNum][PID]){
+                        secElectronTrackID[layerNum][PID] = hit->GetTrackID();
+                        secElectronKinE[layerNum][PID] = hit->GetKineticEnergy();
+                    }
                 }
             }
         }
@@ -187,7 +187,7 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
     /* Filling Secondary Electron Energy */
     for (int i = 0; i < NUMLAYERS; i++){
         for(int j = 0; j <= NUMPID; j++){
-             (hSecElecKinAbs[i][j])->Fill(secElectronKinE[i][j]);
+            (hSecElecKinAbs[i][j])->Fill(secElectronKinE[i][j]);
         }
     }
 

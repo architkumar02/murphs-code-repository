@@ -34,7 +34,6 @@
 /gun/particle neutron
 /gun/energy 0.025 eV
 /run/beamOn 1000000 # 1 Million
-
 #
 /PolymerTransport/det/setAbsThick 50 um
 /PolymerTransport/det/update

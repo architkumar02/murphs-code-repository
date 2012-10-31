@@ -94,34 +94,13 @@ void energyDep(const char* fileName){
     leg->Draw("same");
     c1->Update();
 
-    // Getting some properities
-    fprintf(stdout,"\n\tInter.\t\tMean\t\tWeighted Mean\n");
-    for (int i =0; i < hist->GetEntriesFast(); i++){
-        h = (TH1F*) hist->At(i);
-        double inter = 1.0 - h->GetBinContent(1);
-        double mean = h->GetMean();
-        double i1 =0;
-        double trapEDep;
-        for (int bin  = 2; bin < h->GetNbinsX(); bin ++){
-            trapEDep = h->GetBinLowEdge(bin) + 0.5*h->GetBinWidth(bin);
-            i1 += trapEDep*h->GetBinContent(bin);
-        }
-        double i2 = h->Integral(2,h->GetNbinsX());
-        s = (TObjString*) thickness->At(i);
-        fprintf(stdout,"%s\t%5.4e\t%5.4e\t%5.4e\n",s->String().Data(),inter,mean,i1/i2);
-
-    }
-
     // Looking at the CDF
-    double lower = 0.01;
-    double upper = 0.99;
     TObjArray *cdf = new TObjArray();
     TCanvas* c2 = new TCanvas();
     TLegend* legcdf = new TLegend(0.8,0.7,0.9,0.9);
     TH1F *c = NULL;
     for (int i = 0; i < hist->GetEntriesFast(); i ++){
         cdf->Add(pdf2cdfWeighted((TH1F*) hist->At(i)));
-        c = (TH1F*) cdf->At(i);
         s = (TObjString*) thickness->At(i);
         legcdf->AddEntry(((TH1F*) cdf->At(i)),s->String().Data(),"l");
         fprintf(stdout,"Plotting CDF of histogram %s\n",s->String().Data());
@@ -143,10 +122,40 @@ void energyDep(const char* fileName){
         ((TH1F*) cdf->At(i))->SetLineColor(i+1);
     }
     legcdf->Draw("same");
-    fprintf(stdout,"Plotted Legend\n");
-    //gPad->SetLogy(1);
     c2->Update();
     fprintf(stdout,"Finished CDF Plotting\n");
+    
+    
+    // Getting some properities
+    double lower = 0.01;
+    double upper = 0.99;
+    double lowError = 0.0;
+    double highError = XMAX;
+    fprintf(stdout,"\n\tInter.\t\tMean\t\tWeighted Mean\t\t+%3.2f Error\t\t-%3.2f error\n",lower,upper);
+    for (int i =0; i < hist->GetEntriesFast(); i++){
+        h = (TH1F*) hist->At(i);
+        double inter = 1.0 - h->GetBinContent(1);
+        double mean = h->GetMean();
+        double i1 =0;
+        double trapEDep;
+        for (int bin  = 2; bin < h->GetNbinsX(); bin ++){
+            trapEDep = h->GetBinLowEdge(bin) + 0.5*h->GetBinWidth(bin);
+            i1 += trapEDep*h->GetBinContent(bin);
+        }
+        double i2 = h->Integral(2,h->GetNbinsX());
+        s = (TObjString*) thickness->At(i);
+        // Finding the error on the average value from the histogram
+        for (int bin = 1; bin < ((TH1F*) cdf->At(i))->GetNbinsX(); bin++){
+            if ( ((TH1F*) cdf->At(i))->GetBinContent(bin) <= lower*(i1/i2)){
+                lowError = ((TH1F*) cdf->At(i))->GetBinCenter(bin);
+            }
+            else if ( ((TH1F*) cdf->At(i))->GetBinContent(bin) <= upper*(i1/i2) ) 
+                highError = ((TH1F*) cdf->At(i))->GetBinCenter(bin);
+        }
+        fprintf(stdout,"%s\t%5.4e\t%5.4e\t%5.4e\t%5.4e\t%5.4e\n",s->String().Data(),inter,mean,i1/i2,lowError,highError);
+
+    }
+
     
     // Saving Histograms
     char buffer[128];

@@ -1,9 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include <string.h>
 
 #include <TH1F.h>
-
+#include <TAxis.h>
 /**
  * @brief Converts a PDF histogram to a CDF Histogram 
  * @param hist - PDF Histogram
@@ -16,19 +15,18 @@ TH1F* pdf2cdf(TH1F* hist){
     }
     char buffer[256];
     sprintf(buffer,"%s_cdf",hist->GetName());
-    TH1F* cdf = new TH1F(buffer,"CDF",hist->GetNbinsX(),hist->GetMinimum(),
-            hist->GetMaximum());
+    double minVal = hist->GetXaxis()->GetXmin();
+    double maxVal = hist->GetXaxis()->GetXmax();
+    
+    TH1F* cdf = new TH1F(buffer,"CDF",hist->GetNbinsX(),minVal,maxVal);
 
     // Computing the CDF
     int total = 0;
-    for(int i = 0; i < hist->GetNbinsX(); i++){
+    for(int i = 1; i < hist->GetNbinsX(); i++){
         total += hist->GetBinContent(i);
-        for (int k = 0; k < total; k++){
-            cdf->AddBinContent(i);
-        }
-
+        cdf->SetBinContent(i,total);
     }
-    cdf->Scale(1.0/cdf->Integral());
-    cdf->Draw();
+    cdf->Scale(1.0/(double)total);
+    //cdf->Draw();
     return cdf;
 }

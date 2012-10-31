@@ -17,12 +17,15 @@
 #include <TCanvas.h>
 
 #include "pdf2cdf.C"
-
+#include "pdf2cdfWeighted.C"
 /*
  * Sometimes it is VERY, VERY useful to compile
  *  root[#] .L psDetectorVal.C+g
  */
 void energyDep(const char* fileName){
+
+    double XMAX = 4.8;  // 1.34 for Co60
+
     char histKey[128] ="totEventEDepGap_00";
     // Getting the files and thickness
     FILE* in = fopen(fileName,"r");
@@ -58,8 +61,8 @@ void energyDep(const char* fileName){
     thickness->Print();
 
     // Plotting
-    int numEvents = 1000000000;
-    float scale = 1.0/(float)numEvents;
+    double numEvents = 1000000000;
+    float scale = 1.0;
     gStyle->SetOptStat(0);
     TCanvas* c1 = new TCanvas();
     TLegend* leg = new TLegend(0.8,0.7,0.9,0.9);
@@ -70,15 +73,18 @@ void energyDep(const char* fileName){
         fprintf(stdout,"Plotting histogram %s\n",s->String().Data());
         if (i == 0){
             h->Draw();
-            hRef = h;
             TAxis *xaxis = h->GetXaxis();
-            xaxis->SetRangeUser(0,1.34);
+            xaxis->SetRangeUser(0,XMAX);
             h->GetXaxis()->SetTitle("Energy Deposition per Event (MeV)");
             h->GetYaxis()->SetTitle("Frequency");
             h->SetTitle("Energy Deposition");
+            numEvents = h->GetEntries();
         }
-        else
+        else{
+            numEvents = h->GetEntries();
             h->Draw("same");
+        }
+        scale = 1.0/numEvents;
         h->SetLineColor(i+1);
         h->Scale(scale);
     }
@@ -109,33 +115,39 @@ void energyDep(const char* fileName){
     // Looking at the CDF
     double lower = 0.01;
     double upper = 0.99;
-    TH1F* cdf = NULL;
+    TObjArray *cdf = new TObjArray();
     TCanvas* c2 = new TCanvas();
     TLegend* legcdf = new TLegend(0.8,0.7,0.9,0.9);
+    TH1F *c = NULL;
     for (int i = 0; i < hist->GetEntriesFast(); i ++){
-        h = (TH1F*) hist->At(i);
-        if (cdf)
-            delete cdf;
-        cdf = pdf2cdf(h);
+        cdf->Add(pdf2cdfWeighted((TH1F*) hist->At(i)));
+        c = (TH1F*) cdf->At(i);
         s = (TObjString*) thickness->At(i);
-        legcdf->AddEntry(h,s->String().Data(),"l");
+        legcdf->AddEntry(((TH1F*) cdf->At(i)),s->String().Data(),"l");
         fprintf(stdout,"Plotting CDF of histogram %s\n",s->String().Data());
         if (i == 0){
-            cdf->Draw();
-            hRef = cdf;
-            TAxis *xaxis = cdf->GetXaxis();
-            cdf->GetXaxis()->SetTitle("Energy Deposition per Event (MeV)");
-            cdf->GetYaxis()->SetTitle("Probability");
-            cdf->SetTitle("Energy Deposition CDF");
+            ((TH1F*) cdf->At(i))->Draw();
+            TAxis *xaxis = ((TH1F*) cdf->At(i))->GetXaxis();
+            xaxis->SetRangeUser(0,XMAX);
+
+            TAxis *yaxis = ((TH1F*) cdf->At(i))->GetYaxis();
+            yaxis->SetRangeUser(1E-2,1.0);
+            
+            ((TH1F*) cdf->At(i))->GetXaxis()->SetTitle("Energy Deposition per Event (MeV)");
+            ((TH1F*) cdf->At(i))->GetYaxis()->SetTitle("Probability");
+            ((TH1F*) cdf->At(i))->SetTitle("Energy Deposition CDF");
         }
-        else
-            cdf->Draw("same");
-        cdf->SetLineColor(i+1);
-        cdf->Scale(scale);
+        else{
+            ((TH1F*) cdf->At(i))->Draw("same");
+        }
+        ((TH1F*) cdf->At(i))->SetLineColor(i+1);
     }
     legcdf->Draw("same");
+    fprintf(stdout,"Plotted Legend\n");
+    //gPad->SetLogy(1);
     c2->Update();
-
+    fprintf(stdout,"Finished CDF Plotting\n");
+    
     // Saving Histograms
     char buffer[128];
     sprintf(buffer,"%s_HistData.txt",fileName);
@@ -159,6 +171,8 @@ void energyDep(const char* fileName){
         }
         fclose(outFile);
     }
+
+    fprintf(stdout,"Code Ran to Completion\n");
 }
 // 
 // Code used to generate the input files

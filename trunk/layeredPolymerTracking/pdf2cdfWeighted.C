@@ -21,10 +21,10 @@ TH1F* pdf2cdfWeighted(TH1F* hist){
     
     TH1F* cdf = new TH1F(buffer,"CDF",hist->GetNbinsX(),minVal,maxVal);
 
-    // Computing the CDF
+    // Computing the CDF - skipping the underflow and overflow
     double total = 0.0;
     double trapEDep;
-    for(int i = 0; i < hist->GetNbinsX(); i++){
+    for(int i = 1; i < hist->GetNbinsX(); i++){
         trapEDep = hist->GetBinLowEdge(i)+0.5*hist->GetBinWidth(i);
         total += hist->GetBinContent(i)*trapEDep;
         cdf->SetBinContent(i,total);

@@ -64,6 +64,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 
     G4double binMin = 0*eV;
     G4double binMax = 5*MeV;
+    G4double binMaxSecondary = 2.75*MeV; // Tritron from 6Li
     G4int numBins = 2000;
     for(int i = 0; i < NUMLAYERS; i++){
         /*  Hit Histograms */
@@ -87,8 +88,8 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
         /* Distrubtion of Secondary Electrons Kinetic Energy */
         for (int j = 0; j < NUMPID; j++){
             sprintf(name,"secElectronKinE_%02i_%02iPID",i,j);
-            sprintf(title,"Kinetic Energy of First Secondary Electron (Abs Layer %2i, PID=%2i)",i,j);
-            hSecElecKinAbs[i][j] = new TH1F(name,title,numBins,binMin,binMax);
+            sprintf(title,"Kinetic Energy Secondary Electrons (Abs Layer %2i, PID=%2i)",i,j);
+            hSecElecKinAbs[i][j] = new TH1F(name,title,numBins,binMin,binMaxSecondary);
         }
     }
     /* Event Histogram (All Layers) */
@@ -130,19 +131,10 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
     // Looping through the hit collection
     G4double hitColEDepTot_Abs[NUMLAYERS+1];   // Total EDep (abs) for Hit Collection
     G4double hitColEDepTot_Gap[NUMLAYERS+1];   // Total EDep (gap) for Hit Collection
+    G4int PID;                                 // Parent ID
     for(int i= 0; i < NUMLAYERS+1; i++){
         hitColEDepTot_Abs[i] = 0.0;
         hitColEDepTot_Gap[i] = 0.0;
-    }
-
-    G4int secElectronTrackID[NUMLAYERS][NUMPID];
-    G4double secElectronKinE[NUMLAYERS][NUMPID];
-    G4int PID;
-    for (int i = 0; i < NUMLAYERS; i++){
-        for (int j = 0; j <NUMPID; j++){
-            secElectronTrackID[i][j] = 0;
-            secElectronKinE[i][j] = 0;
-        }
     }
 
     // Energy Deposition of the event
@@ -161,7 +153,7 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
             hitColEDepTot_Abs[layerNum] += eDep;
             (hHitTotEDepAbs[layerNum])->Fill(eDep);
 
-            /* Is this the first secondary electron of the event? */
+            /* Is this a secondary electron of the event? */
             if(hit->GetParticle()->GetPDGEncoding() == 11){
                 PID = hit->GetParentID();
 
@@ -171,23 +163,12 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
                  * PID == 3 (third secondary particle) 
                  **/
                 if (PID < NUMPID){
-                    /* The first secondary with have the highest track id */
-                    if (hit->GetTrackID() > secElectronTrackID[layerNum][PID]){
-                        secElectronTrackID[layerNum][PID] = hit->GetTrackID();
-                        secElectronKinE[layerNum][PID] = hit->GetKineticEnergy();
-                    }
+                    (hSecElecKinAbs[layerNum][PID])->Fill(hit->GetKineticEnergy());
                 }
             }
         }
         else{
             G4cout<<"ERROR - Unkown Volume for sensitive detector"<<G4endl;
-        }
-    }
-
-    /* Filling Secondary Electron Energy */
-    for (int i = 0; i < NUMLAYERS; i++){
-        for(int j = 0; j < NUMPID; j++){
-            (hSecElecKinAbs[i][j])->Fill(secElectronKinE[i][j]);
         }
     }
 

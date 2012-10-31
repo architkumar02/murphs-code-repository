@@ -16,6 +16,8 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
+#include "pdf2cdf.C"
+
 /*
  * Sometimes it is VERY, VERY useful to compile
  *  root[#] .L psDetectorVal.C+g
@@ -80,7 +82,7 @@ void energyDep(const char* fileName){
         h->SetLineColor(i+1);
         h->Scale(scale);
     }
-    
+
     // Histogram Prettying
     gPad->SetLogy();
     leg->Draw("same");
@@ -100,9 +102,39 @@ void energyDep(const char* fileName){
         }
         double i2 = h->Integral(2,h->GetNbinsX());
         s = (TObjString*) thickness->At(i);
-        fprintf(stdout,"%s\t%5.4e\t%5.4e\t%5.4e\n",s->String().Data(),
-                inter,mean,i1/i2);
+        fprintf(stdout,"%s\t%5.4e\t%5.4e\t%5.4e\n",s->String().Data(),inter,mean,i1/i2);
+
     }
+
+    // Looking at the CDF
+    double lower = 0.01;
+    double upper = 0.99;
+    TH1F* cdf = NULL;
+    TCanvas* c2 = new TCanvas();
+    TLegend* legcdf = new TLegend(0.8,0.7,0.9,0.9);
+    for (int i = 0; i < hist->GetEntriesFast(); i ++){
+        h = (TH1F*) hist->At(i);
+        if (cdf)
+            delete cdf;
+        cdf = pdf2cdf(h);
+        s = (TObjString*) thickness->At(i);
+        legcdf->AddEntry(h,s->String().Data(),"l");
+        fprintf(stdout,"Plotting CDF of histogram %s\n",s->String().Data());
+        if (i == 0){
+            cdf->Draw();
+            hRef = cdf;
+            TAxis *xaxis = cdf->GetXaxis();
+            cdf->GetXaxis()->SetTitle("Energy Deposition per Event (MeV)");
+            cdf->GetYaxis()->SetTitle("Probability");
+            cdf->SetTitle("Energy Deposition CDF");
+        }
+        else
+            cdf->Draw("same");
+        cdf->SetLineColor(i+1);
+        cdf->Scale(scale);
+    }
+    legcdf->Draw("same");
+    c2->Update();
 
     // Saving Histograms
     char buffer[128];

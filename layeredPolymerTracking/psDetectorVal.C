@@ -22,9 +22,9 @@
  * Sometimes it is VERY, VERY useful to compile
  *  root[#] .L psDetectorVal.C+g
  */
-void energyDep(const char* fileName){
+void energyDep(const char* fileName,double XMAX){
 
-    double XMAX = 4.8;  // 1.34 for Co60
+    // XMAX = 4.78 for N, 1.34 for gamma
 
     char histKey[128] ="totEventEDepGap_00";
     // Getting the files and thickness
@@ -98,7 +98,6 @@ void energyDep(const char* fileName){
     TObjArray *cdf = new TObjArray();
     TCanvas* c2 = new TCanvas();
     TLegend* legcdf = new TLegend(0.8,0.7,0.9,0.9);
-    TH1F *c = NULL;
     for (int i = 0; i < hist->GetEntriesFast(); i ++){
         cdf->Add(pdf2cdfWeighted((TH1F*) hist->At(i)));
         s = (TObjString*) thickness->At(i);
@@ -170,7 +169,7 @@ void energyDep(const char* fileName){
         }
         fprintf(outFile,"\n");
 
-        for(int bin = 2; bin < hRef->GetNbinsX(); bin++){
+        for(int bin = 3; bin < hRef->GetNbinsX(); bin++){
             fprintf(outFile,"%5.4e\t",hRef->GetBinCenter(bin));
             for(int i = 0; i < hist->GetEntriesFast(); i++){
                 h = (TH1F*) hist->At(i);
@@ -195,6 +194,7 @@ void generateHADD(){
  */
 # ifndef __CINT__
 int main(){
-    energyDep("PS_GammaList.txt");
+    energyDep("PS_GammaList.txt",1.34);
+    energyDep("PS_NeutronList.txt",4.8);
 }
 #endif

@@ -1,5 +1,4 @@
 /*
- * psDetectorVal.C
  *
  * Validation of the Geant4 Detector 
  */

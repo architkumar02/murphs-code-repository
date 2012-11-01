@@ -45,4 +45,26 @@ then
     
     hadd 1cm_PSDetector_Co60.root output/run_21_node* output/run_22_node*
     hadd 1cm_PSDetector_neutron.root output/run_23_node*
+    
+    hadd 2cm_PSDetector_Co60.root output/run_24_node* output/run_25_node*
+    hadd 2cm_PSDetector_neutron.root output/run_26_node*
+    
+    hadd 5cm_PSDetector_Co60.root output/run_27_node* output/run_28_node*
+    hadd 5cm_PSDetector_neutron.root output/run_29_node*
+   
+elif [ $1 = "run1_neutron" ] 
+then
+    rm *_PSDetector_neutron.root
+    hadd 15um_PSDetector_neutron.root output/run_0_node*
+    hadd 25um_PSDetector_neutron.root output/run_1_node*
+    hadd 50um_PSDetector_neutron.root output/run_2_node*
+    hadd 150um_PSDetector_neutron.root output/run_3_node*
+    hadd 300um_PSDetector_neutron.root output/run_4_node*
+    hadd 600um_PSDetector_neutron.root output/run_5_node*
+    hadd 1mm_PSDetector_neutron.root output/run_6_node*
+    hadd 1cm_PSDetector_neutron.root output/run_7_node*
+    hadd 2cm_PSDetector_neutron.root output/run_8_node*
+    hadd 5cm_PSDetector_neutron.root output/run_9_node*
+else
+    echo "$1 is not an option.  Options are run1 and run1_neutron."
 fi

@@ -23,7 +23,7 @@ using namespace G4Root;
 #define WORLDNUM 0      // Map between material and Number
 #define GAPNUM 1
 #define ABSNUM 2
-#define NUMPID 4        // PID of 0, 1, 2,3 (placeholder,neutron,Triton,alpha)
+#define NUMPID 5        // PID of 0, 1, 2,3 (placeholder,neutron,Triton,alpha)
 class Analysis {
 
 public:

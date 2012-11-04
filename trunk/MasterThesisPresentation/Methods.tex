@@ -14,9 +14,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Facilities}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Button Sources}
-\begin{columns}[onlytextwidth]
-\begin{column}{0.45\textwidth}
+	\centering
 	Alpha Sources
 	\begin{table}[h]
 		\tiny
@@ -31,8 +31,6 @@
 		\hline
 		\end{tabular}
 	\end{table}
-\end{column}
-\begin{column}{0.45\textwidth}
 	Beta Sources
 	\begin{table}[h]
 		\tiny
@@ -47,10 +45,9 @@
 		\hline
 		\end{tabular}
 	\end{table}
-\end{column}
-\end{columns}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Gamma Irridiator}
 \begin{columns}[onlytextwidth]
 \begin{column}{0.45\textwidth}
@@ -63,7 +60,7 @@
 \begin{column}{0.45\textwidth}
 	\centering
 	\begin{figure}
-		\includegraphics[width=\textwidth]{images/GammaIrridiator.eps}
+		\includegraphics[width=0.8\textwidth]{images/GammaIrridiator.eps}
 		\label{fig:GammaIrridiator}
 		\caption{Gamma Irridiator}
 	\end{figure}
@@ -71,16 +68,188 @@
 \end{columns}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Neutron Irridiator}
 \begin{columns}[onlytextwidth]
 \begin{column}{0.45\textwidth}
-	text
+	\small
+	\begin{itemize}
+		\item Source is 0.59 $\mu$g ${}^{252}$Cf
+		\item Encased in HDPE Box
+		\item Two detector wells
+		\begin{itemize}
+			\tiny
+			\item Lead Well
+			\item Cadmium Well
+		\end{itemize}
+	\end{itemize}
 \end{column}
 \begin{column}{0.45\textwidth}
 	\begin{figure}
+		\centering
 		\includegraphics[height=0.25\textheight]{images/NeutronIrridiator_CAD.eps}
+		\caption{CAD Rendering of Neutron Irridiator}
+		\label{fig:NeutronIrridiatorCAD}
 		\includegraphics[height=0.25\textheight]{images/NeutronIrridiator_MCNP.eps}
+		\caption{MCNPX Rendering of Neutron Irridiator}
+		\label{fig:NeutronIrridiatorMNCPX}
 	\end{figure}
 \end{column}
 \end{columns}
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Neutron Irriditor (Spectra)}
+\begin{columns}[onlytextwidth]
+\begin{column}{0.45\textwidth}
+	\begin{itemize}
+		\small
+		\item Lead Well
+		\begin{itemize}
+			\tiny
+			\item Neutrons of all energies
+			\item Lead to match photon attenuation of cadmium
+		\end{itemize}
+		\small
+		\item Cadmium Well
+		\begin{itemize}
+			\tiny
+			\item Cadmium cutoff is about 0.5 eV
+			\item Well response is to fast neutrons
+			\item Sheilding of photons from cadmium
+		\end{itemize}
+		\small 
+		\item Subtraction is preformed between the two respones to extract the response from thermal neutrons
+	\end{itemize}
+\end{column}
+\begin{column}{0.45\textwidth}
+	\begin{figure}
+		\centering
+		\includegraphics[height=\textwidth]{images/Graph19N.eps}
+		\caption{Simulated Lead and Cadmium Well Spectra}
+		\label{fig:SimPbCdSpectra}
+	\end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Spectra Electronics}
+\begin{columns}[onlytextwidth]
+\begin{column}{0.45\textwidth}
+	\small 
+	Measurement Protocol
+	\begin{itemize}
+		\tiny
+		\item Verify instrument gains are stable
+		\begin{itemize}
+			\tiny
+			\item GS20 (${}^6$Li glass) is used as the standard
+			\item Set voltage and coarse gain, adjust fine gain
+		\end{itemize}
+		\tiny
+		\item Obtain a spectra from an alpha (${}^{241}$Am) 
+		\item Obtain a spectra from a beta (${}^{36}$Cl)
+		\item Obtain a lead well neutron spectra
+		\item Obtain a cadmium well neutron spectra
+		\item Obtain a gamma irridiator spectra
+	\end{itemize}
+\end{column}
+\begin{column}{0.45\textwidth}
+	\begin{figure}
+		\centering
+		\includegraphics[height=0.5\textwidth]{images/ElectronicsSpectra.eps}
+		\caption{Electronic Setup for Spectra}
+		\label{fig:ElectronicsSpectra}
+	\end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Pulse Height Electronics}
+	\begin{itemize}
+		\small
+		\item Pulse traces are recorded either from an oscilloscope or from fast digitilizer
+		\item Requires fast PMT and electroncis
+	\end{itemize}
+	\begin{figure}
+		\centering
+		\includegraphics[height=0.5\textheight]{images/ElectronicsPSD.eps}
+		\caption{Electronic Setup for Pulse Shape}
+		\label{fig:ElectronicsPSD}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                                   FACILITIES                                %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Analysis Methods}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Spectra Average}
+	\begin{itemize}
+		\item Thin films do not have clearly define features
+		\item Spectra averages defined to create a feature
+	\end{itemize}
+	\newtheorem{thm4}{Spectra Average}
+	\begin{thm4}<1->
+		$$<\mu> = \frac{\int_{0}^{\infty}x f(x)dx}{\int_{0}^{\infty}f(x)dx} $$
+		where:
+		\begin{itemize}
+			\tiny
+			\item $<\mu>$ is the average of the spectra
+			\item $f(x)$ is the spectra
+			\item $x$ is a channel number
+		\end{itemize}
+	\end{thm4}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Pulse Height Deficit}
+	\newtheorem{thm5}{Pulse Height Deficit}
+	\begin{thm5}<1->
+	\tiny
+	$$ PHD_{GS20} = \frac{\dfrac{n_{peak}}{4.78\;\text{MeV}}}{\dfrac{CE_\gamma}{1.038\;\text{MeV}}} $$
+		where:
+		\begin{itemize}
+			\tiny
+			\item $PHD_{GS20}$ is the pulse height deficit for GS20
+			\item $n_{peak}$ is the location of the peak in the neutron spectra
+			\item $CE_\gamma$ is the Compton Edge of the Gamma Spectra
+		\end{itemize}
+	\end{thm5}
+	\newtheorem{thm6}{Pulse Height Deficit (Sample)}
+	\begin{thm6}<1->
+	\tiny
+	$$ PHD_{Sample} = PHD_{GS20} \frac{<n>_{sample}}{<n>_{GS20}} $$
+		where:
+		\begin{itemize}
+			\tiny
+			\item $PHD_{GS20}$ is the pulse height deficit for GS20
+			\item $<n>_{sample}$ is the average of the sample's neutron spectra
+			\item $<n>_{GS20}$ is the average of GS20's neutron spectra
+		\end{itemize}
+	\end{thm6}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Light Yeild}
+	\newtheorem{thm7}{Light Yield}
+	\begin{thm7}<1->
+	\tiny
+	$$ LY_{n} = 3,800 \frac{\text{Photons}}{\text{MeV}}\frac{<n>_{sample}}{<n>_{GS20}} $$
+	$$ LY_{\beta} = 3,800 \frac{\text{Photons}}{\text{MeV}}\frac{<\beta>_{sample}}{<\beta>_{GS20}} $$
+	$$ LY_{\gamma} = 3,800 \frac{\text{Photons}}{\text{MeV}}\frac{<\gamma>_{sample}}{<\gamma>_{GS20}} $$
+		where:
+		\begin{itemize}
+			\tiny
+			\item $<n>_{sample}$ is the average of the sample's neutron spectra
+			\item $<n>_{GS20}$ is the average of GS20's neutron spectra
+			\item $<\beta>_{sample}$ is the average of the sample's beta (${}^{36}$Cl) spectra
+			\item $<\beta>_{GS20}$ is the average of GS20's bet (${}^{36}$Cl) spectra
+			\item $<\gamma>_{sample}$ is the average of the sample's gamma (${}^{60}$Co) spectra
+			\item $<\gamma>_{GS20}$ is the average of GS20's gamma (${}^{60}$Co) spectra
+		\end{itemize}
+	\end{thm7}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

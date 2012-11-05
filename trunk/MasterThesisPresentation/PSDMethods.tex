@@ -41,6 +41,20 @@
 	\end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Pulse Height Electronics}
+	\begin{itemize}
+		\small
+		\item Pulse traces are recorded either from an oscilloscope or from fast digitilizer
+		\item Requires fast PMT and electroncis
+	\end{itemize}
+	\begin{figure}
+		\centering
+		\includegraphics[height=0.5\textheight]{images/ElectronicsPSD.eps}
+		\caption{Electronic Setup for Pulse Shape}
+		\label{fig:ElectronicsPSD}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{PSD Methods}
 \begin{columns}[onlytextwidth]
 \begin{column}{0.45\textwidth}
@@ -76,23 +90,53 @@
 	\end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{ROC Curves}
+\begin{frame}{ROC Curves I}
 	\begin{table}[h]
 	\begin{tabular}{m{1cm} | m{1.5cm}| >{\centering\arraybackslash}m{2cm} >{\centering\arraybackslash}m{2cm}}
 	\tiny
 		 & \multicolumn{3}{c}{True Class} \\
 		 \hline
 		 \hline
-		 \multirow{3}{*}{\protect \begin{sideways} Hypothesized Class \protect \end{sideways}} & & Alpha & Gamma \\  \cdashline{3-4}
+		 \multirow{3}{*}{\protect \begin{sideways} Hypothesized Class \protect \end{sideways}} & & Alpha & Gamma \\  \cline{3-4}
 		 & Alpha & True Postive & False Postive (Type 1) \\ \cdashline{3-4}
 		 & Gamma & False Negative (Type 2) & True Negative \\ 
 	\end{tabular}
 	\end{table}
 	\begin{figure}
 		\centering
-		\includegraphics[height=0.4\textheight]{images/ROC_Diagrams.eps}
+		\includegraphics[height=\textwidth]{images/ROC_Diagrams.eps}
 		\caption{Perforamnce of a Classifier}
 		\label{fig:ROCDiagrams}
 	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{ROC Curves II}
+	\begin{figure}
+		\centering
+		\includegraphics[height=\textwidth]{images/ROC_Class2Curve.eps}
+		\caption{Perforamnce of a Classifier}
+		\label{fig:ROCClass2Curve}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{ROC Curves III}
+\begin{columns}[onlytextwidth]
+\begin{column}{0.45\textwidth}
+	\begin{figure}
+		\centering
+		\includegraphics[height=\textwidth]{images/ROC_GaussDist.eps}
+		\caption{Gaussian Classifers}
+		\label{fig:ROCGausClassifers}
+	\end{figure}
+\end{column}
+\begin{column}{0.45\textwidth}
+	\begin{figure}
+		\centering
+		\includegraphics[height=\textwidth]{images/ROC_Gaussian.eps}
+		\caption{ROC Curves of the Four Classifers}
+		\label{fig:ROCGaussian}
+	\end{figure}
+\end{column}
+\end{columns}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

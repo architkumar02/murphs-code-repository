@@ -23,15 +23,21 @@
 \usepackage[english]{babel}
 \usepackage[utf8]{inputenc}
 \usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{array}				% Table Stuff
+\usepackage{arydshln}
 \usepackage{multirow}
 \usepackage{rotating}
-\usepackage{arydshln}
-\usepackage{array}
-\usepackage[T1]{fontenc}
 \usepackage{graphics}
 \usepackage[small]{caption}
-\usepackage{amsmath}
+\usepackage{amsmath}				% Math Stuff
+\usepackage{listings}				% Code Example Stuff
 \bibliographystyle{ieeetr}
+
+\lstset{% General Listing Settings
+	basicstyle=\tiny,
+	frame=single
+}
 
 
 % Preamble / Frst Size

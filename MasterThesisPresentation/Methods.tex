@@ -180,7 +180,7 @@
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
-%                                   FACILITIES                                %
+%                             ANALYSIS METHDOS                                %
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Analysis Methods}
@@ -250,6 +250,48 @@
 	\end{thm7}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}
+	\newtheorem{thm8}{Gamma Intrisinic Efficiency}
+	\begin{thm8}<1->
+		$$ \epsilon_{int,\gamma} = \frac{\int_{MLLD}^{\infty}{f(x)dx}}{\text{Particles Incident}} $$
+	where:
+	\begin{itemize}
+		\tiny
+		\item $MLLD$ is the mathmatical lower level discriminator
+		\item $f(x)$ is the spectra
+		\item $\text{Particles Incident}$ is the number of incident particles
+	\end{itemize}
+	\end{thm8}
+	\newtheorem{rmk1}{Mathmatical Lower Level Discriminator}
+	\begin{rmk1}
+		\tiny
+		Mathmatical lower level discriminator (MLLD) is defined to be the channel at which $\epsilon_{int,\gamma} \leq 10^{-6}$
+	\end{rmk1}
+
+	\begin{itemize}
+		\tiny
+		\item MLLD for a film is determined from a ${}^{60}$Co measurement
+		\item Source produces a 10 mR/hr field at detector surface
+		\item Particles incident determined from simulation
+	\end{itemize}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Gamma Intrisinic Efficiency Example I}
+	\begin{figure}
+		\centering
+		\includegraphics[height=0.5\textheight]{images/CartoonIntEffReal.eps}
+		\caption{Determination of the MLLD (Example)}
+		\label{fig:ElectronicsPSD}
+	\end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Gamma Intrisinic Efficiency Example II}
+	\begin{figure}
+		\centering
+		\includegraphics[height=0.5\textheight]{images/CartoonIntEffSimple.eps}
+		\caption{Determination of the MLLD for a PEN film}
+		\label{fig:CartoonIntEffSimple}
+	\end{figure}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

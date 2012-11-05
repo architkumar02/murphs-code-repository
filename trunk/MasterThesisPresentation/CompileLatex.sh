@@ -12,5 +12,5 @@ else
 	dvipdf $1
 
 	# Clean up
-	rm *.toc *.nav *.log *.aux *.snm
+	rm *.bbl *.blg *.dvi *.toc *.nav *.log *.aux *.snm
 fi

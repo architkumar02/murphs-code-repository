@@ -5,35 +5,98 @@
 % 
 % Methods
 %
-\section{Methods}
+\section{Simulation}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %
-%                                   HEADER                                    %
+%                             SIMULATION METHODS                              %
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Facilities}
+\subsection{Simulation Methods}
 
-% Table Format %
-\begin{frame}{Table Sample}
-\begin{table}[h]
-\begin{tabular}{c | c c c}
-\end{tabular}
-\end{table}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Gamma Irridiator Dose Rate}
+Need to create a 10 mR/hr field
+	\newtheorem{thm10}{Dose Rate Calculation}
+	\begin{thm10}<1->
+		$$F2 = \frac{1}{A} \int_{A}{dA}\int_{E}{dE}\in_{4\pi}{d\Omega \Re(E) \Phi(\ve{r},E,\vec{\Omega})} $$
+	where:
+	\begin{itemize}
+		\tiny
+		\item $\Re(E)$ is the response function
+		\item $\Phi(\vec{r},E,\vec{\Omega})$ is the photon flux
+	\end{itemize}
+	\end{thm10}
+Accomplished using the DF Cards
+\begin{block}
+c Multiply each tally by 1000 mrem/rem * 100uCi * 3.7E10 Bq *2 photons / decay
+FC12 Photon Flux over Front of Detector Surface
+F12:P (500.2<600)
+DE12  0.01 0.015 0.02 0.03 0.04 0.05 0.06 0.08 0.1 0.15 0.2 0.3 0.4 0.5 0.6  
+		0.8 1 1.5
+DF12  2.78E-6 1.11E-6 5.88E-7 2.56E-7 1.56E-7 1.20E-7 1.11E-7 1.20E-7 1.47E-7
+      2.38e-7 3.45E-7 5.56E-7 7.69E-7 9.09E-7 1.14E-6 1.47E-6 1.79E-6 2.44E-6
+\end{block}
 \end{frame}
 
-% Two Column Format %
-\begin{frame}{Two Column Sample}
-\begin{columns}[onlytextwidth]
-\begin{column}{0.45\textwidth}
-	text
-\end{column}
-\begin{column}{0.45\textwidth}
-	\begin{figure}
-	
-	\end{figure}
-\end{column}
-\end{columns}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Interaction Rate}
+	\newtheorem{thm11}{Interaction Rate}
+	\begin{thm11}<1->
+		$$Q = C \int {\Phi(E) R_m(E) dE $$
+	where:
+	\begin{itemize}
+		\tiny
+		\item $Q$ is an arbitrary scalar normalization
+		\item $\R_m(E)$ is the response function
+		\item $\Phi(E_$ is the photon flux
+	\end{itemize}
+	\end{thm11}
+Accomplished using a F4 tally with multiplier
+\begin{block}
+c -------------- Interaction Rate Tallies -----------------------
+FC114 Total Neutrons Reactions in Detector in Pb Well
+F114:n (601<610)
+FM114 -1 3 1
+FC154 (n,t) Reactions in Detector in Pb Well
+F154:n (601<610)
+FM154 -1 3 105
+FC214 Total Neutron Reactions in Detector in Cd Well
+F214:n (601<620)
+FM214 -1 3 1
+FC254 (n,t) Reactions in Detector in Cd Well
+F254:n (601<620)
+FM254 -1 3 105
+\end{block}
 \end{frame}
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                             SIMULATION VALIDATION                           %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Simulation Validation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Neutron Simulation Agreement}
+	\begin{table}[h]
+	\begin{tabular}{m{2cm} | >{\centering\arraybackslash}m{2cm} >{\centering\arraybackslash}m{2cm} >{\centering\arraybackslash}m{2cm}}
+	\tiny
+		 & Simulated Count Rate & Observed Count Rate & Relative Error \\
+		 \hline
+		 \hline
+		 GS20 & 424.83 \pm 3.8\% 428 & -0.7 \% \\
+		 PS Film, 25 $\mu$m & 56.23 \pm 1.19\% 51 & 9.5\% \\
+		 PS Film, 50 $\mu$m & 108.10 \pm 1.14\% 96 & 12.6\% \\
+	\end{tabular}
+	\end{table}
+	\begin{definition}[Relative Error]
+		$$\sigma = \frac{\text{Obs} -\text{ Sim}}{\text{Obs}}$$
+	where:
+	\begin{itemize}
+		\tiny
+		\item $\text{Obs}$ is the observed count rate
+		\item $\text{Sim}$ is the simulated count rate
+	\end{itemize}
+	\end{definition}
+\end{frame}

@@ -43,6 +43,7 @@
 
 
 % Preamble / Frst Size
+\setbeamersize{text margin left=5mm, text margin right 5mm}
 \title[Matthew Urffer Master's Thesis] {Design of a Neutron Detector Capable of Replacing ${}^3$He Detectors Utilizing Thin Polymeric Films}
 \author[] {Matthew Urffer\inst{1} }
 \institute[University of Tennessee] { 
@@ -52,19 +53,20 @@
 }
 
 \date[] {Master's Thesis Defense, 2012}
-%\pgfdeclareimage[height=0.5cm]{university-logo}{images/utwordmark.eps}
 \pgfdeclareimage[height=0.5cm]{university-logo}{images/utwordmarkhorz.eps}
 \logo{\pgfuseimage{university-logo}}
 
 
-
 % Delete this, if you do not want the table of contents to pop up at
 % the beginning of each subsection*:
-\AtBeginSubsection[]
+\AtBeginSection[]
 {
-  \begin{frame}<beamer>{Outline}
-    \begin{mutlicols}{2}
-    \tableofcontents[currentsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded]
+  \begin{frame}<beamer>{Section Outline}
+  \begin{multicols}{2}
+  % \tableofcontents[currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded,]
+ %   \tableofcontents[currentsection,currentsubsection]
+    \tableofcontents[currentsection] 
+    %\tableofcontents
     \end{multicols}
   \end{frame}
 }
@@ -81,9 +83,10 @@
   \titlepage
 \end{frame}
 
-\begin{frame}{Outline}
-    \begin{multicols}{2}
-        \tableofcontents  % Automatically creates a TOC
+\begin{frame}{Table of Contents}
+  \begin{multicols}{2}
+    \tableofcontents[currentsection,currentsubsection]
+    %    \tableofcontents[currentsection]
     \end{multicols}
   % You might wish to add the option [pausesections]
 \end{frame}
@@ -96,8 +99,8 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{./Introduction}
 \include{./Methods}
-\include{./PSDMethods}
 \include{./SimMethods}
+\include{./PSDMethods}
 \include{./FilmPerformance}
 \include{./SimPerformance}
 \include{./PSDPerformance}

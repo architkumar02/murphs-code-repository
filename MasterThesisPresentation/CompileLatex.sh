@@ -13,12 +13,13 @@ else
 			aspell -t f
 		done
 	else
-		latex --interaction=batchmode $1
+		version=$(svnversion .)
+        latex --interaction=batchmode $1
 		bibtex $1
 		latex --interaction=batchmode $1
 		latex --interaction=batchmode $1
 		dvipdf $1
-
+        mv $1.pdf $1_v$version.pdf
 		# Clean up
 		rm *.vrb *.out *.bbl *.blg *.dvi *.toc *.nav *.log *.aux *.snm
 	fi

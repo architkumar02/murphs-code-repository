@@ -12,16 +12,31 @@
 %                             SIMULATION METHODS                              %
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Simulation Methods}
-
+\subsection{MCNPX Simulations}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{MCNPX Simulations}
+	\centering
+	\begin{figure}
+		\includegraphics[width=0.5\textwidth]{images/logo-mcnpx.eps}
+	\end{figure}
+\begin{itemize}
+    \item MCNPX is a well validated transport code \cite{pelowitz_mcnpx_2010}
+    \begin{itemize}
+        \item MCNPX is a monte carlo based
+        \item MCNPX has drawbacks with energy deposition
+    \end{itemize}
+    \item Input decks based on pervious work (Martian Williamson)
+    \item Many thanks to NE Cluster group for their support
+\end{itemize}
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}[fragile]
 \frametitle{Gamma Irridiator Dose Rate}
-	\small
+	\tiny
 	Need to create a 10 mR/hr field
 	\newtheorem{thm10}{Dose Rate Calculation}
 	\begin{thm10}<1->
-		$$F2 = \frac{1}{A} \int_{A}{dA}\int_{E}{dE}\in_{4\pi}{d \Omega \Re(E) \Phi(\vec{r},E,\vec{\Omega})} $$
+		$$F2 = \frac{1}{A} \int_{A}{dA}\int_{E}{dE}\int_{4\pi}{d \Omega \Re(E) \Phi(\vec{r},E,\vec{\Omega})} $$
 	where:
 	\begin{itemize}
 		\item $\Re(E)$ is the response function
@@ -49,27 +64,21 @@ DF12  2.78E-6 1.11E-6 5.88E-7 2.56E-7 1.56E-7 1.20E-7 1.11E-7 1.20E-7 1.47E-7
 		$$Q = C \int {\Phi(E) R_m(E) dE }$$
 	where:
 	\begin{itemize}
-		\item $Q$ is an arbitrary scalar normalization
+		\item $C$ is a scalar normalization (density)
 		\item $R_m(E)$ is the response function
-		\item $\Phi(E)$ is the photon flux
+		\item $\Phi(E)$ is the neutron flux
 	\end{itemize}
 	\end{thm11}
 Accomplished using a F4 tally with multiplier
 \tiny
 \begin{lstlisting}
 c -------------- Interaction Rate Tallies -----------------------
-FC114 Total Neutrons Reactions in Detector in Pb Well
-F114:n (601<610)
-FM114 -1 3 1
 FC154 (n,t) Reactions in Detector in Pb Well
 F154:n (601<610)
 FM154 -1 3 105
 FC214 Total Neutron Reactions in Detector in Cd Well
 F214:n (601<620)
 FM214 -1 3 1
-FC254 (n,t) Reactions in Detector in Cd Well
-F254:n (601<620)
-FM254 -1 3 105
 \end{lstlisting}
 \end{frame}
 
@@ -79,7 +88,11 @@ FM254 -1 3 105
 %                             SIMULATION VALIDATION                           %
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection*{Simulation Validation}
+\subsection{Simulation Validation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Gamma Dose Rate Agreement}
+SOMETHING ABOUT THE GAMMA DOSE RATE AGREEMENT
+\end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Neutron Simulation Agreement}
 	\begin{table}[h]

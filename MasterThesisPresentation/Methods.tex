@@ -28,7 +28,6 @@
 		${}^{240}$Pu & $6.5\times10^{3}$ yr & 5.17 (76\%) 5.12 (24\%) \\
 		${}^{241}$Am & 433 yr & 5.48 (85\%) 5.44 (12\%) \\
 		${}^{239}$Pu, ${}^{241}$Am, ${}^{244}$Cm  & various & various \\
-		\hline
 		\end{tabular}
 	\end{table}
 	Beta Sources
@@ -42,7 +41,6 @@
 		${}^{36}$Cl & $3.08\times10^{5}$ yr & 0.714 \\
 		${}^{36}$Ni &  92 yr & 0.067 \\
 		${}^{99}$Tc & $2.12\times10^{5}$ yr & 0.292 \\
-		\hline
 		\end{tabular}
 	\end{table}
 \end{frame}
@@ -125,7 +123,7 @@
 \begin{column}{0.45\textwidth}
 	\begin{figure}
 		\centering
-		\includegraphics[height=\textwidth]{images/Graph19N.eps}
+		\includegraphics[width=\textwidth]{images/Graph19N.eps}
 		\caption{Simulated Lead and Cadmium Well Spectra}
 		\label{fig:SimPbCdSpectra}
 	\end{figure}
@@ -176,9 +174,11 @@
 		\item Thin films do not have clearly define features
 		\item Spectra averages defined to create a feature
 	\end{itemize}
+\begin{columns}[onlytextwidth]
+\begin{column}{0.45\textwidth}
 	\newtheorem{thm4}{Spectra Average}
 	\begin{thm4}<1->
-		$$<\mu> = \frac{\int_{0}^{\infty}x f(x)dx}{\int_{0}^{\infty}f(x)dx} $$
+		$$<\mu> = \frac{\int_{0}^{\infty}x\cdot f(x)dx}{\int_{0}^{\infty}f(x)dx} $$
 		where:
 		\begin{itemize}
 			\tiny
@@ -187,6 +187,15 @@
 			\item $x$ is a channel number
 		\end{itemize}
 	\end{thm4}
+\end{column}
+\begin{column}{0.45\textwidth}
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{images/StrechedPEN-Neutron.eps}
+		\caption{Example Neutron Spectra}
+	\end{figure}
+\end{column}
+\end{columns}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Pulse Height Deficit}
@@ -262,21 +271,22 @@
 	\end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Gamma Intrinsic Efficiency Example I}
-	\begin{figure}
-		\centering
-		\includegraphics[height=0.5\textheight]{images/CartoonIntEffReal.eps}
-		\caption{Determination of the MLLD (Example)}
-		\label{fig:ElectronicsPSD}
-	\end{figure}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Gamma Intrinsic Efficiency Example II}
+\begin{frame}[allowframebreaks]
+    \frametitle{Gamma Intrinsic Efficiency Example}
 	\begin{figure}
 		\centering
 		\includegraphics[height=0.5\textheight]{images/CartoonIntEffSimple.eps}
 		\caption{Determination of the MLLD for a PEN film}
 		\label{fig:CartoonIntEffSimple}
+	\end{figure}
+%\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\begin{frame}{Gamma Intrinsic Efficiency Example I}
+	\begin{figure}
+		\centering
+		\includegraphics[height=0.5\textheight]{images/CartoonIntEffReal.eps}
+		\caption{Determination of the MLLD (Example)}
+		\label{fig:ElectronicsPSD}
 	\end{figure}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

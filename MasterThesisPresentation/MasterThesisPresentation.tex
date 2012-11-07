@@ -45,6 +45,7 @@
 % Preamble / Frst Size
 \setbeamersize{text margin left=5mm, text margin right 5mm}
 \title[Matthew Urffer Master's Thesis] {Design of a Neutron Detector Capable of Replacing ${}^3$He Detectors Utilizing Thin Polymeric Films}
+\subtitle{Master's Thesis Defense}
 \author[] {Matthew Urffer\inst{1} }
 \institute[University of Tennessee] { 
   \inst{1}%
@@ -52,21 +53,20 @@
   University of Tennessee, Knoxville, TN
 }
 
-\date[] {Master's Thesis Defense, 2012}
+\date[] {November 8th, 2012}
 \pgfdeclareimage[height=0.5cm]{university-logo}{images/utwordmarkhorz.eps}
 \logo{\pgfuseimage{university-logo}}
 
 
 % Delete this, if you do not want the table of contents to pop up at
-% the beginning of each subsection*:
+% the beginning of each subsection:
 \AtBeginSection[]
 {
-  \begin{frame}<beamer>{Section Outline}
-  \begin{multicols}{2}
+  \begin{frame}<beamer>{}
+    \frametitle{\insertsectionhead}
+    \begin{multicols}{2}
   % \tableofcontents[currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded,]
- %   \tableofcontents[currentsection,currentsubsection]
     \tableofcontents[currentsection] 
-    %\tableofcontents
     \end{multicols}
   \end{frame}
 }
@@ -85,17 +85,15 @@
 
 \begin{frame}{Table of Contents}
   \begin{multicols}{2}
-    \tableofcontents[currentsection,currentsubsection]
-    %    \tableofcontents[currentsection]
+    \tableofcontents[currentsection,pausesections]
     \end{multicols}
-  % You might wish to add the option [pausesections]
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 																							         %
-%					Start of the meat of the document.  YAY.								%
-%																										%
+%                                                                             %
+%                             START OF CONTENT                                %
+%                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \include{./Introduction}
 \include{./Methods}
@@ -116,7 +114,8 @@
   \item
     Thin polymeric films have been demonstrated to have the necessary interaction rates for radiation portal monitors
   \end{itemize}
-  
+ \large
+ Questions?
 \end{frame}
 
 
@@ -130,7 +129,7 @@
 % APPENDIX
 \appendix
 \section<presentation>*{\appendixname}
-\subsection*<presentation>*{Fundamental Physics}
+\subsection<presentation>*{Fundamental Physics}
 \begin{frame}{Absorption Cross Sections}
 \begin{figure}
 	\centering

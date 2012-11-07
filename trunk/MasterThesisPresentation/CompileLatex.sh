@@ -20,6 +20,6 @@ else
 		dvipdf $1
 
 		# Clean up
-		rm *.bbl *.blg *.dvi *.toc *.nav *.log *.aux *.snm
+		rm *.vrb *.out *.bbl *.blg *.dvi *.toc *.nav *.log *.aux *.snm
 	fi
 fi

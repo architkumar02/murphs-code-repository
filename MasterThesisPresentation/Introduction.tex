@@ -119,7 +119,7 @@ DHS / DNDO (along with PNNL) has determined a set of objectives that replacement
 	\hline
 	\hline
 	Absolute neutron detection efficiency & 2.5 cps/ng of ${}^{252}Cf$ (in specified test configuration) \\
-	Intrinsic gamma-neutron detection efficiency & $ \epsilon_{int,\gamma}\leq 10^{-6}$ \\
+	Intrinsic gamma-neutron detection efficiency & $ \epsilon_{int,\gamma n}\leq 10^{-6}$ \\
 	Gamma absolute rejection ratio for neutrons (GARRn) & $ 0.9 \leq \text{ GARRn }\leq$ 1.1 at 10 mR/h exposure \\
 	Cost &  \$ 30,000 per system \\
 	\hline
@@ -143,9 +143,9 @@ Test configuration is defined to be 1 ng ${}^{252}$Cf surrounded by 0.5 cm of le
 \begin{frame}{Intrinsic Gamma-Neutron Detection Efficiency}
 \newtheorem{thm2}{Intrinsic Gamma-Neutron Detection Efficiency}
 \begin{thm2}<1->
-$$\epsilon_{int,n \gamma} = \frac{\text{Counts}}{\text{Quanta Radiation Crossing Detector}} \; \protect \cite{kouzes_alternative_2010} $$
+$$\epsilon_{int,\gamma n} = \frac{\text{Counts}}{\text{Quanta Radiation Crossing Detector}} \; \protect \cite{kouzes_alternative_2010} $$
 Constraint:
-$$ \epsilon_{int,n \gamma} \leq 10^{-6} $$
+$$ \epsilon_{int,\gamma n} \leq 10^{-6} $$
 \end{thm2}
 \begin{itemize}
 	\item Counts over quanta crossing the detector
@@ -157,7 +157,7 @@ $$ \epsilon_{int,n \gamma} \leq 10^{-6} $$
 \begin{frame}{Gamma Absolute Rejection Ratio}
 \newtheorem{thm3}{GARRn}
 \begin{thm3}<1->
-$$ GARRn = \frac{\epsilon_{\gamma,abs}}{\epsilon_{n,abs}} \; \protect \cite{kouzes_alternative_2010} $$
+$$ GARRn = \frac{\epsilon_{abs,\gamma n}}{\epsilon_{abs,n}} \; \protect \cite{kouzes_alternative_2010} $$
 Constraint:
 $$ 0.9 \leq GARRn \leq 1.1 $$
 \end{thm3}

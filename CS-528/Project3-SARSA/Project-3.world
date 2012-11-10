@@ -1,0 +1,53 @@
+
+# Desc: Stage demo with lots of models. Works with everything.cfg.
+# CVS: $Id: everything.world,v 1.87 2008-02-12 02:53:53 rtv Exp $
+
+# the size of a pixel in Stage's underlying raytrace model in meters
+resolution     0.04
+
+include "pioneer.inc"
+include "irobot.inc"
+include "map.inc"
+include "sick.inc"
+
+window
+( 
+  size [ 700 700 ] 
+  center [0 0] 
+  scale 20
+
+  show_data 1
+)
+
+floorplan
+( 
+  bitmap "bitmaps/autolab.png" 
+  map_resolution 0.2
+  size [30.000 30.000 08] 
+  name "autolab"
+)
+
+
+
+# extend the pioneer2dx definition from pioneer.inc
+#
+define robotProj3 pioneer2dx
+(
+	ranger( alwayson 0 )
+
+  sicklaser( pose [0.030 0 0 0 ]  alwayson 1 )
+
+  gripper_return 0
+
+  localization "gps"
+  localization_origin [ 0 0 0 0 ]
+)
+
+
+robotProj3
+(
+  name "robotProj3"
+  pose [-3 2 0 -2.333]
+
+  gripper( pose [0.23 0.000 -0.20 0.000] color "gray" )
+)

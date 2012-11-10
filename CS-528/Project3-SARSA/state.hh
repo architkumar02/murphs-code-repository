@@ -1,9 +1,9 @@
-#ifndef STATE_HH
-#define STATE_HH
+#ifndef __STATE_H__
+#define __STATE_H__
 
 class State{
     public:
-        state();
+        state(double lmin, double rmin, double rmax);
         ~state();
 
     private:

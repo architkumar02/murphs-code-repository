@@ -2,8 +2,13 @@
   * @file control.hh
   * @author Matthew J. Urffer (matthew.urffer@gmail.com)
   */
-#ifndef CONTORL_HH
-#define CONTROL_HH
+#ifndef __CONTORL_H__
+#define __CONTROL_H__
+
+#include <string>
+#include <iostream>
+#include <map>
+#include <utility>
 
 #include "state.hh"
 #include "action.hh"
@@ -12,13 +17,13 @@
 class control{
 
     public:
-        control();
+        control(string filename);
         ~control();
         
         action getControlAction(state s);
         
+        void writeControlStrategy(string filename);
     private:
         
-
 };
 #endif

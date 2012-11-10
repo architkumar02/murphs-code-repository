@@ -8,7 +8,8 @@ echo "PLAYERPATH: $PLAYERPATH"
 echo "STAGEPATH: $STAGEPATH"
 
 echo "To run:"
-echo "[#] robot-player Project3.cfg"
+echo "[#] make"
+echo "[#] robot-player Project3.cfg &"
 echo "[#] ./robotAgent"
 # To use Python Uncomment the following:
 #PY_VER=$(python -c "import sys; print '.'.join(map(str,sys.version_inf0[:2]))")

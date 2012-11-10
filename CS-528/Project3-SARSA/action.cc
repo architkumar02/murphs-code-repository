@@ -15,3 +15,11 @@ double action::getXAction(){
 double action::getYawSpeed(){
     return yawSpeed;
 }
+
+
+void action::write(std::ostream& out){
+    out<<"<action>\n";
+    out<<"\t<xSpeed>"<<xSpeed<<"</xSpeed>\n";
+    out<<"\t<yawSpeed>"<<yawSpeed<<"</yaySpeed>\n";
+    out<<"</action>\n";
+}

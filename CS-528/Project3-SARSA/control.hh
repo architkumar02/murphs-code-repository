@@ -7,14 +7,19 @@
 
 #include <string>
 #include <iostream>
+#include <fstream>
 #include <map>
 #include <utility>
 
 #include "state.hh"
 #include "action.hh"
 
+using namespace std;
 
 class control{
+    
+    map<state,action> qTable;
+    string filename;
 
     public:
         control(string filename);
@@ -22,7 +27,7 @@ class control{
         
         action getControlAction(state s);
         
-        void writeControlStrategy(string filename);
+        void writeControlStrategy(ofstream out);
     private:
         
 };

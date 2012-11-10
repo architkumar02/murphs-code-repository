@@ -27,7 +27,9 @@ class control{
         
         action getControlAction(state s);
         
-        void writeControlStrategy(ofstream out);
+        void writeControlStrategy(std::ostream& out);
+
+        void readControlStrategy(ifstream& in);
     private:
         
 };

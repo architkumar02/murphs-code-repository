@@ -20,9 +20,16 @@
 #include "control.hh"
 
 #define RAYS 32
-
+using namespace std;
 int main(int argc, char **argv) {
     parse_args(argc,argv);
+    if (train){
+        cout<<"Elected to train robot"<<endl;
+    }
+    if(run){
+        cout<<"Elected to run trained robot"<<endl;
+        // Need to read in optimal control policy
+    }
 
     // we throw exceptions on creation if we fail
     try
@@ -48,7 +55,7 @@ int main(int argc, char **argv) {
 
             double minR = lp.GetMinRight();
             double minL = lp.GetMinLeft();
-            double maxRange = lp.getMaxRange();
+            double maxRange = lp.GetMaxRange();
 
             // laser avoid (stolen from esben's java example)
             std::cout << "minR: " << minR

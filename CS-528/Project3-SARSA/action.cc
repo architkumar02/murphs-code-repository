@@ -1,5 +1,9 @@
 #include "action.hh"
 
+action::action(){
+    this->xSpeed = 0.0;
+    this->yawSpeed = 0.0;
+}
 
 action::action(double xSpeed=0.0, double yawSpeed=0.0){
     this->xSpeed = xSpeed;
@@ -17,8 +21,8 @@ void action::read(ifstream & in){
         cerr<<"Unexeppected start of element (<action> expected): "<<line<<endl;
     }
     // Read in action variables
-    this->xSpeed = readValue(in);
-    this->ySpeed = readValue(in);
+    this->xSpeed = readXMLValue(in);
+    this->yawSpeed = readXMLValue(in);
     
     // Make sure we end on the correct note
     getline(in,line);

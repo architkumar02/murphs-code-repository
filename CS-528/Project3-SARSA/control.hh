@@ -16,9 +16,14 @@
 
 using namespace std;
 
+
 class control{
-    
-    map<state,action> qTable;
+    struct cmp_state{
+        bool operator()(const state& lhs, const state& rhs){
+            return (lhs.rmin < rhs.rmin);
+        }   
+    };
+    std::map<state,action,cmp_state> qTable;
     string filename;
 
     public:
@@ -26,9 +31,10 @@ class control{
         ~control();
         
         action getControlAction(state s);
-        
-        void writeControlStrategy(std::ostream& out);
+        void addControlAction(state s, action a);
 
+        /* I/O*/
+        void writeControlStrategy(std::ostream& out);
         void readControlStrategy(ifstream& in);
     private:
         

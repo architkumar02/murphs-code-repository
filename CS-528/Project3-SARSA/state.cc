@@ -1,5 +1,11 @@
 #include "state.hh"
 
+state::state(){
+    this->lmin = 0.0;
+    this->rmin = 0.0;
+    this->rmax = 0.0;
+}
+
 state::state(double lmin=0.0, double rmin=0.0, double rmax=0.0){
     this->lmin = lmin;
     this->rmin = rmin;

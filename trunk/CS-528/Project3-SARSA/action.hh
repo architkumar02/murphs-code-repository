@@ -7,6 +7,7 @@
 class action {
 
     public:
+        action();
         action(double xSpeed, double yawSpeed);
         ~action();
 

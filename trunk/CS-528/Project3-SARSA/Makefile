@@ -9,6 +9,8 @@ CFLAGS = -Wall -g $(INCLUDES)
 robotAgent:   
 	$(CXX) $(CFLAGS) -o robotAgent `pkg-config --cflags playerc++` robotAgent.cc `pkg-config --libs playerc++`
 
+testControl:
+	$(CXX) $(CFLAGS) -o testControl tests/test_control.cc state.cc action.cc utility.cc -I .
 goto: 
 	$(CXX) $(CFLAGS) -o goto `pkg-config --cflags playerc++` goto.cc `pkg-config --libs playerc++`
 

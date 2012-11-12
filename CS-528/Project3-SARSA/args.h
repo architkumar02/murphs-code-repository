@@ -44,13 +44,14 @@ uint32_t        gDebug(0);
 uint32_t        gFrequency(10); // Hz
 uint32_t        gDataMode(PLAYER_DATAMODE_PUSH);
 bool         gUseLaser(false);
-
+bool        train(false);
+bool        run(false);
 void print_usage(int argc, char** argv);
 
 int parse_args(int argc, char** argv)
 {
   // set the flags
-  const char* optflags = "h:p:i:d:u:lm:";
+  const char* optflags = "t:r:h:p:i:d:u:lm:";
   int ch;
 
   // use getopt to parse the flags
@@ -59,6 +60,22 @@ int parse_args(int argc, char** argv)
     switch(ch)
     {
       // case values must match long_options
+      case 't':   //train
+            train = true;
+            if (run){
+                using namespace std;
+                cerr<<"Can only train or run"<<endl;
+                print_usage(argc,argv);
+                exit(-1);
+            }
+     case 'r':  // run
+            run = true;
+            if (train){
+                using namespace std;
+                cerr<<"Can only train or run"<<endl;
+                print_usage(argc,argv);
+                exit(-1);
+            }
       case 'h': // hostname
           gHostname = optarg;
           break;
@@ -96,6 +113,8 @@ void print_usage(int argc, char** argv)
   using namespace std;
   cerr << "USAGE:  " << *argv << " [options]" << endl << endl;
   cerr << "Where [options] can be:" << endl;
+  cerr << "  -t : to train the robot"<<endl;
+  cerr << "  -r : to run the optimal policy"<<endl;
   cerr << "  -h <hostname>  : hostname to connect to (default: "
        << PlayerCc::PLAYER_HOSTNAME << ")" << endl;
   cerr << "  -p <port>      : port where Player will listen (default: "

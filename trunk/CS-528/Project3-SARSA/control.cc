@@ -19,7 +19,7 @@ control::control(){
 control::~control(){
     // Need to write out control stragety
     std::ofstream filestream(filename.c_str());
-    writeControlStrategy(filestream);
+    writeTable(filestream);
     filestream.close();
 }
 

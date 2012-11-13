@@ -7,7 +7,7 @@ INCLUDES = -I$(PLAYERDIR)/include/player-3.0/ -I$(PLAYERDIR)/include/boost/ -I l
 CFLAGS = -Wall -g $(INCLUDES)
 
 robotAgent:   
-	$(CXX) $(CFLAGS) -o robotAgent `pkg-config --cflags playerc++` robotAgent.cc control.cc state.cc action.cc utility.cc `pkg-config --libs playerc++`
+	$(CXX) $(CFLAGS) -o robotAgent `pkg-config --cflags playerc++` robotAgent.cc satable.cc state.cc action.cc utility.cc `pkg-config --libs playerc++`
 
 testControl:
 	$(CXX) $(CFLAGS) -o testControl tests/test_control.cc state.cc action.cc utility.cc -I .

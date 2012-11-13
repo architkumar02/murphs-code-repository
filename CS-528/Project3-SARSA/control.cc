@@ -7,8 +7,8 @@
 
 #include "control.hh"
 
-control::control(string filename="ControlStrategy.txt"){
-    this->filename = filename;
+control::control(){
+    this->filename="ControlStrategy.txt";
 }
 
 /**

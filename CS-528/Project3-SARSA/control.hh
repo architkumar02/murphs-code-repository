@@ -27,7 +27,7 @@ class control{
     string filename;
 
     public:
-        control(string filename);
+        control();
         ~control();
         
         action getControlAction(state s);

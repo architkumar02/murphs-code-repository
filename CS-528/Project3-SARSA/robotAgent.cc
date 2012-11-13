@@ -7,8 +7,8 @@
  *
  * robot agent for SARSA lambda
  *
- * @todo: Need to write some state representation
- * @todo: Need to work on saving actions
+ * @todo: Improve training
+ * @todo: Test UI
  */
 
 #include <libplayerc++/playerc++.h>
@@ -21,14 +21,19 @@
 
 #define RAYS 32
 using namespace std;
+
 int main(int argc, char **argv) {
     parse_args(argc,argv);
+
+    control c;
     if (train){
         cout<<"Elected to train robot"<<endl;
     }
-    if(run){
+    else{
         cout<<"Elected to run trained robot"<<endl;
-        // Need to read in optimal control policy
+        std::ifstream in("OptimalStrategy.txt");
+        c.readControlStrategy(in);
+        in.close();
     }
 
     // we throw exceptions on creation if we fail
@@ -44,45 +49,73 @@ int main(int argc, char **argv) {
 
         pp.SetMotorEnable (true);
 
-        // go into read-think-act loop
-        for(;;)
-        {
-            double newspeed = 0;
-            double newturnrate = 0;
+        // Setting up problem parameters
+        double wallD = 0.75;        // Wall Distance
+        double oD = 0.25;           // Obsticle distance
+        cout<<"Wall distance: "<<wallD<<" m"<<endl;
+        cout<<"Obstacle distance: "<<oD<<" m"<<endl;
 
-            // this blocks until new data comes; 10Hz by default
-            robot.Read();
+        double maxSpeed = 0.1;
+        double maxYaw = 0.1;
 
-            double minR = lp.GetMinRight();
-            double minL = lp.GetMinLeft();
-            double maxRange = lp.GetMaxRange();
+        if (train){
+            // go into read-think-act loop
+            for(;;)
+            {
+                double newspeed = 0;
+                double newturnrate = 0;
 
-            // laser avoid (stolen from esben's java example)
-            std::cout << "minR: " << minR
-                << "minL: " << minL
-                << "maxRange: "<< maxRange
-                << std::endl;
+                // this blocks until new data comes; 10Hz by default
+                robot.Read();
 
-            double l = (1e5*minR)/500-100;
-            double r = (1e5*minL)/500-100;
+                double minR = lp.GetMinRight();
+                double minL = lp.GetMinLeft();
+                double maxRange = lp.GetMaxRange();
 
-            if (l > 100)
-                l = 100;
-            if (r > 100)
-                r = 100;
+                // laser avoid (stolen from esben's java example)
+                std::cout << "minR: " << minR
+                    << "minL: " << minL
+                    << "maxRange: "<< maxRange
+                    << std::endl;
 
-            newspeed = (r+l)/1e3;
+                double l = (1e5*minR)/500-100;
+                double r = (1e5*minL)/500-100;
 
-            newturnrate = (r-l);
-            newturnrate = limit(newturnrate, -40.0, 40.0);
-            newturnrate = dtor(newturnrate);
+                if (l > 100)
+                    l = 100;
+                if (r > 100)
+                    r = 100;
 
-            std::cout << "speed: " << newspeed
-                << "turn: " << newturnrate
-                << std::endl;
+                newspeed = (r+l)/1e3;
 
-            // write commands to robot
-            pp.SetSpeed(newspeed, newturnrate);
+                newturnrate = (r-l);
+                newturnrate = limit(newturnrate, -40.0, 40.0);
+                newturnrate = dtor(newturnrate);
+
+                std::cout << "speed: " << newspeed
+                    << "turn: " << newturnrate
+                    << std::endl;
+
+                // write commands to robot
+                pp.SetSpeed(newspeed, newturnrate);
+            }
+        }
+        if(run){
+            action* a = new action();
+            state* s =  new state();
+            while(true){
+
+                // Getting State
+                s->setRMin(lp.GetMinRight());
+                s->setLMin(lp.GetMinLeft());
+                s->setRMax(lp.GetMaxRange());
+
+                // What action?
+                *a = c.getControlAction(*s);
+
+                // Applying action
+                pp.SetSpeed(a->getXSpeed(),a->getYawSpeed());
+            }
         }
     }
     catch (PlayerCc::PlayerError & e)

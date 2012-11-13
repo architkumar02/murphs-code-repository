@@ -51,7 +51,7 @@ void print_usage(int argc, char** argv);
 int parse_args(int argc, char** argv)
 {
   // set the flags
-  const char* optflags = "t:r:h:p:i:d:u:lm:";
+  const char* optflags = "h:p:i:d:u:trlm:";
   int ch;
 
   // use getopt to parse the flags
@@ -68,6 +68,8 @@ int parse_args(int argc, char** argv)
                 print_usage(argc,argv);
                 exit(-1);
             }
+            else
+                break;
      case 'r':  // run
             run = true;
             if (train){
@@ -76,6 +78,8 @@ int parse_args(int argc, char** argv)
                 print_usage(argc,argv);
                 exit(-1);
             }
+            else
+                break;
       case 'h': // hostname
           gHostname = optarg;
           break;

@@ -8,31 +8,35 @@
  * robot agent for SARSA lambda
  *
  * @todo: Improve training
- * @todo: Test UI
  */
 
 #include <libplayerc++/playerc++.h>
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
 
 #include "args.h"
 #include "state.hh"
 #include "action.hh"
-#include "control.hh"
+#include "satable.hh"
 
 #define RAYS 32
 using namespace std;
-
+double minDistance = 0.05;
+bool isTerminal(state s){
+    return (s.getRMin() < minDistance || s.getLMin() < minDistance);
+}
 int main(int argc, char **argv) {
     parse_args(argc,argv);
-
-    control c;
+    srand(time(NULL));
+    satable c;
     if (train){
         cout<<"Elected to train robot"<<endl;
     }
     else{
         cout<<"Elected to run trained robot"<<endl;
         std::ifstream in("OptimalStrategy.txt");
-        c.readControlStrategy(in);
+        c.readTable(in);
         in.close();
     }
 
@@ -55,50 +59,46 @@ int main(int argc, char **argv) {
         cout<<"Wall distance: "<<wallD<<" m"<<endl;
         cout<<"Obstacle distance: "<<oD<<" m"<<endl;
 
-        double maxSpeed = 0.1;
-        double maxYaw = 0.1;
 
         if (train){
-            // go into read-think-act loop
-            for(;;)
-            {
-                double newspeed = 0;
-                double newturnrate = 0;
+            // Training Parameters
+            double maxSpeed = 0.1;
+            double maxYaw = 0.1;
+            double epsilon = 0.1;
+            double lambda = 0.9;
+            int numTries = 100;
+            std::cout<<"\nTraining Parameters:\n"
+                <<"\tMax Speed: "<<maxSpeed<<" [m/s]\n"
+                <<"\tMax Yaw: "<<maxYaw<<" [rad/s]\n"
+                <<"\tepsilon: "<<epsilon<<"\n"
+                <<"\tlambda: "<<lambda<<"\n"
+                <<"\tNum Eposides: "<<numTries<<std::endl;
+            for(int i = 0; i <numTries; i++){
+                // Initial Coditions
+                pp.GoTo(-3,2,0);
+                // Initilize State and Action
+                state *s = new state(lp.GetMinRight(),lp.GetMinLeft(), lp.GetMaxRange());
+                action *a = new action();
+                do
+                {
+                    // this blocks until new data comes; 10Hz by default
+                    robot.Read();
+                    // Epsilon Greedy Choice
+                    if (rand()/((double) RAND_MAX) < epsilon){
+                        a = new action( rand()/((double) RAND_MAX)*maxSpeed,
+                                    rand()/((double) RAND_MAX)*2*3.14);
+                    }
+                    else{
+                        *a = c.getAction(*s);
+                    }
 
-                // this blocks until new data comes; 10Hz by default
-                robot.Read();
-
-                double minR = lp.GetMinRight();
-                double minL = lp.GetMinLeft();
-                double maxRange = lp.GetMaxRange();
-
-                // laser avoid (stolen from esben's java example)
-                std::cout << "minR: " << minR
-                    << "minL: " << minL
-                    << "maxRange: "<< maxRange
-                    << std::endl;
-
-                double l = (1e5*minR)/500-100;
-                double r = (1e5*minL)/500-100;
-
-                if (l > 100)
-                    l = 100;
-                if (r > 100)
-                    r = 100;
-
-                newspeed = (r+l)/1e3;
-
-                newturnrate = (r-l);
-                newturnrate = limit(newturnrate, -40.0, 40.0);
-                newturnrate = dtor(newturnrate);
-
-                std::cout << "speed: " << newspeed
-                    << "turn: " << newturnrate
-                    << std::endl;
-
-                // write commands to robot
-                pp.SetSpeed(newspeed, newturnrate);
+                    // write commands to robot
+                    pp.SetSpeed(a->getXSpeed(), a->getYawSpeed());
+                }while (!isTerminal(*s));
             }
+            std::ofstream out("OptimalStrategy.txt");
+            c.writeTable(out);
+            out.close();
         }
         if(run){
             action* a = new action();
@@ -111,7 +111,7 @@ int main(int argc, char **argv) {
                 s->setRMax(lp.GetMaxRange());
 
                 // What action?
-                *a = c.getControlAction(*s);
+                *a = c.getAction(*s);
 
                 // Applying action
                 pp.SetSpeed(a->getXSpeed(),a->getYawSpeed());

@@ -1,0 +1,180 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% Matthew Urffer Master Thesis
+% 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 																							         %
+%					                         PREAMBLE      								%
+%																										%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[compress]{beamer}
+
+\mode<presentation>
+{
+  %\usetheme{Boadilla}
+  \usetheme{Frankfurt}
+  \usecolortheme{crane}
+  \setbeamercovered{transparent}
+}
+
+% Package Setup
+\usepackage[english]{babel}
+\usepackage[utf8]{inputenc}
+\usepackage{times}
+\usepackage[T1]{fontenc}
+\usepackage{multicol}
+\usepackage{array}				% Table Stuff
+\usepackage{arydshln}
+\usepackage{multirow}
+\usepackage{rotating}
+\usepackage{graphics}
+\usepackage{caption}            % Caption Stuff
+\captionsetup{font=scriptsize,labelfont=scriptsize}
+\usepackage{amsmath}				% Math Stuff
+\usepackage{listings}				% Code Example Stuff
+\bibliographystyle{ieeetr}
+
+\lstset{% General Listing Settings
+	basicstyle=\tiny,
+	frame=single
+}
+
+
+% Preamble / Frst Size
+\setbeamersize{text margin left=5mm, text margin right 5mm}
+\title[Matthew Urffer Master's Thesis] {Design of a Neutron Detector Capable of Replacing ${}^3$He Detectors Utilizing Thin Polymeric Films}
+\subtitle{Master's Thesis Defense}
+\author[] {Matthew Urffer\inst{1} }
+\institute[University of Tennessee] { 
+  \inst{1}%
+  Department of Nuclear Engineering\\
+  University of Tennessee, Knoxville, TN
+}
+
+\date[] {November 8th, 2012}
+\pgfdeclareimage[height=0.5cm]{university-logo}{images/utwordmarkhorz.eps}
+\logo{\pgfuseimage{university-logo}}
+
+
+% Delete this, if you do not want the table of contents to pop up at
+% the beginning of each subsection:
+\AtBeginSection[]
+{
+  \begin{frame}<beamer>{}
+    \frametitle{\insertsectionhead}
+    \begin{multicols}{2}
+  % \tableofcontents[currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded,]
+    \tableofcontents[currentsection] 
+    \end{multicols}
+  \end{frame}
+}
+
+
+% If you wish to uncover everything in a step-wise fashion, uncomment
+% the following command: 
+%\beamerdefaultoverlayspecification{<+->}
+
+
+\begin{document}
+
+\begin{frame}
+  \titlepage
+\end{frame}
+
+\begin{frame}{Table of Contents}
+  \begin{multicols}{2}
+    %\tableofcontents[currentsection,pausesections]
+    \tableofcontents[currentsection]
+    \end{multicols}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                             START OF CONTENT                                %
+%                                                                             %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{./Introduction}
+\include{./Methods}
+\include{./SimMethods}
+\include{./PSDMethods}
+\include{./FilmPerformance}
+\include{./SimPerformance}
+\include{./PSDPerformance}
+\section*{Conclusions}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Measurement and Data Analysis}
+	\begin{itemize}
+		\item A protocol has been developed for measurements
+		\begin{itemize}
+			\item Verification of instrument gains
+			\item Neutron Measurements
+			\item Gamma Measurements
+			\item Various button sources
+		\end{itemize}
+		\item Ability to calculate MLLD necessary for $\epsilon_{int,\gamma} \le 10^{-6}$
+		\item Ability to calculate light yield
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Modeling}
+	\begin{itemize}
+		\item MCNPX modeling has been employed
+		\begin{itemize}
+			\item Determination of 10 mR/hr field
+			\item Determination of film performance to neutrons
+			\begin{itemize}
+				\item Neutron Irridiator
+				\item Mock up of DHS/DNDO test configuration
+			\end{itemize}
+		\end{itemize}
+		\item Future work will be completed with GEANT4
+	\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Summary}
+
+  \begin{itemize}
+  \item
+    A framework has been developed for the characterization of possible replacement technologies for radiation portal monitors
+  \item
+    A framework has been developed for pulse shape discrimination 
+  \item
+    Thin polymeric films have been demonstrated to have the necessary interaction rates for radiation portal monitors
+  \end{itemize}
+\begin{figure}
+	\centering
+		\includegraphics[width=0.3\textwidth]{images/Questions.eps}
+\end{figure}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BILBIOLGRAPHY
+\begin{frame}[plain,allowframebreaks]
+\frametitle{Works Cited}
+	\tiny
+    \bibliography{Zotero}
+\end{frame}
+
+% APPENDIX
+\appendix
+\section<presentation>*{\appendixname}
+\subsection<presentation>*{Fundamental Physics}
+\begin{frame}{Absorption Cross Sections}
+\begin{figure}
+	\centering
+		\includegraphics[width=0.9\textwidth]{images/CrossSections.eps}
+	\caption{Cross sections of selected isotopes \protect \cite{nist_neutron_2012}}
+	\label{fig:CrossSections}
+\end{figure}
+
+\end{frame}
+
+
+
+
+\end{document}
+
+

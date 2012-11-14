@@ -14,36 +14,6 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \subsection{Facilities}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Button Sources}
-	\centering
-	Alpha Sources
-	\begin{table}[h]
-		\tiny
-		\begin{tabular}{c | c c}
-		Source & Half-Life & Energy (MeV) \\
-		\hline
-		\hline
-		${}^{232}$Th & $1.4\times10^{10}$ yr & 4.012 \\
-		${}^{240}$Pu & $6.5\times10^{3}$ yr & 5.17 (76\%) 5.12 (24\%) \\
-		${}^{241}$Am & 433 yr & 5.48 (85\%) 5.44 (12\%) \\
-		${}^{239}$Pu, ${}^{241}$Am, ${}^{244}$Cm  & various & various \\
-		\end{tabular}
-	\end{table}
-	Beta Sources
-	\begin{table}[h]
-		\tiny
-		\begin{tabular}{c | c c}
-		Source & Half-Life & Endpoint Energy (MeV)\\
-		\hline
-		\hline
-		${}^{14}$C &  5,730 yr & 0.156 \\
-		${}^{36}$Cl & $3.08\times10^{5}$ yr & 0.714 \\
-		${}^{36}$Ni &  92 yr & 0.067 \\
-		${}^{99}$Tc & $2.12\times10^{5}$ yr & 0.292 \\
-		\end{tabular}
-	\end{table}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Gamma Irridiator}
@@ -198,26 +168,6 @@
 \end{columns}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Light Yield}
-	\newtheorem{thm7}{Light Yield}
-	\begin{thm7}<1->
-	\tiny
-	$$ LY_{n} = 3,800 \frac{\text{Photons}}{\text{MeV}}\frac{<n>_{sample}}{<n>_{GS20}} $$
-	$$ LY_{\beta} = 3,800 \frac{\text{Photons}}{\text{MeV}}\frac{<\beta>_{sample}}{<\beta>_{GS20}} $$
-	$$ LY_{\gamma} = 3,800 \frac{\text{Photons}}{\text{MeV}}\frac{<\gamma>_{sample}}{<\gamma>_{GS20}} $$
-		where:
-		\begin{itemize}
-			\tiny
-			\item $<n>_{sample}$ is the average of the sample's neutron spectra
-			\item $<n>_{GS20}$ is the average of GS20's neutron spectra
-			\item $<\beta>_{sample}$ is the average of the sample's beta (${}^{36}$Cl) spectra
-			\item $<\beta>_{GS20}$ is the average of GS20's bet (${}^{36}$Cl) spectra
-			\item $<\gamma>_{sample}$ is the average of the sample's gamma (${}^{60}$Co) spectra
-			\item $<\gamma>_{GS20}$ is the average of GS20's gamma (${}^{60}$Co) spectra
-		\end{itemize}
-	\end{thm7}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}
 	\newtheorem{thm8}{Gamma Intrinsic Efficiency}
 	\begin{thm8}<1->
@@ -248,19 +198,9 @@
     \frametitle{Gamma Intrinsic Efficiency Example}
 	\begin{figure}
 		\centering
-		\includegraphics[height=0.5\textheight]{images/CartoonIntEffSimple.eps}
-		\caption{Determination of the MLLD for a PEN film}
-		\label{fig:CartoonIntEffSimple}
-	\end{figure}
-%\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\begin{frame}{Gamma Intrinsic Efficiency Example I}
-	\begin{figure}
-		\centering
 		\includegraphics[height=0.5\textheight]{images/CartoonIntEffReal.eps}
 		\caption{Determination of the MLLD (Example)}
 		\label{fig:ElectronicsPSD}
 	\end{figure}
 \end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

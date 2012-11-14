@@ -86,29 +86,7 @@
 \end{table}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Energy Deposition (Charged Particle)}
-Products of ${}^6$Li neutron interaction are triton and alpha:
-\begin{columns}[onlytextwidth]
-\begin{column}{0.45\textwidth}
-\begin{itemize}
-	\small
-	\item Alpha Energy: 2.05 MeV
-	\item Triton Energy: 2.73 MeV
-\end{itemize}
-Alpha and tritons tend to deposit all of their energy in a small region
-\end{column}
-\begin{column}{0.45\textwidth}
-	\begin{figure}
-	\includegraphics[width=\textwidth]{images/PStarAStarRange.eps}
-	\caption{Alpha and Triton Range (CSDA) \protect \cite{berger_estar_2005}}
-	\label{fig:PStarAStarRange}
-	\end{figure}
-\end{column}
-\end{columns}
-\end{frame}
 
-\subsection{Detector Requirements}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Detector Requirements}
 DHS / DNDO (along with PNNL) has determined a set of objectives that replacement technologies should meet:
@@ -127,47 +105,6 @@ DHS / DNDO (along with PNNL) has determined a set of objectives that replacement
 \end{table}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Absolute Neutron Efficiency}
-\newtheorem{thm1}{Absolute Neutron Efficiency}
-\begin{thm1}<1->
-$$\epsilon_{abs} = \frac{\text{Counts}}{\text{Quanta Radiation Emitted}}\; \; \protect \cite{knoll_radiation_2009} $$
-Constraint:
-$$\epsilon_{abs} \geq 2.5\; \text{cps per ng}\; {}^{252}\text{Cf}$$
-\end{thm1}
-Test configuration is defined to be 1 ng ${}^{252}$Cf surrounded by 0.5 cm of lead and 2.5 cm of HDPE, with the detector midpoint 2 m from the source \cite{kouzes_alternative_2010}
-\end{frame}
-
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Intrinsic Gamma-Neutron Detection Efficiency}
-\newtheorem{thm2}{Intrinsic Gamma-Neutron Detection Efficiency}
-\begin{thm2}<1->
-$$\epsilon_{int,\gamma n} = \frac{\text{Counts}}{\text{Quanta Radiation Crossing Detector}} \; \protect \cite{kouzes_alternative_2010} $$
-Constraint:
-$$ \epsilon_{int,\gamma n} \leq 10^{-6} $$
-\end{thm2}
-\begin{itemize}
-	\item Counts over quanta crossing the detector
-	\item Measured from a source that produces a 10 mR/hr field
-\end{itemize}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Gamma Absolute Rejection Ratio}
-\newtheorem{thm3}{GARRn}
-\begin{thm3}<1->
-$$ GARRn = \frac{\epsilon_{abs,\gamma n}}{\epsilon_{abs,n}} \; \protect \cite{kouzes_alternative_2010} $$
-Constraint:
-$$ 0.9 \leq GARRn \leq 1.1 $$
-\end{thm3}
-The detector's performance should change by no more than 10\% in a strong gamma field
-\begin{itemize}
-	\item GARRn is measured by exposing the detector to a 10 mR/hr gamma field while exposed to neutron source
-	\item Count rate is measured when the gamma source is no longer present
-	\item Difference determines the GARRn
-\end{itemize}
-\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %

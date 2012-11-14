@@ -17,24 +17,13 @@
 \begin{frame}{MCNPX Simulations}
 	\centering
 	\begin{figure}
-		\includegraphics[width=0.25\textwidth]{images/logo-mcnpx.eps}
+		\includegraphics[width=0.15\textwidth]{images/logo-mcnpx.eps}
 	\end{figure}
 \begin{itemize}
     \item MCNPX is a well validated transport code \cite{pelowitz_mcnpx_2010}
-    \begin{itemize}
-        \item MCNPX is a monte carlo based
-        \item MCNPX has drawbacks with energy deposition
-    \end{itemize}
-    \item Input decks based on pervious work (Martian Williamson)
-    \item Many thanks to NE Cluster group for their support
 \end{itemize}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-\frametitle{Gamma Irridiator Dose Rate}
-	\tiny
-	Need to create a 10 mR/hr field
-	\newtheorem{thm10}{Dose Rate Calculation}
+\tiny
+    \newtheorem{thm10}{Dose Rate Calculation}
 	\begin{thm10}<1->
 		$$F2 = \frac{1}{A} \int_{A}{dA}\int_{E}{dE}\int_{4\pi}{d \Omega \Re(E) \Phi(\vec{r},E,\vec{\Omega})} $$
 	where:
@@ -43,22 +32,6 @@
 		\item $\Phi(\vec{r},E,\vec{\Omega})$ is the photon flux
 	\end{itemize}
 	\end{thm10}
-Accomplished using the DF Cards
-\begin{lstlisting}
-c Multiply each tally by 1000 mrem/rem * 100uCi * 3.7E10 Bq *2 photons / decay
-FC12 Photon Flux over Front of Detector Surface
-F12:P (500.2<600)
-DE12  0.01 0.015 0.02 0.03 0.04 0.05 0.06 0.08 0.1 0.15 0.2 0.3 0.4 0.5 0.6  
-		0.8 1 1.5
-DF12  2.78E-6 1.11E-6 5.88E-7 2.56E-7 1.56E-7 1.20E-7 1.11E-7 1.20E-7 1.47E-7
-      2.38e-7 3.45E-7 5.56E-7 7.69E-7 9.09E-7 1.14E-6 1.47E-6 1.79E-6 2.44E-6
-\end{lstlisting}
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]
-\frametitle{Interaction Rate}
-	\tiny
 	\newtheorem{thm11}{Interaction Rate}
 	\begin{thm11}<1->
 		$$Q = C \int {\Phi(E) R_m(E) dE }$$
@@ -69,19 +42,7 @@ DF12  2.78E-6 1.11E-6 5.88E-7 2.56E-7 1.56E-7 1.20E-7 1.11E-7 1.20E-7 1.47E-7
 		\item $\Phi(E)$ is the neutron flux
 	\end{itemize}
 	\end{thm11}
-Accomplished using a F4 tally with multiplier
-\tiny
-\begin{lstlisting}
-c -------------- Interaction Rate Tallies -----------------------
-FC154 (n,t) Reactions in Detector in Pb Well
-F154:n (601<610)
-FM154 -1 3 105
-FC214 Total Neutron Reactions in Detector in Cd Well
-F214:n (601<620)
-FM214 -1 3 1
-\end{lstlisting}
 \end{frame}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                             %

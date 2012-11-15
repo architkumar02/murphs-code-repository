@@ -21,8 +21,8 @@
 
 % *** SPECIALIZED LIST PACKAGES ***
 %
-\usepackage{algorithmic}
-
+%\usepackage{algorithmic}
+\usepackage{algpseudocode}
 % *** ALIGNMENT PACKAGES ***
 %
 \usepackage{array}
@@ -77,12 +77,12 @@ In this implementation a discredited state space was utilized as well as a discr
 
 \section{Introduction}
 
-Reinforcement learning is a popular learning strategy for which direct supervision of the agent is not possible. 
+Reinforcement learning is a popular learning strategy for which direct supervision of the agent is not possible\cite{poliscuk_adaptive_2002,szepesvari_algorithms_2010}. 
 Reinforcement learning is often formulated as a problem of trying to find the action that an agent can take in some environment in order to maximize a reward.
 Rather than learning a particular solution to the problem, Reinforcement learning can bet thought as attempting to find a policy for solving the problem.  
 
 \subsection{Reinforcement Learning}
-A basic reinforcement learning problem is defined by:
+A basic reinforcement learning problem is defined by\cite{poliscuk_adaptive_2002}:
 \begin{itemize}
     \item a set of states $S$,
     \item a set of actions $A$,
@@ -91,7 +91,7 @@ A basic reinforcement learning problem is defined by:
     \item and some terminal states.
 \end{itemize}
 Reinforcement learning algorithms then define an agent which goes out in the environment and is trained to complete the learning. 
-The \emph{agent} in reinforcement must complete the following:
+The \emph{agent} in reinforcement must complete the following\cite{poliscuk_adaptive_2002}:
 \begin{itemize}
 	\item find out the \emph{state} of the environment,
 	\item take \emph{actions} to modify the environment,
@@ -113,11 +113,43 @@ The agent then interacts within the environment in order to achieve a goal.  In 
 \end{figure}
 
 \section{Methods}
-\subsection{Problem Formulation}
+\subsection{State and Action Formulation}
 The problem was formulated as a wall following and obstacle avoidance problem in which it was desired to have the robot follow at least $d_{wall} = 0.75 \text{m}$ from a wall, and for the robot to come no closer than $d_{obstacle} = 0.25 \text{m}$ from an obstacle.
-The player-stage simulation environment (a well known robotics simulation package) was chosen to simulate the actions and environments.  The states were discretized into a minimum left distance, a minimum right distance, and the distance to the closest object.
+The player-stage simulation environment\cite{gerkey_player_2012} (a well known robotics simulation package) was chosen to simulate the actions and environments.  The states were discretized into a minimum left distance, a minimum right distance, and the distance to the closest object.
+The actions that the robot could preform was also discretized.  
+The robot could either move forward a set velocity (0.1 m/s), or rotate through 360 degrees in 30 degree incements.
+The robot could not pick up or move objects.
+\subsection{Reward Function}
+The reward fucntion is necessary to provide feedback to the robot for being in a certian state.
+As the objective is to follow a wall while avoiding obstacles the reward fucntion was designed to penalize the robot (based on a linear scale) on it's distance from the wall or obstalce.   
+For example, if the robot was right next the wall (an maximum range of 0.0 m) the reward for that state was -100.  
+However, if it was 0.50 m (when the wall following distance was 0.75 m) the reward for that state was only -33.
+A similar scheme was employed for the obstacle distances.
+It should be noted that terminal states are greater thatn 1 m from a wall, or with a maximum range of of 0.0 m.
+Postive awards were rewarded for each centimeter the robot traveled based on its odometer.
 \subsection{SARSA $\lambda$}
-
+The SARSA $\lambda$ algorthim \ref{SARSALambda} was implememented with tables. 
+The control policy was initilized to be the previous best (or for the first one a random control policy) and then the robot was released into the world.
+Using the $\epsilon$-greedy polciy an action was chosen.  The new state was observed, as well as the reward for that state. The control policy was updated to reflect this new change.  This was repeated until a terminal state was reached (i.e. the robot had a collision or strayed too far from the well).
+\begin{figure}
+\begin{algorithmic}[1]
+\Procedure{SARSA $\lambda$}
+\State Initilize $Q(s,a)$
+\While{For each epsiode}
+    \State Initialize $s$, $a$
+    \While{each step of episode}
+        \State Take action $a$
+        \State Observe $r$,$s'$
+        \State Choose $a'$ from $Q(s,a)$
+        \Comment{Use $\epsion$ greedy}
+        \State $\delta \gets r + \gamma Q(s',a') - Q(s,a)$
+    \EndWhile
+\EndWhile
+\EndProcedure
+\end{algorithmic}
+\caption{SARSA $\lambda$ Algorithm}
+\label{SARSALambda}
+\end{figure}
 \subsection{Exploration vs. Exploitation}
 Reinforcement learning algorithms have to balance exploration (determining the rewards of new actions) vs exploitation (choosing the action that previously had the best reward). For this implementation an $\epsilon$-greedy policy was chosen; for probability $\epsilon$ the action was chosen to exploit the previous knowledge of the solution (i.e.e the previous best action), but for probability $1-\epsilon$ a random action was chosen.
 \section{Future Work}
@@ -200,18 +232,8 @@ Once again I would like to thank Matthew Lish for his help.  His support and ins
 
 % references section
 
-% can use a bibliography generated by BibTeX as a .bbl file
-% BibTeX documentation can be easily obtained at:
-% http://www.ctan.org/tex-archive/biblio/bibtex/contrib/doc/
-% The IEEEtran BibTeX style support page is at:
-% http://www.michaelshell.org/tex/ieeetran/bibtex/
-%\bibliographystyle{IEEEtran}
-% argument is your BibTeX string definitions and bibliography database(s)
-%\bibliography{IEEEabrv,../bib/paper}
-%
-% <OR> manually copy in the resultant .bbl file
-% set second argument of \begin to the number of references
-% (used to reserve space for the reference number labels box)
+\bibliographystyle{IEEEtran}
+\bibliography{IEEEabrv,Zotero}
 \begin{thebibliography}{1}
 
 \bibitem{IEEEhowto:kopka}
@@ -219,8 +241,6 @@ H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
   0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
 
 \end{thebibliography}
-
-
 
 
 % that's all folks

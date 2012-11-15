@@ -12,7 +12,7 @@
 %
 \usepackage[pdftex]{graphicx}
 % declare the path(s) where your graphic files are
-\graphicspath{images}
+\graphicspath{{./images/}}
 \DeclareGraphicsExtensions{.pdf,.jpeg,.png}
 
 % *** MATH PACKAGES ***
@@ -40,19 +40,16 @@
 
 
 % correct bad hyphenation here
-\hyphenation{op-tical net-works semi-conduc-tor}
+\hyphenation{}
 
 
 \begin{document}
 %
 % paper title
-% can use linebreaks \\ within to get better formatting as desired
 \title{Wall following and obstacle avoidance with SARSA $\lambda$ Reinforcement Learning}
 
 
 % author names and affiliations
-% use a multiple column layout for up to three different
-% affiliations
 \author{\IEEEauthorblockN{Matthew J. Urffer}
 \IEEEauthorblockA{Department of Nuclear Engineering \\
 University of Tennessee \\
@@ -68,12 +65,11 @@ Email: matthew.urffer@gmail.com
 
 \begin{abstract}
 \boldmath
-\begin{itemize}
-	\item Reinforcment learning has many applictions in learning control strategies.
-	\item Something about trying to find the policy which has the optimal award
-	\item SARSA lambda was implemented for a wall following and obstical avoidence using the Player-Stage simulation enviroment
-	\item A discritized space was used
-\end{itemize}
+Reinforcment learning is a learning process in which an agent is reward for making the correct actions at a particular state. 
+This learning strategy is extremely useful in complex enviorments that are difficult to modeled, or ones in which the assement of an action is delayed.
+This work attempts to implement a reinforcment learning strategy for a wall-following and obstacle avoidance robot in the player stage enviorment.
+Attempts were maed to implement reinforcment learning using the SARSA $\lambda$ algorthim with an $\epsilon$ greedy policy and eligibility traces, but utimately these attempts did not result in a convergent implementation.
+In this implementation a dscritized state space was utilized as well as a discritized action space.
 \end{abstract}
 \IEEEpeerreviewmaketitle
 
@@ -81,64 +77,55 @@ Email: matthew.urffer@gmail.com
 
 \section{Introduction}
 
-Reinforcement learning is a popular learning strategy for which direct supervision of the agent is not possible.  Rather than learning a particular solution to the problem, Reinformencet learning attempts to find a policy for solving the problem.  
+Reinforcement learning is a popular learning strategy for which direct supervision of the agent is not possible. 
+Reinforcement learning is often formulated as a problem of trying to find the action that an agent can take in some enviroment in order to maximize a reward.
+Rather than learning a particular solution to the problem, Reinforcement learning can bet thought as attempting to find a policy for solving the problem.  
 
 \subsection{Reinforcment Learning}
-The \textbf{agent} in reinforcemnt must go out in the enviorment and complete the following:
+A basic reinforcement learning problem is defined by:
 \begin{itemize}
-	\item find out the \textbf{state} of the environment,
-	\item take \textbf{actions} to modify the enviroment,
-	\item determine if the \textbf{goal} has been acheived.
+    \item a set of states $S$,
+    \item a set of actions $A$,
+    \item transitions between states,
+    \item a reward function,
+    \item and some terminal states.
+\end{itemize}
+Reinforcement learning algorthims then define an agent which goes out in the enviroment and is trained to complete the learning. 
+The \emph{agent} in reinforcemnt must complete the following:
+\begin{itemize}
+	\item find out the \emph{state} of the environment,
+	\item take \emph{actions} to modify the enviroment,
+	\item determine if the \emph{goal} has been acheived.
 \end{itemize}
 The agent then interacts within the enviroment in order to achieve a goal.  In reinforcemnt learning this is broken into four sections:
 \begin{itemize}
-	\item a \textbf{policy} which maps between a state and and action that the agent can preform,
-	\item a \textbf{reward function} which defines the goal of the agent,
-	\item a \textbf{value function} which determines how profitable it is to be in a given state (in relationship to achieving the award)
-	\item and a \textbf{enviroment} which determines the states and actions that can be completed.
+	\item a \emph{policy} which maps between a state and and action that the agent can preform,
+	\item a \emph{reward function} which defines the goal of the agent,
+	\item a \emph{value function} which determines how profitable it is to be in a given state (in relationship to achieving the award)
+	\item and a \emph{enviroment} which determines the states and actions that can be completed.
 \end{itemize}
 
-\textbf{FIGURE OF AGENT AND MODEL INTERACTION}
+\begin{figure}
+\centering
+\includegraphics[width=2.5in]{RLDiagram}
+\caption{Reinforcement Learning Process}
+\label{RLDiagram}
+\end{figure}
 
+\section{Methods}
+\subsection{Problem Formulation}
+The problem was formulated as a wall following and obsticale avoidance problem in which it was desired to have the robot follow at least $d_{wall} = 0.75 \text{m}$ from a wall, and for the robot to come no closer than $d_{obsticale} = 0.25 \text{m}$ from an obsticle.
+The player-stage simulation envioroment (a well known robicitics simultiont package) was choosen to simulate the actions and enviroments.  The states were discrizied into a minimum left distance, a minimum right distance, and the distance to the closest object.
+\subsection{SARSA $\lambda$}
 
-
-
-\section{Things to try}
+\subsection{Exploration vs. Explotation}
+Reinforcement learning algorthims have to balance exploration (determining the rewards of new actions) vs exploation (chosing the action that previously had the best reward). For this implemenation an $\epsilon$-greedy policy was choosen; for probability $\epsilon$ the action was choosen to exploate the previous knowledge of the solution (i.e.e the previous best action), but for probability $1-\epsilon$ a random action was choosen.
+\section{Future Work}
+It is acknowledged that
 \begin{itemize}
 	\item What happens if we expand the discreitization
 	\item Can we make two policies, one for avoidance and one for wall following
 \end{itemize}
-
-\hfill mds
- 
-\hfill January 11, 2007
-
-
-% An example of a floating figure using the graphicx package.
-% Note that \label must occur AFTER (or within) \caption.
-% For figures, \caption should occur after the \includegraphics.
-% Note that IEEEtran v1.7 and later has special internal code that
-% is designed to preserve the operation of \label within \caption
-% even when the captionsoff option is in effect. However, because
-% of issues like this, it may be the safest practice to put all your
-% \label just after \caption rather than within \caption{}.
-%
-% Reminder: the "draftcls" or "draftclsnofoot", not "draft", class
-% option should be used if it is desired that the figures are to be
-% displayed while in draft mode.
-%
-%\begin{figure}[!t]
-%\centering
-%\includegraphics[width=2.5in]{myfigure}
-% where an .eps filename suffix will be assumed under latex, 
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
-%\caption{Simulation Results}
-%\label{fig_sim}
-%\end{figure}
-
-% Note that IEEE typically puts floats only at the top, even when this
-% results in a large percentage of a column being occupied by floats.
 
 
 % An example of a double column floating figure using two subfigures.
@@ -189,32 +176,18 @@ The agent then interacts within the enviroment in order to achieve a goal.  In r
 %\end{table}
 
 
-% Note that IEEE does not put floats in the very first column - or typically
-% anywhere on the first page for that matter. Also, in-text middle ("here")
-% positioning is not used. Most IEEE journals/conferences use top floats
-% exclusively. Note that, LaTeX2e, unlike IEEE journals/conferences, places
-% footnotes above bottom floats. This can be corrected via the \fnbelowfloat
-% command of the stfloats package.
-
-
 
 \section{Conclusion}
+Reinforcement learning has been proven as a techinque of learing a policy necessary to achieve a goal. 
+Reinforcement learning (using the SARSA $\lambda$ algorthim) was attempted to be implemented in the player-stage enviroment in order to teach a robot the optimal policy to avoid walls and to avoid obstalces.
+While the particular implementation was not successful at achieveing this goal, the general 
 The conclusion goes here.
 
 
 
-
-% conference papers do not normally have an appendix
-
-
 % use section* for acknowledgement
 \section*{Acknowledgment}
-
-
-The authors would like to thank...
-
-
-
+Once again I would like to thank Matthew Lish for his help.  His support and insight is gratefully acknowledgment.
 
 
 % trigger a \newpage just before the given reference

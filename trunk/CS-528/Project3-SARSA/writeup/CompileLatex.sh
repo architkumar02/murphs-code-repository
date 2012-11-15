@@ -18,8 +18,8 @@ else
 		bibtex $1
 		latex --interaction=batchmode $1
 		latex --interaction=batchmode $1
-		dvipdf $1
-        mv $1.pdf $1_v$version.pdf
+		latexpdf $1
+        cp $1.pdf $1_v$version.pdf
 		# Clean up
 		rm *.vrb *.out *.bbl *.blg *.dvi *.toc *.nav *.log *.aux *.snm
 	fi

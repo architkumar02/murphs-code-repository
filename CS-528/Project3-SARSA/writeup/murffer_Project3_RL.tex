@@ -53,7 +53,7 @@
 \author{\IEEEauthorblockN{Matthew J. Urffer}
 \IEEEauthorblockA{Department of Nuclear Engineering \\
 University of Tennessee \\
-Knoxvilee, Tennessee, 37916 \\
+Knoxville, Tennessee, 37916 \\
 Email: matthew.urffer@gmail.com
 }}
 
@@ -65,11 +65,11 @@ Email: matthew.urffer@gmail.com
 
 \begin{abstract}
 \boldmath
-Reinforcment learning is a learning process in which an agent is reward for making the correct actions at a particular state. 
-This learning strategy is extremely useful in complex enviorments that are difficult to modeled, or ones in which the assement of an action is delayed.
-This work attempts to implement a reinforcment learning strategy for a wall-following and obstacle avoidance robot in the player stage enviorment.
-Attempts were maed to implement reinforcment learning using the SARSA $\lambda$ algorthim with an $\epsilon$ greedy policy and eligibility traces, but utimately these attempts did not result in a convergent implementation.
-In this implementation a dscritized state space was utilized as well as a discritized action space.
+Reinforcement learning is a learning process in which an agent is reward for making the correct actions at a particular state. 
+This learning strategy is extremely useful in complex environments that are difficult to modeled, or ones in which the easement of an action is delayed.
+This work attempts to implement a reinforcement learning strategy for a wall-following and obstacle avoidance robot in the player stage environment.
+Attempts were made to implement reinforcement learning using the SARSA $\lambda$ algorithm with an $\epsilon$ greedy policy and eligibility traces, but ultimately these attempts did not result in a convergent implementation.
+In this implementation a discredited state space was utilized as well as a discrete action space.
 \end{abstract}
 \IEEEpeerreviewmaketitle
 
@@ -78,10 +78,10 @@ In this implementation a dscritized state space was utilized as well as a discri
 \section{Introduction}
 
 Reinforcement learning is a popular learning strategy for which direct supervision of the agent is not possible. 
-Reinforcement learning is often formulated as a problem of trying to find the action that an agent can take in some enviroment in order to maximize a reward.
+Reinforcement learning is often formulated as a problem of trying to find the action that an agent can take in some environment in order to maximize a reward.
 Rather than learning a particular solution to the problem, Reinforcement learning can bet thought as attempting to find a policy for solving the problem.  
 
-\subsection{Reinforcment Learning}
+\subsection{Reinforcement Learning}
 A basic reinforcement learning problem is defined by:
 \begin{itemize}
     \item a set of states $S$,
@@ -90,19 +90,19 @@ A basic reinforcement learning problem is defined by:
     \item a reward function,
     \item and some terminal states.
 \end{itemize}
-Reinforcement learning algorthims then define an agent which goes out in the enviroment and is trained to complete the learning. 
-The \emph{agent} in reinforcemnt must complete the following:
+Reinforcement learning algorithms then define an agent which goes out in the environment and is trained to complete the learning. 
+The \emph{agent} in reinforcement must complete the following:
 \begin{itemize}
 	\item find out the \emph{state} of the environment,
-	\item take \emph{actions} to modify the enviroment,
-	\item determine if the \emph{goal} has been acheived.
+	\item take \emph{actions} to modify the environment,
+	\item determine if the \emph{goal} has been achieved.
 \end{itemize}
-The agent then interacts within the enviroment in order to achieve a goal.  In reinforcemnt learning this is broken into four sections:
+The agent then interacts within the environment in order to achieve a goal.  In reinforcement learning this is broken into four sections:
 \begin{itemize}
 	\item a \emph{policy} which maps between a state and and action that the agent can preform,
 	\item a \emph{reward function} which defines the goal of the agent,
 	\item a \emph{value function} which determines how profitable it is to be in a given state (in relationship to achieving the award)
-	\item and a \emph{enviroment} which determines the states and actions that can be completed.
+	\item and a \emph{environment} which determines the states and actions that can be completed.
 \end{itemize}
 
 \begin{figure}
@@ -114,16 +114,16 @@ The agent then interacts within the enviroment in order to achieve a goal.  In r
 
 \section{Methods}
 \subsection{Problem Formulation}
-The problem was formulated as a wall following and obsticale avoidance problem in which it was desired to have the robot follow at least $d_{wall} = 0.75 \text{m}$ from a wall, and for the robot to come no closer than $d_{obsticale} = 0.25 \text{m}$ from an obsticle.
-The player-stage simulation envioroment (a well known robicitics simultiont package) was choosen to simulate the actions and enviroments.  The states were discrizied into a minimum left distance, a minimum right distance, and the distance to the closest object.
+The problem was formulated as a wall following and obstacle avoidance problem in which it was desired to have the robot follow at least $d_{wall} = 0.75 \text{m}$ from a wall, and for the robot to come no closer than $d_{obstacle} = 0.25 \text{m}$ from an obstacle.
+The player-stage simulation environment (a well known robotics simulation package) was chosen to simulate the actions and environments.  The states were discretized into a minimum left distance, a minimum right distance, and the distance to the closest object.
 \subsection{SARSA $\lambda$}
 
-\subsection{Exploration vs. Explotation}
-Reinforcement learning algorthims have to balance exploration (determining the rewards of new actions) vs exploation (chosing the action that previously had the best reward). For this implemenation an $\epsilon$-greedy policy was choosen; for probability $\epsilon$ the action was choosen to exploate the previous knowledge of the solution (i.e.e the previous best action), but for probability $1-\epsilon$ a random action was choosen.
+\subsection{Exploration vs. Exploitation}
+Reinforcement learning algorithms have to balance exploration (determining the rewards of new actions) vs exploitation (choosing the action that previously had the best reward). For this implementation an $\epsilon$-greedy policy was chosen; for probability $\epsilon$ the action was chosen to exploit the previous knowledge of the solution (i.e.e the previous best action), but for probability $1-\epsilon$ a random action was chosen.
 \section{Future Work}
 It is acknowledged that
 \begin{itemize}
-	\item What happens if we expand the discreitization
+	\item What happens if we expand the discretization
 	\item Can we make two policies, one for avoidance and one for wall following
 \end{itemize}
 
@@ -178,9 +178,9 @@ It is acknowledged that
 
 
 \section{Conclusion}
-Reinforcement learning has been proven as a techinque of learing a policy necessary to achieve a goal. 
-Reinforcement learning (using the SARSA $\lambda$ algorthim) was attempted to be implemented in the player-stage enviroment in order to teach a robot the optimal policy to avoid walls and to avoid obstalces.
-While the particular implementation was not successful at achieveing this goal, the general 
+Reinforcement learning has been proven as a technique of learning a policy necessary to achieve a goal. 
+Reinforcement learning (using the SARSA $\lambda$ algorithm) was attempted to be implemented in the player-stage environment in order to teach a robot the optimal policy to avoid walls and to avoid obstacles.
+While the particular implementation was not successful at achieving this goal, the general 
 The conclusion goes here.
 
 

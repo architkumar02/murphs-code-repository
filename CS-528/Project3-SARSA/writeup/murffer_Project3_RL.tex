@@ -46,12 +46,12 @@
 \begin{document}
 %
 % paper title
-\title{Wall following and obstacle avoidance with SARSA $\lambda$ Reinforcement Learning}
+\title{Wall following and obstacle avoidance with SARSA $\lambda$}
 
 
 % author names and affiliations
 \author{\IEEEauthorblockN{Matthew J. Urffer}
-\IEEEauthorblockA{Department of Nuclear Engineering \\
+\IEEEauthorblockA{
 University of Tennessee \\
 Knoxville, Tennessee, 37916 \\
 Email: matthew.urffer@gmail.com
@@ -117,104 +117,91 @@ The agent then interacts within the environment in order to achieve a goal.  In 
 The problem was formulated as a wall following and obstacle avoidance problem in which it was desired to have the robot follow at least $d_{wall} = 0.75 \text{m}$ from a wall, and for the robot to come no closer than $d_{obstacle} = 0.25 \text{m}$ from an obstacle.
 The player-stage simulation environment\cite{gerkey_player_2012} (a well known robotics simulation package) was chosen to simulate the actions and environments.  The states were discretized into a minimum left distance, a minimum right distance, and the distance to the closest object.
 The actions that the robot could preform was also discretized.  
-The robot could either move forward a set velocity (0.1 m/s), or rotate through 360 degrees in 30 degree incements.
+The robot could either move forward a set velocity (0.1 m/s), or rotate through 360 degrees in 30 degree increments.
 The robot could not pick up or move objects.
 \subsection{Reward Function}
-The reward fucntion is necessary to provide feedback to the robot for being in a certian state.
-As the objective is to follow a wall while avoiding obstacles the reward fucntion was designed to penalize the robot (based on a linear scale) on it's distance from the wall or obstalce.   
+The reward function is necessary to provide feedback to the robot for being in a certain state.
+As the objective is to follow a wall while avoiding obstacles the reward function was designed to penalize the robot (based on a linear scale) on it's distance from the wall or obstacles.   
 For example, if the robot was right next the wall (an maximum range of 0.0 m) the reward for that state was -100.  
 However, if it was 0.50 m (when the wall following distance was 0.75 m) the reward for that state was only -33.
 A similar scheme was employed for the obstacle distances.
-It should be noted that terminal states are greater thatn 1 m from a wall, or with a maximum range of of 0.0 m.
-Postive awards were rewarded for each centimeter the robot traveled based on its odometer.
+It should be noted that terminal states are greater than 1 m from a wall, or with a maximum range of of 0.0 m.
+Positive awards were rewarded for each centimeter the robot traveled based on its odometer.
 \subsection{SARSA $\lambda$}
-The SARSA $\lambda$ algorthim \ref{SARSALambda} was implememented with tables. 
-The control policy was initilized to be the previous best (or for the first one a random control policy) and then the robot was released into the world.
-Using the $\epsilon$-greedy polciy an action was chosen.  The new state was observed, as well as the reward for that state. The control policy was updated to reflect this new change.  This was repeated until a terminal state was reached (i.e. the robot had a collision or strayed too far from the well).
+The SARSA $\lambda$ algorithm \ref{SARSALambda} was implemented with tables. 
+The control policy was initialized to be the previous best (or for the first one a random control policy) and then the robot was released into the world.
+Using the $\epsilon$-greedy policy an action was chosen.  The new state was observed, as well as the reward for that state. The control policy was updated to reflect this new change.  This was repeated until a terminal state was reached (i.e. the robot had a collision or strayed too far from the well).
 \begin{figure}
 \begin{algorithmic}[1]
-\Procedure{SARSA $\lambda$}
-\State Initilize $Q(s,a)$
-\While{For each epsiode}
+\State Initialize $Q(s,a)$
+\While{For each episode}
     \State Initialize $s$, $a$
     \While{each step of episode}
         \State Take action $a$
         \State Observe $r$,$s'$
         \State Choose $a'$ from $Q(s,a)$
-        \Comment{Use $\epsion$ greedy}
+        \Comment{Use $\epsilon$ greedy}
+        \State $Q(s,a) \gets Q(s,a) + \alpha \left [r + \gamma Q(s',a')-Q(s,a) \right ]$
         \State $\delta \gets r + \gamma Q(s',a') - Q(s,a)$
     \EndWhile
 \EndWhile
-\EndProcedure
 \end{algorithmic}
 \caption{SARSA $\lambda$ Algorithm}
 \label{SARSALambda}
 \end{figure}
-\subsection{Exploration vs. Exploitation}
-Reinforcement learning algorithms have to balance exploration (determining the rewards of new actions) vs exploitation (choosing the action that previously had the best reward). For this implementation an $\epsilon$-greedy policy was chosen; for probability $\epsilon$ the action was chosen to exploit the previous knowledge of the solution (i.e.e the previous best action), but for probability $1-\epsilon$ a random action was chosen.
-\section{Future Work}
-It is acknowledged that
-\begin{itemize}
-	\item What happens if we expand the discretization
-	\item Can we make two policies, one for avoidance and one for wall following
-\end{itemize}
+\subsection{Eligibility Trace}
+Eligibility traces serve to address the temporal difference learning problem that arrives from the Monte Carlo formulation of reinforcement learning \cite{szepesvari_algorithms_2010}/
+Eligibility traces are used to provide statistics of the attendance of states \cite{szepesvari_algorithms_2010}. 
+Each time a state is attended its activity is increased while other states activity is allowed to decay away \eqref{eligibility}.
+When added into the SARSA $\lambda$ algorithm the eligibility traces serve to weight states and action that occurred more recently higher while still recording that previous states were visited.
+An outline of such an algorithm is presented in \ref{SARSALambdaElig}.
+\begin{equation}
+\label{eligiblity}
+e_t (s,a) = 
+\begin{cases}
+\gamma\lambda_{t-1}(s), & \text{if} \; s \neq s_t \\
+\gamma\lambda_{t-1}(s) +1,& \text{if} \; s = s_t
+\end{cases}
+\end{equation}
 
-
-% An example of a double column floating figure using two subfigures.
-% (The subfig.sty package must be loaded for this to work.)
-% The subfigure \label commands are set within each subfloat command, the
-% \label for the overall figure must come after \caption.
-% \hfil must be used as a separator to get equal spacing.
-% The subfigure.sty package works much the same way, except \subfigure is
-% used instead of \subfloat.
-%
-%\begin{figure*}[!t]
-%\centerline{\subfloat[Case I]\includegraphics[width=2.5in]{subfigcase1}%
-%\label{fig_first_case}}
-%\hfil
-%\subfloat[Case II]{\includegraphics[width=2.5in]{subfigcase2}%
-%\label{fig_second_case}}}
-%\caption{Simulation results}
-%\label{fig_sim}
-%\end{figure*}
-%
-% Note that often IEEE papers with subfigures do not employ subfigure
-% captions (using the optional argument to \subfloat), but instead will
-% reference/describe all of them (a), (b), etc., within the main caption.
-
-
-% An example of a floating table. Note that, for IEEE style tables, the 
-% \caption command should come BEFORE the table. Table text will default to
-% \footnotesize as IEEE normally uses this smaller font for tables.
-% The \label must come after \caption as always.
-%
-%\begin{table}[!t]
-%% increase table row spacing, adjust to taste
-%\renewcommand{\arraystretch}{1.3}
-% if using array.sty, it might be a good idea to tweak the value of
-% \extrarowheight as needed to properly center the text within the cells
-%\caption{An Example of a Table}
-%\label{table_example}
-%\centering
-%% Some packages, such as MDW tools, offer better commands for making tables
-%% than the plain LaTeX2e tabular which is used here.
-%\begin{tabular}{|c||c|}
-%\hline
-%One & Two\\
-%\hline
-%Three & Four\\
-%\hline
-%\end{tabular}
-%\end{table}
-
-
+\begin{figure}
+\begin{algorithmic}
+\State Initialize $Q(s,a)$ and $e(s,a)$
+\While{For each episode}
+    \State Initialize $s$, $a$
+    \While{each step of episode}
+        \State Take action $a$
+        \State Choose $a'$ from $Q(s,a)$
+        \Comment{Use $\epsilon$ greedy}
+        \State Observe $r$,$s'$
+        \State $\delta \gets r + \gamma Q(s',a') - Q(s,a) $
+        \State $e(s,a) \gets e(s,a) +1$
+        \ForAll {$s \in S,  a \in A$}
+            \State $Q(s,a) \gets Q(s,a) + \alpha \delta e(s,a)$
+            \State $e(s,a) \gets \gamma \lambda e(s,a)$
+        \EndFor
+    \EndWhile
+\EndWhile
+\end{algorithmic}
+\caption{SARSA $\lambda$ Algorithm with Eligibility Traces}
+\label{SARSALambdaElig}
+\end{figure}
 
 \section{Conclusion}
 Reinforcement learning has been proven as a technique of learning a policy necessary to achieve a goal. 
 Reinforcement learning (using the SARSA $\lambda$ algorithm) was attempted to be implemented in the player-stage environment in order to teach a robot the optimal policy to avoid walls and to avoid obstacles.
-While the particular implementation was not successful at achieving this goal, the general 
-The conclusion goes here.
-
+While the particular implementation was not successful at achieving this goal, the general concepts were demonstrated within the framework.
+\subsection{Future Work}
+As with any implementation that does not converge future work can be made on the convergence of the the algorithm.
+Such efforts might focus on a better representation of the state space, perhaps by including more information.Efforts can also be made to improve the reward function, although it is thought that a simple reward function would desired due to the ability to avoid undesired side effects.
+Such effects might be teaching the robot incorrect actions by having unintended consequences to the rewards. 
+An interesting study could also be completed on training time and the degrees of freedom in the discretization of the state space.
+It is thought the training time would increase exponentially with the size of the state space, but this would then allow for the optimal state space parameters for training to be determined.
+Finally, the effect of having and training two policies (one for wall following and the other for obstacle avoidance) be investigated.  
+It is thought that each individual policy would train faster, but that training the combination of both policies would be difficult to train.
+\\
+It is proposed for future classes that a code framework be provided with this project. 
+This would allow for the students efforts to focus on the actual algorithm rather than the implementation of the states, actions, and how to best store and retrieve them.  If it is desired to have the students think about the implementation of the state and actions, the mini project could be extended to have the student write their own representations, and then a template (or class outlines) be provided for the use in the implementation of the SARSA $\lambda$ algorithm.
 
 
 % use section* for acknowledgement
@@ -222,26 +209,10 @@ The conclusion goes here.
 Once again I would like to thank Matthew Lish for his help.  His support and insight is gratefully acknowledgment.
 
 
-% trigger a \newpage just before the given reference
-% number - used to balance the columns on the last page
-% adjust value as needed - may need to be readjusted if
-% the document is modified later
-%\IEEEtriggeratref{8}
-% The "triggered" command can be changed if desired:
-%\IEEEtriggercmd{\enlargethispage{-5in}}
-
 % references section
 
 \bibliographystyle{IEEEtran}
 \bibliography{IEEEabrv,Zotero}
-\begin{thebibliography}{1}
-
-\bibitem{IEEEhowto:kopka}
-H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-
-\end{thebibliography}
-
 
 % that's all folks
 \end{document}

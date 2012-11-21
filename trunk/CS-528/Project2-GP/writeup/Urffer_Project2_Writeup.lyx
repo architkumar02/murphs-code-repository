@@ -1,0 +1,1554 @@
+#LyX 2.0 created this file. For more info see http://www.lyx.org/
+\lyxformat 413
+\begin_document
+\begin_header
+\textclass IEEEtran
+\begin_preamble
+% for subfigures/subtables
+\ifCLASSOPTIONcompsoc
+\usepackage[caption=false,font=normalsize,labelfont=sf,textfont=sf]{subfig}
+\else
+\usepackage[caption=false,font=footnotesize]{subfig}
+\fi
+\end_preamble
+\use_default_options false
+\begin_modules
+algorithmics
+\end_modules
+\maintain_unincluded_children false
+\language english
+\language_package default
+\inputencoding default
+\fontencoding global
+\font_roman default
+\font_sans default
+\font_typewriter default
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command default
+\index_command default
+\float_placement tbh
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_title "Your Title"
+\pdf_author "Your Name"
+\pdf_bookmarks true
+\pdf_bookmarksnumbered true
+\pdf_bookmarksopen true
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder true
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle false
+\pdf_quoted_options "pdfpagelayout=OneColumn, pdfnewwindow=true, pdfstartview=XYZ, plainpages=false"
+\papersize default
+\use_geometry false
+\use_amsmath 1
+\use_esint 0
+\use_mhchem 1
+\use_mathdots 1
+\cite_engine basic
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 3
+\tocdepth 3
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 2
+\papersides 1
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Title
+Symbolic Regression with Genetic Programming
+\end_layout
+
+\begin_layout Author
+Matthew J.
+ Urffer
+\end_layout
+
+\begin_layout After Title Text
+CS 528 Machine Learning, Fall 2012
+\end_layout
+
+\begin_layout Abstract
+Symbolic regression is a applied to an artibary function utilzing genetic
+ programing techniques where the genetic program is represented by an expression
+ tree.
+ The initial population was generated with ramped half and half with randomly
+ constructed trees.
+ Canidates for the next generation were chosen by tournament selection and
+ rank selection based on the fitness of the individual where the fitness
+ was determined by the sum square error (SSE).
+ These individuals were subject to crossover and heavily mutated.
+ It was determined that the best fitness an individual could achieve was
+ an SSE around 9.3, which is much higher than the goal of 0.5.
+\end_layout
+
+\begin_layout Keywords
+symbolic regression, genetic programming, expression trees
+\end_layout
+
+\begin_layout Section
+Introduction
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+
+\backslash
+IEEEPARstart{
+\end_layout
+
+\end_inset
+
+ R
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}{
+\end_layout
+
+\end_inset
+
+egression
+\begin_inset ERT
+status collapsed
+
+\begin_layout Plain Layout
+
+}
+\end_layout
+
+\end_inset
+
+ is utilized heavily in all fields when the the functional form is known
+ and only the coefficients have to be determined.
+ When the functional form is not known a functional form has to be infered
+ from the underlying model which can often be difficult to derive and fraught
+ with assumptions.
+ Symbolic regression (function discovery on a multivariate daa set) is a
+ form of regression in which the functional form and the coefficients are
+ determeind.
+ Symoblic regression is then very differnet but similar to regular regression;
+ in regression the functional form is known and only the coefficients need
+ to be determined while in symbolic regression the coefficients and the
+ functional form are not known.
+ In regression it is possible to follow the gradient of the error surface
+ for rapid convergence, but for symbolic no such error surface exists, and
+ therefore a different type of search is required.
+ Genetic programming is an automated method for creating solutions to high
+ level statement of the problem by evolving individual solutions in order
+ to optimize a fitness function is then an ideal method to solve this problem.
+ Genetic programming attemps to mimic the evolutionary process by creating
+ an intial population, only letting the best individuals in a population
+ reproduce, and using an anolgy of DNA mutations and the crossing of genetic
+ material that occurs during breeding.
+\end_layout
+
+\begin_layout Section
+Methodology
+\end_layout
+
+\begin_layout Standard
+A symbolic regression individual was modeled using an a recursively defined
+ expression tree.
+ An initial population (forest) of trees was generated and the fitness was
+ computed for each of the individuals.
+ Generations of the forest were computed utilizing genetic operators to
+ evolve the old generation into the new.
+ The following sections explain each part in detail.
+\end_layout
+
+\begin_layout Subsection
+Expression Tree Representation
+\end_layout
+
+\begin_layout Standard
+Expression trees were used to represent symbolic functional forms due to
+ their ease of use and the ability to easily apply genetic operators such
+ as crossover and mutations.
+ The expression trees were implemented recursively in c as linked nodes.
+ Trees where created recursively in a doubly linked list.
+ Provided a maximim depth, the function would call itself until the the
+ maximum depth was reached.
+ The option to prune the trees to create a more diverse intitial tree structure
+ was also implemented, but in practice preliminary pruning made an insignificant
+ differnece on the final results and was not used.
+ The algorthim is shown in Algorthim 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "TreeCreation"
+
+\end_inset
+
+.
+ All of the operators were represented as strings, with the evaluation of
+ a tree preformed by a series of case statements.
+ The unary functions cos and sin where overloaded to contain an additional
+ competent which represents the magnitude.
+ Trees were constructed in a random manner, with equal probability of picking
+ any operator from the function set.
+ A terminal node was chosen either by max depth or a pruning probability.
+ Terminal node operators (values) where not chosen with a user supplied
+ probability.
+ In addition the terminal set only included two operators, 
+\family typewriter
+x
+\family default
+ and 
+\family typewriter
+value
+\family default
+.
+ The 
+\family typewriter
+x
+\family default
+ operator represented the value on which to evaluate the expression tree,
+ while the 
+\family typewriter
+value 
+\family default
+keyword represented a real number uniformly chosen on the interval (-1,1).
+ Table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "FunTermSet"
+
+\end_inset
+
+ enumerates the function and terminals sets used.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+placement htbp
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Function and Terminal Set
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="2">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="0">
+<column alignment="center" valignment="top" width="0">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Operators
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Function Set
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $b\sin a,\newline b\cos a,\newline b\sqrt{\left|a\right|},\newline\left|a\right|^{b},\newline+,\newline-,\newline\times,\newline+$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Terminal Set
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x\newline,\mathbb{R}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "FunTermSet"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\family typewriter
+node *buildTree(node* parent,int depth, double pruneProb, double constProb){
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+node *tree = NULL;
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+if (depth == 0 || (drand(0,1) < pruneProb && parent != NULL)) {
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+tree = leafNode(constProb); 
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+tree->parent = parent;
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+return tree;
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+}else{
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+node *tree = funcNode();
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+tree->parent = parent;
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+tree->left = buildTree(tree,depth-1,
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+pruneProb,constProb);
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+tree->right= buildTree(tree,depth-1,
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+pruneProb,constProb);
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+
+\begin_inset space \thinspace{}
+\end_inset
+
+return tree;
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+\begin_inset space \thinspace{}
+\end_inset
+
+}
+\end_layout
+
+\begin_layout Plain Layout
+
+\family typewriter
+} 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Random Tree Creation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "TreeCreation"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Initial Population
+\end_layout
+
+\begin_layout Standard
+The initial population was generated using ramped half and half in which
+ half of the population are randomly generated trees to the maximum depth,
+ while the other half of the population was created of full trees ranging
+ from a tree depth of 2 to the maximum depth.
+ The initial population was assured to have no duplicates (by comparing
+ tree structure).
+ It is possible that trees with different structures evaluate to the same
+ result, an example of which is provided in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "SimilarTree"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+
+\series bold
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename GeneticProgrammingExpressionTreeFigures_SameTreeNotEqual.eps
+	width 3in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "SimilarTree"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Semantically different trees can mathematically be equivalent
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Genetic Algorithm
+\end_layout
+
+\begin_layout Standard
+The genetic algorithm typically consist of four tasks: creating an initial
+ population, evaluating that populations fitness, selecting members of the
+ current population to breed, and then applying genetic operators to the
+ selected members to breed the new population.
+ This is completed for either a maximum generation is reached or the desired
+ fitness is achieved.
+ In the symbolic regression problem the fitness of an individual is defined
+ as the sum squared error with lower fitness being considered desirable.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex ALGORITHMIC
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex WHILE
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Formula $error>goal$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex WHILEBODY
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex FORALL
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $t\in F$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex FORBODY
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+Compute fitness
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex FORALL
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $t\in F$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex FORBODY
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+Choose individuals based on fitness
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+Select individuals for next population
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+Crossover selected individuals
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+Mutate selected individual
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Genetic Program Outline
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "AlgoOutline"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Population Selection
+\end_layout
+
+\begin_layout Standard
+Population selection was achieved using a hybrid approach of tournament
+ selection and rank selection.
+ In rank selection the individuals were selected based on their rank, where
+ the rank was determined by their fitness (lower SSE correspond to a higher
+ fitness).
+ Tournament selection was used to generate the other component of the population
+ for breeding.
+ Two trees were chosen at random from the entire population and the tree
+ with the highest fitness was added to the population for breeding.
+ There was no restriction on trees being selected more than once.
+ Algorithm 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "PopSelectionAlgo"
+
+\end_inset
+
+ outlines this approach.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex ALGORITHMIC
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex WHILE
+status open
+
+\begin_layout Plain Layout
+\begin_inset Formula $numAdded<population$
+\end_inset
+
+Size
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex WHILEBODY
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+Determine tournament selection fraction
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+Determine rank selection fraction
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+Rank population members based on fitness
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+Preform Rank Selection
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex WHILE
+status open
+
+\begin_layout Plain Layout
+i < TotalRankNumber
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex WHILEBODY
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+Copy ranked tree i
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex WHILE
+status collapsed
+
+\begin_layout Plain Layout
+j < TotalTournamentNumber
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex WHILEBODY
+status open
+
+\begin_layout Plain Layout
+\begin_inset Flex DRAW
+status open
+
+\begin_layout Plain Layout
+a random tree, t1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex DRAW
+status open
+
+\begin_layout Plain Layout
+a random tree, t2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex IF
+status open
+
+\begin_layout Plain Layout
+fitness(t1) > fitness(t2)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+keep t1
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex ELSIF
+status open
+
+\begin_layout Plain Layout
+fitness(t1) < fitness(t2)
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex STATE
+status open
+
+\begin_layout Plain Layout
+keep t2
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Flex ENDIF
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Canidate selection for the next population
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "PopSelectionAlgo"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Genetic Operators
+\end_layout
+
+\begin_layout Standard
+Individuals selected for reproduction are subjected to genetic operators
+ to breed the next generation.
+ Genetic programs generally contain two genetic operators, crossover and
+ mutation.
+ Crossover serves to create new members of the population by interchanging
+ the genetic material (tree structure) of two parents in which significant
+ changes in the tree solutions are achieved.
+ Mutation serves to slightly modify an existing solution.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Crossover
+\end_layout
+
+\begin_layout Standard
+Crossover is defined in genetic programming as the swapping of sub-trees
+ between individuals in the population, which is meant to mimic the crossover
+ of genes that occurs during evolution.
+ As the solutions are recursively defined, crossover was implemented by
+ selecting randomly selecting a two nodes from different trees and swapping
+ their parents.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename GeneticProgrammingExpressionTreeFigures_CrossOver.eps
+	width 3in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of Crossover
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "CrossOver"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Mutation
+\end_layout
+
+\begin_layout Standard
+Mutation, unlike crossover, does not involve changes to the structure of
+ the solution but rather operators within the solution.
+ For example, in symbolic regression mutation will randomly (defined by
+ the mutation rate) change the node function and leaf values, but it will
+ not add or prune branches to the tree structure.
+ Mutation was implemented as a recursive traversal of the tree, switching
+ the function types with other functions types according to a user supplied
+ probability.
+ The terminals mutations were implemented in a similar fashion, but if the
+ node was a value leaf the leaf was randomly set to a new random variable.
+ An example of mutation is shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "Mutation"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement htbp
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename GeneticProgrammingExpressionTreeFigures_Mutation.eps
+	width 3in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "Mutation"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Example of mutation
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Results
+\end_layout
+
+\begin_layout Standard
+Preliminary trials were completed at various depths in order to determine
+ the optimal tree depth for the problem.
+ Population sizes were set to be 500 individuals, and the genetic operators
+ were completed for 50 generations.
+ The initial populations were generated using a ramped half and half method.
+ Tree depths were chosen to be 6, 8, 10, 12 and 14.
+ As shown in Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "treeDepthStudy"
+
+\end_inset
+
+ smaller tree sizes tended to preform better than larger tree sizes.
+ It was then determined that the best tree size would be around a tree depth
+ of 8.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graph1.eps
+	width 3.5in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Sum Squared Error per Generation for various tree depths.
+ Populations were maitained at 500 individuals, choosen with ramped half
+ and half.
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "treeDepthStudy"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graph4.eps
+	width 3.5in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Diversity of the population (1,000 trees of Depth 6)
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "DiversityBest"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It was discovered that for a large population size (1,000) individuals the
+ diversity only minorly changed from the population being fully diverse.
+ This is to be expected in this implementation of the problem because the
+ value nodes are compared by the node value and it is unlikely for two randomly
+ drawn real values be equal (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "DiversityBest"
+
+\end_inset
+
+).
+ None of the trees generated had an sum squared error in the target range
+ of 0.5.
+ The best expression tree generated had a sum squared error of 9.30 with
+ the functional form of (1), while the expression tree is shown in Figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "BestExprTree"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+a\cos x
+\end{equation}
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "bestTreeEqn"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Various attempts were made to attempt to avoid this local minima but none
+ proved successful.
+ The first attempt was to introduce an very large mutation rate (90%), but
+ without restricting a periodic function from occurring near the root of
+ the tree this only resulted in another tree being switched to a periodic
+ function and taking the previous spartan's place.
+ It was then attempted to introduce large crossover, but if the cosine was
+ the root node in the tree (as it is for a SSE of ~10) this only served
+ to modify the inputs to the cosine, to which the cosine is generally resilient.
+ The final attempt was to increase the minimum depth in the ramped half
+ and half, but this resulted in trees that had SSE's in the 100 after a
+ few hundred generations and was discarded.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+placement htbp
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\align center
+
+\family sans
+\begin_inset Graphics
+	filename bestTree.eps
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "BestExprTree"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Expression Tree of optimal solution
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status collapsed
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename Graph5.eps
+	width 3.5in
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption
+
+\begin_layout Plain Layout
+Comparison between data and generated model
+\end_layout
+
+\end_inset
+
+
+\begin_inset CommandInset label
+LatexCommand label
+name "FitComparison"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Conclusions
+\end_layout
+
+\begin_layout Standard
+Genetic algorithms have been demonstrated to have the capability of performing
+ simple symbolic regression.
+ It is well known that genetic algorithms can preform complex symbolic regressio
+n, but as implemented the algorithm was only capable of building a model
+ that captured the first order behavior of the model (Figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "FitComparison"
+
+\end_inset
+
+).
+ It is thought that unless a way is devised to avoid the local minima provided
+ by the cosine a genetic solution to this problem will have a difficult
+ time converging in a timely manner.
+ This can be cast in evolutionary terms where some mutations might make
+ an individual more fit (such as pigs having wings), but because the species
+ is already pretty well suited the mutation is not very likely.
+ Future work could be directed into casting the problem into a light such
+ that solutions are heavily penalized for being in this local minima.
+ Such a method might be to transform the data into a space (perhaps with
+ a Fourier transform) where only the optimal solution is favored.
+\end_layout
+
+\begin_layout Section*
+Acknowledgment
+\end_layout
+
+\begin_layout Standard
+The assistantship of Matthew Lish is gratefully acknowledged with the suggestion
+ to overload the unary functions.
+ Mike Franklin also provided valuable insights on program convergence, but
+ sadly they didn't seem to help in this implementation.
+\end_layout
+
+\end_body
+\end_document

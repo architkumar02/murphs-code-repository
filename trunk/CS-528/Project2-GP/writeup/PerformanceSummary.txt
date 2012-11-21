@@ -1,0 +1,499 @@
+Urffer_Project2
+Starting matlabpool using the 'local' profile ... connected to 4 labs.
+
+ ##### Population: 100 TreeDepth: 4
+100 Full Trees of 4 depth created in 0.930180 s
+Pruned 50 trees in 0.123809 s
+100 Tree evaluations in 0.165123 s
+100 test for equality in 0.257829 s
+100 Tree evaluations in 0.162517 s
+100 test for equality in 0.268599 s
+100 Tree evaluations in 0.159401 s
+100 test for equality in 0.272845 s
+Preformed 100 crossover in 0.041660 s
+
+ ##### Population: 100 TreeDepth: 6
+100 Full Trees of 6 depth created in 1.417206 s
+Pruned 50 trees in 0.133850 s
+100 Tree evaluations in 0.248672 s
+100 test for equality in 0.263330 s
+100 Tree evaluations in 0.245661 s
+100 test for equality in 0.284139 s
+100 Tree evaluations in 0.245497 s
+100 test for equality in 0.266202 s
+Preformed 100 crossover in 0.094498 s
+
+ ##### Population: 100 TreeDepth: 8
+100 Full Trees of 8 depth created in 5.236666 s
+Pruned 50 trees in 0.220265 s
+100 Tree evaluations in 0.529734 s
+100 test for equality in 0.274622 s
+100 Tree evaluations in 0.535831 s
+100 test for equality in 0.271285 s
+100 Tree evaluations in 0.533740 s
+100 test for equality in 0.284191 s
+Preformed 100 crossover in 0.333512 s
+
+ ##### Population: 100 TreeDepth: 10
+100 Full Trees of 10 depth created in 20.297234 s
+Pruned 50 trees in 0.422071 s
+100 Tree evaluations in 1.397616 s
+100 test for equality in 0.277863 s
+100 Tree evaluations in 1.386002 s
+100 test for equality in 0.281783 s
+100 Tree evaluations in 1.405905 s
+100 test for equality in 0.272402 s
+Preformed 100 crossover in 1.217330 s
+
+ ##### Population: 100 TreeDepth: 12
+100 Full Trees of 12 depth created in 79.886771 s
+Pruned 50 trees in 1.487935 s
+100 Tree evaluations in 3.635952 s
+100 test for equality in 0.261090 s
+100 Tree evaluations in 3.624176 s
+100 test for equality in 0.262577 s
+100 Tree evaluations in 3.871189 s
+100 test for equality in 0.274851 s
+Preformed 100 crossover in 4.837289 s
+
+ ##### Population: 150 TreeDepth: 4
+150 Full Trees of 4 depth created in 0.589596 s
+Pruned 75 trees in 0.158445 s
+150 Tree evaluations in 0.226637 s
+150 test for equality in 0.620867 s
+150 Tree evaluations in 0.226604 s
+150 test for equality in 0.630998 s
+150 Tree evaluations in 0.227792 s
+150 test for equality in 0.629436 s
+Preformed 150 crossover in 0.056217 s
+
+ ##### Population: 150 TreeDepth: 6
+150 Full Trees of 6 depth created in 2.130750 s
+Pruned 75 trees in 0.188244 s
+150 Tree evaluations in 0.363879 s
+150 test for equality in 0.592512 s
+150 Tree evaluations in 0.351750 s
+150 test for equality in 0.583171 s
+150 Tree evaluations in 0.349118 s
+150 test for equality in 0.608618 s
+Preformed 150 crossover in 0.151553 s
+
+ ##### Population: 150 TreeDepth: 8
+150 Full Trees of 8 depth created in 8.104561 s
+Pruned 75 trees in 0.296096 s
+150 Tree evaluations in 0.788034 s
+150 test for equality in 0.586524 s
+150 Tree evaluations in 0.784296 s
+150 test for equality in 0.584722 s
+150 Tree evaluations in 0.787758 s
+150 test for equality in 0.590905 s
+Preformed 150 crossover in 0.489830 s
+
+ ##### Population: 150 TreeDepth: 10
+150 Full Trees of 10 depth created in 31.261690 s
+Pruned 75 trees in 0.828036 s
+150 Tree evaluations in 2.083270 s
+150 test for equality in 0.583744 s
+150 Tree evaluations in 2.043907 s
+150 test for equality in 0.609500 s
+150 Tree evaluations in 2.010600 s
+150 test for equality in 0.608965 s
+Preformed 150 crossover in 1.975381 s
+
+ ##### Population: 150 TreeDepth: 12
+150 Full Trees of 12 depth created in 122.657284 s
+Pruned 75 trees in 1.820576 s
+150 Tree evaluations in 5.458765 s
+150 test for equality in 0.621283 s
+150 Tree evaluations in 5.440997 s
+150 test for equality in 0.621046 s
+150 Tree evaluations in 5.474452 s
+150 test for equality in 0.607118 s
+Preformed 150 crossover in 7.197915 s
+
+ ##### Population: 200 TreeDepth: 4
+200 Full Trees of 4 depth created in 0.765295 s
+Pruned 100 trees in 0.179807 s
+200 Tree evaluations in 0.287338 s
+200 test for equality in 1.043083 s
+200 Tree evaluations in 0.286106 s
+200 test for equality in 1.075429 s
+200 Tree evaluations in 0.282943 s
+200 test for equality in 1.055009 s
+Preformed 200 crossover in 0.071988 s
+
+ ##### Population: 200 TreeDepth: 6
+200 Full Trees of 6 depth created in 2.762434 s
+Pruned 100 trees in 0.241256 s
+200 Tree evaluations in 0.458121 s
+200 test for equality in 1.087442 s
+200 Tree evaluations in 0.459851 s
+200 test for equality in 1.067702 s
+200 Tree evaluations in 0.461752 s
+200 test for equality in 1.098150 s
+Preformed 200 crossover in 0.206310 s
+
+ ##### Population: 200 TreeDepth: 8
+200 Full Trees of 8 depth created in 10.541384 s
+Pruned 100 trees in 0.422704 s
+200 Tree evaluations in 1.066490 s
+200 test for equality in 1.089388 s
+200 Tree evaluations in 1.072745 s
+200 test for equality in 1.117654 s
+200 Tree evaluations in 1.065478 s
+200 test for equality in 1.114960 s
+Preformed 200 crossover in 0.693714 s
+
+ ##### Population: 200 TreeDepth: 10
+200 Full Trees of 10 depth created in 40.907309 s
+Pruned 100 trees in 0.961055 s
+200 Tree evaluations in 2.659478 s
+200 test for equality in 1.058194 s
+200 Tree evaluations in 2.564946 s
+200 test for equality in 1.132308 s
+200 Tree evaluations in 2.636179 s
+200 test for equality in 1.060632 s
+Preformed 200 crossover in 2.525846 s
+
+ ##### Population: 200 TreeDepth: 12
+200 Full Trees of 12 depth created in 160.607052 s
+Pruned 100 trees in 2.625291 s
+200 Tree evaluations in 7.564995 s
+200 test for equality in 1.042056 s
+200 Tree evaluations in 7.389533 s
+200 test for equality in 1.091786 s
+200 Tree evaluations in 7.410175 s
+200 test for equality in 1.055265 s
+Preformed 200 crossover in 9.587684 s
+
+ ##### Population: 250 TreeDepth: 4
+250 Full Trees of 4 depth created in 0.964730 s
+Pruned 125 trees in 0.217593 s
+250 Tree evaluations in 0.351934 s
+250 test for equality in 1.680748 s
+250 Tree evaluations in 0.353026 s
+250 test for equality in 1.673945 s
+250 Tree evaluations in 0.352850 s
+250 test for equality in 1.741941 s
+Preformed 250 crossover in 0.094790 s
+
+ ##### Population: 250 TreeDepth: 6
+250 Full Trees of 6 depth created in 3.479564 s
+Pruned 125 trees in 0.294874 s
+250 Tree evaluations in 0.563529 s
+250 test for equality in 1.648635 s
+250 Tree evaluations in 0.546984 s
+250 test for equality in 1.647490 s
+250 Tree evaluations in 0.562623 s
+250 test for equality in 1.619377 s
+Preformed 250 crossover in 0.241993 s
+
+ ##### Population: 250 TreeDepth: 8
+250 Full Trees of 8 depth created in 13.299238 s
+Pruned 125 trees in 0.645681 s
+250 Tree evaluations in 1.323196 s
+250 test for equality in 1.624609 s
+250 Tree evaluations in 1.295183 s
+250 test for equality in 1.628785 s
+250 Tree evaluations in 1.277002 s
+250 test for equality in 1.729300 s
+Preformed 250 crossover in 0.843327 s
+
+ ##### Population: 250 TreeDepth: 10
+250 Full Trees of 10 depth created in 51.843033 s
+Pruned 125 trees in 1.271069 s
+250 Tree evaluations in 3.406005 s
+250 test for equality in 1.677154 s
+250 Tree evaluations in 3.346364 s
+250 test for equality in 1.696135 s
+250 Tree evaluations in 3.359162 s
+250 test for equality in 1.614816 s
+Preformed 250 crossover in 3.143153 s
+
+ ##### Population: 250 TreeDepth: 12
+250 Full Trees of 12 depth created in 204.368630 s
+Pruned 125 trees in 3.142912 s
+250 Tree evaluations in 9.047036 s
+250 test for equality in 1.738961 s
+250 Tree evaluations in 8.989963 s
+250 test for equality in 1.654199 s
+250 Tree evaluations in 9.058083 s
+250 test for equality in 1.635774 s
+Preformed 250 crossover in 12.135130 s
+
+ ##### Population: 300 TreeDepth: 4
+300 Full Trees of 4 depth created in 1.119941 s
+Pruned 150 trees in 0.254157 s
+300 Tree evaluations in 0.415495 s
+300 test for equality in 2.377882 s
+300 Tree evaluations in 0.403523 s
+300 test for equality in 2.360538 s
+300 Tree evaluations in 0.404289 s
+300 test for equality in 2.353028 s
+Preformed 300 crossover in 0.107356 s
+
+ ##### Population: 300 TreeDepth: 6
+300 Full Trees of 6 depth created in 4.143956 s
+Pruned 150 trees in 0.524416 s
+300 Tree evaluations in 0.700037 s
+300 test for equality in 2.318223 s
+300 Tree evaluations in 0.655726 s
+300 test for equality in 2.333456 s
+300 Tree evaluations in 0.661887 s
+300 test for equality in 2.329712 s
+Preformed 300 crossover in 0.289295 s
+
+ ##### Population: 300 TreeDepth: 8
+300 Full Trees of 8 depth created in 15.886043 s
+Pruned 150 trees in 0.580965 s
+300 Tree evaluations in 1.581160 s
+300 test for equality in 2.443561 s
+300 Tree evaluations in 1.561590 s
+300 test for equality in 2.462083 s
+300 Tree evaluations in 1.566641 s
+300 test for equality in 2.411849 s
+Preformed 300 crossover in 1.017466 s
+
+ ##### Population: 300 TreeDepth: 10
+300 Full Trees of 10 depth created in 61.472279 s
+Pruned 150 trees in 1.381575 s
+300 Tree evaluations in 3.940868 s
+300 test for equality in 2.420319 s
+300 Tree evaluations in 3.941476 s
+300 test for equality in 2.397375 s
+300 Tree evaluations in 3.948370 s
+300 test for equality in 2.457807 s
+Preformed 300 crossover in 3.733428 s
+
+ ##### Population: 300 TreeDepth: 12
+300 Full Trees of 12 depth created in 241.328449 s
+Pruned 150 trees in 3.786981 s
+300 Tree evaluations in 10.983478 s
+300 test for equality in 2.335189 s
+300 Tree evaluations in 11.003893 s
+300 test for equality in 2.481865 s
+300 Tree evaluations in 11.095851 s
+300 test for equality in 2.421441 s
+Preformed 300 crossover in 14.615304 s
+
+ ##### Population: 350 TreeDepth: 4
+350 Full Trees of 4 depth created in 1.305433 s
+Pruned 175 trees in 0.622829 s
+350 Tree evaluations in 0.475598 s
+350 test for equality in 3.241077 s
+350 Tree evaluations in 0.471480 s
+350 test for equality in 3.246092 s
+350 Tree evaluations in 0.474074 s
+350 test for equality in 3.276706 s
+Preformed 350 crossover in 0.133859 s
+
+ ##### Population: 350 TreeDepth: 6
+350 Full Trees of 6 depth created in 4.887510 s
+Pruned 175 trees in 0.391040 s
+350 Tree evaluations in 0.756026 s
+350 test for equality in 3.321832 s
+350 Tree evaluations in 0.768923 s
+350 test for equality in 3.162544 s
+350 Tree evaluations in 0.748906 s
+350 test for equality in 3.194269 s
+Preformed 350 crossover in 0.345227 s
+
+ ##### Population: 350 TreeDepth: 8
+350 Full Trees of 8 depth created in 18.538671 s
+Pruned 175 trees in 0.693454 s
+350 Tree evaluations in 1.789341 s
+350 test for equality in 3.142416 s
+350 Tree evaluations in 1.762644 s
+350 test for equality in 3.178196 s
+350 Tree evaluations in 1.782540 s
+350 test for equality in 3.232647 s
+Preformed 350 crossover in 1.162121 s
+
+ ##### Population: 350 TreeDepth: 10
+350 Full Trees of 10 depth created in 72.442343 s
+Pruned 175 trees in 1.625952 s
+350 Tree evaluations in 4.707141 s
+350 test for equality in 3.303053 s
+350 Tree evaluations in 4.776654 s
+350 test for equality in 3.265506 s
+350 Tree evaluations in 4.731531 s
+350 test for equality in 3.351650 s
+Preformed 350 crossover in 4.455090 s
+
+ ##### Population: 350 TreeDepth: 12
+350 Full Trees of 12 depth created in 281.531709 s
+Pruned 175 trees in 4.079047 s
+350 Tree evaluations in 12.576534 s
+350 test for equality in 3.313953 s
+350 Tree evaluations in 12.502475 s
+350 test for equality in 3.179851 s
+350 Tree evaluations in 12.604890 s
+350 test for equality in 3.234243 s
+Preformed 350 crossover in 16.816729 s
+
+ ##### Population: 400 TreeDepth: 4
+400 Full Trees of 4 depth created in 1.810674 s
+Pruned 200 trees in 0.328135 s
+400 Tree evaluations in 0.571005 s
+400 test for equality in 4.235315 s
+400 Tree evaluations in 0.530335 s
+400 test for equality in 4.147966 s
+400 Tree evaluations in 0.531130 s
+400 test for equality in 4.211919 s
+Preformed 400 crossover in 0.150727 s
+
+ ##### Population: 400 TreeDepth: 6
+400 Full Trees of 6 depth created in 5.518518 s
+Pruned 200 trees in 0.452924 s
+400 Tree evaluations in 0.899133 s
+400 test for equality in 4.252360 s
+400 Tree evaluations in 0.935552 s
+400 test for equality in 4.242612 s
+400 Tree evaluations in 0.866208 s
+400 test for equality in 4.244133 s
+Preformed 400 crossover in 0.401413 s
+
+ ##### Population: 400 TreeDepth: 8
+400 Full Trees of 8 depth created in 20.967621 s
+Pruned 200 trees in 0.779207 s
+400 Tree evaluations in 2.261108 s
+400 test for equality in 4.281719 s
+400 Tree evaluations in 2.070746 s
+400 test for equality in 4.300986 s
+400 Tree evaluations in 2.062187 s
+400 test for equality in 4.271209 s
+Preformed 400 crossover in 1.331383 s
+
+ ##### Population: 400 TreeDepth: 10
+400 Full Trees of 10 depth created in 81.681430 s
+Pruned 200 trees in 1.775396 s
+400 Tree evaluations in 5.323259 s
+400 test for equality in 4.303528 s
+400 Tree evaluations in 5.195301 s
+400 test for equality in 4.219988 s
+400 Tree evaluations in 5.286378 s
+400 test for equality in 4.212431 s
+Preformed 400 crossover in 4.915135 s
+
+ ##### Population: 400 TreeDepth: 12
+400 Full Trees of 12 depth created in 319.467409 s
+Pruned 200 trees in 4.827966 s
+400 Tree evaluations in 14.394118 s
+400 test for equality in 4.347102 s
+400 Tree evaluations in 14.441840 s
+400 test for equality in 4.296998 s
+400 Tree evaluations in 14.470168 s
+400 test for equality in 4.290593 s
+Preformed 400 crossover in 19.615325 s
+
+ ##### Population: 450 TreeDepth: 4
+450 Full Trees of 4 depth created in 2.008628 s
+Pruned 225 trees in 0.359135 s
+450 Tree evaluations in 0.600865 s
+450 test for equality in 5.504271 s
+450 Tree evaluations in 0.615830 s
+450 test for equality in 5.510987 s
+450 Tree evaluations in 0.602861 s
+450 test for equality in 5.386280 s
+Preformed 450 crossover in 0.169280 s
+
+ ##### Population: 450 TreeDepth: 6
+450 Full Trees of 6 depth created in 6.202710 s
+Pruned 225 trees in 0.486824 s
+450 Tree evaluations in 0.994558 s
+450 test for equality in 5.460195 s
+450 Tree evaluations in 0.968379 s
+450 test for equality in 5.476001 s
+450 Tree evaluations in 0.998759 s
+450 test for equality in 5.256036 s
+Preformed 450 crossover in 0.429296 s
+
+ ##### Population: 450 TreeDepth: 8
+450 Full Trees of 8 depth created in 23.742928 s
+Pruned 225 trees in 0.973852 s
+450 Tree evaluations in 2.329872 s
+450 test for equality in 5.424994 s
+450 Tree evaluations in 2.301470 s
+450 test for equality in 5.513072 s
+450 Tree evaluations in 2.301197 s
+450 test for equality in 5.535450 s
+Preformed 450 crossover in 1.537491 s
+
+ ##### Population: 450 TreeDepth: 10
+450 Full Trees of 10 depth created in 92.355817 s
+Pruned 225 trees in 1.977723 s
+450 Tree evaluations in 5.796573 s
+450 test for equality in 5.320172 s
+450 Tree evaluations in 5.753466 s
+450 test for equality in 5.472735 s
+450 Tree evaluations in 5.765463 s
+450 test for equality in 5.388501 s
+Preformed 450 crossover in 5.610551 s
+
+ ##### Population: 450 TreeDepth: 12
+450 Full Trees of 12 depth created in 362.926087 s
+Pruned 225 trees in 5.169285 s
+450 Tree evaluations in 16.321798 s
+450 test for equality in 5.381983 s
+450 Tree evaluations in 16.092536 s
+450 test for equality in 5.311852 s
+450 Tree evaluations in 16.269864 s
+450 test for equality in 5.326684 s
+Preformed 450 crossover in 21.269033 s
+
+ ##### Population: 500 TreeDepth: 4
+500 Full Trees of 4 depth created in 2.181640 s
+Pruned 250 trees in 0.388862 s
+500 Tree evaluations in 0.663253 s
+500 test for equality in 6.570623 s
+500 Tree evaluations in 0.667939 s
+500 test for equality in 6.437377 s
+500 Tree evaluations in 0.655012 s
+500 test for equality in 6.460706 s
+Preformed 500 crossover in 0.178464 s
+
+ ##### Population: 500 TreeDepth: 6
+500 Full Trees of 6 depth created in 6.839158 s
+Pruned 250 trees in 0.533793 s
+500 Tree evaluations in 1.117678 s
+500 test for equality in 6.445360 s
+500 Tree evaluations in 1.088634 s
+500 test for equality in 6.420705 s
+500 Tree evaluations in 1.083948 s
+500 test for equality in 6.594484 s
+Preformed 500 crossover in 0.507573 s
+
+ ##### Population: 500 TreeDepth: 8
+500 Full Trees of 8 depth created in 26.404555 s
+Pruned 250 trees in 1.047614 s
+500 Tree evaluations in 2.630418 s
+500 test for equality in 6.794853 s
+500 Tree evaluations in 2.582011 s
+500 test for equality in 6.526464 s
+500 Tree evaluations in 2.603161 s
+500 test for equality in 6.441460 s
+Preformed 500 crossover in 1.634850 s
+
+ ##### Population: 500 TreeDepth: 10
+500 Full Trees of 10 depth created in 102.829775 s
+Pruned 250 trees in 2.155004 s
+500 Tree evaluations in 6.608605 s
+500 test for equality in 6.702075 s
+500 Tree evaluations in 6.553868 s
+500 test for equality in 6.640030 s
+500 Tree evaluations in 6.496121 s
+500 test for equality in 6.435652 s
+Preformed 500 crossover in 6.037993 s
+
+ ##### Population: 500 TreeDepth: 12
+500 Full Trees of 12 depth created in 403.162468 s
+Pruned 250 trees in 5.673165 s
+500 Tree evaluations in 17.823878 s
+500 test for equality in 6.795702 s
+500 Tree evaluations in 17.476957 s
+500 test for equality in 6.441599 s
+500 Tree evaluations in 17.730938 s
+500 test for equality in 6.691615 s
+Preformed 500 crossover in 24.558798 s
+Sending a stop signal to all the labs ... stopped.
+exit

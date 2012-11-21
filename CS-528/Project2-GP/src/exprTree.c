@@ -11,7 +11,7 @@
  * Node Functions
  */
 #define NUMFUNCTIONS 5
-char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","cos"};
+char *FUNCTIONS[NUMFUNCTIONS] = {"+","-","*","/","^"};
 
 /**
  * Terminal Functions 

@@ -1,0 +1,9 @@
+Graph is in Dimax format
+
+Shortest path -> could imply social infrence
+Could use average distance (as a function of discritzied edge)
+Degree of a vertex
+
+Probably should use c / c++ (python might blow up)
+
+Lemon / Boost

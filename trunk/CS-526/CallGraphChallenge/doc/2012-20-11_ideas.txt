@@ -1,0 +1,41 @@
+Link Analytics Challenge
+(invsiable edge problem)
+
+PROBLEM:
+ - Call Detail Records
+    - every call that involved a cricket customer
+    - Have social networks model as graphs
+        - Graph (nodes are people, edges are calls)
+        - cell phone networks don't have all of the nodes/edges
+        - Undirected graph
+    - Clique in a graph
+    
+    - Yes/No for several hundred thousand graphs
+        - Esimate the probablity that an edge exists between two nodes
+        
+    - Test
+        - Given and edge list of all nodes
+            - 1 if edge should be there
+            - 0 if edge should not be there
+
+PROBLEM SIZE:
+    - On average 3 friends, but some have a very high degree (power law dist)
+    
+DELIVERABLES:
+ By the end of class (3:25pm) on Tuesday, Dec 4 your group will submit (via blackboard) the follow items:
+
+    - A 5-page report for your group's strategy/approach to the Challenge problem. Your report (submitted as a PDF file) should include a title page listing all authors, your team number, and a short abstract summarizing your approach and conclusions. Your report should also include a bibliography of all references (including websites/software) used. Responses to some/all of the questions posed in Section 2 of the Challenge description are encouraged. Be sure to state the actual questions addressed in your report.
+    - Three PowerPoint slides that summarize your group's approach to the Challenge and observations and insights you gained.
+    - The prediction file described in Section 3 of the Challenge description.
+    - Software used to produce the prediction files (zip file will suffice).
+    (Group 11 J. Martin, M. Urffer, L. Wan)
+    
+IDEAS:
+    - Friend sets don't change monthly (structure should be about the same)
+    - Is graph connected / ways to compress graph
+    - How many hops away
+   
+Need to show more on how the problem was thought about
+
+Think that this is like a market basket 
+- differnet attributes determine if another item exist (is bought)

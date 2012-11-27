@@ -1,0 +1,11 @@
+\section{Methods}
+The call graph was provided as a labeled edge list, and was modeled as a weighted, undirected, multigraph \footnote{Using a multigraph will make it hard to compute distances}.
+The graph was organzied as each of the nodes being the unique identifier to a cutomer, with edges between the customers representing:
+\begin{itemize}
+	\item \tt{days} - the number of distinict days that the two nodes communicated during the month,
+	\item \tt{calls} - the number of distinct calls that the the nodes made during the month,
+	\item \tt{secs} - the cummulative sum of all calls that the modes made during the month and,
+	\item \tt{text} - the number of distinct texts that the two nodes made during the month.
+\end{itemize}
+
+\missingfigure{A simple call graph}

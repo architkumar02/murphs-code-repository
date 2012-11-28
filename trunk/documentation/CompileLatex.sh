@@ -20,7 +20,7 @@ else
 		options=""
 		postProcess="grep Warning\|Overful"
 		pdflatex $options $1 | $postProcess 
-		bibtex $options $1 | $postProcess
+		bibtex  $1 | $postProcess
 		pdflatex $options $1 | $postProcess
 		echo "All refrences should now be resolved"
 		echo

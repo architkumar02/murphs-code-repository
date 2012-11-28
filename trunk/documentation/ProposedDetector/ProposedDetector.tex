@@ -2,17 +2,22 @@
 \documentclass[]{report}
 
 %% PACKAGES
-\usepackage{listings,graphicx,amsmath}
+\usepackage{graphicx}
+\usepackage[outdir=./tmp/]{epstopdf}
+\usepackage{listings,amsmath}
 \usepackage{microtype,todonotes}
 
 %% GRAPHICS RELATED
-\graphicspath{{../images}}
-\DeclareGraphicsEXtensions{.eps, .pdf, .jpeg, .png}
+\graphicspath{{../images/}{./tmp}}
+\DeclareGraphicsExtensions{.eps, .pdf, .jpeg, .png}
+
+%% BIBLIOGRAPHY
+\bibliographystyle{ieeetr}
+
 
 \title{Proposed Detector Design}
 \author{Matthew J. Urffer}
 \date{\today}
-\todo{Implement Automatic Version in Footer}
 
 \begin{document}
 
@@ -25,5 +30,8 @@
 \include{Introduction}
 
 \include{EnergyDepostion}
+
+% Bibliography
+\bibliography{../Zotero}
 \end{document}
 

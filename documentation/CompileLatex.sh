@@ -10,7 +10,7 @@ else
 		# Spell Check
   		for f in *.tex;
 		do
-			aspell -t check f
+			aspell -t check $f
 		done
 	else
 		version=$(svnversion .)

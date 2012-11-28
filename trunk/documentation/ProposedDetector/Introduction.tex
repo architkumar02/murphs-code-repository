@@ -1,0 +1,30 @@
+\section{Introduction}
+It is proposed to build a detector in order to verify the GEANT4 simulations while providing a framework to test light transport collection, spacing, and material properties in order to build a scaled modeled of a layered RPM8 detector.
+
+There are serveral design parameters which must be determined \ref{fig:DetectorParameterSchematic}
+\begin{itemize}
+    \item detector material,
+    \item detector thickness,
+    \item detector encapsulating material,
+    \item detector encapsulating material thickness,
+    \item and spacing between layers.
+\end{itemize}
+\begin{figure}
+    \centering
+    \includegraphics[]{ThinFilmDetectorDesign}
+    \caption{Detector Design Parameters}
+    \label{fig:DetectorParameterSchematic}
+\end{figure}
+
+\subsection{ ${}^6$LiF:ZnS}
+${}^6$LiF was chosen as the material of choice because of it's high light output \cite{}and large {}^{6}LiF content \todo{Calculate fraction of Li in EJ426}. 
+Innovative American Technologies (IAT) have perusued ${}^6$LiF:ZnS based detectors with mixed results.
+The IAT detector is a LiF:ZnS coated paddle with two PMT's at either end of an assemply that is 12" x 5" x 85" (size of RPM8)\ref{fig:IATPaddle}.
+The neutron efficiency was reported by the manufacture to be 3.7 cps per ng ${}^{252}$Cf, with a gamma sensitivity of less than $10^{-7}$ in a > 20mR per hr gamma field.  The GARRn was within the criteria.
+Previous models tested at PNNL in 2010 were scaled models which did not have an adquate neutron count rate but passed the other criteria \cite{kouzes_lithium_2010}.
+\begin{figure}
+    \centering
+    \includegraphics[]{IAT_NDM_4-0}
+    \caption{IAT NDM 4.0 ${}^6$LiF:ZnS neutron detector (12" x 5" x 85")}
+    \label{fig:IATPaddle}
+\end{figure}

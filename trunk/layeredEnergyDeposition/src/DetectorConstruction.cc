@@ -35,22 +35,21 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
     fCheckOverlaps(true){
 
         // Geometry parameters
-        absThickness = 50*um;	      // Thickness of Absorber
-        gapThickness = (1.0/8.0*2.54)*cm;    // Thickness of Gap 
-        oRadius  = 2.54*cm;		   // Outer Radius of Detector
+        sliceThickness= 5*um;           // Thickness of a slice
+        absThickness = 50*um;	        // Thickness of Absorber
+
+        gapThickness = 2*cm;            // Thickness of Gap 
+        oRadius  = 2.54*cm;		        // Outer Radius of Detector
         iRadius = 0.*cm;				// Inner radious of  Detector
         startAngle = 0.*deg;
         spanAngle = 360.*deg;
-
-        nofLayers = 1;              // Number of detector layers
 
         // Compute parameters
         ComputeParameters();
 
         // Define materials 
         DefineMaterials();
-        SetAbsorberMaterial("G4_PLEXIGLASS");
-        //SetAbsorberMaterial("6LiF");
+        SetAbsorberMaterial("EJ426HD2");
         SetGapMaterial("G4_PLEXIGLASS");
 
         // Create commands for interactive defiantions of the calorimeter
@@ -100,6 +99,8 @@ void DetectorConstruction::DefineMaterials()
     G4Element* eO = nistManager->FindOrBuildElement("O",fromIsotopes);
     G4Element* eN = nistManager->FindOrBuildElement("N",fromIsotopes);
     G4Element* eF = nistManager->FindOrBuildElement("F",fromIsotopes);
+    G4Element* eS = nistManager->FindOrBuildElement("S",fromIsotopes);
+    G4Element* eZn = nistManager->FindOrBuildElement("Zn",fromIsotopes);
 
     // defining enriched Lithium 6
     G4double a6Li = 6.015*g/mole;	// Molar Masses (Wolfram Alpha)
@@ -119,35 +120,12 @@ void DetectorConstruction::DefineMaterials()
     LiAbsorber->AddElement(enrichLi,nAtoms=1);
     LiAbsorber->AddElement(eF,nAtoms=1);
 
-
-    // PPO C15H11NO
-    G4Material* PPO = new G4Material("PPO",density=1.1*g/cm3,nComponents=4,kStateSolid);
-    PPO->AddElement(eC,nAtoms=15);
-    PPO->AddElement(eH,nAtoms=11);
-    PPO->AddElement(eO,nAtoms=1);
-    PPO->AddElement(eN,nAtoms=1);
-
-    // POPOP C24H15N2O2
-    G4Material* POPOP = new G4Material("POPOP",density=1.1*g/cm3,nComponents=4,kStateSolid);
-    POPOP->AddElement(eC,nAtoms=24);
-    POPOP->AddElement(eH,nAtoms=15);
-    POPOP->AddElement(eO,nAtoms=2);
-    POPOP->AddElement(eN,nAtoms=2);
-
-    // Scintillant
-    G4double fractionPPO = 46./(46.+1.36);		// Scintillant is in the ratio of 46 g PPO to 1.36 g POPOP
-    G4Material* scintillant = new G4Material("PPO/POPOP",density=1.1*g/cm3,nComponents=2,kStateSolid);
-    scintillant->AddMaterial(PPO,fractionPPO);
-    scintillant->AddMaterial(POPOP,1-fractionPPO);
-
-    // Polymer PS Based Detector
-    G4double fractionPolymer = 0.85;
-    G4double fractionScintillant = 0.05;
-    G4double fractionAbsorber = 0.10;
-    G4Material* psDetector = new G4Material("PS_Detector",density=1.1*g/cm3,nComponents=3,kStateSolid);
-    psDetector->AddMaterial(nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes),fractionPolymer);
-    psDetector->AddMaterial(scintillant,fractionScintillant);
-    psDetector->AddMaterial(LiAbsorber,fractionAbsorber);
+    // Defining EJ426 HD2
+    G4Material* EJ426HD2 = new G4Material("EJ426HD2",density=4.1*g/cm3,nComponents=4);
+    EJ426HD2->AddElement(enrichLi,massFraction=0.081);
+    EJ426HD2->AddElement(eF,massFraction=0.253);
+    EJ426HD2->AddElement(eZn,massFraction=0.447);
+    EJ426HD2->AddElement(eS,massFraction=0.219);
 
     // Vacuum
     new G4Material("Galactic", z=1., a=1.01*g/mole,density= universe_mean_density,kStateGas, 2.73*kelvin, 3.e-18*pascal);
@@ -169,8 +147,7 @@ void DetectorConstruction::DefineMaterials()
  */
 void DetectorConstruction::ComputeParameters(){
 
-    layerThickness = absThickness + gapThickness;
-    caloThickness = layerThickness*nofLayers;
+    caloThickness = absThickness+2*gapThickness;
     worldSizeXY = 1.2 * oRadius;
     worldSizeZ  = caloThickness+2*cm; 
 }
@@ -183,7 +160,7 @@ void DetectorConstruction::PrintCaloParameters(){
 
     // print parameters
     G4cout << "\n------------ Calorimeter Parameters ---------------------"
-        <<"\n--> The carlorimeter is "<< nofLayers << " layers of: \n\t[ "
+        <<"\n--> The carlorimeter is a single layer of: \n\t[ "
         << absThickness/mm << "mm of " << absMaterial->GetName() 
         << " + "
         << gapThickness/mm << "mm of " << gapMaterial->GetName() << " ]"
@@ -224,47 +201,34 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     // Setting up the Calorimeter
     //
 
-    // Calorimeter (gap material)
-    caloS = new G4Tubs("Calorimeter",iRadius,oRadius,caloThickness/2,
-            startAngle,spanAngle);
-    caloLV = new G4LogicalVolume(caloS,gapMaterial,
-            "Calorimeter");
-    caloPV = new G4PVPlacement(0,G4ThreeVector(),
-            caloLV,"Calorimeter",worldLV,false,0,fCheckOverlaps);
-
-    // Layer (Consists of Absorber and Gap)
-    layerS = new G4Tubs("Layer",iRadius,oRadius,layerThickness/2,
-            startAngle,spanAngle);
-    layerLV = new G4LogicalVolume(layerS,defaultMaterial,"Layer");
-    if (nofLayers > 1){
-        layerPV = new G4PVReplica("Layer",layerLV,caloLV,kZAxis,
-                nofLayers,layerThickness,-caloThickness/2);
-    }else{
-        layerPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,0.0),layerLV,"Layer",
-                caloLV,false,0,fCheckOverlaps);
-    }
-
-
     // Absorber
-    if (absThickness > 0.0){
-        absS = new G4Tubs("Abso",iRadius,oRadius,absThickness/2,
-                startAngle,spanAngle);
-        absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
-        absPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-gapThickness/2),
+    absS = new G4Tubs("Abs",iRadius,oRadius,absThickness/2,0,spanAngle);
+    absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
+    absPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-gapThickness/2),
                 absLV,"Absorber",layerLV,false,0,fCheckOverlaps);
-    }
+    absSSlices = new G4Tubs("AbsSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
+    absLVSlice = new G4LogicalVolume(absSSlice,absMaterial,"Absorber",0);
+    absPVSlice = new G4PVReplica("AbsSlicedPV",absLVSlice,absLV,kZAxis,absThickness/sliceThickness,slabThickness);
 
-    // Gap
-    if (gapThickness > 0.0){
-        gapS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,
-                startAngle,spanAngle);
-        gapLV = new G4LogicalVolume(gapS,gapMaterial,"Gap",0);
-        gapPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,absThickness/2),
-                gapLV,"Gap",layerLV,false,0,fCheckOverlaps);
-    }
-
+    // Gap (right)
+    gapRS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,0,spanAngle);
+    gapRLV = new G4LogicalVolume(gapRS,gapMaterial,"Gap",0);
+    gapRPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-gapThickness/2),
+                gapRLV,"Gap",layerLV,false,0,fCheckOverlaps);
+    gapRSSlices = new G4Tubs("GapSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
+    gapRLVSlice = new G4LogicalVolume(gapRSSlice,gapMaterial,"Gap",0);
+    gapRPVSlice = new G4PVReplica("GapSlicedPV",gapRLVSlice,gapRLV,kZAxis,gapThickness/sliceThickness,slabThickness);
+    
+    // Gap (left)
+    gapLS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,0,spanAngle);
+    gapLLV = new G4LogicalVolume(gapLS,gapMaterial,"Gap",0);
+    gapLPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-gapThickness/2),
+                gapLLV,"Gap",layerLV,false,0,fCheckOverlaps);
+    gapLSSlices = new G4Tubs("GapSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
+    gapLLVSlice = new G4LogicalVolume(gapLSSlice,gapMaterial,"Gap",0);
+    gapLPVSlice = new G4PVReplica("GapSlicedPV",gapLLVSlice,gapLLV,kZAxis,gapThickness/sliceThickness,slabThickness);
+       
     PrintCaloParameters();
-
 
     // Return the worlds physical volume
     return worldPV;

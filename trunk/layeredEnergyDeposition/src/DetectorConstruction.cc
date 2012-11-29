@@ -121,6 +121,7 @@ void DetectorConstruction::DefineMaterials()
     LiAbsorber->AddElement(eF,nAtoms=1);
 
     // Defining EJ426 HD2
+    G4double massFraction;
     G4Material* EJ426HD2 = new G4Material("EJ426HD2",density=4.1*g/cm3,nComponents=4);
     EJ426HD2->AddElement(enrichLi,massFraction=0.081);
     EJ426HD2->AddElement(eF,massFraction=0.253);
@@ -164,7 +165,7 @@ void DetectorConstruction::PrintCaloParameters(){
         << absThickness/mm << "mm of " << absMaterial->GetName() 
         << " + "
         << gapThickness/mm << "mm of " << gapMaterial->GetName() << " ]"
-        << "\n--> A single layer is " <<layerThickness/cm << " cm thick."
+        << "\n--> A single slice is " <<sliceThickness/cm << " cm thick."
         << "\n--> The calormeter is " <<caloThickness/cm << " cm thick"
         << " with a radius of "<<oRadius/cm<<" cm"
         << "\n------------------------------------------------------------\n"
@@ -205,28 +206,28 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     absS = new G4Tubs("Abs",iRadius,oRadius,absThickness/2,0,spanAngle);
     absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
     absPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-gapThickness/2),
-                absLV,"Absorber",layerLV,false,0,fCheckOverlaps);
-    absSSlices = new G4Tubs("AbsSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
+                absLV,"Absorber",worldLV,false,0,fCheckOverlaps);
+    absSSlice = new G4Tubs("AbsSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
     absLVSlice = new G4LogicalVolume(absSSlice,absMaterial,"Absorber",0);
-    absPVSlice = new G4PVReplica("AbsSlicedPV",absLVSlice,absLV,kZAxis,absThickness/sliceThickness,slabThickness);
+    absPVSlice = new G4PVReplica("AbsSlicedPV",absLVSlice,absLV,kZAxis,absThickness/sliceThickness,sliceThickness);
 
     // Gap (right)
     gapRS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,0,spanAngle);
     gapRLV = new G4LogicalVolume(gapRS,gapMaterial,"Gap",0);
     gapRPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-gapThickness/2),
-                gapRLV,"Gap",layerLV,false,0,fCheckOverlaps);
-    gapRSSlices = new G4Tubs("GapSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
+                gapRLV,"Gap",worldLV,false,0,fCheckOverlaps);
+    gapRSSlice = new G4Tubs("GapSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
     gapRLVSlice = new G4LogicalVolume(gapRSSlice,gapMaterial,"Gap",0);
-    gapRPVSlice = new G4PVReplica("GapSlicedPV",gapRLVSlice,gapRLV,kZAxis,gapThickness/sliceThickness,slabThickness);
+    gapRPVSlice = new G4PVReplica("GapSlicedPV",gapRLVSlice,gapRLV,kZAxis,gapThickness/sliceThickness,sliceThickness);
     
     // Gap (left)
     gapLS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,0,spanAngle);
     gapLLV = new G4LogicalVolume(gapLS,gapMaterial,"Gap",0);
     gapLPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-gapThickness/2),
-                gapLLV,"Gap",layerLV,false,0,fCheckOverlaps);
-    gapLSSlices = new G4Tubs("GapSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
+                gapLLV,"Gap",worldLV,false,0,fCheckOverlaps);
+    gapLSSlice = new G4Tubs("GapSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
     gapLLVSlice = new G4LogicalVolume(gapLSSlice,gapMaterial,"Gap",0);
-    gapLPVSlice = new G4PVReplica("GapSlicedPV",gapLLVSlice,gapLLV,kZAxis,gapThickness/sliceThickness,slabThickness);
+    gapLPVSlice = new G4PVReplica("GapSlicedPV",gapLLVSlice,gapLLV,kZAxis,gapThickness/sliceThickness,sliceThickness);
        
     PrintCaloParameters();
 
@@ -246,7 +247,8 @@ void DetectorConstruction::SetSensitiveDetectors(){
 
     gapSD = new CaloSensitiveDetector("SD/GapSD","GapHitCollection");
     SDman->AddNewDetector(gapSD);
-    gapLV->SetSensitiveDetector(gapSD);
+    gapLLV->SetSensitiveDetector(gapSD);
+    gapRLV->SetSensitiveDetector(gapSD);
 
     // Setting the Maximum Step Size
     G4double maxStep = 0.5*absThickness;
@@ -270,19 +272,14 @@ void DetectorConstruction::SetVisAttributes(){
     {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Gray());
     //atb->SetForceWireframe(true);
     //atb->SetForceSolid(true);
-    gapLV->SetVisAttributes(atb);}
+    gapLLV->SetVisAttributes(atb);
+    gapRLV->SetVisAttributes(atb);}
 
     // Setting the Layers to be white and invisiable
     {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
     atb->SetForceWireframe(true);
     atb->SetVisibility(false);
-    layerLV->SetVisAttributes(atb);}
-    
-    // Setting the Calorimeter to be white and invisiable
-    {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
-    atb->SetForceWireframe(true);
-    atb->SetVisibility(false);
-    caloPV->GetLogicalVolume()->SetVisAttributes(atb);}
+    worldLV->SetVisAttributes(atb);}
     
     // Setting the World to be white and invisiable
     {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
@@ -337,14 +334,6 @@ void DetectorConstruction::SetGapThickness(G4double val){
 void DetectorConstruction::SetCaloRadius(G4double val){
     oRadius = val;
 }
-/**
- * SetNumberOfLayers
- *
- * Sets the number of layers in the detector
- */
-void DetectorConstruction::SetNumberOfLayers(G4int val){
-    nofLayers = val;
-}
 
 #include "G4RunManager.hh"
 
@@ -352,7 +341,8 @@ void DetectorConstruction::UpdateGeometry(){
     G4RunManager::GetRunManager()->DefineWorldVolume(ConstructCalorimeter());
     
     absLV->SetSensitiveDetector(absSD);
-    gapLV->SetSensitiveDetector(gapSD);
+    gapLLV->SetSensitiveDetector(gapSD);
+    gapRLV->SetSensitiveDetector(gapSD);
 
     // Setting the Maximum Step Size
     G4double maxStep = 0.5*absThickness;

@@ -48,12 +48,6 @@ DetectorMessenger::DetectorMessenger(
   SizeRadiusCmd->SetRange("Size>0.");
   SizeRadiusCmd->SetUnitCategory("Length");    
   SizeRadiusCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-  
-  NbLayersCmd = new G4UIcmdWithAnInteger("/PolymerTransport/det/setNbOfLayers",this);
-  NbLayersCmd->SetGuidance("Set number of layers.");
-  NbLayersCmd->SetParameterName("NbLayers",false);
-  NbLayersCmd->SetRange("NbLayers>0 && NbLayers<500");
-  NbLayersCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
   UpdateCmd = new G4UIcmdWithoutParameter("/PolymerTransport/det/update",this);
   UpdateCmd->SetGuidance("Update calorimeter geometry.");
@@ -65,7 +59,6 @@ DetectorMessenger::DetectorMessenger(
 
 DetectorMessenger::~DetectorMessenger()
 {
-  delete NbLayersCmd;
   delete AbsMaterCmd; delete GapMaterCmd;
   delete AbsThickCmd; delete GapThickCmd;
   delete SizeRadiusCmd;   delete UpdateCmd;
@@ -91,9 +84,6 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
   if( command == SizeRadiusCmd )
    { Detector->SetCaloRadius(SizeRadiusCmd->GetNewDoubleValue(newValue));}
    
-  if( command == NbLayersCmd )
-   { Detector->SetNumberOfLayers(NbLayersCmd->GetNewIntValue(newValue));}
-  
   if( command == UpdateCmd )
    { Detector->UpdateGeometry(); }
 

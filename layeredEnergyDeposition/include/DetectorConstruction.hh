@@ -28,8 +28,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4double GetCaloThickness()		{return caloThickness;};
 		G4double GetCaloRadius()			{return oRadius;};
 
-		G4int GetNumberOfLayers()			{return nofLayers;};
-
 		G4Material* GetAbsorberMaterial()		{return absMaterial;};
 		G4double	 GetAbsorberThickness()			{return absThickness;};
 
@@ -47,7 +45,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		void SetGapThickness(G4double);
 
 		void SetCaloRadius(G4double);
-		void SetNumberOfLayers(G4int);
 
 		void UpdateGeometry();
 	private:
@@ -67,21 +64,27 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4VPhysicalVolume* worldPV;		// Pointer to world physical volume
 		G4VSolid* worldS;						// Pointer to world's solid
 
-		G4LogicalVolume* caloLV;			// Pointer to the calorimeter LV
-		G4VPhysicalVolume* caloPV;			// Pointer to the calorimater PV
-		G4VSolid* caloS;						// Pointer to the calorimeter soild
 
-		G4LogicalVolume* layerLV;			// Pointer to a layer logical volume
-		G4VPhysicalVolume* layerPV;		// Pointer to a layer physical volume
-		G4VSolid* layerS;						// Pointer to a layer's solid
+        G4LogicalVolume* absLV;				// Absorber Mother Volume
+		G4VPhysicalVolume* absPV;			
+		G4VSolid*	absS;
+        G4LogicalVolume* absLVSlice;        // Absorber slice
+        G4PhysicalVolume* absPVSlice;
+        G4VSolid*   absSSlice;
 
-		G4LogicalVolume* absLV;				// Pointer to the absorber LV
-		G4VPhysicalVolume* absPV;			// Pointer to the absorber PV
-		G4VSolid*	absS;						// Pointer to the solid absorber
+        G4LogicalVolume* gapRLV;			// Gap Mother Volume (right)
+		G4VPhysicalVolume* gapRPV;			
+		G4VSolid*	gapRS;
+        G4LogicalVolume* gapRLVSlice;        // Gap Slice (right)
+        G4PhysicalVolume* gapRPVSlice;
+        G4VSolid*   gapRSSlice;
 
-		G4LogicalVolume* gapLV;				// Pointer to the gap logical volume
-		G4VPhysicalVolume* gapPV;			// Pointer to the gap physical volume
-		G4VSolid* gapS;						// Pointer to the gap's solid 
+        G4LogicalVolume* gapLLV;			// Gap Mother Volume (left)
+		G4VPhysicalVolume* gapLPV;			
+		G4VSolid*	gapLS;
+        G4LogicalVolume* gapLLVSlice;        // Gap Slice (left)
+        G4PhysicalVolume* gapLPVSlice;
+        G4VSolid*   gapLSSlice;
 
 		// Materials
 		G4Material* defaultMaterial;    	// Vacumun
@@ -89,15 +92,14 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4Material* gapMaterial;        	// Gap material
 
 		// Geometry parameters
-		G4int nofLayers;              	// Number of Layers
-		G4double absThickness;	      	// Thickness of Absorber
+		G4double sliceThickness;        // Thickness of an energy depostion slice
+        G4double absThickness;	      	// Thickness of Absorber
 		G4double gapThickness;        	// Thickness of Gap 
 		G4double oRadius;		    			// Outer Radius of Detector
 		G4double iRadius;						// Inner radious of  Detector
 		G4double startAngle;
 		G4double spanAngle;
 
-		G4double layerThickness;        // Thickness of a single layer
 		G4double caloThickness;         // Thickness of entire calorimeter
 		G4double worldSizeXY;
 		G4double worldSizeZ;

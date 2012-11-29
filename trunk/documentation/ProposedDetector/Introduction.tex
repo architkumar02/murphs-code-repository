@@ -1,7 +1,6 @@
 \section{Introduction}
 It is proposed to build a detector in order to verify the GEANT4 simulations while providing a framework to test light transport collection, spacing, and material properties in order to build a scaled modeled of a layered RPM8 detector.
-
-There are several design parameters which must be determined ~\ref{fig:DetectorParameterSchematic}
+There are several design parameters which must be determined:
 \begin{itemize}
     \item detector material and thickness,
     \item detector encapsulating material and thickness,
@@ -14,7 +13,7 @@ There are several design parameters which must be determined ~\ref{fig:DetectorP
     \caption{Detector Design Parameters}
     \label{fig:DetectorParameterSchematic}
 \end{figure}
-
+Figure ~\ref{fig:DetectorParameterSchematic} provides a schematic of the geometry discused.
 \subsection{Detector Material}
 ${}^6$LiF was chosen as the material of choice because of it's high light output ($16x10^4$ photons per neutron) and large ${}^{6}$LiF content \cite{carel_w.e_inorganic-scintillator_2001}. 
 Innovative American Technologies (IAT) have pursued ${}^6$LiF:ZnS based detectors with mixed results.
@@ -30,13 +29,13 @@ Previous models tested at PNNL in 2010 were scaled models which did not have an 
 
 Eljen Technology (Sweetwater, TX) provides two ${}^6$LiF:ZnS screens, the EJ-426-0 and EJ-426-HD2 with backing materials   of 50 $\mu$m of aluminum foil, 0.12 mm of aluminized mylar, a 0.5 mm aluminum sheet, a 0.4 mm sheet of highly reflective aluminum, and 0.25 mm of clear polyester with the option of a 1 mm acrylic plate \cite{eljen_ej-426_2012}.
 It was decided to use EJ-426-HD2 because it contains 1.6 times the ${}^{6}$Li content as EJ-426-0. EJ-426 has a ${}^{6}$Li atomic density of $1.39\times10^{22}$ atoms of ${}^6$Li per cm${}^3$ \cite{eljen_ej-426_2012}. 
-The material composition of EJ-425-HD2 is in shown in ~\ref{tab:EJ426Composition}, with a density of 4.1 g/cm${}^3$\cite{carel_w.e_inorganic-scintillator_2001}.
+The material composition of EJ-425-HD2 is in shown in Table ~\ref{tab:EJ426Composition}, with a density of 4.1 g/cm${}^3$\cite{carel_w.e_inorganic-scintillator_2001}.
 EJ-426 is opaque, however, due to the ZnS.  In addition previous experience with EJ-426 a slight brittleness was observed.
 \begin{table}
     \centering
-    \caption{EJ-426-HD2 Composition\footnote{Not listed is the proprietary binder which is less than 15\% of the total composition} \cite{urffer_ej_2012}}
+    \caption[Caption for LOF]{EJ-426-HD2 Composition\protect\footnotemark \cite{urffer_ej_2012} }
     \begin{tabular}{c|c c}
-        Isotope & Atomic Density ($\times 10^{22}$ atoms per cm${}^3$ & Mass Fraction\\
+        Isotope & Atomic Density ($\times 10^{22}$ atoms per cm${}^3$) & Mass Fraction\\
         \hline
         $ {}^6 $ Li & 1.38 & 0.076\\
         $ {}^7 $ Li & 0.073 & 0.005\\
@@ -46,6 +45,7 @@ EJ-426 is opaque, however, due to the ZnS.  In addition previous experience with
     \end{tabular}
     \label{tab:EJ426Composition}
 \end{table}
+    \footnotetext{Not listed is the proprietary binder which is less than 15\% of the total composition}
 The detector thickness is a key design parameter. 
 Thick detector will have a high neutron efficiency with the large amount of neutron absorber, but due to LiF:ZnS being opaque neutron interactions that produce light in the middle of the film will not propagate their light outside of the film.
 \todo{What is the self absorption (light) of EJ-426?}

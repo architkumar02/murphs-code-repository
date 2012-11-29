@@ -35,8 +35,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4double	 GetGapThickness()				{return gapThickness;};
 
 		const G4VPhysicalVolume* GetPhysicalWorld()		{return worldPV;};
-		const G4VPhysicalVolume* GetAbsorber()				{return absPV;};
-		const G4VPhysicalVolume* GetGap()					{return gapPV;};
 
 		void SetAbsorberMaterial(G4String);
 		void SetAbsorberThickness(G4double);
@@ -69,21 +67,21 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4VPhysicalVolume* absPV;			
 		G4VSolid*	absS;
         G4LogicalVolume* absLVSlice;        // Absorber slice
-        G4PhysicalVolume* absPVSlice;
+        G4VPhysicalVolume* absPVSlice;
         G4VSolid*   absSSlice;
 
         G4LogicalVolume* gapRLV;			// Gap Mother Volume (right)
 		G4VPhysicalVolume* gapRPV;			
 		G4VSolid*	gapRS;
         G4LogicalVolume* gapRLVSlice;        // Gap Slice (right)
-        G4PhysicalVolume* gapRPVSlice;
+        G4VPhysicalVolume* gapRPVSlice;
         G4VSolid*   gapRSSlice;
 
         G4LogicalVolume* gapLLV;			// Gap Mother Volume (left)
 		G4VPhysicalVolume* gapLPV;			
 		G4VSolid*	gapLS;
         G4LogicalVolume* gapLLVSlice;        // Gap Slice (left)
-        G4PhysicalVolume* gapLPVSlice;
+        G4VPhysicalVolume* gapLPVSlice;
         G4VSolid*   gapLSSlice;
 
 		// Materials

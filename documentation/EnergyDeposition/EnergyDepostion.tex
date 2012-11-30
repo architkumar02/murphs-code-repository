@@ -1,0 +1,47 @@
+
+\documentclass[]{report}
+%% PACKAGES
+\usepackage{graphicx}
+\usepackage{listings,amsmath}
+\usepackage{microtype,todonotes}
+
+%% GRAPHICS RELATED
+\usepackage[outdir=./tmp/]{epstopdf}
+\graphicspath{{../images/}{./tmp}}
+\DeclareGraphicsExtensions{.eps, .pdf, .jpeg, .png}
+
+%% BIBLIOGRAPHY
+\bibliographystyle{ieeetr}
+
+%% CPATION SETUP
+\usepackage{caption}
+\usepackage{subcaption}
+\usepackage{subfig}
+\captionsetup{belowskip=12pt,aboveskip=4pt}
+
+%% USER COMMANDS
+\newcommand{\iso}[2]{${}^{#2}${#1}}
+
+\title{Energy Deposition in Polymers}
+\author{Matthew J. Urffer}
+\date{\today}
+
+\begin{document}
+
+% Cover Page
+\maketitle
+
+% To Do List
+\listoftodos
+
+\include{Introduction}
+This document is organzied as follows.
+A brief overview of the interaction of charged particles in matter will be provided in Section \ref{sec:PreviousWork}, as well as some prelimary experiments demonstrating the range of secondary electrons to aid in neutron-gamma discrimination.
+Next, the use of the GEANT4 toolkit for the modeling of the energy depostion will be discussed, as well as the validation of the model in Section \ref{sec:Methods}.
+In the \ref{sec:Results} the results of this model applied to a single film will demonstrate the enhanced ability of neutron-gamma discrimination through secondary electrons.
+
+\include{PreviousWork}
+\include{Methods}
+\include{Results}
+\end{document}
+

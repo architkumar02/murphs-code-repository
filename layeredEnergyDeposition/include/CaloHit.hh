@@ -20,7 +20,7 @@
  */
 class CaloHit : public G4VHit {
 	public:
-		CaloHit(const G4int layer);
+		CaloHit(const G4int slice);
 		~CaloHit();
 
 
@@ -40,7 +40,7 @@ class CaloHit : public G4VHit {
         G4ParticleDefinition* particle;     /* Particle Definition */
 		G4int particleRank;                 /* Primary, Secondary, etc */
 		G4VPhysicalVolume* volume;			/* Physical Volume */
-		G4int layerNumber;                  /* Copy Number of Layer */
+		G4int sliceNumber;                  /* Copy Number of Slice */
 
 	public:
 		void SetTrackID(G4int track)				{trackID = track;};
@@ -54,7 +54,7 @@ class CaloHit : public G4VHit {
 		{particle = pdef;};
 		void SetParticleRank(G4int rank)            {particleRank = rank;};
 		void SetVolume(G4VPhysicalVolume* v)	    {volume = v;};
-		void SetLayerNumber(G4int layer)            {layerNumber = layer;};
+		void SetSliceNumber(G4int slice)            {sliceNumber = slice;};
 
 		G4int GetTrackID()					{return trackID;};
         G4int GetParentID()                 {return parentID;};
@@ -66,7 +66,7 @@ class CaloHit : public G4VHit {
 		G4ParticleDefinition* GetParticle() {return particle;};
 		G4int GetParticleRank()             {return particleRank;};
 		G4VPhysicalVolume* GetVolume()      {return volume;};
-		G4int GetLayerNumber()              {return layerNumber;};
+		G4int GetSliceNumber()              {return sliceNumber;};
 };
 
 

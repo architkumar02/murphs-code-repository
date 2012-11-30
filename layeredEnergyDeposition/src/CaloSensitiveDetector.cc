@@ -35,24 +35,24 @@ G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
 
     G4double edep = aStep->GetTotalEnergyDeposit();
     G4double stepLength = aStep->GetStepLength();
+
     // Only saving a hit if there was energy depostion
     G4double minEDep = 0.*eV;
-
     if ( edep <= minEDep || stepLength == 0.) return false;
 
     // Getting the copy number
     G4TouchableHistory* touchable = (G4TouchableHistory*)
         (aStep->GetPreStepPoint()->GetTouchable());
-    G4int layerIndex = touchable->GetReplicaNumber(1);
+    G4int sliceIndex = touchable->GetReplicaNumber(1);
 
 
-    CaloHit* newHit = new CaloHit(layerIndex);
+    CaloHit* newHit = new CaloHit(sliceIndex);
     newHit->SetTrackID	(aStep->GetTrack()->GetTrackID());
     newHit->SetParentID    (aStep->GetTrack()->GetParentID());
     newHit->SetEdep		(edep);
     newHit->SetStepLength	(stepLength);
     newHit->SetPosition	(aStep->GetPreStepPoint()->GetPosition());
-    newHit->SetLayerNumber(layerIndex);
+    newHit->SetSliceNumber(sliceIndex);
     newHit->SetMomentum	(aStep->GetPreStepPoint()->GetMomentum());
     newHit->SetKineticEnergy (aStep->GetPreStepPoint()->GetKineticEnergy());
     newHit->SetParticle   (aStep->GetTrack()->GetDefinition());

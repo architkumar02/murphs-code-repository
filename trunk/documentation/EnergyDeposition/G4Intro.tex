@@ -7,12 +7,12 @@ A GEANT4 simulation starts with a run which contains a set number of events.
 An event is particular process of interest to the user, such as shooting a single particle at a detector. 
 Typical usage might be to have a run be firing 1,000 neutrons at a detector, were each neutron is a single event.
 Each particle transported in GEANT4 is assigned a unique track ID and a parent ID.
-The particle that iniaties the event is given a parent ID of 0 and a track ID of 1.
+The particle that initiates the event is given a parent ID of 0 and a track ID of 1.
 If the parent particle has a collision and produces a secondary particle this secondary particle is then given a parent ID of 1 (corresponding to the first secondary) and a track ID of 2.
 Secondaries are tracked in GEANT4 utilizing a stack tracking the most recent secondary (and its cascade) first.
 Listing \ref{lst:TrackingExample} provides an example from the verbose output of GEANT4 of the tracking in which only secondaries are not shown for the secondaries.
-The intitial particle in the event is the neutron because it has a parent ID of 0.
-The alpha and triton are the secondaries produced by this collsion. 
+The initial particle in the event is the neutron because it has a parent ID of 0.
+The alpha and triton are the secondaries produced by this collision. 
 The alpha is assigned a parent ID of 1 (corresponding to the first generation) with a track ID of 3.
 The triton is also assigned a parent ID of 1, but with a track ID of 2.
 \lstset{language=,caption={Tracking Example},label=lst:TrackingExample}
@@ -70,10 +70,10 @@ Five additional classes are available for further control over the simulation:
     \item \verb+G4UserRunAction+ which allows for user actions
 \end{itemize}
 
-As GEANT4 is a toolkit primarly develped for high energy physics particles are designated according the the \verb+PDG+ (Particle Data Group) encoding.
+As GEANT4 is a toolkit primarily developed for high energy physics particles are designated according the the \verb+PDG+ (Particle Data Group) encoding.
 In addition, the physics processes are referenced according to the standard model.
 In the standard model particles are divided into two families, bosons (the force carriers such as photons) and fermions (matter).
 The fermions consist of both hadrons and leptons.
-Hadrons are paricles composed of quarks which are divided into two classes: baryons (three quarks) and mesons (two quarks).
-Typical bayrons include the neutron and the proton, while an example of a meson is the pion.
+Hadrons are particles composed of quarks which are divided into two classes: baryons (three quarks) and mesons (two quarks).
+Typical baryons include the neutron and the proton, while an example of a meson is the pion.
 An example of a lepton is the electron.

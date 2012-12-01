@@ -7,16 +7,16 @@ For convince a subversion repository was created to manage the developed code ba
 \subsubsection{Detector Geometry}
 A detector geometry in GEANT4 is made up of a number of volumes.
 The largest volume is the \verb+world+ volume which contains all other volumes in the detector geometry.
-Each volume (an instance of \verb+G4VPhysicalVolume+) by assining a position, a pointer to the mother volume and a pointer to its mother volume (or \verb+NULL+ if it is the \verb+world+ volume).
-A volume's shape is described by \verb+G4VSolid+ which has a shpae and the specific values for each dimension.
+Each volume (an instance of \verb+G4VPhysicalVolume+) by assigning a position, a pointer to the mother volume and a pointer to its mother volume (or \verb+NULL+ if it is the \verb+world+ volume).
+A volume's shape is described by \verb+G4VSolid+ which has a shape and the specific values for each dimension.
 A volume's full properties is described by a logical volume.
-A \verb+G4LogicalVolume+ includes a pointer to the geometrical properties of the volume (the solid) along with physcial charactersics including:
+A \verb+G4LogicalVolume+ includes a pointer to the geometrical properties of the volume (the solid) along with physical characteristics including:
 \begin{itemize}
     \item the material of the volume,
     \item sensitive detectors of the volume and,
     \item any magnetic fields.
 \end{itemize}
-Listing \ref{lst:World} provides the implemenation of the world physical volume.
+Listing \ref{lst:World} provides the implementation of the world physical volume.
 The geometry was setup such that it is possible to define multiple layers of detectors, as shown in Figure \ref{fig:LayerDetectorGeo}.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={217-220},caption=World Physical Volume,label=lst:World]{src/DetectorConstruction.cc}
@@ -26,8 +26,8 @@ The containing volume (calorimeter) was placed inside of the the physical world 
 \lstinputlisting[linerange={226-229},caption=Calorimeter Volume,label=lst:Calo]{src/DetectorConstruction.cc}
 The \verb+calorimeter+ was the mother volume for each layer. 
 The code was developed such that the simulation of multiple layers can be easily set at compile time or by utilizing a run macro through the \verb+DetectorMessenger+ class.
-Mutliple repeated volume can be achieved in GEANT4 through \verb+G4PVReplica+ or \verb+G4PVParameterised+.
-As each of the layers had the same geometery, \verb+G4PVReplica+ was chosen as the implemenation (Listing \ref{lst:Layer}.
+Multiple repeated volume can be achieved in GEANT4 through \verb+G4PVReplica+ or \verb+G4PVParameterised+.
+As each of the layers had the same geometry, \verb+G4PVReplica+ was chosen as the implementation (Listing \ref{lst:Layer}.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={231-238},caption=Layer Volume,label=lst:Layer]{src/DetectorConstruction.cc}
 Finally, the neutron absorber and gap material were defined as single cylinders which were then placed in the layer mother volume (Listing \ref{lst:GapAbs}).
@@ -43,9 +43,9 @@ Figure \ref{fig:LayerDetectorGeo} shows a rendering of the 10 layers of the dete
 
 \subsubsection{Physics Lists}
 The user of the GEANT4 toolkit is responsible for selecting the proper physics processes to model in the \verb+PhysicsList+.
-This is unlike other transport codes (such as MCNPX) where basic physics are enabled by default and the user only has select the approproiate cards.
+This is unlike other transport codes (such as MCNPX) where basic physics are enabled by default and the user only has select the appropriate cards.
 However, GEANT4 does provide examples of implemented \verb+PhysicsLists+ as wells as modular physics lists which provide a way to construct a physics list by combing physics list.
-Thus, extensive use of \verb+G4ModularPhysicsList+ was employed to handle the assinging of the physics processes to each particle in the correct order.
+Thus, extensive use of \verb+G4ModularPhysicsList+ was employed to handle the assigning of the physics processes to each particle in the correct order.
 The physics lists chosen for this simulation are listed below:
 \begin{itemize}
     \item \verb+G4EmStandardPhysics+
@@ -55,7 +55,7 @@ The physics lists chosen for this simulation are listed below:
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={10-25},caption=Implemented Physics List,label=lst:PhysicsListCtr]{src/PhysicsList.cc}
-Finally, the default cut range was descreased from 1 cm to 1 nm in \verb+SetCuts()+ (Listing \ref{lst:PhyisicsListSetCuts}) 
+Finally, the default cut range was decreased from 1 cm to 1 nm in \verb+SetCuts()+ (Listing \ref{lst:PhyisicsListSetCuts}) 
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={38-40},caption=Implemented Physics List,label=lst:PhysicsListSetCuts]{src/PhysicsList.cc}
 

@@ -1,6 +1,25 @@
-\section{Film Validation}
-\label{sec:FilmValidation}
+%%%%%%%%%%%%%%%%
+\section{Simulation Validation}
+\label{sec:SimValidation}
 
+\subsection{Energy Deposition Validaiton}
+The energy deposition was tested by reproducing the single collision energy loss spectra in water.
+The \verb+PhysicsList+ was extended to include \verb+G4DNAPhysics+ and the detector material was set to the NIST defination contained in the toolkit with \verb+G4Material* H20 = man->FindOrBuildMaterial("G4_WATER")+.
+
+%%%%%%%%%%%%%%%%%%%% Figures %%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \caption{Single Collision Energy Loss of Water}
+    \begin{subfigure}[b]{0.45\figurewidth}
+        \includegraphics[width=\textwidth]{SingleCollisionEnergyLoss_300bins}
+        \caption{Simulated}
+    \end{subfigure}
+    \begin{subfigure}[b]{0.45\figurewidth}
+        \missingfigure{Turner Fig of EDep}
+        \caption{Turner}
+    \end{subfigure}
+\end{figure}
+\subsection{Spectra Validaiton}
 The simulation was validated by computing the weighted average of the energy deposition \ref{eq:AvgEnergyDepDefination} and comparing it to the spectra average defined in \ref{eq:AvgChannelNumberDefination}.
 %%%%%%%%%%%%%%%%%%%%% Equations %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
@@ -26,3 +45,4 @@ The simulation was validated by computing the weighted average of the energy dep
     \includegraphics[width=\textwidth]{G4EDep_LightYield_Neutron}
     \label{fig:NeutronSimAgreement}
 \end{figure}
+

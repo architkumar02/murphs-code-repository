@@ -217,51 +217,36 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     // World
     worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ*0.5); 
     worldLV = new G4LogicalVolume(worldS,defaultMaterial,"World");
-    worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",
-            0,false,0,fCheckOverlaps);
+    worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",0,false,0,fCheckOverlaps);
 
     //
     // Setting up the Calorimeter
     //
 
     // Calorimeter (gap material)
-    caloS = new G4Tubs("Calorimeter",iRadius,oRadius,caloThickness/2,
-            startAngle,spanAngle);
-    caloLV = new G4LogicalVolume(caloS,gapMaterial,
-            "Calorimeter");
-    caloPV = new G4PVPlacement(0,G4ThreeVector(),
-            caloLV,"Calorimeter",worldLV,false,0,fCheckOverlaps);
+    caloS = new G4Tubs("Calorimeter",iRadius,oRadius,caloThickness/2,startAngle,spanAngle);
+    caloLV = new G4LogicalVolume(caloS,gapMaterial,"Calorimeter");
+    caloPV = new G4PVPlacement(0,G4ThreeVector(),caloLV,"Calorimeter",worldLV,false,0,fCheckOverlaps);
 
     // Layer (Consists of Absorber and Gap)
-    layerS = new G4Tubs("Layer",iRadius,oRadius,layerThickness/2,
-            startAngle,spanAngle);
+    layerS = new G4Tubs("Layer",iRadius,oRadius,layerThickness/2,startAngle,spanAngle);
     layerLV = new G4LogicalVolume(layerS,defaultMaterial,"Layer");
     if (nofLayers > 1){
-        layerPV = new G4PVReplica("Layer",layerLV,caloLV,kZAxis,
-                nofLayers,layerThickness,-caloThickness/2);
+        layerPV = new G4PVReplica("Layer",layerLV,caloLV,kZAxis,nofLayers,layerThickness,-caloThickness/2);
     }else{
-        layerPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,0.0),layerLV,"Layer",
-                caloLV,false,0,fCheckOverlaps);
+        layerPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,0.0),layerLV,"Layer",caloLV,false,0,fCheckOverlaps);
     }
 
 
     // Absorber
-    if (absThickness > 0.0){
-        absS = new G4Tubs("Abso",iRadius,oRadius,absThickness/2,
-                startAngle,spanAngle);
-        absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
-        absPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-gapThickness/2),
-                absLV,"Absorber",layerLV,false,0,fCheckOverlaps);
-    }
+    absS = new G4Tubs("Abso",iRadius,oRadius,absThickness/2,startAngle,spanAngle);
+    absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
+    absPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-gapThickness/2),absLV,"Absorber",layerLV,false,0,fCheckOverlaps);
 
     // Gap
-    if (gapThickness > 0.0){
-        gapS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,
-                startAngle,spanAngle);
-        gapLV = new G4LogicalVolume(gapS,gapMaterial,"Gap",0);
-        gapPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,absThickness/2),
-                gapLV,"Gap",layerLV,false,0,fCheckOverlaps);
-    }
+    gapS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,startAngle,spanAngle);
+    gapLV = new G4LogicalVolume(gapS,gapMaterial,"Gap",0);
+    gapPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,absThickness/2),gapLV,"Gap",layerLV,false,0,fCheckOverlaps);
 
     PrintCaloParameters();
 
@@ -295,36 +280,36 @@ void DetectorConstruction::SetSensitiveDetectors(){
  */
 #include "G4Colour.hh"
 void DetectorConstruction::SetVisAttributes(){
-    
+
     // Setting the Visualization attributes for the Abs
     {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Cyan());
-    //atb->SetForceWireframe(true);
-    //atb->SetForceSolid(true);
-    absLV->SetVisAttributes(atb);}
+        //atb->SetForceWireframe(true);
+        //atb->SetForceSolid(true);
+        absLV->SetVisAttributes(atb);}
 
     // Setting the Visualization attributes for the Gap
     {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Gray());
-    //atb->SetForceWireframe(true);
-    //atb->SetForceSolid(true);
-    gapLV->SetVisAttributes(atb);}
+        //atb->SetForceWireframe(true);
+        //atb->SetForceSolid(true);
+        gapLV->SetVisAttributes(atb);}
 
     // Setting the Layers to be white and invisiable
     {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
-    atb->SetForceWireframe(true);
-    atb->SetVisibility(false);
-    layerLV->SetVisAttributes(atb);}
-    
+        atb->SetForceWireframe(true);
+        atb->SetVisibility(false);
+        layerLV->SetVisAttributes(atb);}
+
     // Setting the Calorimeter to be white and invisiable
     {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
-    atb->SetForceWireframe(true);
-    atb->SetVisibility(false);
-    caloPV->GetLogicalVolume()->SetVisAttributes(atb);}
-    
+        atb->SetForceWireframe(true);
+        atb->SetVisibility(false);
+        caloPV->GetLogicalVolume()->SetVisAttributes(atb);}
+
     // Setting the World to be white and invisiable
     {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
-    atb->SetForceWireframe(true);
-    atb->SetVisibility(false);
-    worldPV->GetLogicalVolume()->SetVisAttributes(atb);}
+        atb->SetForceWireframe(true);
+        atb->SetVisibility(false);
+        worldPV->GetLogicalVolume()->SetVisAttributes(atb);}
 
 }
 
@@ -386,7 +371,7 @@ void DetectorConstruction::SetNumberOfLayers(G4int val){
 
 void DetectorConstruction::UpdateGeometry(){
     G4RunManager::GetRunManager()->DefineWorldVolume(ConstructCalorimeter());
-    
+
     absLV->SetSensitiveDetector(absSD);
     gapLV->SetSensitiveDetector(gapSD);
 

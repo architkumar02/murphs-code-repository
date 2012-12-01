@@ -1,10 +1,11 @@
 \section{Introduction}
 % Genaric Background Paragraph
+
 A typical day in 2011 saw 932,456 people cross into the U.S. (258,191 by air 48,073 by sea, and 621,874 by land) \cite{cpb_typical_2012}.
 In addition there was 64,483 truck, rail and sea containers with 253,821 privately-owned vehicles \cite{cpb_typical_2012}.
 As shown in Figure \ref{fig:PortalEntryMap} there are numerous entry points into the U.S. that are interconnected by a networks of rail and highways.
 In the interdiction of special nuclear material it is desirable to detect and seize the material before it enters into this complex network.
-\begin{figure}
+\begin{figure}[h]
     \includegraphics[width=\figurewidth]{PortalEntryMap}
 	\caption{Portal Entry Points into the U.S.}
     \label{fig:PortalEntryMap}
@@ -13,7 +14,7 @@ Radiation Portal Monitors (RPMs) are passive radiation detection systems impleme
 The Department of Homeland Security (DHS) continues to fund research through the Domestic Nuclear Detection Office (DNDO) in order to develop replacement technologies for the current \iso{He}{3} RPMs as \iso{He}{3} cannot be economically replaced.
 There are several alternatives to \iso{He}{3} being considered and all, with the exception of gas filled proportional detectors involve the detection of neutrons from scintillation events of the energy deposited in the material from the neutron absorption reaction.
 These detectors (among other requirements outline in Table \ref{tab:DHSCriteria}) must be able to effectively discriminate between gamma (which can occur in medical isotopes) and neutrons (which are likely to be a signature of special nuclear material).
-\begin{table}[b]
+\begin{table}[h]
     \caption{Replacement Detector Requirements \protect\cite{kouzes_neutron_1999}}
 	\centering
 	\begin{tabular}{p{0.4\textwidth} | p{0.4\textwidth} }
@@ -34,7 +35,9 @@ Neutron detectors often utilize a material doped with an isotope of large therma
 When these materials absorb a neutron the nucleus of the isotope becomes unstable and fissions into reaction products.
 These reaction products (having an initial kinetic energy from the Q-value of the neutron absorption reaction) travel through the material, transferring their kinetic energy to the material.
 Photon interactions in the detector occur when a photon scatters of a single electron in a Compton scattering event (Table \ref{tab:ComptonScattering}).
-\begin{table}[b]
+This Compton electron then produces a cascade of secondary electrons in the material, which depending upon the energy may or may not deposit a majority of it's energy in the detector.
+The difference in the transfer of kinetic energy from charged particle to electrons and from photon interactions (Compton scattering) to electrons introduces an opportunity to exploit the difference in energy deposition in order to maximize the discrimination between neutron and photon interactions in a detector.
+\begin{table}[hb]
 	\centering
     \caption{Maximum Energy of Secondary Electrons from Compton Scattering}
 	\begin{tabular}{c | c c }
@@ -47,6 +50,10 @@ Photon interactions in the detector occur when a photon scatters of a single ele
 	\end{tabular}
     \label{tab:ComptonScattering}
 \end{table}
-This Compton electron then produces a cascade of secondary electrons in the material, which depending upon the energy may or may not deposit a majority of it's energy in the detector.
-The difference in the transfer of kinetic energy from charged particle to electrons and from photon interactions (Compton scattering) to electrons introduces an opportunity to exploit the difference in energy deposition in order to maximize the discrimination between neutron and photon interactions in a detector.
 
+
+This document is organized as follows.
+A brief overview of the interaction of charged particles in matter will be provided in Section \ref{sec:PreviousWork}, as well as some preliminary experiments demonstrating the range of secondary electrons to aid in neutron-gamma discrimination.
+The GEANT4 toolkit was used for the modeling of the energy deposition.  Section \ref{sec:G4Intro} will provide an overview of the GEANT4 toolkit.
+Section \ref{sec:Methods} will provide details on how the GEANT4 toolkit was implemented for this particular simulation, as well as providing validation of the calculations preformed by the GEANT4 toolkit in Section \ref{sec:SimValidation}.
+In the \ref{sec:Results} the results of this model applied to a single film will demonstrate the enhanced ability of neutron-gamma discrimination through secondary electrons.

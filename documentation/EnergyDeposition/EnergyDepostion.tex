@@ -19,8 +19,12 @@
 \usepackage{subfig}
 \captionsetup{belowskip=12pt,aboveskip=4pt}
 
+%% EQUATIONS
+\numberwithin{equation}{section}
+
 %% USER COMMANDS
 \newcommand{\iso}[2]{${}^{#2}${#1}}
+\newcommand{\figurewidth}{\textwidth}
 
 \title{Energy Deposition in Polymers}
 \author{Matthew J. Urffer}
@@ -37,11 +41,14 @@
 \include{Introduction}
 This document is organzied as follows.
 A brief overview of the interaction of charged particles in matter will be provided in Section \ref{sec:PreviousWork}, as well as some prelimary experiments demonstrating the range of secondary electrons to aid in neutron-gamma discrimination.
-Next, the use of the GEANT4 toolkit for the modeling of the energy depostion will be discussed, as well as the validation of the model in Section \ref{sec:Methods}.
+The GEANT4 toolkit was used for the modeling of the energy depostion.  Section \ref{sec:G4Intro} will provide an overview of the GEANT4 toolkit.
+Section \ref{sec:Methods} will provide details on how the GEANT4 toolkit was implemented for this particular simulation, as well as providing validation of the calcuations preformed by the GEANT4 toolkit in \ref{sec:SimValidation}
 In the \ref{sec:Results} the results of this model applied to a single film will demonstrate the enhanced ability of neutron-gamma discrimination through secondary electrons.
 
 \include{PreviousWork}
+\include{G4Intro}
 \include{Methods}
+\include{SimValidation}
 \include{Results}
 \end{document}
 

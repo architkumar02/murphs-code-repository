@@ -1,0 +1,28 @@
+\section{Film Validation}
+\label{sec:FilmValidation}
+
+The simulation was validated by computing the weighted average of the energy depsotion \ref{eq:AvgEnergyDepDefination} and comparing it to the spectra average defined in \ref{eq:AvgChannelNumberDefination}.
+%%%%%%%%%%%%%%%%%%%%% Equations %%%%%%%%%%%%%%%%%%%%%%
+\begin{equation}
+\label{eq:AvgEnergyDepDefination}
+<E> = \frac{\int_0^\infty {\phi(E)EdE}}{\int_0^\infty{\phi(E)dE}} \\
+\text{where}
+\end{equation}
+\begin{equation}
+\label{eq:AvgChannelNumberDefination}
+<\mu> = \frac{\int_0^\infty {f(x)xdx}}{\int_0^\infty{x(x)dx}} \\
+\text{where}
+\end{equation}
+%%%%%%%%%%%%%%%%%%%% Figures %%%%%%%%%%%%%%%%%%%%%%%%
+\begin{figure}
+    \centering
+    \caption{Gamma Simulation Agreement}
+    \includegraphics[width=\textwidth]{G4EDep_LightYield_Co60}
+    \label{fig:GammaSimAgreement}
+\end{figure}
+\begin{figure}
+    \centering
+    \caption{Neutron Simulation Agreement}
+    \includegraphics[width=\textwidth]{G4EDep_LightYield_Neutron}
+    \label{fig:NeutronSimAgreement}
+\end{figure}

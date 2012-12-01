@@ -15,25 +15,47 @@ A \verb+G4LogicalVolume+ includes a pointer to the geometrical properties of the
     \item the material of the volume,
     \item sensitive detectors of the volume and,
     \item any magnetic fields.
-\end{itemzie}
+\end{itemize}
 Listing \ref{lst:World} provides the implemenation of the world physical volume.
 The geometry was setup such that it is possible to define multiple layers of detectors, as shown in Figure \ref{fig:LayerDetectorGeo}.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{lstlisting}[style=MyCStyle,caption=World Physical Volume,label=lst:World]
-    // World
-    worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ*0.5); 
-    worldLV = new G4LogicalVolume(worldS,defaultMaterial,"World");
-    worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",0,false,0,fCheckOverlaps);
-
-\end{lstlisting}
+\lstinputlisting[linerange={217-220},caption=World Physical Volume,label=lst:World]{src/DetectorConstruction.cc}
+The detector was described by creating creating a single layer of neutron absorber and gap material and placing it in another volume (the calorimeter).
+The containing volume (calorimeter) was placed inside of the the physical world (Listing \ref{lst:Calo}).
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{lstlisting}[style=MyCStyle,caption=Listing,label=lst:label]
-
-\end{lstlisting}
-
+\lstinputlisting[linerange={226-229},caption=Calorimeter Volume,label=lst:Calo]{src/DetectorConstruction.cc}
+The \verb+calorimeter+ was the mother volume for each layer. 
+The code was developed such that the simulation of multiple layers can be easily set at compile time or by utilizing a run macro through the \verb+DetectorMessenger+ class.
+Mutliple repeated volume can be achieved in GEANT4 through \verb+G4PVReplica+ or \verb+G4PVParameterised+.
+As each of the layers had the same geometery, \verb+G4PVReplica+ was chosen as the implemenation (Listing \ref{lst:Layer}.
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={231-238},caption=Layer Volume,label=lst:Layer]{src/DetectorConstruction.cc}
+Finally, the neutron absorber and gap material were defined as single cylinders which were then placed in the layer mother volume (Listing \ref{lst:GapAbs}).
+The size of these solids (and the materials) could be set either at compile time through \verb+DetectorConstruction+ constructor or by using the \verb+DetectorMessenger+ in the run macro.
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={241-249},caption=Absorber and Gap Volumes,label=lst:GapAbs]{src/DetectorConstruction.cc}
+Figure \ref{fig:LayerDetectorGeo} shows a rendering of the 10 layers of the detector with the trajectories from a gamma event.
 \begin{figure} 
     \includegraphics[width=\figurewidth]{10LayerGamma}
 	\caption{10 Layer Detector with a simulated gamma event}
     \label{fig:LayerDetectorGeo}
 \end{figure}
+
 \subsubsection{Physics Lists}
+The user of the GEANT4 toolkit is responsible for selecting the proper physics processes to model in the \verb+PhysicsList+.
+This is unlike other transport codes (such as MCNPX) where basic physics are enabled by default and the user only has select the approproiate cards.
+However, GEANT4 does provide examples of implemented \verb+PhysicsLists+ as wells as modular physics lists which provide a way to construct a physics list by combing physics list.
+Thus, extensive use of \verb+G4ModularPhysicsList+ was employed to handle the assinging of the physics processes to each particle in the correct order.
+The physics lists chosen for this simulation are listed below:
+\begin{itemize}
+    \item \verb+G4EmStandardPhysics+
+    \item \verb+G4EmLivermorePhysics+
+    \item \verb+HadronPhysicsQGSP_BERT_HP+ Hadronic physics are
+    \item \verb+G4IonPhysics+ Finally, to handle the transport of the charged ions resulting from an ${}^6\text{Li}(\text(n),\alpha){}^{3}\text{H}$ interaction the \verb+G4IonPhysics+ list was used.
+\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={10-25},caption=Implemented Physics List,label=lst:PhysicsListCtr]{src/PhysicsList.cc}
+Finally, the default cut range was descreased from 1 cm to 1 nm in \verb+SetCuts()+ (Listing \ref{lst:PhyisicsListSetCuts}) 
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={38-40},caption=Implemented Physics List,label=lst:PhysicsListSetCuts]{src/PhysicsList.cc}
+

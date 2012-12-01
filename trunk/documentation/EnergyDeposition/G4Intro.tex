@@ -6,6 +6,46 @@ GEANT4 (GEomentry ANd Tracking) is a free, open source Monte Carlo based physics
 A GEANT4 simulation starts with a run which contains a set number of events.
 An event is particular process of interest to the user, such as shooting a single particle at a detector. 
 Typical usage might be to have a run be firing 1,000 neutrons at a detector, were each neutron is a single event.
+Each particle transported in GEANT4 is assigned a unique track ID and a parent ID.
+The particle that iniaties the event is given a parent ID of 0 and a track ID of 1.
+If the parent particle has a collision and produces a secondary particle this secondary particle is then given a parent ID of 1 (corresponding to the first secondary) and a track ID of 2.
+Secondaries are tracked in GEANT4 utilizing a stack tracking the most recent secondary (and its cascade) first.
+Listing \ref{lst:TrackingExample} provides an example from the verbose output of GEANT4 of the tracking in which only secondaries are not shown for the secondaries.
+The intitial particle in the event is the neutron because it has a parent ID of 0.
+The alpha and triton are the secondaries produced by this collsion. 
+The alpha is assigned a parent ID of 1 (corresponding to the first generation) with a track ID of 3.
+The triton is also assigned a parent ID of 1, but with a track ID of 2.
+\lstset{language=,caption={Tracking Example},label=lst:TrackingExample}
+\begin{lstlisting}
+*********************************************************************************************************
+* G4Track Information:   Particle = neutron,   Track ID = 1,   Parent ID = 0
+*********************************************************************************************************
+
+Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+    0        0        0    -6.59   2.5e-08        0        0         0    Absorber initStep
+    1        0        0    -3.64         0        0     2.95      2.95    Absorber NeutronInelastic
+    :----- List of 2ndaries - #SpawnInStep=  2(Rest= 0,Along= 0,Post= 2), #SpawnTotal=  2 ---------------
+    :         0         0     -3.64      2.73             triton
+    :         0         0     -3.64      2.05              alpha
+    :----------------------------------------------------------------- EndOf2ndaries Info ---------------
+
+*********************************************************************************************************
+* G4Track Information:   Particle = alpha,   Track ID = 3,   Parent ID = 1
+*********************************************************************************************************
+
+Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+    0        0        0    -3.64      2.05        0        0         0    Absorber initStep
+    1 -0.000201 0.000128    -3.64      2.01   0.0491 0.000266  0.000266    Absorber ionIoni
+    2 -0.00049 0.000312    -3.64      1.93   0.0705 0.000381  0.000647    Absorber ionIoni
+
+*********************************************************************************************************
+* G4Track Information:   Particle = triton,   Track ID = 2,   Parent ID = 1
+*********************************************************************************************************
+
+Step#    X(mm)    Y(mm)    Z(mm) KinE(MeV)  dE(MeV) StepLeng TrackLeng  NextVolume ProcName
+    0        0        0    -3.64      2.73        0        0         0    Absorber initStep
+    1 0.000339 -0.000215    -3.64      2.71   0.0116 0.000447  0.000447    Absorber hIoni
+\end{lstlisting}
 
 \subsubsection{Organization of the GEANT4 Toolkit}
 The GEANT4 toolkit is divided into eight (8) class categories:
@@ -29,3 +69,11 @@ Five additional classes are available for further control over the simulation:
 \begin{itemize}
     \item \verb+G4UserRunAction+ which allows for user actions
 \end{itemize}
+
+As GEANT4 is a toolkit primarly develped for high energy physics particles are designated according the the \verb+PDG+ (Particle Data Group) encoding.
+In addition, the physics processes are referenced according to the standard model.
+In the standard model particles are divided into two families, bosons (the force carriers such as photons) and fermions (matter).
+The fermions consist of both hadrons and leptons.
+Hadrons are paricles composed of quarks which are divided into two classes: baryons (three quarks) and mesons (two quarks).
+Typical bayrons include the neutron and the proton, while an example of a meson is the pion.
+An example of a lepton is the electron.

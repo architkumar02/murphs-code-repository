@@ -15,8 +15,6 @@
 PhysicsList::PhysicsList() : G4VModularPhysicsList() {
     currentDefaultCut   = 10*nm;
 
-    // SetVerboseLevel(1);
-
     // Adding Physics List
     //RegisterPhysics( new G4EmDNAPhysics());
     RegisterPhysics( new G4EmStandardPhysics());
@@ -36,6 +34,5 @@ PhysicsList::~PhysicsList(){
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PhysicsList::SetCuts(){
-
     SetDefaultCutValue(10*nm);
 }

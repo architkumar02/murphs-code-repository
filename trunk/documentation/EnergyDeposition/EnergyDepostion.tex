@@ -4,8 +4,13 @@
 
 %% PACKAGES
 \usepackage{graphicx}
+%\usepackage[usenames,dvipsnames,proluge]{pstricks}
+\usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{listings,amsmath}
 \usepackage{microtype,todonotes}
+\usepackage[strings]{underscore}
+\usepackage{fancyvrb}
+\VerbatimFootnotes
 
 %% GRAPHICS RELATED
 \usepackage[outdir=./tmp/]{epstopdf}
@@ -25,11 +30,31 @@
 \numberwithin{equation}{section}
 
 %% LISTINGS
-\usepackage{xcolor}
-\lstdefinestyle{numbers}{numbers=left, stepnumber=1, numberstyle=\tiny, numbersep=10pt}
-\lstdefinestyle{MyFrame}{backgroundcolor=\color{gray}}
-\lstdefinestyle{MyCStyle}{language=C,style=numbers,style=MyFrame,frame=lines}
-\lstset{language=C,frame=lines}
+%\lstdefinestyle{numbers}{numbers=left, stepnumber=1, numberstyle=\tiny, numbersep=10pt}
+%\lstdefinestyle{MyFrame}{backgroundcolor=\color{gray}}
+%\lstdefinestyle{MyCStyle}{language=C,style=numbers,style=MyFrame,frame=lines}
+%\lstset{language=C++,frame=lines}
+\lstset{ %
+    language=C++,
+    basicstyle=\footnotesize,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=2,
+    numbersep=5pt,
+    backgroundcolor=\color{white},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black},
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=false,
+    title=\lstname,
+    keywordstyle=\color{blue},
+    commentstyle=\color{OliveGreen},
+    stringstyle=\color{orange}
+}
 
 %% USER COMMANDS
 \newcommand{\iso}[2]{${}^{#2}${#1}}
@@ -53,11 +78,6 @@
 \listoftables
 
 \include{Introduction}
-This document is organized as follows.
-A brief overview of the interaction of charged particles in matter will be provided in Section \ref{sec:PreviousWork}, as well as some preliminary experiments demonstrating the range of secondary electrons to aid in neutron-gamma discrimination.
-The GEANT4 toolkit was used for the modeling of the energy deposition.  Section \ref{sec:G4Intro} will provide an overview of the GEANT4 toolkit.
-Section \ref{sec:Methods} will provide details on how the GEANT4 toolkit was implemented for this particular simulation, as well as providing validation of the calculations preformed by the GEANT4 toolkit in Section \ref{sec:SimValidation}.
-In the \ref{sec:Results} the results of this model applied to a single film will demonstrate the enhanced ability of neutron-gamma discrimination through secondary electrons.
 \include{PreviousWork}
 \include{G4Intro}
 \include{Methods}

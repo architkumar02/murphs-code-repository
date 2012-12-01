@@ -1,9 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \subsection{Introduction to GEANT4}
 
-GEANT4 (GEomentry ANd Tracking) is a free, open source Monte Carlo based physics simulation toolkit developed and mainted at CERN widely used in the physics community.
+GEANT4 (GEomentry ANd Tracking) is a free, open source Monte Carlo based physics simulation toolkit developed and maintained at CERN widely used in the physics community.
 A GEANT4 simulation starts with a run which contains a set number of events.
-An event is particular process of intrest to the user, such as shooting a single particle at a detector. 
+An event is particular process of interest to the user, such as shooting a single particle at a detector. 
 Typical usage might be to have a run be firing 1,000 neutrons at a detector, were each neutron is a single event.
 
 
@@ -11,12 +11,12 @@ Typical usage might be to have a run be firing 1,000 neutrons at a detector, wer
 The GEANT4 toolkit is divided into eight (8) class categories:
 \begin{itemize}
     \item Run and Event - generation of events and secondary particles.
-    \item Tracking and Track - transport of a particle by analyzing the factors limiting the step size and by applying the revelant physics models.
-    \item Geometry and Magnetic Field - the geometical defination of a detector (including the computation of the distnances to solids) as wells as the management of magnetic fields.
-    \item Particle Defination and Matter - defination of particles and matter.
+    \item Tracking and Track - transport of a particle by analyzing the factors limiting the step size and by applying the relevant physics models.
+    \item Geometry and Magnetic Field - the geometrical definition of a detector (including the computation of the distances to solids) as wells as the management of magnetic fields.
+    \item Particle Definition and Matter - definition of particles and matter.
     \item Hits and Digitization - the creation of hits and their use for digitization in order to model a detectors readout response.
-    \item Visualization - the visualziation of a simulation inlcuding the solid geometry, trajectories and hits.
-    \item Interaface - the intearctions between the toolkit and graphical user interafaces and well as external software.
+    \item Visualization - the visualization of a simulation including the solid geometry, trajectories and hits.
+    \item Interface - the interactions between the toolkit and graphical user interfaces and well as external software.
 \end{itemize}
 
 There are then three classes which must be implemented by the user in order use the toolkit. These classes are:
@@ -25,7 +25,7 @@ There are then three classes which must be implemented by the user in order use 
     \item \verb+G4VUserPhysicsList+ which defines the physics of the simulation, and
     \item \verb+G4VUserPriamryGeneratorAction+ which defines the generation of primary events.
 \end{itemize}
-Five additional classes are avaible for further control over the simulation:
+Five additional classes are available for further control over the simulation:
 \begin{itemize}
     \item \verb+G4UserRunAction+ which allows for user actions
 \end{itemize}

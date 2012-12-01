@@ -24,6 +24,13 @@
 %% EQUATIONS
 \numberwithin{equation}{section}
 
+%% LISTINGS
+\usepackage{xcolor}
+\lstdefinestyle{numbers}{numbers=left, stepnumber=1, numberstyle=\tiny, numbersep=10pt}
+\lstdefinestyle{MyFrame}{backgroundcolor=\color{gray}}
+\lstdefinestyle{MyCStyle}{language=C,style=numbers,style=MyFrame,frame=lines}
+\lstset{language=C,frame=lines}
+
 %% USER COMMANDS
 \newcommand{\iso}[2]{${}^{#2}${#1}}
 \newcommand{\figurewidth}{\textwidth}

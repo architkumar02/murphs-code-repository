@@ -33,8 +33,12 @@ The simulated spectra had much better resolution at fine energies (corresponding
 \end{figure}
 \subsection{Spectra Validation}
 The simulated energy deposition is not the directly equivilant to light collected on the PMT because the scintillation process and light collection is not modeled.
-However, the scintillation follows the energy deposition
+However, it is well known that scintillation follows the energy deposition\cite{birks_scintillations_1951}.
+Thus, up to scaling contants, the energy deposition can be considered equivilant to the scintillation and representative of the measured spectra.
+Rather than attempting to back out these scaling contants the weighted average of spectra were used in which integration and normalization removes these fudge factors.
 The simulation was validated by computing the weighted average of the energy deposition \ref{eq:AvgEnergyDepDefination} and comparing it to the spectra average defined in \ref{eq:AvgChannelNumberDefination}.
+There is excellent agreement between the measured gamma weighted average (right ordinate axis) and the average energy deposition from a \ios{Co}{60} source (left ordinate axis).
+Non-linearity is observed for films less than 200 \micron, this is evidance that the cascade electrons from the Compton electron are eneregetic enough that the range of the electrons is much greater than the thickness of the film and leave the film without colliding to an energy in which the energy deposition is linear (Figure ~\ref{fig:TurneETransfer}).
 %%%%%%%%%%%%%%%%%%%%% Equations %%%%%%%%%%%%%%%%%%%%%%
 \begin{equation}
 \label{eq:AvgEnergyDepDefination}

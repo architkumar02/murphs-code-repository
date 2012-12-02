@@ -82,7 +82,7 @@ Actual primary particles are generated with \verb+GeneratePrimaries+, which uses
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={33-56},caption=Generate Primaries,label=lst:GeneratePrimaries]{src/PrimaryGeneratorAction.cc}
 
-\subsection{Sensitive Detectors}
+\subsection{Sensitive Detectors and Hits}
 
 GEANT4 offers a myriad of different ways to output the results of a simulation.
 It is possible to write out every track with the \verb+Verbose = 1+ option, create \verb+MultiFunctionalDetector+ and \verb+G4VPrimitiveScorer+, or implement a hit and readout based approach \cite{cern_detector_2012}.
@@ -102,7 +102,7 @@ This included the energy deposition, position of the hit, momentum, kinetic ener
 The \verb+G4VSensitiveDetector+ is attached to a logical volume and is responsible for filling the hit collection.
 This is accomplished in the \verb+ProcessHits+ of \verb+CaloSensitiveDetector+ (Listing \ref{lst:SD}).
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
-\lstinputlisting[linerange={29-61},caption=Sensitive Detector,label=lst:SD]{include/CaloSensitiveDetector.hh}
+\lstinputlisting[linerange={29-61},caption=Sensitive Detector,label=lst:SD]{src/CaloSensitiveDetector.cc}
 The simulation was designed so that a separate sensitive detector was assigned to the gap and absorber.
 While this is not strictly necessary as the geometric position determines what layer of the gap or absorber the hit occurred in this made the analysis code easier to write.
 A separate method was written in \verb+DetectorConstruction+ to create the sensitive detectors and assign them to the proper logical volumes (Listing \ref{lst:SDAssign})

@@ -30,13 +30,9 @@
 \numberwithin{equation}{section}
 
 %% LISTINGS
-%\lstdefinestyle{numbers}{numbers=left, stepnumber=1, numberstyle=\tiny, numbersep=10pt}
-%\lstdefinestyle{MyFrame}{backgroundcolor=\color{gray}}
-%\lstdefinestyle{MyCStyle}{language=C,style=numbers,style=MyFrame,frame=lines}
-%\lstset{language=C++,frame=lines}
 \lstset{ %
     language=C++,
-    basicstyle=\footnotesize,
+    basicstyle=\footnotesize\ttfamily,
     numbers=left,
     numberstyle=\tiny\color{gray},
     stepnumber=2,
@@ -55,6 +51,14 @@
     commentstyle=\color{OliveGreen},
     stringstyle=\color{orange}
 }
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35, 0.01}{\parbox{\dimexpr\textwidht-2\fboxsep\relax}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white,singlelinecheck=false,margin=0pt,font={bf,footnotesize}}
+\lstnewenvironment{code}[1][]%
+{ \noindent\minipage{\linewidth}
+	\lstset{#1}
+}
+{\endminipage}
 
 %% USER COMMANDS
 \newcommand{\iso}[2]{${}^{#2}${#1}}

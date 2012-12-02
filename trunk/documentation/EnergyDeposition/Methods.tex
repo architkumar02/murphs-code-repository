@@ -8,18 +8,18 @@ As such, this section is organized by first examining the process of setting up 
 \subsection{GEANT4 Implementation}
 
 A large focus of this work was on creating a working simulation of the GEANT4 toolkit.
-Preliminary attempts were made to install GEANT4 on a windows based machine linking to Microsoft Visual Studio. While these attempts were successful, a larger scale computing environment was desired.
+Preliminary attempts were made to install GEANT4 on a Windows based machine linking to Microsoft Visual Studio. While these attempts were successful, a larger scale computing environment was desired.
 GEANT4 was then installed on the University of Tennessee's nuclear engineering computing cluster, along with the necessary visualization drivers and data files.
 Brief documentation on compiling simple examples on the cluster are available at \texttt{necluster.engr.utk.edu/wiki/index.php/Geant4}\todo{Get URL to work}\footnote{It should be noted that this example uses the CMAKE build system (as per the GEANT4 recommendation) but a large majority of the examples still use GNUMake for building. This can be accomplished by adding \verb+source /opt/geant4/geant4-9.5p1/share/Geant4-9.5.1/geant4make/geant4make.sh+ to the user's \verb+.bashrc+.}. 
-For convince a subversion repository was created to manage the developed code base, and all source code is available by anonymous checkout from \texttt{http://www.murphs-code-repository.googlecode.com/svn/trunk/layeredPolymerTracking}. Revision 360 was the code base used to generate the results shown in \ref{sec:Results}.
+For convenience a subversion repository was created to manage the developed code base, and all source code is available by anonymous checkout from \texttt{http://www.murphs-code-repository.googlecode.com/svn/trunk/layeredPolymerTracking}. Revision 360 was the code base used to generate the results shown.
 The following section provides implementation specific details of the code base used to simulate the energy deposition in thin films.
-It is organized according to the three base classes that a user must implement in GEANT4, namely \verb+G4VUserDetectorConstruciton+, \verb+G4VUserPhysicsList+, and \verb+G4VuserPrimaryGeneratorAction+.
+It is organized according to the three base classes that a user must implement in GEANT4, namely \verb+G4VUserDetectorConstruction+, \verb+G4VUserPhysicsList+, and \verb+G4VUserPrimaryGeneratorAction+.
 \subsubsection{Detector Geometry}
 
 A detector geometry in GEANT4 is made up of a number of volumes.
 The largest volume is the \verb+world+ volume which contains all other volumes in the detector geometry.
-Each volume (an instance of \verb+G4VPhysicalVolume+) by assigning a position, a pointer to the mother volume and a pointer to its mother volume (or \verb+NULL+ if it is the \verb+world+ volume).
-A volume's shape is described by \verb+G4VSolid+ which has a shape and the specific values for each dimension.
+Each volume (an instance of \verb+G4VPhysicalVolume+) is created by assigning a position, a pointer to the mother volume and a pointer to its mother volume (or \verb+NULL+ if it is the \verb+world+ volume).
+A volume's shape is described by \verb+G4VSolid+, which has a shape and the specific values for each dimension.
 A volume's full properties is described by a logical volume.
 A \verb+G4LogicalVolume+ includes a pointer to the geometrical properties of the volume (the solid) along with physical characteristics including:
 \begin{itemize}
@@ -28,7 +28,7 @@ A \verb+G4LogicalVolume+ includes a pointer to the geometrical properties of the
     \item any magnetic fields.
 \end{itemize}
 Listing \ref{lst:World} provides the implementation of the world physical volume.
-The geometry was setup such that it is possible to define multiple layers of detectors, as shown in Figure \ref{fig:LayerDetectorGeo}.
+The geometry was set up such that it is possible to define multiple layers of detectors, as shown in Figure \ref{fig:LayerDetectorGeo}.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={217-220},caption=World Physical Volume,label=lst:World]{src/DetectorConstruction.cc}
 The detector was described by creating creating a single layer of neutron absorber and gap material and placing it in another volume (the calorimeter).
@@ -38,7 +38,7 @@ The containing volume (calorimeter) was placed inside of the the physical world 
 The \verb+calorimeter+ was the mother volume for each layer. 
 The code was developed such that the simulation of multiple layers can be easily set at compile time or by utilizing a run macro through the \verb+DetectorMessenger+ class.
 Multiple repeated volume can be achieved in GEANT4 through \verb+G4PVReplica+ or \verb+G4PVParameterised+.
-As each of the layers had the same geometry, \verb+G4PVReplica+ was chosen as the implementation (Listing \ref{lst:Layer}.
+As each of the layers had the same geometry, \verb+G4PVReplica+ was chosen as the implementation (Listing \ref{lst:Layer}).
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={231-238},caption=Layer Volume,label=lst:Layer]{src/DetectorConstruction.cc}
 Finally, the neutron absorber and gap material were defined as single cylinders which were then placed in the layer mother volume (Listing \ref{lst:GapAbs}).
@@ -51,23 +51,28 @@ Figure \ref{fig:LayerDetectorGeo} shows a rendering of the 10 layers of the dete
 	\caption{10 Layer Detector with a simulated gamma event}
     \label{fig:LayerDetectorGeo}
 \end{figure}
+\begin{figure}[h] 
+    \missingfigure{Diagram of Geometry}
+	\caption{World, Calorimeter, Layer and Absorber and Gap}
+    \label{fig:GeoDiagram}
+\end{figure}
 
 \subsubsection{Physics Lists}
 
 The user of the GEANT4 toolkit is responsible for selecting the proper physics processes to model in the \verb+PhysicsList+.
 This is unlike other transport codes (such as MCNPX) where basic physics are enabled by default and the user only has select the appropriate cards.
-However, GEANT4 does provide examples of implemented \verb+PhysicsLists+ as wells as modular physics lists which provide a way to construct a physics list by combing physics list.
+However, GEANT4 does provide examples of implemented \verb+PhysicsLists+ as well as modular physics lists which provide a way to construct a physics list by combing physics list.
 Thus, extensive use of \verb+G4ModularPhysicsList+ was employed to handle the assigning of the physics processes to each particle in the correct order.
 The physics lists chosen for this simulation are listed below:
 \begin{itemize}
     \item \verb+G4EmStandardPhysics+ The electromagnetic physics defines the electrons, muons, and taus along with their corresponding neutrinos. For electrons, the primary concern of this simulation, multiple scattering, electron ionization, and electron bremsstrahlung processes were assigned.  In addition the positron is defined and the multiple scattering process, electron ionization process, electron bremsstrahlung process and positron annihilation is assigned \cite{cern_physics_2012}.
-    \item \verb+G4EmLivermorePhysics+ The Livermore physics process extend the \verb+EMStandardPhyiscs+ down to low (250 eV) energies. Even lower energies can be reached by including \verb+G4DNAPhysics+. These physics processes extended with \verb+G4EmLivermorePhysics+ are the photo-electric effect, Compton scattering, Rayleigh scattering, gamma conversion, Ionisation and Bremsstrahlung\cite{cern_physics_2012}. 
+    \item \verb+G4EmLivermorePhysics+ The Livermore physics process extend the \verb+EMStandardPhyiscs+ down to low (250 eV) energies. Even lower energies can be reached by including \verb+G4DNAPhysics+. The physics processes extended with \verb+G4EmLivermorePhysics+ are the photo-electric effect, Compton scattering, Rayleigh scattering, gamma conversion, Ionisation and Bremsstrahlung\cite{cern_physics_2012}. 
     \item \verb+HadronPhysicsQGSP_BERT_HP+ Hadronic physics are included to model the nuclear interactions. The chosen list is a Quark Gluon String Model for energies in the 5-25 GeV range, with a Bertini cascade model until 20 MeV.  Once a hadron has an energy of 20 MeV the high precision cross section driven models are applied\cite{cern_reference_2008}.
-    \item \verb+G4IonPhysics+ Finally, to handle the transport of the charged ions resulting from an ${}^6\text{Li}(\text(n),\alpha){}^{3}\text{H}$ interaction the \verb+G4IonPhysics+ list was used.
+    \item \verb+G4IonPhysics+ Finally, to handle the transport of the charged ions resulting from an ${}^6\text{Li}(\text{n},\alpha){}^{3}\text{H}$ interaction the \verb+G4IonPhysics+ list was used.
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={10-25},caption=Implemented Physics List,label=lst:PhysicsListCtr]{src/PhysicsList.cc}
-Finally, the default cut range was decreased from 1 cm to 1 nm in \verb+SetCuts()+ (Listing \ref{lst:PhyisicsListSetCuts}) 
+Finally, the default cut range was decreased from 1 cm to 1 nm in \verb+SetCuts()+ (Listing \ref{lst:PhysicsListSetCuts}) 
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={36-48},caption=Implemented Physics List,label=lst:PhysicsListSetCuts]{src/PhysicsList.cc}
 \subsubsection{Primary Event Generator}
@@ -86,9 +91,9 @@ Actual primary particles are generated with \verb+GeneratePrimaries+, which uses
 
 GEANT4 offers a myriad of different ways to output the results of a simulation.
 It is possible to write out every track with the \verb+Verbose = 1+ option, create \verb+MultiFunctionalDetector+ and \verb+G4VPrimitiveScorer+, or implement a hit and readout based approach \cite{cern_detector_2012}.
-Previous GEANT4 experience included \verb+G4VHit+ and \verb+G4VSensitiveDetector+ so this approach was used in this simulation. 
+Previous GEANT4 experience included \verb+G4VHit+ and \verb+G4VSensitiveDetector+, so this approach was used in this simulation. 
 A hit is defined to be a snapshot of the physical interaction of a track in a sensitive region of a detector.
-As the user is responsible for writing implementing \verb+G4VHit+ the hit can contain any information about the step, including
+As the user is responsible for implementing \verb+G4VHit+ the hit can contain any information about the step, including:
 \begin{itemize}
 	\item the position and time of the step,
 	\item the momentum and energy of the track,
@@ -100,11 +105,11 @@ This included the energy deposition, position of the hit, momentum, kinetic ener
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={11-44,69-82},caption=Calorimeter Hit,label=lst:CaloHit]{include/CaloHit.hh}
 The \verb+G4VSensitiveDetector+ is attached to a logical volume and is responsible for filling the hit collection.
-This is accomplished in the \verb+ProcessHits+ of \verb+CaloSensitiveDetector+ (Listing \ref{lst:SD}).
+This is accomplished in \verb+ProcessHits+ of \verb+CaloSensitiveDetector+ (Listing \ref{lst:SD}).
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={29-61},caption=Sensitive Detector,label=lst:SD]{src/CaloSensitiveDetector.cc}
 The simulation was designed so that a separate sensitive detector was assigned to the gap and absorber.
-While this is not strictly necessary as the geometric position determines what layer of the gap or absorber the hit occurred in this made the analysis code easier to write.
+While this is not strictly necessary as the geometric position determines what layer of the gap or absorber the hit occurred in, this made the analysis code easier to write.
 A separate method was written in \verb+DetectorConstruction+ to create the sensitive detectors and assign them to the proper logical volumes (Listing \ref{lst:SDAssign})
 \verb+SetSensitiveDetectors()+ is called from the the constructor of \verb+DetectorConstruction+.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -125,7 +130,7 @@ These classes allowed for the analysis code to be independent of the simulation.
 
 The energy deposition of an event is calculated by the sum of all of the energy deposited by individual hits in the sensitive detector (Equation \ref{eq:EDepEvent}).
 While it is possible to break down the energy deposition by which physics process caused the deposition, this was not implemented in order to avoid over complication.
-\begin{equation}[h]
+\begin{equation}
 \label{eq:EDepEvent}
 E_{\text{dep},\text{event}} = \sum{E_{\text{dep},\text{hit}} }
 \end{equation}

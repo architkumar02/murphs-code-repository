@@ -2,6 +2,9 @@
 \section{Methods}
 \label{sec:Methods}
 
+A discussion of the steps necessary to implement the simulation of energy deposition in GEANT4 follows.
+This involved writing the code for the simulation, as well as correctly interperting the output.
+As such, this section is organzied by first examining the process of setting up the simulation and then will go into the analysis of the results from the toolkit.
 \subsection{GEANT4 Implemenation}
 
 A large focus of this work was on creating a working simulation of the GEANT4 toolkit.
@@ -12,6 +15,7 @@ For convince a subversion repository was created to manage the developed code ba
 The following section provides implemenation specific details of the code base used to simulate the energy deposition in thin films.
 It is organzied according to the three base classes that a user must implement in GEANT4, namely \verb+G4VUserDetectorConstruciton+, \verb+G4VUserPhysicsList+, and \verb+G4VuserPrimaryGeneratorAction+.
 \subsubsection{Detector Geometry}
+
 A detector geometry in GEANT4 is made up of a number of volumes.
 The largest volume is the \verb+world+ volume which contains all other volumes in the detector geometry.
 Each volume (an instance of \verb+G4VPhysicalVolume+) by assigning a position, a pointer to the mother volume and a pointer to its mother volume (or \verb+NULL+ if it is the \verb+world+ volume).
@@ -39,10 +43,10 @@ As each of the layers had the same geometry, \verb+G4PVReplica+ was chosen as th
 \lstinputlisting[linerange={231-238},caption=Layer Volume,label=lst:Layer]{src/DetectorConstruction.cc}
 Finally, the neutron absorber and gap material were defined as single cylinders which were then placed in the layer mother volume (Listing \ref{lst:GapAbs}).
 The size of these solids (and the materials) could be set either at compile time through \verb+DetectorConstruction+ constructor or by using the \verb+DetectorMessenger+ in the run macro.
+Figure \ref{fig:LayerDetectorGeo} shows a rendering of the 10 layers of the detector with the trajectories from a gamma event.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={241-249},caption=Absorber and Gap Volumes,label=lst:GapAbs]{src/DetectorConstruction.cc}
-Figure \ref{fig:LayerDetectorGeo} shows a rendering of the 10 layers of the detector with the trajectories from a gamma event.
-\begin{figure} 
+\begin{figure}[h] 
     \includegraphics[width=\figurewidth]{10LayerGamma}
 	\caption{10 Layer Detector with a simulated gamma event}
     \label{fig:LayerDetectorGeo}
@@ -55,18 +59,39 @@ However, GEANT4 does provide examples of implemented \verb+PhysicsLists+ as well
 Thus, extensive use of \verb+G4ModularPhysicsList+ was employed to handle the assigning of the physics processes to each particle in the correct order.
 The physics lists chosen for this simulation are listed below:
 \begin{itemize}
-    \item \verb+G4EmStandardPhysics+
-    \item \verb+G4EmLivermorePhysics+
-    \item \verb+HadronPhysicsQGSP_BERT_HP+ Hadronic physics are
+    \item \verb+G4EmStandardPhysics+ The electromagnetic physics defines the electrons, muons, and taus along with their corresponding neutrinos. For electrons, the primary concern of this simulation, multiple scattering, electron ionization, and electron bremsstrahlung processes were assigned.  In addition the positron is defined and the multicle scattering process, electron ionization process, electron bremsstrahlung process and positiron annihilation is assigned \cite{cern_physics_2012}.
+    \item \verb+G4EmLivermorePhysics+ The Livermore phyiscs process extend the \verb+EMStandardPhyiscs+ down to low (250 eV) energies. Even lower energies can be reached by including \verb+G4DNAPhysics+. These phyisics processes extended with \verb+G4EmLivermorePhysics+ are the photo-electoric effect, Compton scattering, Rayleight scattering, gamma conversion, Ionisation and Bremsstrahlung\cite{cern_physics_2012}. 
+    \item \verb+HadronPhysicsQGSP_BERT_HP+ Hadronic physics are included to model the nuclear interactions. The chosen list is a Quark Gluon String Model for energies in the 5-25 GeV range, with a Bertini cascade model until 20 MeV.  Once a hadron has an energy of 20 MeV the high precision cross section driven models are applied\cite{cern_reference_2008}.
     \item \verb+G4IonPhysics+ Finally, to handle the transport of the charged ions resulting from an ${}^6\text{Li}(\text(n),\alpha){}^{3}\text{H}$ interaction the \verb+G4IonPhysics+ list was used.
 \end{itemize}
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={10-25},caption=Implemented Physics List,label=lst:PhysicsListCtr]{src/PhysicsList.cc}
 Finally, the default cut range was decreased from 1 cm to 1 nm in \verb+SetCuts()+ (Listing \ref{lst:PhyisicsListSetCuts}) 
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
-\lstinputlisting[linerange={38-40},caption=Implemented Physics List,label=lst:PhysicsListSetCuts]{src/PhysicsList.cc}
+\lstinputlisting[linerange={36-48},caption=Implemented Physics List,label=lst:PhysicsListSetCuts]{src/PhysicsList.cc}
+\subsubsection{Primary Event Generator}
+The user is responsible for telling the simulation toolkit the primary event to generate.
+While there is great flexibility to generate any source distribution, a particle gun was chosen for simplicity.
+\verb+G4ParticleGun+ generates primary particle(s) with a given momentrum and position without any randomization.
+The implementation of this is shown in Listing ~\ref{lst:PrimaryGeneratorAction}.
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={14-24},caption=Primary Event Generator,label=lst:PrimaryGeneratorAction]{src/PrimaryGeneratorAction.cc}
+Actual primary particles are generated with \verb+GeneratePrimaries+, which uses the \verb+G4ParticleGun+ to determine the vertex of the primary event.
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={33-56},caption=Generate Primaries,label=lst:GeneratePrimaries]{src/PrimaryGeneratorAction.cc}
 
+\subsection{Sensitive Detectors}
 
-\subsection{Determination of Single Collision Energy Loss Spectra}
-
+GEANT4 offers a myriad of differnet ways to output the results of a simulation.
+It is possible to write out every track with the \verb+Verbose = 1+ option, create \verb+MultiFunctionalDetector+ and \verb+G4VPrimitiveScorer+, or implement a hit and readout based approach \cite{cern_detector_2012}.
+Previous GEANT4 experience included \verb+G4VHit+ and \verb+G4VSensitiveDetector+ so this approach was used in this simulation. 
+A hit is defined to be a snapshot of the physical inteaction of a track in a senstive region of a detector.
+As the user is responsible for writing implementing \verb+G4VHit+ the hit can contain any information about the step, including
+\begin{itemize}
+	\item the postion and time of the step,
+	\item the momentun and energy of the track,
+	\item the energy deposition of the step,
+	\item or information about the geometry.
+\end{itemize}
+For this simulation any information about the particle that could be recorded was recorded.
 \subsection{Determination of Energy Deposition}

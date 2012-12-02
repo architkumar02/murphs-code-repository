@@ -11,17 +11,12 @@
 #include "Randomize.hh"
 
 
-PrimaryGeneratorAction::PrimaryGeneratorAction()
- : G4VUserPrimaryGeneratorAction(),
-   fParticleGun(0)
-{
+PrimaryGeneratorAction::PrimaryGeneratorAction() : G4VUserPrimaryGeneratorAction(),fParticleGun(0) {
   G4int nofParticles = 1;
   fParticleGun = new G4ParticleGun(nofParticles);
 
   // default particle kinematic
-  //
-  G4ParticleDefinition* particleDefinition 
-    = G4ParticleTable::GetParticleTable()->FindParticle("e-");
+  G4ParticleDefinition* particleDefinition = G4ParticleTable::GetParticleTable()->FindParticle("e-");
   fParticleGun->SetParticlePosition(G4ThreeVector(0.,0.,0.0));
   fParticleGun->SetParticleDefinition(particleDefinition);
   fParticleGun->SetParticleMomentumDirection(G4ThreeVector(0.,0.,1.));
@@ -42,10 +37,8 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   // In order to avoid dependence of PrimaryGeneratorAction
   // on DetectorConstruction class we get world volume
   // from G4LogicalVolumeStore
-  //
   G4double worldZHalfLength = 0;
-  G4LogicalVolume* worlLV
-    = G4LogicalVolumeStore::GetInstance()->GetVolume("World");
+  G4LogicalVolume* worlLV = G4LogicalVolumeStore::GetInstance()->GetVolume("World");
   G4Box* worldBox = 0;
   if ( worlLV) worldBox = dynamic_cast< G4Box*>(worlLV->GetSolid()); 
   if ( worldBox ) {
@@ -58,8 +51,7 @@ void PrimaryGeneratorAction::GeneratePrimaries(G4Event* anEvent)
   } 
   
   // Set gun position
-  fParticleGun
-    ->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength+1*cm));
+  fParticleGun->SetParticlePosition(G4ThreeVector(0., 0., -worldZHalfLength+1*cm));
   fParticleGun->GeneratePrimaryVertex(anEvent);
 }
 

@@ -12,17 +12,18 @@ The \verb+PhysicsList+ was extended to include \verb+G4DNAPhysics+ and the detec
 In general there was excellent agreement between the simulated energy spectra and that of \cite{turner}.
 The simulated spectra had much better resolution at fine energies (corresponding to discrete states) of which Turners did not.
 %%%%%%%%%%%%%%%%%%%% Figures %%%%%%%%%%%%%%%%%%%%%%%%
-\begin{figure}
+\begin{figure}[h]
     \centering
-    \caption{Single Collision Energy Loss of Water}
     \begin{subfigure}[b]{0.45\figurewidth}
         \includegraphics[width=\textwidth]{SingleCollisionEnergyLoss_300bins}
         \caption{Simulated}
     \end{subfigure}
     \begin{subfigure}[b]{0.45\figurewidth}
-        \missingfigure{Turner Fig of EDep}
+        \includegraphics[width=\textwidth]{Turner_Fig2_SingleCollisionELoss}
+        \caption{Single-collision energy loss spectra for electrons in water \protect\cite{turner_comparative_1982}}
         \caption{Turner}
     \end{subfigure}
+    \caption{Single Collision Energy Loss of Water}
 \end{figure}
 \subsection{Spectra Validation}
 The simulation was validated by computing the weighted average of the energy deposition \ref{eq:AvgEnergyDepDefination} and comparing it to the spectra average defined in \ref{eq:AvgChannelNumberDefination}.

@@ -122,11 +122,8 @@ void Analysis::EndOfEvent(const G4Event* event){
  * ProcessHitCollection
  *
  * @param G4VHitsCollection *hc
- *
- * Helper method to process hit collections
  */
 void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
-
 
     // Looping through the hit collection
     G4double hitColEDepTot_Abs[NUMLAYERS+1];   // Total EDep (abs) for Hit Collection
@@ -147,7 +144,6 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
             // Hit occured in the Gap
             hitColEDepTot_Gap[layerNum] += eDep;
             (hHitTotEDepGap[layerNum])->Fill(eDep);
-
         }else if(strcmp(hit->GetVolume()->GetName(),"Absorber")){
             // Hit occured in the Abs
             hitColEDepTot_Abs[layerNum] += eDep;
@@ -156,12 +152,6 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
             /* Is this a secondary electron of the event? */
             if(hit->GetParticle()->GetPDGEncoding() == 11){
                 PID = hit->GetParentID();
-
-                /**
-                 * PID == 1  (first secondary particle) 
-                 * PID == 2 (second secondary particle) 
-                 * PID == 3 (third secondary particle) 
-                 **/
                 if (PID < NUMPID){
                     (hSecElecKinAbs[layerNum][PID])->Fill(hit->GetKineticEnergy());
                 }

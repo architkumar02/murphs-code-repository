@@ -23,10 +23,8 @@ class CaloHit : public G4VHit {
 		CaloHit(const G4int layer);
 		~CaloHit();
 
-
 		inline void* operator new(size_t);
 		inline void operator delete(void*);
-
 		void Print();
 
 	private:
@@ -43,7 +41,8 @@ class CaloHit : public G4VHit {
 		G4int layerNumber;                  /* Copy Number of Layer */
 
 	public:
-		void SetTrackID(G4int track)				{trackID = track;};
+		// Setter and Getters
+        void SetTrackID(G4int track)				{trackID = track;};
 		void SetParentID(G4int id)				    {parentID = id;};
 		void SetEdep(G4double de)					{edep = de;};
 		void SetPosition(G4ThreeVector p)			{pos = p;};
@@ -69,7 +68,6 @@ class CaloHit : public G4VHit {
 		G4int GetLayerNumber()              {return layerNumber;};
 };
 
-
 typedef G4THitsCollection<CaloHit> CaloHitsCollection;
 extern G4Allocator<CaloHit> HitAllocator;
 
@@ -78,7 +76,6 @@ inline void* CaloHit::operator new(size_t){
 	aHit = (void *) HitAllocator.MallocSingle();
 	return aHit;
 }
-
 
 inline void CaloHit::operator delete(void *aHit){
 	HitAllocator.FreeSingle((CaloHit*) aHit);

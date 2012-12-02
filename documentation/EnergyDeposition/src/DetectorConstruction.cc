@@ -268,10 +268,6 @@ void DetectorConstruction::SetSensitiveDetectors(){
     gapSD = new CaloSensitiveDetector("SD/GapSD","GapHitCollection");
     SDman->AddNewDetector(gapSD);
     gapLV->SetSensitiveDetector(gapSD);
-
-    // Setting the Maximum Step Size
-    G4double maxStep = 0.5*absThickness;
-    absLV->SetUserLimits(new G4UserLimits(maxStep));
 }
 /**
  * SetVisAttributes()

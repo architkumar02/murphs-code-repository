@@ -53,6 +53,7 @@ Figure \ref{fig:LayerDetectorGeo} shows a rendering of the 10 layers of the dete
 \end{figure}
 
 \subsubsection{Physics Lists}
+
 The user of the GEANT4 toolkit is responsible for selecting the proper physics processes to model in the \verb+PhysicsList+.
 This is unlike other transport codes (such as MCNPX) where basic physics are enabled by default and the user only has select the appropriate cards.
 However, GEANT4 does provide examples of implemented \verb+PhysicsLists+ as wells as modular physics lists which provide a way to construct a physics list by combing physics list.
@@ -70,6 +71,7 @@ Finally, the default cut range was decreased from 1 cm to 1 nm in \verb+SetCuts(
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={36-48},caption=Implemented Physics List,label=lst:PhysicsListSetCuts]{src/PhysicsList.cc}
 \subsubsection{Primary Event Generator}
+
 The user is responsible for telling the simulation toolkit the primary event to generate.
 While there is great flexibility to generate any source distribution, a particle gun was chosen for simplicity.
 \verb+G4ParticleGun+ generates primary particle(s) with a given momentrum and position without any randomization.
@@ -93,5 +95,52 @@ As the user is responsible for writing implementing \verb+G4VHit+ the hit can co
 	\item the energy deposition of the step,
 	\item or information about the geometry.
 \end{itemize}
-For this simulation any information about the particle that could be recorded was recorded.
+For this simulation any information about the particle that could be recorded was recorded. 
+This included the energy deposition, postion of the hit, momentrum, kineitic energy, track ID, parent ID, particle defination, volume and copy number (Listing \ref{lst:CaloHit}).
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={11-44,69-82},caption=Calorimeter Hit,label=lst:CaloHit]{include/CaloHit.hh}
+The \verb+G4VSensitiveDetector+ is attached to a logical volume and is responsible for filling the hit collection.
+This is accomplished in the \verb+ProcessHits+ of \verb+CaloSensitiveDetector+ (Listing \ref{lst:SD}).
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={29-61},caption=Sensitive Detector,label=lst:SD]{include/CaloSensitiveDetector.hh}
+The simulation was designed so that a seperate sensitive detector was assigned to the gap and absorber.
+While this is not stricly necessary as the geometric position determines what layer of the gap or absorber the hit occured in this made the analysis code easier to write.
+A seperate method was written in \verb+DetectorConstruction+ to create the sensitive detectors and assign them to the proper logical volumes (Listing \ref{lst:SDAssign})
+\verb+SetSensitiveDetectors()+ is called from the the constructor of \verb+DetectorConstruction+.
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={257-271},caption=Creating Sensitive Detectors,label=lst:SDAssign]{src/DetectorConstruction.cc}
+
+\subsection{Analysis}
+
+Analysis of hit collection was preformed with ROOT.  Once again there are other options (notably OpenScientist) but previous experiance was why ROOT was selected as the base for the Analysis framework.
+A singleton class was written for the analysis which procssed the hit collections, assigning the various results to root histograms.
+User action classes \verb+EventAction+ and \verb+RunAction+ are called at the begining and end of each run and event, respectively (Listing \ref{lst:EventAction},\ref{lst:RunAction}).
+These clases allowed for the analysis code to be indepenet of the simulation.
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={11-37},caption=Event Action,label=lst:EventAction]{src/EventAction.cc}
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={16-25},caption=Run Action,label=lst:RunAction]{src/RunAction.cc}
+
 \subsection{Determination of Energy Deposition}
+
+The energy deposition of an event is calculated by the sum of all of the energy deposited by individual hits in the sensitive detector (Equation \ref{eq:EDepEvent}).
+While it is possible to break down the energy deposition by which physics process caused the deposition, this was not implemented in order to avoid over complication.
+\begin{equation}[h]
+\label{eq:EDepEvent}
+E_{\text{dep},\text{event}} = \sum{E_{\text{dep},\text{hit}} }
+\end{equation}
+\verb+ProcessHitCollection+ is called at the end of each event (Listing \ref{lst:PHC}).
+Each hit is accesed and the layer at which it occurs is determined\footnote{C arrays start at 0, so memory is allocated for one more than the total number of layers. This allows for \verb|NUMLAYERS+1| to be used an index into the histogram for the total of all layers in the material (either \verb+gap+ or \verb+absorber+). }.
+In addition the name of the volume is determined, and the energy depositon of the hit is added to the energy depostion of the event.
+If the hit occured in the \verb+absorber+ layer and the particle is an electron the kinetic energy of that hit is also recorded.
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[linerange={121-175},caption=Process Hit Collection,label=lst:PHC]{src/Analysis.cc}
+
+Finally, a run macro was written to control the entire run (Listing \ref{lst:RunMacro}).
+The material and thickness of the detector are declared (made possible by the use of \verb+DetectorMessenger+), and then the detector is dynamically updated.
+A \iso{Co}{60} source is simulated by shooting photons of the 1.1732 MeV and 1.3325 MeV.
+The source particle is then changed to a neturon, and thermal (0.025 eV) neutrons are shot at the detector. 
+The thickness of the absorber is then increased, the geometry updated, and the entire process repeated.
+As these runs tend to take a large amount of time, GEANT4 was parallized for use with MPI to take advantage of the cluster computing power.
+%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
+\lstinputlisting[language=bash,linerange={1-25},caption=Run Macro,label=lst:RunMacro]{run1.mac}

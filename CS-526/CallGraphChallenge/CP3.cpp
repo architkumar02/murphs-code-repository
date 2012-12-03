@@ -51,7 +51,7 @@ int main(int argc, char **argv) {
     std::ifstream datafile(filename.c_str());
     
     if (!datafile) {
-        std::cerr << "No "<<filename<< std::endl;
+        std::cerr <<"Could not open "<<filename<< std::endl;
         print_usage(argc, argv);
         return EXIT_FAILURE;
     }
@@ -63,13 +63,15 @@ int main(int argc, char **argv) {
     struct calls_t { typedef edge_property_tag kind;}
     struct days_t { typedef edge_property_tag kind;}
     struct secs_t { typedef edge_property_tag kind;}
+    struct type_t { typedef vertex_property_tag kind}
 
     // Creating Property Tags
     typedef property<texts_t,int> Texts;
     typedef property<calls_t,int,Texts> Calls;
     typedef property<days_t,int,Calls> Days;
     typedef property<secs_t,double,Days> EdgeProperty;
-    typedef property<vertex_name_t,int> VertexProperty;
+    typedef property<vertex_name_t,int> NodeId;
+    typedef property<type_t,bool,NodeId> VertexProperty;
 
     // Setting up the graph
     typedef adjacency_list < vecS, vecS, undirectedS, VertexProperty, EdgeProperty > Graph;
@@ -77,12 +79,12 @@ int main(int argc, char **argv) {
 
     // Accessors for the graph properties
     typedef property_map < Graph, vertex_name_t>::type vertex_number =  get(vertex_name, g);
+    typedef property_map < Graph, type_t>::type node_type =  get(type_t(), g);
     typedef property_map < Graph, texts_t >::type texts = get(texts_t(),G); 
     typedef property_map < Graph, calls_t >::type texts = get(calls_t(),G); 
     typedef property_map < Graph, days_t >::type texts = get(days_t(),G); 
     typedef property_map < Graph, secs_t >::type texts = get(secs_t(),G); 
     
-
     typedef graph_traits < Graph >::vertex_descriptor Vertex;
     typedef std::map < std::string, Vertex > NameVertexMap;
     NameVertexMap actors;

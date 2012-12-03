@@ -10,7 +10,7 @@ As such, this section is organized by first examining the process of setting up 
 A large focus of this work was on creating a working simulation of the GEANT4 toolkit.
 Preliminary attempts were made to install GEANT4 on a Windows based machine linking to Microsoft Visual Studio. While these attempts were successful, a larger scale computing environment was desired.
 GEANT4 was then installed on the University of Tennessee's nuclear engineering computing cluster, along with the necessary visualization drivers and data files.
-Brief documentation on compiling simple examples on the cluster are available at \texttt{necluster.engr.utk.edu/wiki/index.php/Geant4}\todo{Get URL to work}\footnote{It should be noted that this example uses the CMAKE build system (as per the GEANT4 recommendation) but a large majority of the examples still use GNUMake for building. This can be accomplished by adding \verb+source /opt/geant4/geant4-9.5p1/share/Geant4-9.5.1/geant4make/geant4make.sh+ to the user's \verb+.bashrc+.}. 
+Brief documentation on compiling simple examples on the cluster are available at the \href{necluster.engr.utk.edu/wiki/index.php/Geant4}{necluster wiki} \footnote{It should be noted that this example uses the CMAKE build system (as per the GEANT4 recommendation) but a large majority of the examples still use GNUMake for building. This can be accomplished by adding \texttt{source /opt/geant4/geant4-9.5p1/share/Geant4-9.5.1/geant4make/geant4make.sh} to the user's \texttt{.bashrc}.}. 
 For convenience a subversion repository was created to manage the developed code base, and all source code is available by anonymous checkout from \texttt{http://www.murphs-code-repository.googlecode.com/svn/trunk/layeredPolymerTracking}. Revision 360 was the code base used to generate the results shown.
 The following section provides implementation specific details of the code base used to simulate the energy deposition in thin films.
 It is organized according to the three base classes that a user must implement in GEANT4, namely \verb+G4VUserDetectorConstruction+, \verb+G4VUserPhysicsList+, and \verb+G4VUserPrimaryGeneratorAction+.
@@ -135,7 +135,7 @@ While it is possible to break down the energy deposition by which physics proces
 E_{\text{dep},\text{event}} = \sum{E_{\text{dep},\text{hit}} }
 \end{equation}
 \verb+ProcessHitCollection+ is called at the end of each event (Listing \ref{lst:PHC}).
-Each hit is accessed and the layer at which it occurs is determined\footnote{C arrays start at 0, so memory is allocated for one more than the total number of layers. This allows for \verb|NUMLAYERS+1| to be used an index into the histogram for the total of all layers in the material (either \verb+gap+ or \verb+absorber+). }.
+Each hit is accessed and the layer at which it occurs is determined\footnote{C arrays start at 0, so memory is allocated for one more than the total number of layers. This allows for \texttt{NUMLAYERS+1} to be used an index into the histogram for the total of all layers in the material (either \texttt{gap} or \texttt{absorber}). }.
 In addition the name of the volume is determined, and the energy deposition of the hit is added to the energy deposition of the event.
 If the hit occurred in the \verb+absorber+ layer and the particle is an electron the kinetic energy of that hit is also recorded.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%

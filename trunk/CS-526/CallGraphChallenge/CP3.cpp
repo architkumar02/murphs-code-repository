@@ -38,10 +38,7 @@ class number_recorder : public default_bfs_visitor{
 };
 
 // Convenience function
-template < typename DistanceMap >
-    number_recorder<DistanceMap>
-record_number(DistanceMap d)
-{
+template < typename DistanceMap > number_recorder<DistanceMap> record_number(DistanceMap d){
     return number_recorder < DistanceMap > (d);
 }
 
@@ -60,21 +57,38 @@ int main(int argc, char **argv) {
     }
     cout<<"Reading data from "<<filename<<endl;
 
-    typedef adjacency_list < vecS, vecS, undirectedS, property < vertex_name_t,
-            std::string >, property < edge_name_t, std::string > > Graph;
+
+    // New Properties
+    struct texts_t { typedef edge_property_tag kind;}
+    struct calls_t { typedef edge_property_tag kind;}
+    struct days_t { typedef edge_property_tag kind;}
+    struct secs_t { typedef edge_property_tag kind;}
+
+    // Creating Property Tags
+    typedef property<texts_t,int> Texts;
+    typedef property<calls_t,int,Texts> Calls;
+    typedef property<days_t,int,Calls> Days;
+    typedef property<secs_t,double,Days> EdgeProperty;
+    typedef property<vertex_name_t,int> VertexProperty;
+
+    // Setting up the graph
+    typedef adjacency_list < vecS, vecS, undirectedS, VertexProperty, EdgeProperty > Graph;
     Graph g;
 
-    typedef property_map < Graph, vertex_name_t >::type actor_name_map_t;
-    actor_name_map_t actor_name = get(vertex_name, g);
-    typedef property_map < Graph, edge_name_t >::type movie_name_map_t;
-    movie_name_map_t connecting_movie = get(edge_name, g);
+    // Accessors for the graph properties
+    typedef property_map < Graph, vertex_name_t>::type vertex_number =  get(vertex_name, g);
+    typedef property_map < Graph, texts_t >::type texts = get(texts_t(),G); 
+    typedef property_map < Graph, calls_t >::type texts = get(calls_t(),G); 
+    typedef property_map < Graph, days_t >::type texts = get(days_t(),G); 
+    typedef property_map < Graph, secs_t >::type texts = get(secs_t(),G); 
+    
 
     typedef graph_traits < Graph >::vertex_descriptor Vertex;
     typedef std::map < std::string, Vertex > NameVertexMap;
     NameVertexMap actors;
 
     for (std::string line; std::getline(datafile, line);) {
-        char_delimiters_separator < char >sep(false, "", ";");
+        char_delimiters_separator < char >sep(false, "", " ");
         tokenizer <> line_toks(line, sep);
         tokenizer <>::iterator i = line_toks.begin();
         std::string actors_name = *i++;
@@ -84,7 +98,7 @@ int main(int argc, char **argv) {
         tie(pos, inserted) = actors.insert(std::make_pair(actors_name, Vertex()));
         if (inserted) {
             u = add_vertex(g);
-            actor_name[u] = actors_name;
+            vertex_number[u] = actors_name;
             pos->second = u;
         } else
             u = pos->second;
@@ -94,7 +108,7 @@ int main(int argc, char **argv) {
         tie(pos, inserted) = actors.insert(std::make_pair(*i, Vertex()));
         if (inserted) {
             v = add_vertex(g);
-            actor_name[v] = *i;
+            vertex_number[v] = *i;
             pos->second = v;
         } else
             v = pos->second;
@@ -116,7 +130,7 @@ int main(int argc, char **argv) {
 
     graph_traits < Graph >::vertex_iterator i, end;
     for (tie(i, end) = vertices(g); i != end; ++i) {
-        std::cout << actor_name[*i] << " has a Bacon number of "
+        std::cout << vertex_number[*i] << " has a Bacon number of "
             << number[*i] << std::endl;
     }
 

@@ -13,7 +13,7 @@ else
 			aspell -t check $f
 		done
 	else
-		version=$(svnversion .)
+		version=$(svnversion . | tr : _)
       mkdir tmp								# For EPS to PDF files
 		cmd="pdflatex"
 		#options="--interaction=batchmode"
@@ -30,6 +30,7 @@ else
 		#latex --interaction=batchmode $1
 		#latex --interaction=batchmode $1
 #		pdflatex $1
+        
       cp $1.pdf $1_v$version.pdf
 		# Clean up
 		rm -f *.vrb *.tdo *.out *.bbl *.blg *.dvi *.toc *.nav *.log *.aux *.snm *.lof *.lot *.lol

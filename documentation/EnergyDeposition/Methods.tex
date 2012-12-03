@@ -46,15 +46,15 @@ The size of these solids (and the materials) could be set either at compile time
 Figure \ref{fig:LayerDetectorGeo} shows a rendering of the 10 layers of the detector with the trajectories from a gamma event.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[linerange={241-249},caption=Absorber and Gap Volumes,label=lst:GapAbs]{src/DetectorConstruction.cc}
-\begin{figure}[h] 
+\begin{figure}[htb] 
+    \includegraphics[width=\figurewidth]{DetectorGeometryOverview}
+	\caption{World, Calorimeter, Layer and Absorber and Gap}
+    \label{fig:GeoDiagram}
+\end{figure}
+\begin{figure}[ht] 
     \includegraphics[width=\figurewidth]{10LayerGamma}
 	\caption{10 Layer Detector with a simulated gamma event}
     \label{fig:LayerDetectorGeo}
-\end{figure}
-\begin{figure}[h] 
-    \missingfigure{Diagram of Geometry}
-	\caption{World, Calorimeter, Layer and Absorber and Gap}
-    \label{fig:GeoDiagram}
 \end{figure}
 
 \subsubsection{Physics Lists}

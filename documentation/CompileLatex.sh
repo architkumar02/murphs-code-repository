@@ -32,7 +32,7 @@ else
 #		pdflatex $1
       cp $1.pdf $1_v$version.pdf
 		# Clean up
-		rm -f *.vrb *.tdo *.out *.bbl *.blg *.dvi *.toc *.nav *.log *.aux *.snm *.lof *.lot
+		rm -f *.vrb *.tdo *.out *.bbl *.blg *.dvi *.toc *.nav *.log *.aux *.snm *.lof *.lot *.lol
 		rm -rf tmp
 	fi
 fi

@@ -17,10 +17,10 @@ def readData(filename='../LinkAnalyticsData/UTK_problem/Moria_1.graph'):
                     secs=int(token[6]),                 # call duration
                     texts=long(token[7]))               # texts
     # Some Graph Properties
-    print "Data import completed in",(datetime.now()-startTime),"s"
+    print "Data import completed in",(datetime.now()-startTime)
     startTime = datetime.now()
     print nx.info(MG)
-    print "Computed graph properties in ",(datetime.now()-startTime),"s"
+    print "Computed graph properties in ",(datetime.now()-startTime)
     return MG
                     
 def MultiToSingle(G,attr='calls'):

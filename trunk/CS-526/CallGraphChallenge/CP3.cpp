@@ -14,9 +14,20 @@
 #include <boost/graph/visitors.hpp>
 #include <boost/graph/breadth_first_search.hpp>
 #include <map>
+#include <stdlib.h>
 
 #include "args.hpp"
 using namespace boost;
+
+// Helper Function
+bool StrToBool(std::string s){
+    int n = strtol(s.c_str(),NULL,10);
+    if (n == 0)
+        return true;
+    else
+        return false;
+}
+
 
 /**
  * Calculates the number of hops this node is from another node
@@ -42,6 +53,20 @@ template < typename DistanceMap > number_recorder<DistanceMap> record_number(Dis
     return number_recorder < DistanceMap > (d);
 }
 
+// Define a Vertex
+struct Vertex{
+    long int vertex_id;
+    bool vertex_type;
+};
+
+// Define an Edge
+struct Edge{
+    int days;
+    int calls;
+    int secs;
+    int texts;
+};
+
 
 int main(int argc, char **argv) {
     using namespace std;
@@ -49,92 +74,62 @@ int main(int argc, char **argv) {
     // Input arguments
     parse_args(argc,argv);
     std::ifstream datafile(filename.c_str());
-    
+
     if (!datafile) {
         std::cerr <<"Could not open "<<filename<< std::endl;
         print_usage(argc, argv);
         return EXIT_FAILURE;
     }
     cout<<"Reading data from "<<filename<<endl;
-
-
-    // New Properties
-    struct texts_t { typedef edge_property_tag kind;}
-    struct calls_t { typedef edge_property_tag kind;}
-    struct days_t { typedef edge_property_tag kind;}
-    struct secs_t { typedef edge_property_tag kind;}
-    struct type_t { typedef vertex_property_tag kind}
-
-    // Creating Property Tags
-    typedef property<texts_t,int> Texts;
-    typedef property<calls_t,int,Texts> Calls;
-    typedef property<days_t,int,Calls> Days;
-    typedef property<secs_t,double,Days> EdgeProperty;
-    typedef property<vertex_name_t,int> NodeId;
-    typedef property<type_t,bool,NodeId> VertexProperty;
-
-    // Setting up the graph
-    typedef adjacency_list < vecS, vecS, undirectedS, VertexProperty, EdgeProperty > Graph;
-    Graph g;
-
-    // Accessors for the graph properties
-    typedef property_map < Graph, vertex_name_t>::type vertex_number =  get(vertex_name, g);
-    typedef property_map < Graph, type_t>::type node_type =  get(type_t(), g);
-    typedef property_map < Graph, texts_t >::type texts = get(texts_t(),G); 
-    typedef property_map < Graph, calls_t >::type texts = get(calls_t(),G); 
-    typedef property_map < Graph, days_t >::type texts = get(days_t(),G); 
-    typedef property_map < Graph, secs_t >::type texts = get(secs_t(),G); 
     
-    typedef graph_traits < Graph >::vertex_descriptor Vertex;
-    typedef std::map < std::string, Vertex > NameVertexMap;
-    NameVertexMap actors;
+    // Creating the type of my graph
+    typedef boost::adjacency_list <
+        boost::setS,
+        boost::setS,
+        boost::undirectedS,
+        Vertex,
+        Edge
+            > CallGraph;
+    typedef CallGraph::vertex_descriptor VertexID;
+    typedef CallGraph::edge_descriptor EdgeID;
 
+    // Creating and filling the graph
+    CallGraph graph;
     for (std::string line; std::getline(datafile, line);) {
+        // breaking up the input line. Format is:
+        // V_A Type_A V_B Type_B Days Calls Secs Texts 
         char_delimiters_separator < char >sep(false, "", " ");
         tokenizer <> line_toks(line, sep);
         tokenizer <>::iterator i = line_toks.begin();
-        std::string actors_name = *i++;
-        NameVertexMap::iterator pos;
-        bool inserted;
-        Vertex u, v;
-        tie(pos, inserted) = actors.insert(std::make_pair(actors_name, Vertex()));
-        if (inserted) {
-            u = add_vertex(g);
-            vertex_number[u] = actors_name;
-            pos->second = u;
-        } else
-            u = pos->second;
 
-        std::string movie_name = *i++;
+        // Adding to the Vertexes
+        VertexID vID = boost::add_vertex(graph);
+        VertexID uID = boost::add_vertex(graph);
+        
+        /*
+        for(int j = 0; j < 8; j++){
+            std::string s = *(i++);
+            std::cout<<s<<" ";
 
-        tie(pos, inserted) = actors.insert(std::make_pair(*i, Vertex()));
-        if (inserted) {
-            v = add_vertex(g);
-            vertex_number[v] = *i;
-            pos->second = v;
-        } else
-            v = pos->second;
+        }
+        std::cout<<std::endl;
+        */
+        graph[vID].vertex_id = strtol((*(i++)).c_str(),NULL,10);
+        graph[vID].vertex_type = StrToBool(((*i++)).c_str()); 
+        graph[uID].vertex_id = strtol((*(i++)).c_str(),NULL,10);
+        graph[uID].vertex_type = StrToBool((*(i++)).c_str()); 
 
-        graph_traits < Graph >::edge_descriptor e;
-        tie(e, inserted) = add_edge(u, v, g);
-        if (inserted)
-            connecting_movie[e] = movie_name;
+        // Adding the Edges
+        EdgeID edge;
+        bool ok;
+        boost::tie(edge,ok) = boost::add_edge(uID,vID,graph);
+        if (ok){
+            graph[edge].days = strtol((*(i++)).c_str(),NULL,10);
+            graph[edge].calls = strtol((*(i++)).c_str(),NULL,10);
+            graph[edge].secs = strtol((*(i++)).c_str(),NULL,10);
+            graph[edge].texts = strtol((*(i++)).c_str(),NULL,10);
 
+        }
     }
-
-    std::vector < int >number(num_vertices(g));
-
-    Vertex src = actors["Kevin Bacon"];
-    number[src] = 0;
-
-    breadth_first_search(g, src,
-            visitor(record_number(&number[0])));
-
-    graph_traits < Graph >::vertex_iterator i, end;
-    for (tie(i, end) = vertices(g); i != end; ++i) {
-        std::cout << vertex_number[*i] << " has a Bacon number of "
-            << number[*i] << std::endl;
-    }
-
     return 0;
 }

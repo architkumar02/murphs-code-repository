@@ -24,8 +24,8 @@ def GetEdgeDistributions(dataPath='../LinkAnalyticsData/UTK_problem/'):
 import heapq
 import numpy as np
 def GetDataDistributions(dataPath='../LinkAnalyticsData/UTK_problem/'):
-    filenames=('Moria_1.graph','Standelf_1.graph')
     """ Finds the distrbtion of the cummulative node and edge wights """
+    filenames=('Moria_1.graph','Standelf_1.graph')
     attrs=('calls','texts','degree','secs')
     for f in filenames:
         # Reading in the Graph

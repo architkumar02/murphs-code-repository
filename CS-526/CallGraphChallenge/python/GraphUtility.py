@@ -15,14 +15,43 @@ def readData(filename='../LinkAnalyticsData/UTK_problem/Moria_1.graph'):
                     days=int(token[4]),                 # days
                     calls=int(token[5]),                # calls
                     secs=int(token[6]),                 # call duration
-                    texts=long(token[7]))               # texts
+                    texts=int(token[7]))                # texts
     # Some Graph Properties
     print "Data import completed in",(datetime.now()-startTime)
     startTime = datetime.now()
     print nx.info(MG)
     print "Computed graph properties in ",(datetime.now()-startTime)
     return MG
-                    
+
+def AddAttr(b,attr,attvalue):
+    if attr in b:
+        b[attr] += attvalue
+    else:
+        b[attr] = attvalue
+
+def ConvertToSingle(G):
+    """ Converts a Mutligraph to a single bidrectional graph """
+    """ The properties are summed on the node """
+    # Computing degree and closeness
+    startTime = datetime.now()
+    degree = nx.degree(G)
+    print "Computed degree in",(datetime.now()-startTime)
+    # Creating and filling the new graph
+    g = nx.Graph()
+    for u,v,edata in G.edges(data=True):
+        g.add_node(u)
+        g.add_node(v)
+        g.add_edge(u,v)
+        # Adding Node Attributes
+        for attr in edata:
+            AddAttr(g.node[u],attr,edata[attr])
+            AddAttr(g.node[v],attr,edata[attr])
+        g.node[u]['degree'] = degree[u]
+        g.node[v]['degree'] = degree[v]
+    # Returning the graph
+    return g
+
+
 def MultiToSingle(G,attr='calls'):
     """ Converts a Multigraph to a single bidirectional weighted graph """
     """ attr values are calls, secs, texts, days """

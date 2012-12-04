@@ -1,14 +1,64 @@
 \section{Methods}
-The call graph was provided as a labeled edge list, and was modeled as a weighted, undirected, multigraph \footnote{Using a multigraph will make it hard to compute distances}.
+\label{sec:Methods}
+
+The call graph was provided as a labeled edge list, and was modeled as a weighted, undirected, multigraph 
 The graph was organzied as each of the nodes being the unique identifier to a cutomer, with edges between the customers representing:
 \begin{itemize}
-	\item \tt{days} - the number of distinict days that the two nodes communicated during the month,
-	\item \tt{calls} - the number of distinct calls that the the nodes made during the month,
-	\item \tt{secs} - the cummulative sum of all calls that the modes made during the month and,
-	\item \tt{texts} - the number of distinct texts that the two nodes made during the month.
+	\item \texttt{days} - the number of distinict days that the two nodes communicated during the month,
+	\item \texttt{calls} - the number of distinct calls that the the nodes made during the month,
+	\item \texttt{secs} - the cummulative sum of all calls that the modes made during the month and,
+	\item \texttt{texts} - the number of distinct texts that the two nodes made during the month.
 \end{itemize}
-
 \missingfigure{A simple call graph}
 
-\todo{ANN}
-The must learn (based on some properities) if an edge is there or not.
+\subsection{LSA Based Similarity Measure}
+% Copied from John's email
+Based on some work we did a few years ago looking at personality profile
+matching using an LSA based system, I wondered if the premise might hold that
+a node (person) could be effectively "described" by the set of other people
+they were connected to.  This description could then be measured for
+similarity to other node descriptions and hopefully we would find that
+"similar" nodes were connected. In the past work we did there was some promise
+in the initial results for group analysis, but it was not pursued very far and
+there were other data items that were being considered as well (and it had
+nothing to do with telephone usage patterns).
+
+To test the theory, I initially constructed a sparse matrix for each of the
+graph files for both the Moria and Standelf.  For each connected node, the
+connection weight was determined by taking each of the 4 attribute values,
+dividing by thier respective standard deviation, and summing the results into
+a single weight for each connection. I also reran the experiment using a
+simpler weighting scheme giving a 1 if any call was made and another 1 if any
+text was made.
+
+This sparse matrix in any case was extremely sparse, being around 0.00051\%
+nonzero for Moria and 0.00059\% for Standelf.  We usually deal with matrices
+that have a nonzero rate of 0.001\% to 0.01\% for text mining applications.  I
+computed a truncated SVD for these sparse matrices, forming an LSA space at
+approximately 250 dimensions for each.  Then using these 250 dimenstion spaces
+I looked at comparing the first 1,000 nodes of each graph to all the other
+nodes in the graph computing their vector cosine similiarity and noting if the
+nodes were connected or not.  This takes a while to run so there has not been
+much opportunity to tweak any of the parameters, therefore I cannot conclude
+with any certainty, but the initial results do not look promising.  The first
+sets that I  processed did not show any clear indication of connectivity
+determined by the similarity measure.
+
+\subsection{Artifical Neural Network Classification}
+The next approach implemented was an artifical neural network classification system.
+Using the \verb+PyBrain+ tool module a feed forward neural network was constructed with 8 inputs represting the edge between node \texttt{u} and \texttt{v}:
+\begin{itemize}
+	\item the degree of node \texttt{u},
+	\item the closeness of node \texttt{u},
+	\item \texttt{days} of the edge,
+	\item \texttt{calls} of the edge,
+	\item \texttt{secs} of the edge,
+	\item \texttt{texts} of the edge,
+	\item the closeness of node \texttt{v}, and,
+	\item the degree of node \texttt{u}.
+\end{itemize}
+The closeness of node was calucated using the \verb+networkx+ module with \verb+closeness_centrality+, defined to be 1 over the average distance to all other nodes. The distances where not weighted, and all distances where normalized by the graph size.
+The degree was calculated with \verb+degree+ as the the sum of the edge weights of adjacent nodes for a particular node (completed for all nodes).
+The other elements of the training vector were simply filled with the values from the edge.
+
+Training data for the neural network was then the set of all example nodes and edges presented in the target class of 1 (the edge exists). This was ultimately a flaw in the design of the neural network (or any classification based system) as discused in Section \ref{sec:Results}.

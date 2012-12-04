@@ -1,7 +1,9 @@
 import networkx as nx
-def readData(filename='LinkAnalyticsData/UTK_problem/Moria_1.graph'):
+from datetime import datetime
+def readData(filename='../LinkAnalyticsData/UTK_problem/Moria_1.graph'):
     """ Creates a MultiGraph of the formated data supplied by filename """
     MG = nx.MultiGraph()
+    startTime = datetime.now()
     with open(filename,'r') as f:
         for line in f:
             token = line.strip().split(' ')
@@ -14,6 +16,11 @@ def readData(filename='LinkAnalyticsData/UTK_problem/Moria_1.graph'):
                     calls=int(token[5]),                # calls
                     secs=int(token[6]),                 # call duration
                     texts=long(token[7]))               # texts
+    # Some Graph Properties
+    print "Data import completed in",(datetime.now()-startTime),"s"
+    startTime = datetime.now()
+    print nx.info(MG)
+    print "Computed graph properties in ",(datetime.now()-startTime),"s"
     return MG
                     
 def MultiToSingle(G,attr='calls'):

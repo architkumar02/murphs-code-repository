@@ -4,6 +4,10 @@
 // Matthew J. Urffer (matthew.urffer@gmail.com)
 // 
 //=======================================================================
+#include <stdlib.h>
+#include <time.h>
+#include <math.h>
+
 #include <boost/config.hpp>
 #include <iostream>
 #include <fstream>
@@ -14,7 +18,6 @@
 #include <boost/graph/visitors.hpp>
 #include <boost/graph/breadth_first_search.hpp>
 #include <map>
-#include <stdlib.h>
 
 #include "args.hpp"
 using namespace boost;
@@ -57,6 +60,7 @@ template < typename DistanceMap > number_recorder<DistanceMap> record_number(Dis
 struct Vertex{
     long int vertex_id;
     bool vertex_type;
+    int numNeighbors;
 };
 
 // Define an Edge
@@ -68,20 +72,9 @@ struct Edge{
 };
 
 
+using namespace std;
 int main(int argc, char **argv) {
-    using namespace std;
 
-    // Input arguments
-    parse_args(argc,argv);
-    std::ifstream datafile(filename.c_str());
-
-    if (!datafile) {
-        std::cerr <<"Could not open "<<filename<< std::endl;
-        print_usage(argc, argv);
-        return EXIT_FAILURE;
-    }
-    cout<<"Reading data from "<<filename<<endl;
-    
     // Creating the type of my graph
     typedef boost::adjacency_list <
         boost::setS,
@@ -93,7 +86,18 @@ int main(int argc, char **argv) {
     typedef CallGraph::vertex_descriptor VertexID;
     typedef CallGraph::edge_descriptor EdgeID;
 
+    // Input arguments
+    parse_args(argc,argv);
+    std::ifstream datafile(filename.c_str());
+    if (!datafile) {
+        std::cerr <<"Could not open "<<filename<< std::endl;
+        print_usage(argc, argv);
+        return EXIT_FAILURE;
+    }
+    cout<<"Reading data from "<<filename<<endl;
     // Creating and filling the graph
+    clock_t t;
+    t = clock();
     CallGraph graph;
     for (std::string line; std::getline(datafile, line);) {
         // breaking up the input line. Format is:
@@ -105,15 +109,6 @@ int main(int argc, char **argv) {
         // Adding to the Vertexes
         VertexID vID = boost::add_vertex(graph);
         VertexID uID = boost::add_vertex(graph);
-        
-        /*
-        for(int j = 0; j < 8; j++){
-            std::string s = *(i++);
-            std::cout<<s<<" ";
-
-        }
-        std::cout<<std::endl;
-        */
         graph[vID].vertex_id = strtol((*(i++)).c_str(),NULL,10);
         graph[vID].vertex_type = StrToBool(((*i++)).c_str()); 
         graph[uID].vertex_id = strtol((*(i++)).c_str(),NULL,10);
@@ -124,6 +119,7 @@ int main(int argc, char **argv) {
         bool ok;
         boost::tie(edge,ok) = boost::add_edge(uID,vID,graph);
         if (ok){
+            // Edge was added
             graph[edge].days = strtol((*(i++)).c_str(),NULL,10);
             graph[edge].calls = strtol((*(i++)).c_str(),NULL,10);
             graph[edge].secs = strtol((*(i++)).c_str(),NULL,10);
@@ -131,5 +127,10 @@ int main(int argc, char **argv) {
 
         }
     }
+
+    // Brief Information about the graph
+    std::cout<<"Read in "<<boost::num_vertices(graph)<<" verticies and "<<boost::num_edges(graph)
+        <<" edges in "<<((float)(clock()-t)/CLOCKS_PER_SEC)<<"s"<<std::endl;
+
     return 0;
 }

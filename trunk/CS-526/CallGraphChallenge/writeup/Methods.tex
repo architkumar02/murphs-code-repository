@@ -1,21 +1,129 @@
 \section{Methods}
 \label{sec:Methods}
 
-The call graph was provided as a labeled edge list, and was modeled as a weighted, undirected, multigraph
-The graph was organzied as each of the nodes being the unique identifier to a cutomer, with edges between the customers representing:
+The call graph was provided as a labeled edge list, and was modeled as a weighted, undirected, multigraph, as shown in Fig. \ref{fig:SmallGraph}.
+The graph was organized as each of the nodes being the unique identifier to a customer, with edges between the customers representing:
 \begin{itemize}
-	\item \texttt{days} - the number of distinict days that the two nodes communicated during the month,
+	\item \texttt{days} - the number of distinct days that the two nodes communicated during the month,
 	\item \texttt{calls} - the number of distinct calls that the the nodes made during the month,
-	\item \texttt{secs} - the cummulative sum of all calls that the modes made during the month and,
+	\item \texttt{secs} - the cumulative sum of all calls that the modes made during the month and,
 	\item \texttt{texts} - the number of distinct texts that the two nodes made during the month.
 \end{itemize}
-\missingfigure{A simple call graph}
+\begin{figure}[ht]
+\centering
+\includegraphics[width=0.45\textwidth]{SmallGraph.pdf}
+\caption{Example Call Graph}
+\label{fig:SmallGraph}
+\end{figure} 
+The data was analyzed in order to determine the distribution of calls, texts, days, and seconds for each city in order to determine the size of the problem.
+It was immediately noticed that several of the callers where large outliers, these are probably robot callers in the network.
+\begin{figure*}[ht!]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Moria_calls_distribution}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Moria_texts_distribution}
+	\end{subfigure}
+	
 
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Moria_days_distribution}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Moria_secs_distribution}
+	\end{subfigure}
+	\caption{Distribution of Moria Edges}
+	\label{fig:MoriaEdgeDist}
+\end{figure*}
+\begin{figure*}[ht!]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Standelf_calls_distribution}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Standelf_texts_distribution}
+	\end{subfigure}
+	
+
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Standelf_days_distribution}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Standelf_secs_distribution}
+	\end{subfigure}
+	\caption{Distribution of Standelf Edges}
+	\label{fig:StandelfEdgeDist}
+\end{figure*}
+In addition, the sum of the proprieties of the nodes were calculated by summing all of the edges into the nodes.
+It is then possible to see the distribution of how people communicated for the two cities.
+The degree is defined as the number of neighbors a given node has.
+\begin{figure*}[ht!]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Moria_calls_cum_distribution}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Moria_texts_cum_distribution}
+	\end{subfigure}
+	
+
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Moria_degree_cum_distribution}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Moria_secs_distribution}
+	\end{subfigure}
+	\caption{Distribution of Moria Nodes}
+	\label{fig:MoriaNodeDist}
+\end{figure*}
+\begin{figure*}[ht!]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Standelf_calls_cum_distribution}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Standelf_texts_cum_distribution}
+	\end{subfigure}
+	
+
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Standelf_degree_cum_distribution}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Standelf_secs_cum_distribution}
+	\end{subfigure}
+	\caption{Distribution of Moria Nodes}
+	\label{fig:StandelfNodeDist}
+\end{figure*}
 \subsection{LSA Based Similarity Measure}
 % Copied from John's email
-Based on some work we did a few years ago looking at personality profile
-matching using an LSA based system, I wondered if the premise might hold that
-a node (person) could be effectively "described" by the set of other people
+Previous work conducted by J Martin suggested that personality profiles can be modeled with an LSA based system.
+Based on this premise, it was suggested that a node (person) could be effectively "described" by the set of other people
 they were connected to.  This description could then be measured for
 similarity to other node descriptions and hopefully we would find that
 "similar" nodes were connected. In the past work we did there was some promise
@@ -23,11 +131,11 @@ in the initial results for group analysis, but it was not pursued very far and
 there were other data items that were being considered as well (and it had
 nothing to do with telephone usage patterns).
 
-To test the theory, I initially constructed a sparse matrix for each of the
+This hypothesis was tested by initially constructed a sparse matrix for each of the
 graph files for both the Moria and Standelf.  For each connected node, the
 connection weight was determined by taking each of the 4 attribute values,
-dividing by thier respective standard deviation, and summing the results into
-a single weight for each connection. I also reran the experiment using a
+dividing by their respective standard deviation, and summing the results into
+a single weight for each connection. This experiment was also completed by using a
 simpler weighting scheme giving a 1 if any call was made and another 1 if any
 text was made.
 
@@ -35,18 +143,18 @@ This sparse matrix in any case was extremely sparse, being around 0.00051\%
 nonzero for Moria and 0.00059\% for Standelf.  We usually deal with matrices
 that have a nonzero rate of 0.001\% to 0.01\% for text mining applications.  I
 computed a truncated SVD for these sparse matrices, forming an LSA space at
-approximately 250 dimensions for each.  Then using these 250 dimenstion spaces
+approximately 250 dimensions for each.  Then using these 250 dimension spaces
 I looked at comparing the first 1,000 nodes of each graph to all the other
-nodes in the graph computing their vector cosine similiarity and noting if the
+nodes in the graph computing their vector cosine similarity and noting if the
 nodes were connected or not.  This takes a while to run so there has not been
-much opportunity to tweak any of the parameters, therefore I cannot conclude
+much opportunity to tweak any of the parameters, therefore it cannot be conclude
 with any certainty, but the initial results do not look promising.  The first
-sets that I  processed did not show any clear indication of connectivity
+sets that did not show any clear indication of connectivity
 determined by the similarity measure.
 
-\subsection{Artifical Neural Network Classification}
-The next approach implemented was an artifical neural network classification system.
-Using the \verb+PyBrain+ tool module a feed forward neural network was constructed with 8 inputs represting the edge between node \texttt{u} and \texttt{v}:
+\subsection{Artificial Neural Network Classification}
+The next approach implemented was an artificial neural network classification system.
+Using the \verb+PyBrain+ tool module a feed forward neural network was constructed with 8 inputs representing the edge between node \texttt{u} and \texttt{v}:
 \begin{itemize}
 	\item the degree of node \texttt{u},
 	\item the closeness of node \texttt{u},
@@ -57,11 +165,11 @@ Using the \verb+PyBrain+ tool module a feed forward neural network was construct
 	\item the closeness of node \texttt{v}, and,
 	\item the degree of node \texttt{u}.
 \end{itemize}
-The closeness of node was calucated using the \verb+networkx+ module with \verb+closeness_centrality+, defined to be 1 over the average distance to all other nodes. The distances where not weighted, and all distances where normalized by the graph size.
+The closeness of node was calculated using the \verb+networkx+ module with \verb+closeness_centrality+, defined to be 1 over the average distance to all other nodes. The distances where not weighted, and all distances where normalized by the graph size.
 The degree was calculated with \verb+degree+ as the the sum of the edge weights of adjacent nodes for a particular node (completed for all nodes).
 The other elements of the training vector were simply filled with the values from the edge.
 
-Training data for the neural network was then the set of all example nodes and edges presented in the target class of 1 (the edge exists). This was ultimately a flaw in the design of the neural network (or any classification based system) as discused in Section \ref{sec:Results}.
+Training data for the neural network was then the set of all example nodes and edges presented in the target class of 1 (the edge exists). This was ultimately a flaw in the design of the neural network (or any classification based system) as discussed in Section \ref{sec:Results}.
 
 \subsection{Spectral Approach for Finding Possible Communities in Graph}
 For this call graph data set, an interesting question comes to our mind which is how to find the community structure in the graph. The cell phone users in the same community will have stronger relationship between each other than that between uses from different communities. Therefore, if we can find such communities in the call graph, it might be very helpful for us to understand the cell phone users' behavior.
@@ -80,12 +188,9 @@ where $A$ is the adjacency matrix of $G$ (i.e., $A(x,y)=1$ if $x$ is adjacency t
 
 Now let's show how to use spectral graph approach to find possible communities in graph. For example, we first import the raw data of call graph of Moria city in month 1 and generate the adjacency matrix of this call graph as shown in Fig. \ref{Moria_1_adj}.
 
-\begin{figure}[!t]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=4.5in]{Moria_1_adj.pdf}
-% where an .eps filename suffix will be assumed under latex,
-% and a .pdf suffix will be assumed for pdflatex; or what has been declared
-% via \DeclareGraphicsExtensions.
+\includegraphics[width=0.45\textwidth]{Moria_1_adj.pdf}
 \caption{Adjacency Matrix of Call Graph of Moria City in Month 1}
 \label{Moria_1_adj}
 \end{figure}  
@@ -101,7 +206,7 @@ Moria_1_L = Moria_1_I-Moria_1_T*Moria_1_adj*Moria_1_T;
 [Moria_1_V,Moria_1_D] = eigs(Moria_1_L);
 \end{lstlisting}
 
-Then we sort the second smallest eigenvector and permute the vertices of this call graph based on the order of components in the sorted second smallers eigenvector.  
+Then we sort the second smallest eigenvector and permute the vertices of this call graph based on the order of components in the sorted second smallest eigenvector.  
 
 \begin{lstlisting}
 [ignore Moria_1_p] = sort(Moria_1_V(:,2));
@@ -110,9 +215,9 @@ spy(Moria_1_adj(Moria_1_p,Moria_1_p));
 
 In the end, the \textbf{spy()} function will plot the rearranged adjacency matrix of the call graph, which is shown in Fig. \ref{Moria_1_clustered}. 
 
-\begin{figure}[!t]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=4.5in]{Moria_1_clustered.pdf}
+\includegraphics[width=0.45\textwidth]{Moria_1_clustered.pdf}
 % where an .eps filename suffix will be assumed under latex,
 % and a .pdf suffix will be assumed for pdflatex; or what has been declared
 % via \DeclareGraphicsExtensions.
@@ -122,9 +227,9 @@ In the end, the \textbf{spy()} function will plot the rearranged adjacency matri
 
 In Fig. \ref{Moria_1_clustered}, we can observe some community structure, for example, the vertices at the upper left corner of the matrix have stronger connection between each other. Similarly, we can also generate the rearranged adjacency matrix of call graph of Moria city in month 2, as shown in Figure \ref{Moria_2_clustered} 
 
-\begin{figure}[!t]
+\begin{figure}[ht]
 \centering
-\includegraphics[width=4.5in]{Moria_2_clustered.pdf}
+\includegraphics[width=0.45\textwidth]{Moria_2_clustered.pdf}
 % where an .eps filename suffix will be assumed under latex,
 % and a .pdf suffix will be assumed for pdflatex; or what has been declared
 % via \DeclareGraphicsExtensions.

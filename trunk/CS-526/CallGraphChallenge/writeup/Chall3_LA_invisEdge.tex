@@ -4,7 +4,7 @@
 %                                   PREAMBLE                                   %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[]{article}
+\documentclass[conference]{IEEEtran}
 \usepackage{listings,graphicx,amsmath}
 \usepackage{microtype,todonotes}
 \usepackage[margin=1in]{geometry}
@@ -48,26 +48,38 @@ escapeinside={\%*}{*)}          % if you want to add a comment within your code
 %                                 Start of Document                            %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{Invisiable Edge\\
-CS 526 Challenge Problem 3, Group 11}
-\author{
-Martin, John \\
-\and
-Urffer, Matthew \\
-\and
-Wan, Lipeng \\
-}
 \begin{document}
-\maketitle
+\title{Invisible Edge\\
+CS 526 Challenge Problem 3, Group 11}
 
-% To Do List
-\listoftodos
+% author names and affiliations
+% use a multiple column layout for up to three different
+% affiliations
+\author{\IEEEauthorblockN{John Martin}
+\and
+\IEEEauthorblockN{Matthew Urffer}
+\and
+\IEEEauthorblockN{Lipeng Wan}
+}
+
+
+\maketitle
+\IEEEpeerreviewmaketitle
+\begin{abstract}
+Communication companies have a large amount of information on their consumers.
+In order to accurately bill their costumers they need to collect the amount to calls they made (including the date and time), the length of the call, the texts the costumers sent and received.
+This data can then be mined in order to determine patterns between their costumer's in order to improve their service, investigate alternative products, or find new customers to pursue.
+Data provided by Link Analytics was mined for the invisible edge between costumers; i.e. at what probability can it be determined if two customers might communicate.
+This was completed using an LSA based approach, a Neural Network based approach, and a spectral graph.
+None of these methods were successful, so it is concluded that more advanced graph theory concepts are needed, but the run time
+of these algorithms are generally prohibitive on such a large problem size.
+\end{abstract}
 
 % Sections (Other Documents)
-\include{Introduction}
-\include{Methods}
-\include{Results}
-\include{Conclusions}
-\include{Acknowledgement}
+\input{Introduction}
+\input{Methods}
+\input{Results}
+\input{Conclusions}
+\input{Acknowledgement}
 
 \end{document}

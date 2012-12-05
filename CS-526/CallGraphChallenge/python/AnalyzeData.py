@@ -26,14 +26,15 @@ import heapq
 import numpy as np
 def GetDataDistributions(dataPath='../LinkAnalyticsData/UTK_problem/'):
     """ Finds the distrbtion of the cummulative node and edge wights """
-    filenames=('Moria_1.graph','Standelf_1.graph')
+    filenames=('Standelf_1.graph','')
+    #filenames=('Moria_1.graph','Standelf_1.graph')
     attrs=('calls','texts','degree','secs')
     for f in filenames:
         # Reading in the Graph
         MG = GU.readData(os.path.join(dataPath,f))
         g = GU.ConvertToSingle(MG)
         for attr in attrs:
-            x = [d[attr] for n,d in G.nodes_iter(data=True)]
+            x = [d[attr] for n,d in g.nodes_iter(data=True)]
             
             # Plotting the Data
             largest = heapq.nlargest(3,x)
@@ -48,7 +49,7 @@ def GetDataDistributions(dataPath='../LinkAnalyticsData/UTK_problem/'):
             pyplot.clf()
 
 def main():
-    GetEdgeDistributions()
+#    GetEdgeDistributions()
     GetDataDistributions()
 
 if __name__ == "__main__":

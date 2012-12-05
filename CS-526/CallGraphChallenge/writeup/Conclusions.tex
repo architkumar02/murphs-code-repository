@@ -1,3 +1,8 @@
 \section{Conclusions}
 
+The invisible edge problem was investigated for a large call graph representing the communication between customers in two large U.S. cities.
+Of the methods investigated (LSA, ANN, and spectral graph theory) none of them provided significant probability of correctly detecting the missing edge.
+The LSA fails because it tries to complete the matrix in the SVD stage.
 It is concluded that due to the lack of negative training examples (edges that should not be there) any classification based system will preform with an accuracy of 50\%.
+It is unclear why the spectral graph methods failed.
+Further work might be to employ graph theory methods (such as a min-cut problem), but the run time of these algorithms is why they were discarded as methods for this work.

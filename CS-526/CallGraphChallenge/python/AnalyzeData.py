@@ -20,6 +20,7 @@ def GetEdgeDistributions(dataPath='../LinkAnalyticsData/UTK_problem/'):
             title = name+" "+attr+" distribution"
             pyplot.title(title)
             pyplot.savefig(name+"_"+attr+"_distribution.png")
+            pyplot.clf()
 
 import heapq
 import numpy as np
@@ -32,10 +33,8 @@ def GetDataDistributions(dataPath='../LinkAnalyticsData/UTK_problem/'):
         MG = GU.readData(os.path.join(dataPath,f))
         g = GU.ConvertToSingle(MG)
         for attr in attrs:
-            x = list()
-            for n in g.nodes():
-                x.append(g.node[n][attr])
-
+            x = [d[attr] for n,d in G.nodes_iter(data=True)]
+            
             # Plotting the Data
             largest = heapq.nlargest(3,x)
             pyplot.figure()
@@ -46,6 +45,7 @@ def GetDataDistributions(dataPath='../LinkAnalyticsData/UTK_problem/'):
             title = name+" "+attr+" distribution"
             pyplot.title(title)
             pyplot.savefig(name+"_"+attr+"_cum_distribution.png")
+            pyplot.clf()
 
 def main():
     GetEdgeDistributions()

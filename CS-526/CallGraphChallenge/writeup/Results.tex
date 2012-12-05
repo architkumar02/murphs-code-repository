@@ -2,11 +2,11 @@
 \label{sec:Results}
 
 \subsection{LSA Based Similarity Measure}
-Performing a full comparison of both connected and non-connected nodes required over a half hour to run for the 1,000 node sample.  This process ran in a single thread in serial, but could have been substantially sped up through parallelization.  Due to the required run time there was not much opportunity to adjust any of the parameters (number of dimensions, additional weightings, etc) therefore I cannot conclude with any certainty, but the initial results do not look promising for providing the ability to determine the likelihood of the presence of an “invisible edge.” There were some interesting things to note however in the way the nodes compared to each other.  Generally, most of the nodes examined either exhibited a high cosine similarity to each other ($>$0.9) or a highly orthogonal cosine similarity to each other ($0.1 > cos >-0.1$).  Relatively few similarity measures fell in the 0.1 to 0.9 range and and only a very small number were less than -0.1.  Additional analysis using different weighting schemes or different dimensionality might yield some interesting insights.
+
 \subsection{Artifical Neural Network Classification}
 
 The artifical neural network trained to a very low (less than 1\%) error using 5-fold cross valdiation and back-propogation in 20 itterations. 
 However, when tested the accuracy of predicting wether a node existed or not was 51\%.  This low accuracy is no better than flipping a coin.
 This is because the neural network was not feed any negative class examples; all the network had to learn was that an example input pattern corresponded to an edge.
 Negative input patters could not be created as network input because there is no guarentree that the input pattern would not exists, thus the network could be taught incorrect data.
-
+I

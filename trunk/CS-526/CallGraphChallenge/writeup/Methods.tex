@@ -1,7 +1,7 @@
 \section{Methods}
 \label{sec:Methods}
 
-The call graph was provided as a labeled edge list, and was modeled as a weighted, undirected, multigraph 
+The call graph was provided as a labeled edge list, and was modeled as a weighted, undirected, multigraph
 The graph was organzied as each of the nodes being the unique identifier to a cutomer, with edges between the customers representing:
 \begin{itemize}
 	\item \texttt{days} - the number of distinict days that the two nodes communicated during the month,
@@ -63,3 +63,73 @@ The other elements of the training vector were simply filled with the values fro
 
 Training data for the neural network was then the set of all example nodes and edges presented in the target class of 1 (the edge exists). This was ultimately a flaw in the design of the neural network (or any classification based system) as discused in Section \ref{sec:Results}.
 
+\subsection{Spectral Approach for Finding Possible Communities in Graph}
+For this call graph data set, an interesting question comes to our mind which is how to find the community structure in the graph. The cell phone users in the same community will have stronger relationship between each other than that between uses from different communities. Therefore, if we can find such communities in the call graph, it might be very helpful for us to understand the cell phone users' behavior.
+
+The approach we use to find community structure in call graph is named spectral graph. The basic idea of this approach is to use the eigenvectors of the Laplacian matrix of the graph to partition the vertices into different clusters. Now we are going to introduce the definition of the Laplacian matrix of a graph. 
+
+In graph $G$, let $d_v$ denote the degree of vertex $v$, the \text{Laplacian} of $G$ is defined as the matrix 
+\begin{equation}
+L(u,v) = \begin{cases} 1 & \text{if  $u=v$ and $d_v \ne 0$,} \\ -\frac{1}{\sqrt{d_ud_v}} & \text{if $u$ and $v$ are adjacent,} \\ 0 & \text{otherwise.}\end{cases}
+\end{equation}    
+Let $T$ denote the diagonal matrix with the $(v,v)$-th entry having value $d_v$. The \text{Laplacian} of $G$ can be written as 
+\begin{equation}
+L=I-T^{-1/2}AT^{1/2}
+\end{equation}
+where $A$ is the adjacency matrix of $G$ (i.e., $A(x,y)=1$ if $x$ is adjacency to $y$, and $0$ otherwise) and $I$ is an identity matrix. All matrices here are $n \times n$ where $n$ is the number of vertices in $G$.
+
+Now let's show how to use spectral graph approach to find possible communities in graph. For example, we first import the raw data of call graph of Moria city in month 1 and generate the adjacency matrix of this call graph as shown in Fig. \ref{Moria_1_adj}.
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=4.5in]{Moria_1_adj.pdf}
+% where an .eps filename suffix will be assumed under latex,
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+\caption{Adjacency Matrix of Call Graph of Moria City in Month 1}
+\label{Moria_1_adj}
+\end{figure}  
+
+From Fig. \ref{Moria_1_adj}, we can observe that this call graph is very dense and it is impossible for us to find any community structures in this figure because the vertices of this call graph are randomly arranged in the adjacency matrix. 
+
+Now let's investigate what the second smallest eigenvector of the \text{Laplacian} matrix tells us about this graph. The following MATLAB code is used to compute the eigenvalues and eigenvectors of the \text{Laplacian} matrix of call graph of Moria city in month 1.
+
+\begin{lstlisting}
+Moria_1_I = speye(size(Moria_1_adj,1));
+Moria_1_T = diag(sum(Moria_1_adj,2).^(-0.5));
+Moria_1_L = Moria_1_I-Moria_1_T*Moria_1_adj*Moria_1_T;
+[Moria_1_V,Moria_1_D] = eigs(Moria_1_L);
+\end{lstlisting}
+
+Then we sort the second smallest eigenvector and permute the vertices of this call graph based on the order of components in the sorted second smallers eigenvector.  
+
+\begin{lstlisting}
+[ignore Moria_1_p] = sort(Moria_1_V(:,2));
+spy(Moria_1_adj(Moria_1_p,Moria_1_p));
+\end{lstlisting} 
+
+In the end, the \textbf{spy()} function will plot the rearranged adjacency matrix of the call graph, which is shown in Fig. \ref{Moria_1_clustered}. 
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=4.5in]{Moria_1_clustered.pdf}
+% where an .eps filename suffix will be assumed under latex,
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+\caption{Rearranged Adjacency Matrix of Call Graph of Moria City in Month 1}
+\label{Moria_1_clustered}
+\end{figure} 
+
+In Fig. \ref{Moria_1_clustered}, we can observe some community structure, for example, the vertices at the upper left corner of the matrix have stronger connection between each other. Similarly, we can also generate the rearranged adjacency matrix of call graph of Moria city in month 2, as shown in Figure \ref{Moria_2_clustered} 
+
+\begin{figure}[!t]
+\centering
+\includegraphics[width=4.5in]{Moria_2_clustered.pdf}
+% where an .eps filename suffix will be assumed under latex,
+% and a .pdf suffix will be assumed for pdflatex; or what has been declared
+% via \DeclareGraphicsExtensions.
+\caption{Rearranged Adjacency Matrix of Call Graph of Moria City in Month 2}
+\label{Moria_2_clustered}
+\end{figure}
+
+From Figure \ref{Moria_2_clustered} we can observe that though some edges have been removed in the call graph of Moria city in month 2, the community structures in the call graph of Moria city haven't been changed much. In  Figure \ref{Moria_2_clustered}, we still can find the community structures which are similar to those in Figure \ref{Moria_1_clustered}. For instance, the vertices at the lower right corner in Figure \ref{Moria_2_clustered} and the vertices at the upper left corner in Figure \ref{Moria_1_clustered} are in the same community.   

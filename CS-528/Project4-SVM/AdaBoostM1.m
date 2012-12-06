@@ -20,7 +20,7 @@ ensambleSVM = cell(nEnsamble,1);
 
 % AdaBoost Variables
 alpha = ones(nEnsamble,1)/nEnsamble;
-weights = ones(size(label))/numel(label);   % Initialize weights to 1/N
+weights = ones(size(l8abel))/numel(label);   % Initialize weights to 1/N
 
 for t=1:nEnsamble
     sigma = sigmaInit;

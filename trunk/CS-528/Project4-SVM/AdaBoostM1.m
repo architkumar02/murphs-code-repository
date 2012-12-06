@@ -42,11 +42,13 @@ for t=1:nEnsamble
         end
     end % End of svm training
     
-    % Saving the best model
-    ensambleSVM{t} = model;
+    % Setting the weight of the component classifer
     alpha{t} = 0.5*log((1-accuracy)/accuracy);
-
+    ensambleSVM{t} = model;
+    
     % Update the weights of the training data
-w=normalize(w.*exp(alpha*(diff_vec*2-1)));
-
+    weights = weights.*exp(-alpha*accuracy);
+    weights = weights/sum(weights); 
 end
+
+end % End of AdaBoostM1

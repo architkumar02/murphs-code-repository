@@ -1,0 +1,107 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                                   PREAMBLE                                   %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[conference]{IEEEtran}
+\usepackage{listings,graphicx,amsmath}
+\usepackage{microtype,todonotes}
+\usepackage[margin=1in]{geometry}
+\usepackage{hyperref}
+
+
+%% GRAPHICS RELATED
+\usepackage{graphicx}
+\usepackage{listings,amsmath}
+\usepackage{microtype,todonotes}
+\graphicspath{{./images/}}
+\DeclareGraphicsExtensions{.pdf, .jpeg, .png}
+
+%% CAPTION SETUP
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{belowskip=12pt,aboveskip=4pt}
+
+%% EQUATIONS
+\usepackage[cmex10]{amsmath}
+\numberwithin{equation}{section}
+
+%% LISTINGS
+\lstset{ %
+    language=matlab,
+    basicstyle=\footnotesize\ttfamily,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=2,
+    numbersep=5pt,
+    backgroundcolor=\color{white},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black},
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=false,
+    title=\lstname,
+    keywordstyle=\color{blue},
+    commentstyle=\color{OliveGreen},
+    stringstyle=\color{orange}
+}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35, 0.01}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white,singlelinecheck=false,margin=0pt,font={bf,footnotesize}}
+\lstnewenvironment{code}[1][]%
+{ \noindent\minipage{\linewidth}
+	\lstset{#1}
+}
+{\endminipage}
+
+% *** CITATION PACKAGES ***
+\usepackage{cite}
+
+
+
+% *** SPECIALIZED LIST PACKAGES ***
+%
+%\usepackage{algorithmic}
+\usepackage{algpseudocode}
+% *** ALIGNMENT PACKAGES ***
+%
+\usepackage{array}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                               START OF DOCUMENT                              %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% paper title
+\title{AdaBoost and SVM's for Unbalanced Data Sets}
+
+% author names and affiliations
+\author{\IEEEauthorblockN{Matthew J. Urffer}
+\IEEEauthorblockA{
+University of Tennessee \\
+Knoxville, Tennessee, 37916 \\
+Email: matthew.urffer@gmail.com
+}}
+
+\maketitle
+
+\begin{abstract}
+
+\end{abstract}
+
+\end{document}
+
+\IEEEpeerreviewmaketitle
+
+% Sections (Other Documents)
+\input{Introduction}
+\input{Methods}
+\input{Results}
+\input{Conclusions}
+\input{Acknowledgement}

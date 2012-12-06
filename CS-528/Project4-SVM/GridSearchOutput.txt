@@ -1,0 +1,11 @@
+Coarse Grid Search
+			DataSet				Accuracy	g		c
+glass_scale_train.txt	72.78	1.60e+01	1.52e+00
+liver-disorders_scale_train.txt	72.78	1.60e+01	1.52e+00
+vowel_scale_train.txt	72.78	1.60e+01	1.52e+00
+
+Fine Grid Search with 10000 values
+			DataSet				Accuracy	g		c
+glass_scale_train.txt	72.78	701.62	 2.05
+liver-disorders_scale_train.txt	72.78	701.62	 2.05
+vowel_scale_train.txt	72.78	701.62	 2.05

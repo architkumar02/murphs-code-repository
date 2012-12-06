@@ -1,4 +1,5 @@
-function [predict_label, accuracy, dec_values] = SVMWeightPredictict(weight, label,inst, model)
+function [predict_label, accuracy, dec_values,C,order] =  ...
+    SVMWeightPredict(weight, label,inst, model)
 % [predict_label, accuracy, dec_values] = SVMWeightPredictict(weight, label,inst, model)
 % Computes the predicted class and accuracy of an SVM model. The accuracy
 % is weighted by the weight of that point (Table 2, X. Li et al). LIBSVM is
@@ -13,6 +14,8 @@ function [predict_label, accuracy, dec_values] = SVMWeightPredictict(weight, lab
 %   predict_label - the predicted class lable
 %   accuracy      - the weighted accuracy of the classifer
 %   dec_values    - decision values
+%   C             - Confusion Matrix (see confusionmat)
+%   order         - Order  (see confusionmat)
 
 % Input checking
 if (numel(weight) ~= numel(label) ~= numel(inst))
@@ -34,5 +37,6 @@ for i = 1:numel(weight)
     accuracy(i) = a*weight(i);
     dec_values(i) = d;
 end
-
+% Calculating the confusion matrix
+[C,order] = confusionmat(label,predict_label);
 end

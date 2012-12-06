@@ -1,0 +1,18 @@
+\section{Methods}
+\label{sec:Methods}
+
+\section{Support Vector Machines}
+
+Suport vector machines were implemented with the libsvm library \cite{LICITATION}.
+Radial basis functions were used as the kernal space for the SVM to create RBFSVM.
+There are then two parameters that need to be determined, $C$ the regularization paramater and $\sigma$ the width of the kernal.
+
+\section{AdaBoost}
+
+AdaBoost was implemented as an ensamble of support vector machines by maintaining a weight distribution of the misclassificaiton error over all of the training examples.
+At each cycle $t$ AdaBoost provides the learning algorthim with training examples $\vec{x}$ and a weight distriubtion $w$ (initialized uniformly).
+The learning algorthim is trained to generate a classifier $h_t$ and the weight distribution is updated to reflect the predicted results; easy training examples (in which the classifier is very certain) have their weights lowered, while hard samples have their weights increased.
+This process continues for $T$ cycles.
+Finally, the AdaBoost combines all of the component classifiers into the ensamble whose signal, final hypothesis, is constructed by by weighting the individual classifers by their training errors.
+
+The AdaBoost algorthim was extended to AdaBoostM1 in order to use the RBFSVM

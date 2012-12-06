@@ -1,0 +1,12 @@
+README for Project4 SVM 
+
+Matthew J. Urffer (matthew.urffer@gmail.com)
+CS 528 Project 4, Fall 2012
+
+ENVIROMENT:
+The script SVMMatlabSetup tries to create the proper enviorment for using
+Libsvm with matlab.  However, there are no guarnetees. One should run the 
+proper libsvm tools if the setup script fails.
+
+USAGE:
+Part1

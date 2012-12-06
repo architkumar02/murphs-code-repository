@@ -25,7 +25,7 @@ for log2c = c,
   for log2g = g,
       j = j+1;
     cmd = ['-v 5 -c ', num2str(2^log2c), ' -g ', num2str(2^log2g)];
-    cv = svmtrain(label, inst, cmd);
+    cv = svmtrain([],label, inst, cmd);     % Ignore the first argument (no weights)
     results(i,j) = cv;
     if (cv >= bestcv),
       bestcv = cv; bestc = 2^log2c; bestg = 2^log2g;
@@ -33,7 +33,6 @@ for log2c = c,
   end
 end
 fprintf('best c=%g, g=%g, rate=%g)\n',bestc, bestg, bestcv);
-
 [~,h] = contour(c,g,results');
 set(h,'ShowText','on','TextStep',get(h,'LevelStep')*2)
 xlabel('log_2 c','fontsize',12);

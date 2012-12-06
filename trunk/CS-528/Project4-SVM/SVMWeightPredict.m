@@ -11,9 +11,9 @@ function [predict_label, accuracy, dec_values,C,order] =  ...
 %   inst   - the data point (vector)
 %   model  - the SVM model (see svmtrain)
 % OUTPUTS:
-%   predict_label - the predicted class lable
+%   predict_label - the predicted class label
 %   accuracy      - the weighted accuracy of the classifer
-%   dec_values    - decision values
+%   dec_values    - decision values (actual values returned from SVM)
 %   C             - Confusion Matrix (see confusionmat)
 %   order         - Order  (see confusionmat)
 

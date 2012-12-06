@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.1.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" width="792px"
+	 height="612px" viewBox="0 0 792 612" enable-background="new 0 0 792 612" xml:space="preserve">
+<g id="Matrices">
+	<rect x="64.406" y="158.666" stroke="#FFFFFF" stroke-miterlimit="10" width="24.187" height="216"/>
+	<rect x="136.406" y="350.479" stroke="#FFFFFF" stroke-miterlimit="10" width="24.187" height="24.188"/>
+	<rect x="207" y="158.666" fill="none" stroke="#000000" stroke-miterlimit="10" width="144" height="144"/>
+	<text transform="matrix(1 0 0 1 278.9995 203.666)" font-family="'MyriadPro-Regular'" font-size="12">W</text>
+	<text transform="matrix(0.583 0 0 0.583 289.1514 207.6621)" font-family="'MyriadPro-Regular'" font-size="12">1</text>
+</g>
+<g id="Text">
+	<text transform="matrix(1 0 0 1 62.9995 131.666)" font-family="'MyriadPro-Regular'" font-size="12">Input</text>
+	<text transform="matrix(1 0 0 1 142.5933 368.4785)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12">B</text>
+	<text transform="matrix(0.583 0 0 0.583 149.0972 372.4746)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12">1</text>
+	<rect x="116.999" y="158.666" fill="none" stroke="#000000" stroke-miterlimit="10" width="0" height="0"/>
+	<rect x="207" y="284.666" fill="none" stroke="#000000" stroke-miterlimit="10" width="144" height="18"/>
+	<text transform="matrix(1 0 0 1 107.999 368.4785)" font-family="'MyriadPro-Regular'" font-size="12">1</text>
+	<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="107.999" y1="176.666" x2="161.999" y2="176.666"/>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="161.999" y1="176.666" x2="193.171" y2="200.045"/>
+			<g>
+				<path d="M197.999,203.666c-2.904-0.861-6.802-1.537-9.691-1.324l4.229-2.772l1.477-4.836
+					C194.619,197.567,196.359,201.12,197.999,203.666z"/>
+			</g>
+		</g>
+	</g>
+	<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="160.593" y1="362.572" x2="169.593" y2="362.572"/>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="169.593" y1="362.572" x2="198.185" y2="299.167"/>
+			<g>
+				<path d="M200.666,293.666c-0.207,3.022-0.017,6.973,0.822,9.747l-3.628-3.523l-5.042-0.387
+					C195.452,298.295,198.539,295.822,200.666,293.666z"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="118.057" y1="362.572" x2="127.906" y2="362.572"/>
+			<g>
+				<path d="M133.941,362.572c-2.84,1.054-6.363,2.852-8.547,4.756l1.72-4.756l-1.72-4.755
+					C127.578,359.722,131.102,361.52,133.941,362.572z"/>
+			</g>
+		</g>
+	</g>
+	<text transform="matrix(1 0 0 1 250.6655 117)" font-family="'MyriadPro-Regular'" font-size="12">Hidden Layer</text>
+	<rect x="471.072" y="350.479" stroke="#FFFFFF" stroke-miterlimit="10" width="24.187" height="24.188"/>
+	<rect x="541.665" y="158.666" fill="none" stroke="#000000" stroke-miterlimit="10" width="144.001" height="144"/>
+	<text transform="matrix(1 0 0 1 613.666 203.666)" font-family="'MyriadPro-Regular'" font-size="12">W</text>
+	<text transform="matrix(0.583 0 0 0.583 623.8174 207.6621)" font-family="'MyriadPro-Regular'" font-size="12">2</text>
+	<text transform="matrix(1 0 0 1 477.2598 368.4785)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12">B</text>
+	<text transform="matrix(0.583 0 0 0.583 483.7637 372.4746)" fill="#FFFFFF" font-family="'MyriadPro-Regular'" font-size="12">2</text>
+	<rect x="541.665" y="284.666" fill="none" stroke="#000000" stroke-miterlimit="10" width="144.001" height="18"/>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="433.665" y1="230.666" x2="526.63" y2="230.666"/>
+			<g>
+				<path d="M532.665,230.666c-2.84,1.054-6.363,2.852-8.547,4.756l1.72-4.756l-1.72-4.755
+					C526.302,227.815,529.825,229.613,532.665,230.666z"/>
+			</g>
+		</g>
+	</g>
+	<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="495.259" y1="362.572" x2="504.259" y2="362.572"/>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="504.259" y1="362.572" x2="532.851" y2="299.168"/>
+			<g>
+				<path d="M535.332,293.666c-0.207,3.021-0.017,6.973,0.821,9.746l-3.628-3.522l-5.042-0.387
+					C530.118,298.295,533.205,295.822,535.332,293.666z"/>
+			</g>
+		</g>
+	</g>
+	<g>
+		<g>
+			<line fill="none" stroke="#000000" stroke-miterlimit="10" x1="452.723" y1="362.572" x2="462.572" y2="362.572"/>
+			<g>
+				<path d="M468.607,362.572c-2.84,1.054-6.363,2.852-8.548,4.756l1.721-4.756l-1.721-4.755
+					C462.244,359.722,465.768,361.52,468.607,362.572z"/>
+			</g>
+		</g>
+	</g>
+	<text transform="matrix(1 0 0 1 433.665 368.4785)" font-family="'MyriadPro-Regular'" font-size="12">1</text>
+</g>
+</svg>

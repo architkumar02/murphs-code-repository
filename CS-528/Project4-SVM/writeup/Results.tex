@@ -1,7 +1,11 @@
 \section{Results}
 \label{sec:Results}
 
+The results of an SVM on the data sets is presented in Section \ref{sec:Results_ParamSearch}.
+In Section \ref{sec:Results_AdaBoost} the results are shown for using an ensamble methods.
+
 \subsection{Parmater Search}
+\label{ref:Results_ParamSearch}
 
 The parameter search for the optimal C and $\sigma$ parameters is shown in the contour plots of Figures \ref{fig:ParamLiver}, \ref{fig:ParamGlass} and \ref{fig:ParamGlass}.
 The optimal classifier parameters are shown for the coarse parameter search in Table \ref{tab:CoarseParamValues} and for the fine parameter search in Table \ref{tab:FineParamValues}.
@@ -9,25 +13,20 @@ The optimal classifier parameters are shown for the coarse parameter search in T
 \begin{table}[h!]
 \caption{Coarse Optimal Classifier Parameters}
 \label{tab:CoarseParamValues}
+\centering
 \begin{tabular}{c c c c c c c c}
 \hline
-Data Set & $C_{min}$ & $C_{max}$ & $\sigma_{min}$ & $\sigma_{max}$ & $C$ & $\sigma$ & $\epsilon$ \\ 
-\hline
-Glass & 1.00 & 10.00 & -7.00 & 7.00 & 10.00 & 0.37 & 71.67 \\ 
-Liver & 1.00 & 10.00 & -7.00 & 7.00 & 10.00 & 0.37 & 74.00 \\ 
-Vowel & 1.00 & 10.00 & -7.00 & 7.00 & 10.00 & 1.11 & 99.24 \\ 
+\input{../CoarseGridSearchOutput.dat}
 \hline
 \end{tabular}
 \end{table}
 \begin{table}[ht]
 \caption{Fine Optimal Classifier Parameters}
 \label{tab:FineParamValues}
+\centering
 \begin{tabular}{c c c c c c c c}
-Data Set & $C_{min}$ & $C_{max}$ & $\sigma_{min}$ & $\sigma_{max}$ & $C$ & $\sigma$ & $\epsilon$ \\ 
 \hline
-Glass & 5.00 & 15.00 & 0.18 & 0.55 & 14.47 & 0.22 & 74.44 \\ 
-Liver & 5.00 & 15.00 & 0.18 & 0.55 & 12.89 & 0.24 & 74.00 \\ 
-Vowel & 5.00 & 15.00 & 0.55 & 1.66 & 15.00 & 1.19 & 99.43 \\ 
+\input{../FineGridSearchOutput.dat}
 \hline
 \end{tabular}
 \end{table}
@@ -77,3 +76,46 @@ Vowel & 5.00 & 15.00 & 0.55 & 1.66 & 15.00 & 1.19 & 99.43 \\
 \end{figure*}
 
 \subsection{AdaBoostM1}
+The results using the implemented AdaBoostM1 algorthim are shown below in Table \ref{tab:AdaBoostValues}.
+It is immediately observablve that the AdaBoost algorthim increased the accuarcy of the the Liver and Glass data set, but failed to increase (in fact dramatically lowered) the accuaracy for the Vowel data set.
+\begin{table}[h!]
+\caption{AdaBoost Classifer Values}
+\label{tab:AdaBoostValues}
+\centering
+\begin{tabular}{c c c c c}
+\input{../AdaBoostOutput_50.dat}
+\input{../AdaBoostOutput_150.dat}
+\hline
+\end{tabular}
+\end{table}
+
+The effect of the number of the classifers in the ensamble is shown in Figure \ref{fig:AccuracyEnsambleSize}.
+\begin{figure}
+    \label{fig:AccuarcyEnsambleSize}
+    \centering
+    \includegraphics[width=\textwidth]{Vowel_fineSearch}
+    \caption{Accuracy and Number of Compenents in Ensamble}
+\end{figure}
+The weight of each individual classifer for an ensamble of 150 members is shown in Figure \ref{fig:EnsambleWeights}
+\begin{figure*}[ht!]
+	\centering
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Liver_EnsambleWeight}
+        \caption{Liver}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Glass_EnsambleWeight}
+        \caption{Glass}
+	\end{subfigure}	
+    ~
+	\begin{subfigure}[b]{0.3\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{Vowel_EnsambleWeight}
+        \caption{Vowel}
+	\end{subfigure}%
+	\caption{Distribution of Ensamble Weights}
+	\label{fig:EnsambleWeights}
+\end{figure*}

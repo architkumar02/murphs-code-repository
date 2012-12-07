@@ -3,10 +3,14 @@
 %                                   PREAMBLE                                   %
 %                                                                              %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\documentclass[conference]{IEEEtran}
+\documentclass[confrence]{IEEEtran}
 \usepackage{listings,graphicx,amsmath}
 \usepackage{microtype,todonotes}
 \usepackage{hyperref}
+
+%% LINE NUMBERS
+\usepackage[switch]{lineno}
+\linenumbers
 
 %% BIBLIOGRAPHY
 \bibliographystyle{ieeetr}
@@ -43,7 +47,7 @@
 \begin{document}
 
 % paper title
-\title{AdaBoost and SVM's for Unbalanced Data Sets}
+\title{AdaBoost and SVMs for Unbalanced Data Sets}
 
 % author names and affiliations
 \author{\IEEEauthorblockN{Matthew J. Urffer}
@@ -57,11 +61,11 @@ matthew.urffer@gmail.com
 
 \begin{abstract}
 Support vector machines were investigated for there use in single class and multi-class classification problems.
-The radial basis function was used as the kernal for, and the classifiers where trained for a variety of kernal size and regularization paramater in order to find the optimal classifier parameters for a single data set.
-After the optimal value were found for a single classifier the AdaBoostM1 algorthim was implemented and an ensamble of weak learners was trained.
-The ensamble classifier trained with AdaBoostM1 had a higher accuracy than the single support vector machine for the Glass and Liver data set.
-The vowel data set, however, had a very high accuracy (96\%) for the single classifier while the ensamble classifiers preformed poorly.
-As the vowel data set was the only example of a balanced data set while the other's were unbalanced data sets, it can be concluded that the AdaBoostM1 algorthim improves the performance of a classifier on an unbalanced data set.
+The radial basis function was used as the kernel for, and the classifiers where trained for a variety of kernel size and regularization parameter in order to find the optimal classifier parameters for a single data set.
+After the optimal value were found for a single classifier the AdaBoostM1 algorithm was implemented and an ensemble of weak learners was trained.
+The ensemble classifier trained with AdaBoostM1 had a higher accuracy than the single support vector machine for the Glass and Liver data set.
+The vowel data set, however, had a very high accuracy (96\%) for the single classifier while the ensemble classifiers preformed poorly.
+As the vowel data set was the only example of a balanced data set while the others were unbalanced data sets, it can be concluded that the AdaBoostM1 algorithm improves the performance of a classifier on an unbalanced data set.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle

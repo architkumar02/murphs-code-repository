@@ -5,7 +5,7 @@ The results of an SVM on the data sets is presented in Section \ref{sec:Results_
 In Section \ref{sec:Results_AdaBoost} the results are shown for using an ensamble methods.
 
 \subsection{Parmater Search}
-\label{ref:Results_ParamSearch}
+\label{sec:Results_ParamSearch}
 
 The parameter search for the optimal C and $\sigma$ parameters is shown in the contour plots of Figures \ref{fig:ParamLiver}, \ref{fig:ParamGlass} and \ref{fig:ParamGlass}.
 The optimal classifier parameters are shown for the coarse parameter search in Table \ref{tab:CoarseParamValues} and for the fine parameter search in Table \ref{tab:FineParamValues}.
@@ -20,7 +20,7 @@ The optimal classifier parameters are shown for the coarse parameter search in T
 \hline
 \end{tabular}
 \end{table}
-\begin{table}[ht]
+\begin{table}[!ht]
 \caption{Fine Optimal Classifier Parameters}
 \label{tab:FineParamValues}
 \centering
@@ -30,15 +30,15 @@ The optimal classifier parameters are shown for the coarse parameter search in T
 \hline
 \end{tabular}
 \end{table}
-\begin{figure*}[ht!]
+\begin{figure*}[!ht]
 	\centering
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Liver_coarseSearch}
         \caption{Coarse Search}
 	\end{subfigure}%
 	~
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Liver_fineSearch}
         \caption{Fine Search}
@@ -46,13 +46,13 @@ The optimal classifier parameters are shown for the coarse parameter search in T
 	\caption{Parameter search for Liver Disorder}
 	\label{fig:ParamLiver}
 
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Glass_coarseSearch}
         \caption{Coarse Search}
 	\end{subfigure}%
 	~
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Glass_fineSearch}
         \caption{Fine Search}
@@ -60,13 +60,13 @@ The optimal classifier parameters are shown for the coarse parameter search in T
 	\caption{Parameter search for Glass Disorder}
 	\label{fig:ParamGlass}
 
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Vowel_coarseSearch}
         \caption{Coarse Search}
 	\end{subfigure}%
 	~
-	\begin{subfigure}[b]{0.45\textwidth}
+	\begin{subfigure}[b]{0.4\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Vowel_fineSearch}
         \caption{Fine Search}
@@ -76,25 +76,29 @@ The optimal classifier parameters are shown for the coarse parameter search in T
 \end{figure*}
 
 \subsection{AdaBoostM1}
+\label{sec:Results_AdaBoost}
 The results using the implemented AdaBoostM1 algorthim are shown below in Table \ref{tab:AdaBoostValues}.
 It is immediately observablve that the AdaBoost algorthim increased the accuarcy of the the Liver and Glass data set, but failed to increase (in fact dramatically lowered) the accuaracy for the Vowel data set.
-\begin{table}[h!]
+\begin{table}[!ht]
 \caption{AdaBoost Classifer Values}
 \label{tab:AdaBoostValues}
 \centering
 \begin{tabular}{c c c c c}
+\hline
 \input{../AdaBoostOutput_50.dat}
-\input{../AdaBoostOutput_150.dat}
+\\
+\hline
+\input{../AdaBoostOutput_100.dat}
 \hline
 \end{tabular}
 \end{table}
 
 The effect of the number of the classifers in the ensamble is shown in Figure \ref{fig:AccuracyEnsambleSize}.
-\begin{figure}
-    \label{fig:AccuarcyEnsambleSize}
+\begin{figure}[!ht]
     \centering
-    \includegraphics[width=\textwidth]{Vowel_fineSearch}
+    \includegraphics[width=0.45\textwidth]{AccuracyVSEnsambleSize}
     \caption{Accuracy and Number of Compenents in Ensamble}
+    \label{fig:AccuracyEnsambleSize}
 \end{figure}
 The weight of each individual classifer for an ensamble of 150 members is shown in Figure \ref{fig:EnsambleWeights}
 \begin{figure*}[ht!]
@@ -102,7 +106,7 @@ The weight of each individual classifer for an ensamble of 150 members is shown 
 	\begin{subfigure}[b]{0.3\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Liver_EnsambleWeight}
-        \caption{Liver}
+      \caption{Liver}
 	\end{subfigure}%
 	~
 	\begin{subfigure}[b]{0.3\textwidth}

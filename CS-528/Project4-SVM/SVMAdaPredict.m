@@ -1,7 +1,8 @@
-function [predict_label] =SVMAdaPredict(inst, ensambleSVM,alpha)
+function [predict_label,accuracy] =SVMAdaPredict(label, inst, ensambleSVM,alpha)
 % [predict_label, accuracy, dec_values] = SVMWeightPredictict(weight, label,inst, model)
 % Computes the perfromance of an esamble method of SVM's
 % INPUTS:
+%   label  - the label of the class (or zeros)
 %   inst   - the data point (vector)
 %   ensabmleSVM - the cell array of SVM models (see AdaBoostM1)
 %   alpha       - the weight of each member of the ensamble 
@@ -17,12 +18,10 @@ end
 predict_label = zeros(size(inst));
 
 %% Looping through all of the classifiers
-% Since we do not know the class, we must provide an emptpy array
-fakeLabels = zero(size(inst));
 for i=1:numuel(ensambleSVM)
     
     % Classification
-    [predict,~,dec_value] = svmpredict(fakeLabels,inst,ensambleSVM{i});
+    [predict,accuracy,dec_value] = svmpredict(label,inst,ensambleSVM{i});
     
     % Weighting scheme
     

@@ -1,6 +1,6 @@
 function [predict_label, accuracy, dec_values,C,order] =  ...
     SVMWeightPredict(weight, label,inst, model)
-% [predict_label, accuracy, dec_values] = SVMWeightPredictict(weight, label,inst, model)
+% [predict_label, accuracy, dec_values,C,Order] = SVMWeightPredictict(weight, label,inst, model)
 % Computes the predicted class and accuracy of an SVM model. The accuracy
 % is weighted by the weight of that point (Table 2, X. Li et al). LIBSVM is
 % used to calculate the predicted label, accuracy, and probability /

@@ -1,15 +1,20 @@
 \section{Introduction}
 
-Given a set $S$ of classified training examples a supervised learning algorthim attempts to create a hypothesis $h$ which correctly classifiers each class.
+A supervised machine learning problem is one which a learning algorthim is presented a set of training data and attempts to find an unkown function which maps the training values to the correct answer.
+Typically the training set, denoted $S$, is a set of the form $\left \{ (\vec{x}_1,y_1), (\vec{x}_2,y_2), \dots, (\vec{x}_n,y_n) \right \}$ where $\vec{x}_i$ is vector of some features of the problem.
+Examples of problem features include discrete or real valued items such as height, weight, age, zip code, grade point average, starting salary, and telephone number (as just a few)  which might make up the features of a person.
+The $y_i$ are the class of the training feature $\vec{x}_i$ belongs to; these might be University of Tennessee students or Carnegie Mellon students.
+The learning algorthims job is then to find a hypothesis $h$ that corrrectly classifies a student as a Volunteer of Tartan based on the features providied.
+This learning process can then be defined as finding the hypothesis that has the least error (incorrect classifications) on the training data set while extending to examples outside of the training space.
 
 \subsection{Support Vector Machines}
-Support Vector Machines (SVM) are
-
+Support Vector Machines (SVM) are a supervised learning technqiue in which hyperplanes are constructed in a high dimensional space to which the features are mactched.
+SVMs find the hyperplanes that are the farthest away from all of mapped features in order to provide excellent training performance while still maintaing the ability to generalize to new instances; i.e. SVMs are maximal margin classifiers.
 For a binary classification the decision function of the SVM is the dot product of the weight vector and the training example in the feature space added to a bias vector as shown in Equation \ref{eq:BCSVM}.
 
 \begin{equation}
 \label{eq:BCSVM}
-f \left ( \vec{x} \right ) = \left \langle \vec{x} \phi(\vec{x}) \right \rangle + \vec{b}
+f \left ( \vec{x} \right ) = \left \langle \vec{w} \phi(\vec{x}) \right \rangle + \vec{b}
 \end{equation}
 where $\phi(\vec{x})$ is a mapping to the higher dimensional space.
 The learning in the SVM is then finding the optimal values of the weight vector $\vec{w}$ and the basis $\vec{b}$.
@@ -19,7 +24,17 @@ The radial basis function (Equation \ref{eq:RBF}) is a common kernal function us
 \label{eq:RBF}
 k \left ( \vec{x}_i , \vec{x}_j \right ) = exp \left ( - \frac{\left \| \vec{x}_i - \vec{x}_j \right \|}{2\sigma^2} \right ) 
 \end{equation}
-
+The maximal margin is ensured by minimizing:
+\begin{equation}
+\label{eq:Min}
+g(\vec{w},\eta) = \frac{1}{2} \left \| \vec{w} \right \| + C \sum_{i=1}^N \zeta_i
+\end{equation}
+subject to:
+\begin{equation}
+\label{eq:Constraint}
+y_i( \left \langle \vec{w},\phi(\vec{x}) \right \rangle + b ) \ge 1-\zeta_i, ~~~\zeta_i \ge 0
+\end{equation}
+where $\zeta_i$ is the $i$th slack varaible and C is the regulariazation parameter \cite{li_adaboost_2008}.
 Something about how we are trying to elarge the margin
 
 \subsection{Ensamble Classifers}

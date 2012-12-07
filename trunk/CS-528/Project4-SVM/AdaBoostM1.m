@@ -29,19 +29,19 @@ for t=1:nEnsamble
     while(sigma > sigmaMin)
         
         % Training the classifier and calculate the error
-        cmd = ['-c ', num2str(2^c), ' -g ', num2str(2^sigma),'-v 5'];
+        cmd = [' -q -e 2 -c ', num2str(2^c), ' -g ', num2str(2^sigma),''];
         model = svmtrain(weights,label,inst,cmd);
         [predict_label, accuracy, dec_values] = svmpredict(label,inst, model);
         
         error = 1- accuracy(1)/100;
         
         % We want a weak learner (just above 50%)
-        if error > 0.5
+        if error < 0.5
             sigmaPrev = sigma;
             weightsPrev = weights;
-            sigma = sigma-2^(sigma/4);
+            sigma = sigma-2^(sigma*rand());
         else
-            cmd = ['-c ', num2str(2^c), ' -g ', num2str(2^sigmaPrev)];
+            cmd = [' -q -e 2 -c ', num2str(2^c), ' -g ', num2str(2^sigmaPrev),''];
             model = svmtrain(weightsPrev,label,inst,cmd);
             [predict_label, accuracy, dec_values] = svmpredict(label,inst, model);
             error = 1- accuracy(1)/100;
@@ -59,5 +59,6 @@ for t=1:nEnsamble
     weights = weights/sum(weights);
 end
 alpha = abs(alpha);
+alpha = alpha/sum(alpha);
 
 end % End of AdaBoostM1

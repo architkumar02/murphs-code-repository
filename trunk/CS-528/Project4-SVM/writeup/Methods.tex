@@ -22,6 +22,7 @@ The classifier is then retrained with a smaller $\sigma$ until the accuracy of t
 At this point the classifer is added to the ensamble, along with it's weight based on it's accuracy.
 The weights of the training samples are then updated to reflect the training examples that the classifier struggled with.
 This processes is then repeated for the next classifier in the ensamble until all of the ensamble is full.
+
 \begin{algorithm}
 \caption{AdaBoostSVM}
 \label{algo:AdaBoostSVM}
@@ -50,4 +51,5 @@ This processes is then repeated for the next classifier in the ensamble until al
 \end{algorithmic}
 \end{algorithm}
 
-After training was complete the ensamble method was tested.
+The implemented algorthim only varied the value of $\sigma$ because it is known that RBFSVMs depend highly on $\sigma$ and less on $C$ so the performance of the classifer can be changed over a set $C$ by simply changing $\sigma$ \cite{li_adaboost_2008}.
+In addition ensamble sizes for 5 to 150 were tested, these results are shown in Section \ref{sec:Results}.

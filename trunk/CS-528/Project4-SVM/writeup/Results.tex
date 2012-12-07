@@ -6,29 +6,28 @@
 The parameter search for the optimal C and $\sigma$ parameters is shown in the contour plots of Figures \ref{fig:ParamLiver}, \ref{fig:ParamGlass} and \ref{fig:ParamGlass}.
 The optimal classifier parameters are shown for the coarse parameter search in Table \ref{tab:CoarseParamValues} and for the fine parameter search in Table \ref{tab:FineParamValues}.
 \todo{Make some quantifications and discuss the data}
-\begin{table}[ht!]
+\begin{table}[h!]
 \caption{Coarse Optimal Classifier Parameters}
 \label{tab:CoarseParamValues}
 \begin{tabular}{c c c c c c c c}
 \hline
-Data Set & $C_{min}$ & $C_{max}$ & $\sigma_{min}$ & $\sigma_{max}$ & $C$ & $\sigma$ & $\epsilon$ \\
+Data Set & $C_{min}$ & $C_{max}$ & $\sigma_{min}$ & $\sigma_{max}$ & $C$ & $\sigma$ & $\epsilon$ \\ 
 \hline
-Glass &	-5.0 &  5.0 &	-5.0 &	5.0 & 32.0 &	1.47 & 73 \\
-Liver &	-5.0 &	5.0 &	-5.0 &	5.0 & 14.8 &	0.146 & 74 \\
-Vowel &	-5.0 &	5.0 &	-5.0 &	5.0 & 32.0 &	6.85  & 99 \\
+Glass & -5.00 & 5.00 & -5.00 & 5.00 & 5.00 & 0.56 & 72.78 \\ 
+Liver & -5.00 & 5.00 & -5.00 & 5.00 & 3.89 & -2.78 & 74.33 \\ 
+Vowel & -5.00 & 5.00 & -5.00 & 5.00 & 5.00 & 2.78 & 99.24 \\ 
 \hline
 \end{tabular}
 \end{table}
-\begin{table}[ht!]
+\begin{table}[ht]
 \caption{Fine Optimal Classifier Parameters}
 \label{tab:FineParamValues}
 \begin{tabular}{c c c c c c c c}
+Data Set & $C_{min}$ & $C_{max}$ & $\sigma_{min}$ & $\sigma_{max}$ & $C$ & $\sigma$ & $\epsilon$ \\ 
 \hline
-Data Set & $C_{min}$ & $C_{max}$ & $\sigma_{min}$ & $\sigma_{max}$ & $C$ & $\sigma$ & $\epsilon$ \\
-\hline
-Glass & 16.0 &	48.0 &	0.735 & 2.20 & 2.815e+14	& 2.09 & 70.6 \\
-Liver & 7.41 &	22.2 &	0.0729 & 0.218 &	1.697e+02 &	1.11 & 68.0 \\
-Vowel & 16.0 &	48.0 & 3.43 & 10.3 &	2.815e+14 &	10.7 & 96.9 \\
+Glass & 2.50 & 7.50 & 0.28 & 0.83 & 6.71 & 0.31 & 75.00 \\ 
+Liver & 1.94 & 5.83 & -4.17 & -1.39 & 3.79 & -1.68 & 75.67 \\ 
+Vowel & 2.50 & 7.50 & 1.39 & 4.17 & 7.50 & 1.97 & 99.43 \\ 
 \hline
 \end{tabular}
 \end{table}

@@ -4,13 +4,12 @@
 % Using LibSVM to find ideal C and gamma values
 SVMMatlabSetup
 ProjectSetup
-f = fopen('GridSearchOutput.txt','w');
+f = fopen('CoarseGridSearchOutput.dat','w');
 
 %% Corse Grid Search
 n  = 10;
-fprintf(f,'Coarse Grid Search with %d values\n',n^2);
-fprintf(f,'Coarse Grid Search\n');
-fprintf(f,'\t\t\tDataSet\t\t\t\tminC\tmaxC\tminG\tmaxGAccuracy\tg\t\tc\n');
+fprintf(f,'Data Set & $C_{min}$ & $C_{max}$ & $\\sigma_{min}$ & $\\sigma_{max}$ & $C$ & $\\sigma$ & $\\epsilon$ \\\\ \n');
+fprintf(f,'\\hline\n');
 c_coarse = zeros(size(dataSets));
 g_coarse = zeros(size(dataSets));
 i = 1;
@@ -26,8 +25,8 @@ for data = dataSets
   
     
     % Writing the values
-    fprintf(f,'%s\t%5.3e\t%5.3e\t%5.3e\t%5.3e\t%5.3e\t%5.3e\t%5.3e\n',...
-        setNames{i},min(c),max(c),min(g),max(g),cv,c_coarse(i),g_coarse(i));
+    fprintf(f,'%s & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f \\\\ \n',...
+        setNames{i},min(c),max(c),min(g),max(g),c_coarse(i),g_coarse(i),cv);
     
     % Save the figure
     title(sprintf('Coarse Parameter Search: %s',setNames{i}));
@@ -36,14 +35,16 @@ for data = dataSets
     
     i = i + 1;
 end
+fclose(f);
 
 %% Fine Grid Search
+f = fopen('FineGridSearchOutput.dat','w');
 c_fine = zeros(size(dataSets));
 g_fine = zeros(size(dataSets));
 i = 1;
-n  = 10;
-fprintf(f,'\nFine Grid Search with %d values\n',n^2);
-fprintf(f,'\t\t\tDataSet\t\t\t\tminC\tmaxC\tminG\tmaxGAccuracy\tg\t\tc\n');
+n  = 20;
+fprintf(f,'Data Set & $C_{min}$ & $C_{max}$ & $\\sigma_{min}$ & $\\sigma_{max}$ & $C$ & $\\sigma$ & $\\epsilon$ \\\\ \n');
+fprintf(f,'\\hline\n');
 for data = dataSets
     fprintf(1,'Processing data set: %s\n',cell2mat(dataSets(i)));
     % Reading in the data
@@ -56,8 +57,9 @@ for data = dataSets
     [cv,c_fine(i),g_fine(i)] = gridParam(c,g,label,inst);
     
     % Writing the values
-    fprintf(f,'%s\t%5.3e\t%5.3e\t%5.3e\t%5.3e\t%5.3e\t%5.3e\t%5.3e\n',...
-        setNames{i},min(c),max(c),min(g),max(g),cv,c_fine(i),g_fine(i));
+
+    fprintf(f,'%s & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f \\\\ \n',...
+        setNames{i},min(c),max(c),min(g),max(g),c_fine(i),g_fine(i),cv);
     
     % Save the figure
     title(sprintf('Fine Parameter Search: %s',setNames{i}));
@@ -65,6 +67,5 @@ for data = dataSets
     print(gcf,'-dpng',filename);
     i = i + 1;
 end
-
-%% Probably need to do validation
 fclose(f);
+%% Probably need to do validation

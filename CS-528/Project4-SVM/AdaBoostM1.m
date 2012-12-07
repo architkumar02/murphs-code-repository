@@ -1,7 +1,7 @@
 function [ensambleSVM,alpha] = AdaBoostM1(label,inst,c,sigmaInit,sigmaMin,sigmaStep,nEnsamble)
 % [ensambleSVM] = AdaBoostM1(label,inst,sigmaInit,sigmaMin,sigmaStep)
 % Implementation of AdaBoostM1 accoring to:
-% X. Li et al. 
+% X. Li et al.
 % Engineering Applications of Artificial Intelligence 21 (2008) 785–795
 % INPUTS:
 %   label - labels of the class (see libsvmread)
@@ -20,35 +20,43 @@ ensambleSVM = cell(nEnsamble,1);
 
 % AdaBoost Variables
 alpha = ones(nEnsamble,1)/nEnsamble;
-weights = ones(size(l8abel))/numel(label);   % Initialize weights to 1/N
+weights = ones(size(label));   % Initialize weights to 1/N
 
 for t=1:nEnsamble
     sigma = sigmaInit;
+    sigmaPrev = sigma;
+    weightsPrev = weights;
     while(sigma > sigmaMin)
-        % Training the classifier
-        cmd = ['-v 5 -c ', num2str(c), ' -g ', num2str(sigma)];
-        model = svmtrain(weights,label,inst,cmd);
         
-        % Calculate the training error
-        fprintf(1,'I think we should change this to use the weights\n');
+        % Training the classifier and calculate the error
+        cmd = ['-c ', num2str(2^c), ' -g ', num2str(2^sigma)];
+        model = svmtrain(weights,label,inst,cmd);
         [predict_label, accuracy, dec_values] = svmpredict(label,inst, model);
         
+        error = 1- accuracy(1)/100;
+        
         % We want a weak learner (just above 50%)
-        if accuracy > 0.5
-            sigma = sigma - sigmaStep;
+        if error > 0.5
+            sigmaPrev = sigma;
+            weightsPrev = weights;
+            sigma = sigma-2^(sigma/4);
         else
-           % No longer weak
-           break; 
+            cmd = ['-c ', num2str(2^c), ' -g ', num2str(2^sigmaPrev)];
+            model = svmtrain(weightsPrev,label,inst,cmd);
+            [predict_label, accuracy, dec_values] = svmpredict(label,inst, model);
+            error = 1- accuracy(1)/100;
+            % No longer weak
+            break;
         end
     end % End of svm training
     
     % Setting the weight of the component classifer
-    alpha{t} = 0.5*log((1-accuracy)/accuracy);
+    alpha(t) = 0.5*log((1-error)/error);
     ensambleSVM{t} = model;
     
     % Update the weights of the training data
-    weights = weights.*exp(-alpha*accuracy);
-    weights = weights/sum(weights); 
+    weights = weights.*exp(-alpha(t)*error);
+    weights = weights/sum(weights);
 end
 
 end % End of AdaBoostM1

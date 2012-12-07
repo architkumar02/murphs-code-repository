@@ -25,7 +25,8 @@ for log2c = c,
   for log2g = g,
       j = j+1;
     cmd = ['-v 5 -c ', num2str(2^log2c), ' -g ', num2str(2^log2g)];
-    cv = svmtrain([],label, inst, cmd);     % Ignore the first argument (no weights)
+    weights = ones(size(label))/numel(label);
+    cv = svmtrain(weights,label, inst, cmd);     % Ignore the first argument (no weights)
     results(i,j) = cv;
     if (cv >= bestcv),
       bestcv = cv; bestc = log2c; bestg = log2g;

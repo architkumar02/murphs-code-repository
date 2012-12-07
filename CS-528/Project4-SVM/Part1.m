@@ -7,14 +7,14 @@ ProjectSetup
 f = fopen('CoarseGridSearchOutput.dat','w');
 
 %% Corse Grid Search
-n  = 20;
+n  = 10;
 fprintf(f,'Data Set & $C_{min}$ & $C_{max}$ & $\\sigma_{min}$ & $\\sigma_{max}$ & $C$ & $\\sigma$ & $\\epsilon$ \\\\ \n');
 fprintf(f,'\\hline\n');
 c_coarse = zeros(size(dataSets));
 g_coarse = zeros(size(dataSets));
 i = 1;
 for data = dataSets
-    fprintf(1,'Processing data set: %s\n',cell2mat(dataSets(i)));
+    fprintf(1,'Processing data set: %s\n',dataSets{i});
     % Reading in the data
     [label,inst]=libsvmread(fullfile(dataPath,dataSets{i}));
     
@@ -42,7 +42,7 @@ f = fopen('FineGridSearchOutput.dat','w');
 c_fine = zeros(size(dataSets));
 g_fine = zeros(size(dataSets));
 i = 1;
-n  = 20;
+n  = 50;
 fprintf(f,'Data Set & $C_{min}$ & $C_{max}$ & $\\sigma_{min}$ & $\\sigma_{max}$ & $C$ & $\\sigma$ & $\\epsilon$ \\\\ \n');
 fprintf(f,'\\hline\n');
 for data = dataSets

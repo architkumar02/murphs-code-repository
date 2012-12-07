@@ -36,6 +36,6 @@ fprintf('best c=%g, g=%g, rate=%g)\n',bestc, bestg, bestcv);
 [~,h] = contour(c,g,results');
 set(h,'ShowText','on','TextStep',get(h,'LevelStep')*2)
 xlabel('log_2 c','fontsize',12);
-ylabel('log_2 \gamma','fontsize',12);
+ylabel('log_2 \sigma','fontsize',12);
 title('Accuracy','fontsize',14)
 colorbar;

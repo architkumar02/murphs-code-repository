@@ -6,14 +6,14 @@
 \documentclass[conference]{IEEEtran}
 \usepackage{listings,graphicx,amsmath}
 \usepackage{microtype,todonotes}
-\usepackage[margin=1in]{geometry}
 \usepackage{hyperref}
 
+%% BIBLIOGRAPHY
+\bibliographystyle{ieeetr}
 
 %% GRAPHICS RELATED
 \usepackage{graphicx}
 \usepackage{listings,amsmath}
-\usepackage{microtype,todonotes}
 \graphicspath{{./images/}}
 \DeclareGraphicsExtensions{.pdf, .jpeg, .png}
 
@@ -21,10 +21,6 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \captionsetup{belowskip=12pt,aboveskip=4pt}
-
-%% EQUATIONS
-\usepackage[cmex10]{amsmath}
-\numberwithin{equation}{section}
 
 %% LISTINGS
 \lstset{ %
@@ -60,14 +56,12 @@
 % *** CITATION PACKAGES ***
 \usepackage{cite}
 
-
-
 % *** SPECIALIZED LIST PACKAGES ***
-%
-%\usepackage{algorithmic}
 \usepackage{algpseudocode}
+\usepackage{algorithm}
+\algnewcommand{\algorithmicgoto}{\textbf{go to}}%
+\algnewcommand{\Goto}[1]{\algorithmicgoto~\ref{#1}}
 % *** ALIGNMENT PACKAGES ***
-%
 \usepackage{array}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -95,8 +89,6 @@ Email: matthew.urffer@gmail.com
 
 \end{abstract}
 
-\end{document}
-
 \IEEEpeerreviewmaketitle
 
 % Sections (Other Documents)
@@ -104,4 +96,10 @@ Email: matthew.urffer@gmail.com
 \input{Methods}
 \input{Results}
 \input{Conclusions}
-\input{Acknowledgement}
+\input{Acknowledgements}
+
+% Bibliography
+\bibliography{./Zotero}
+
+\end{document}
+

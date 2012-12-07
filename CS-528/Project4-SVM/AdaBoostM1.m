@@ -29,7 +29,7 @@ for t=1:nEnsamble
     while(sigma > sigmaMin)
         
         % Training the classifier and calculate the error
-        cmd = ['-c ', num2str(2^c), ' -g ', num2str(2^sigma)];
+        cmd = ['-c ', num2str(2^c), ' -g ', num2str(2^sigma),'-v 5'];
         model = svmtrain(weights,label,inst,cmd);
         [predict_label, accuracy, dec_values] = svmpredict(label,inst, model);
         
@@ -58,5 +58,6 @@ for t=1:nEnsamble
     weights = weights.*exp(-alpha(t)*error);
     weights = weights/sum(weights);
 end
+alpha = abs(alpha);
 
 end % End of AdaBoostM1

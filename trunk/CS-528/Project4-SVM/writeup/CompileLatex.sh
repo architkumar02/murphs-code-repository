@@ -13,7 +13,7 @@ else
 			aspell -t check $f
 		done
 	else
-		version=$(svnversion .)
+		version=$(svnversion . | tr : _)
         mkdir tmp								# For EPS to PDF files
 		#options="--interaction=batchmode"
 		options="--shell-escape"

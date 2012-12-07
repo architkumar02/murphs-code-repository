@@ -19,7 +19,7 @@ for data = dataSets
     [label,inst]=libsvmread(fullfile(dataPath,dataSets{i}));
     
     % Preforming a coarse mesh (same for all)
-    c = linspace(-7,7,n);
+    c = linspace(1,10,n);
     g = linspace(-7,7,n);
     [cv,c_coarse(i),g_coarse(i)] = gridParam(c,g,label,inst);
   

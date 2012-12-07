@@ -5,7 +5,7 @@
 
 Suport vector machines were implemented with the libsvm library \cite{chang_libsvm:_2011}.
 Radial basis functions were used as the kernal space for the SVM to create RBFSVM.
-There are then two parameters that need to be determined, $C$ the regularization paramater and $\sigma$ the width of the kernal.
+There are then two parameters that need to be determined, $C$ the regularization paramater and $\sigma$, the width of the kernal.
 These parameters where determined by a grid search of the parameter space.
 In searching for the optimal parameters with a grid search five fold cross valdation of the data was used.
 In addition, it was noticed for the vowel data sets that the large degree of accuracy was achieved by using a large amount of support vectors in which the SVM was essentially memorizing the training examples.
@@ -55,10 +55,14 @@ This processes is then repeated for the next classifier in the ensamble until al
 \end{algorithmic}
 \end{algorithm}
 
+The choice of $\sigma$ is critical for the algorthim presented to converge.
+Too small a $\sigma$ and the RBFSVM tends to overfit the data and provide correlated classifiers (and thus their error will be correlated), while too large a value of $\sigma$ and the classifer is too weak.
 The implemented algorthim only varied the value of $\sigma$ because it is known that RBFSVMs depend highly on $\sigma$ and less on $C$ so the performance of the classifer can be changed over a set $C$ by simply changing $\sigma$ \cite{li_adaboost_2008}.
 In addition ensamble sizes for 5 to 150 were tested, these results are shown in Section \ref{sec:Results}.
 
 Several experiments were completed once the code base was written.
+Three data sets were obtained from the LIBSVM homepage \cite{chang_libsvm:_2011}.
+These data sets were parsed and scaled with the tools provided in the libsvm package.
 First the optimal number of ensamble methods was found by investignating the classification accuracy dependance on the number of support vectors.
 Next the AdaBoost implementation vs the accuracy acheived by the a single parameter grid search.
-Finally
+Finally the classification errors between the two methods are analyzed.

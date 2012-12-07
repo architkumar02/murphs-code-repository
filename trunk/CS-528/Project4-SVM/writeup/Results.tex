@@ -81,12 +81,25 @@ The values for the fine parameter search were chosen to be 50\% of the optimal v
 
 \subsection{AdaBoostM1}
 \label{sec:Results_AdaBoost}
-The results using the implemented AdaBoostM1 algorthim are shown below in Table \ref{tab:AdaBoostValues}.
+The effect of the number of the classifers in the ensamble is shown in Figure \ref{fig:AccuracyEnsambleSize}.
+It was observed for the un-balanced data sets the number of classifiers is the ensamble did not have a large effect (past a minimum amount of 20).
+Furthermore, it was suprising to note that the accuracy of the ensambles was constant for the liver data set, while the vowel data set showed an almost periodic trend that died out as the number of classifiers increased.
+The glass data set exhibited signficant varatition; it is thought that this occurs because of the well in the paramater space (Figure \ref{fig:ParamGlass}).
+\begin{figure}[!ht]
+    \centering
+    \includegraphics[width=0.45\textwidth]{AccuracyVSEnsambleSize}
+    \caption{Accuracy and Number of Compenents in Ensamble}
+    \label{fig:AccuracyEnsambleSize}
+\end{figure}
+
+The results using the implemented AdaBoostM1 algorthim are shown below in Table \ref{tab:AdaBoostValues}, while the weights of the individual classifers (represnative of their accuracy) are shown in Figure \ref{fig:EnsambleWeights}.
 It is immediately observablve that the AdaBoost algorthim increased the accuarcy of the the Liver and Glass data set, but failed to increase (in fact dramatically lowered) the accuaracy for the Vowel data set.
+This is due to the vowel data set being balanced and each classifier being forced to be a weak classifier.
+When all of these weak classifiers are presented in an ensamble each classifer does not capature a specific region of the data set as the data set is balanced, but instead in the voting scheme cancel each other out, resulting in poor accuracy.
 \begin{table}[!ht]
 \caption{AdaBoost Classifer Values}
 \label{tab:AdaBoostValues}
-\centering
+\begin{center}
 \begin{tabular}{c c c c c}
 \hline
 \input{../AdaBoostOutput_50.dat}
@@ -95,17 +108,13 @@ It is immediately observablve that the AdaBoost algorthim increased the accuarcy
 \input{../AdaBoostOutput_100.dat}
 \hline
 \end{tabular}
+\end{center}
+\normalsize
+$T$ is the total number of classifiers trained, $\sigma_{init}$ is the initial $\sigma$ presented to AdaBoostM1, $C$ is the constant RBFSVM normalizaiton paramater, and $\epsilon$ is the accuracy of the ensamble method.  Refer to Table \ref{tab:FineParamValues} for the accuarcy of individual RBFSVM.
 \end{table}
 
-The effect of the number of the classifers in the ensamble is shown in Figure \ref{fig:AccuracyEnsambleSize}.
-\begin{figure}[!ht]
-    \centering
-    \includegraphics[width=0.45\textwidth]{AccuracyVSEnsambleSize}
-    \caption{Accuracy and Number of Compenents in Ensamble}
-    \label{fig:AccuracyEnsambleSize}
-\end{figure}
 The weight of each individual classifer for an ensamble of 150 members is shown in Figure \ref{fig:EnsambleWeights}
-\begin{figure*}[ht!]
+\begin{figure*}[!ht]
 	\centering
 	\begin{subfigure}[b]{0.3\textwidth}
 		\centering

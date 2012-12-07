@@ -28,7 +28,7 @@ for log2c = c,
     cv = svmtrain([],label, inst, cmd);     % Ignore the first argument (no weights)
     results(i,j) = cv;
     if (cv >= bestcv),
-      bestcv = cv; bestc = 2^log2c; bestg = 2^log2g;
+      bestcv = cv; bestc = log2c; bestg = log2g;
     end
   end
 end

@@ -14,15 +14,18 @@ if (numel(ensambleSVM) ~= numel(alpha))
 end
 
 %% Setting up return variables
+predict_label = zeros(size(inst));
 
 %% Looping through all of the classifiers
 % Since we do not know the class, we must provide an emptpy array
 fakeLabels = zero(size(inst));
 for i=1:numuel(ensambleSVM)
     
-    % Classificaiton
+    % Classification
     [predict,~,dec_value] = svmpredict(fakeLabels,inst,ensambleSVM{i});
     
     % Weighting scheme
+    
+    predict_label = predict_label + predict*alpha(i);
     
 end

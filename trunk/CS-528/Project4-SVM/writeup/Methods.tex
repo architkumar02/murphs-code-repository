@@ -3,9 +3,10 @@
 
 \section{Support Vector Machines}
 
-Suport vector machines were implemented with the libsvm library \cite{LICITATION}.
+Suport vector machines were implemented with the libsvm library \cite{li_adaboost_2008}.
 Radial basis functions were used as the kernal space for the SVM to create RBFSVM.
 There are then two parameters that need to be determined, $C$ the regularization paramater and $\sigma$ the width of the kernal.
+These parameters where determined by a grid search of the parameter space.
 
 \section{AdaBoost}
 
@@ -15,4 +16,38 @@ The learning algorthim is trained to generate a classifier $h_t$ and the weight 
 This process continues for $T$ cycles.
 Finally, the AdaBoost combines all of the component classifiers into the ensamble whose signal, final hypothesis, is constructed by by weighting the individual classifers by their training errors.
 
-The AdaBoost algorthim was extended to AdaBoostM1 in order to use the RBFSVM
+The AdaBoost algorthim (Algo \ref{algo:AdaBoostSVM} was extended to AdaBoostM1 in order to use the RBFSVM.
+This algorthim uses a fairly large RBFSVM kernal (a weak learning ability) for the first classifier, $h_t$.
+The classifier is then retrained with a smaller $\sigma$ until the accuracy of the classifier has an accuracy of just over 50\%.
+At this point the classifer is added to the ensamble, along with it's weight based on it's accuracy.
+The weights of the training samples are then updated to reflect the training examples that the classifier struggled with.
+This processes is then repeated for the next classifier in the ensamble until all of the ensamble is full.
+\begin{algorithm}
+\caption{AdaBoostSVM}
+\label{algo:AdaBoostSVM}
+\begin{algorithmic}[1]
+\Procedure{AdaBoostSVM}{$\sigma_{init},\sigma_{min},\sigma_{step},C,\vec{x},\vec{y}$}
+\State $w_{i}^{1} \gets 1/N \forall ~~ i=1,\dots,N$
+\While{$\sigma > \sigma_{min}$}
+    \label{marker}
+    \Statex{Train a RBFSVM component classifier}
+    \State $h_t \gets \text{ComponentClassifer}(\vec{x},\vec{w})$
+    \Statex{Compute the error of that classifer}
+    \State $h_t~:~\epsilon_t = \sum_{i=1}^{N}w_{i}^{t} , y_i \ne h_t(\vec{x}_i)$
+    \Statex{Decrease $\sigma$ until a weak classifier}
+    \If{$\epsilon_t > 0.05$}
+        \State $\sigma = \sigma - \sigma_{step}$
+        \State \Goto{marker}
+    \EndIf
+    \Statex{Set weight of component classifer}
+    \State $h_t~:~\alpha_t = \frac{1}{2} ln\left ( \frac{1-\epsilon_t}{\epsilon_t}\right)$
+    \Statex{Update weights of training samples}
+    \State $w_i^{t+1} = \frac{w_i^{t} exp\left ( -\alpha_i y_i h_t(\vec{x})\right)}{C_t}$
+    \Statex{$C_t$ is a normalization value, $\sum_{i=1}^N w_i^{t+1} = 1$}
+\EndWhile
+\Return{$f(\vec{x}) = sign \left ( \sum_{t=1}^T \alpha_t h_t (\vec{x}) \right )$}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+After training was complete the ensamble method was tested.

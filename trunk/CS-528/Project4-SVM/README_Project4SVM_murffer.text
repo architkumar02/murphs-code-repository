@@ -9,4 +9,12 @@ Libsvm with matlab.  However, there are no guarnetees. One should run the
 proper libsvm tools if the setup script fails.
 
 USAGE:
-Part1
+AdaTest - Main testing Entry point.  This script calls SVMMatlabSetup to
+            try and create the poper enviroment.  It then prompts the user
+            to select a data set to test on, as well as the trained ensamble.
+            It outputs to the command window the accuarcy, as well as the
+            confusion matrix.
+
+Part1 - Runs Part1 of the assignment.  Expects a directory for images to be saved.
+
+Part2 - Runs Part2 of the assignment.  Expects a directory for images to be saved.

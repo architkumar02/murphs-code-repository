@@ -50,13 +50,18 @@
 \IEEEauthorblockA{
 University of Tennessee \\
 Knoxville, Tennessee, 37916 \\
-Email: matthew.urffer@gmail.com
+matthew.urffer@gmail.com
 }}
 
 \maketitle
 
 \begin{abstract}
-
+Support vector machines were investigated for there use in single class and multi-class classification problems.
+The radial basis function was used as the kernal for, and the classifiers where trained for a variety of kernal size and regularization paramater in order to find the optimal classifier parameters for a single data set.
+After the optimal value were found for a single classifier the AdaBoostM1 algorthim was implemented and an ensamble of weak learners was trained.
+The ensamble classifier trained with AdaBoostM1 had a higher accuracy than the single support vector machine for the Glass and Liver data set.
+The vowel data set, however, had a very high accuracy (96\%) for the single classifier while the ensamble classifiers preformed poorly.
+As the vowel data set was the only example of a balanced data set while the other's were unbalanced data sets, it can be concluded that the AdaBoostM1 algorthim improves the performance of a classifier on an unbalanced data set.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle

@@ -1,6 +1,8 @@
 \section{Results}
 \label{sec:Results}
 
+It can bee seen by Figure \ref{fig:ClassDist} that two of the data sets, the  liver and glass, are imbalanced while the third, vowel, has each class equally represented.
+Furthermore it is observed that the glass data set is the most imbalanced; this is where the largest increase of performance due to the AdaBoostM1 is expected.
 The results of an SVM on the data sets is presented in Section \ref{sec:Results_ParamSearch}.
 In Section \ref{sec:Results_AdaBoost} the results are shown for using an ensamble methods.
 
@@ -8,8 +10,10 @@ In Section \ref{sec:Results_AdaBoost} the results are shown for using an ensambl
 \label{sec:Results_ParamSearch}
 
 The parameter search for the optimal C and $\sigma$ parameters is shown in the contour plots of Figures \ref{fig:ParamLiver}, \ref{fig:ParamGlass} and \ref{fig:ParamGlass}.
-The optimal classifier parameters are shown for the coarse parameter search in Table \ref{tab:CoarseParamValues} and for the fine parameter search in Table \ref{tab:FineParamValues}.
-\todo{Make some quantifications and discuss the data}
+The liver and glass data set contour plots have many topological features indicating that small varations in the RBFSVMs parameters cause dramatic changes in the accuracy of the trained RBFSMV.
+The vowel data set does not display these features but rather has a plataue region atop a precipice in which the accuracy of the classifer does not change dramatically.
+The optimal classifier parameters are shown for the coarse parameter search in Table \ref{tab:CoarseParamValues} and for the fine parameter search in Table \ref{tab:FineParamValues}. $C_{min}$ and $C_{max}$ are the starting values of the grid search normalization parameter, $\sigma_{min}$ and $\sigma_{max}$ are the range of kernal size while $C$, $\sigma$ and $\epsilon$ are the optimzied normalization parameter, kernal size, and final accuracy respectively.
+The values for the fine parameter search were chosen to be 50\% of the optimal values selected by the coarse parameter search.
 \begin{table}[h!]
 \caption{Coarse Optimal Classifier Parameters}
 \label{tab:CoarseParamValues}
@@ -32,13 +36,13 @@ The optimal classifier parameters are shown for the coarse parameter search in T
 \end{table}
 \begin{figure*}[!ht]
 	\centering
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.41\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Liver_coarseSearch}
         \caption{Coarse Search}
 	\end{subfigure}%
 	~
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.41\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Liver_fineSearch}
         \caption{Fine Search}
@@ -46,13 +50,13 @@ The optimal classifier parameters are shown for the coarse parameter search in T
 	\caption{Parameter search for Liver Disorder}
 	\label{fig:ParamLiver}
 
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.41\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Glass_coarseSearch}
         \caption{Coarse Search}
 	\end{subfigure}%
 	~
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.41\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Glass_fineSearch}
         \caption{Fine Search}
@@ -60,13 +64,13 @@ The optimal classifier parameters are shown for the coarse parameter search in T
 	\caption{Parameter search for Glass Disorder}
 	\label{fig:ParamGlass}
 
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.41\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Vowel_coarseSearch}
         \caption{Coarse Search}
 	\end{subfigure}%
 	~
-	\begin{subfigure}[b]{0.4\textwidth}
+	\begin{subfigure}[b]{0.41\textwidth}
 		\centering
 		\includegraphics[width=\textwidth]{Vowel_fineSearch}
         \caption{Fine Search}

@@ -35,7 +35,7 @@ This processes is then repeated for the next classifier in the ensamble until al
     \Statex{Compute the error of that classifer}
     \State $h_t~:~\epsilon_t = \sum_{i=1}^{N}w_{i}^{t} , y_i \ne h_t(\vec{x}_i)$
     \Statex{Decrease $\sigma$ until a weak classifier}
-    \If{$\epsilon_t > 0.05$}
+    \If{$\epsilon_t > 0.5$}
         \State $\sigma = \sigma - \sigma_{step}$
         \State \Goto{marker}
     \EndIf

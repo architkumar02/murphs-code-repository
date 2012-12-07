@@ -7,7 +7,7 @@ ProjectSetup
 f = fopen('CoarseGridSearchOutput.dat','w');
 
 %% Corse Grid Search
-n  = 10;
+n  = 20;
 fprintf(f,'Data Set & $C_{min}$ & $C_{max}$ & $\\sigma_{min}$ & $\\sigma_{max}$ & $C$ & $\\sigma$ & $\\epsilon$ \\\\ \n');
 fprintf(f,'\\hline\n');
 c_coarse = zeros(size(dataSets));
@@ -19,8 +19,8 @@ for data = dataSets
     [label,inst]=libsvmread(fullfile(dataPath,dataSets{i}));
     
     % Preforming a coarse mesh (same for all)
-    c = linspace(-5,5,n);
-    g = linspace(-5,5,n);
+    c = linspace(-7,7,n);
+    g = linspace(-7,7,n);
     [cv,c_coarse(i),g_coarse(i)] = gridParam(c,g,label,inst);
   
     

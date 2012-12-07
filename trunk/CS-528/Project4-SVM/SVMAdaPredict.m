@@ -15,16 +15,16 @@ if (numel(ensambleSVM) ~= numel(alpha))
 end
 
 %% Setting up return variables
-predict_label = zeros(size(inst));
+predict_label = zeros(size(label));
 
 %% Looping through all of the classifiers
-for i=1:numuel(ensambleSVM)
+for i=1:numel(ensambleSVM)
     
     % Classification
-    [predict,accuracy,dec_value] = svmpredict(label,inst,ensambleSVM{i});
+    [predict,~,dec_value] = svmpredict(label,inst,ensambleSVM{i});
     
     % Weighting scheme
-    
-    predict_label = predict_label + predict*alpha(i);
-    
+    predict_label = predict_label + predict*alpha(i);  
 end
+predict_label = mode(round(predict_label));
+[accuracy, CM,IND,PER] = confusion(ConvertToMatrix(label),ConvertToMatrix(predict_label));

@@ -4,15 +4,15 @@
 It can bee seen by Figure \ref{fig:ClassDist} that two of the data sets, the  liver and glass, are imbalanced while the third, vowel, has each class equally represented.
 Furthermore it is observed that the glass data set is the most imbalanced; this is where the largest increase of performance due to the AdaBoostM1 is expected.
 The results of an SVM on the data sets is presented in Section \ref{sec:Results_ParamSearch}.
-In Section \ref{sec:Results_AdaBoost} the results are shown for using an ensamble methods.
+In Section \ref{sec:Results_AdaBoost} the results are shown for using an ensemble methods.
 
-\subsection{Parmater Search}
+\subsection{Parameter Search}
 \label{sec:Results_ParamSearch}
 
 The parameter search for the optimal C and $\sigma$ parameters is shown in the contour plots of Figures \ref{fig:ParamLiver}, \ref{fig:ParamGlass} and \ref{fig:ParamGlass}.
-The liver and glass data set contour plots have many topological features indicating that small varations in the RBFSVMs parameters cause dramatic changes in the accuracy of the trained RBFSMV.
-The vowel data set does not display these features but rather has a plataue region atop a precipice in which the accuracy of the classifer does not change dramatically.
-The optimal classifier parameters are shown for the coarse parameter search in Table \ref{tab:CoarseParamValues} and for the fine parameter search in Table \ref{tab:FineParamValues}. $C_{min}$ and $C_{max}$ are the starting values of the grid search normalization parameter, $\sigma_{min}$ and $\sigma_{max}$ are the range of kernal size while $C$, $\sigma$ and $\epsilon$ are the optimzied normalization parameter, kernal size, and final accuracy respectively.
+The liver and glass data set contour plots have many topological features indicating that small variations in the RBFSVM parameters cause dramatic changes in the accuracy of the trained RBFSVM.
+The vowel data set does not display these features but rather has a plateau region atop a precipice in which the accuracy of the classifier does not change dramatically.
+The optimal classifier parameters are shown for the coarse parameter search in Table \ref{tab:CoarseParamValues} and for the fine parameter search in Table \ref{tab:FineParamValues}. $C_{min}$ and $C_{max}$ are the starting values of the grid search normalization parameter, $\sigma_{min}$ and $\sigma_{max}$ are the range of kernel size while $C$, $\sigma$ and $\epsilon$ are the optimized normalization parameter, kernel size, and final accuracy respectively.
 The values for the fine parameter search were chosen to be 50\% of the optimal values selected by the coarse parameter search.
 \begin{table}[h!]
 \caption{Coarse Optimal Classifier Parameters}
@@ -81,23 +81,23 @@ The values for the fine parameter search were chosen to be 50\% of the optimal v
 
 \subsection{AdaBoostM1}
 \label{sec:Results_AdaBoost}
-The effect of the number of the classifers in the ensamble is shown in Figure \ref{fig:AccuracyEnsambleSize}.
-It was observed for the un-balanced data sets the number of classifiers is the ensamble did not have a large effect (past a minimum amount of 20).
-Furthermore, it was suprising to note that the accuracy of the ensambles was constant for the liver data set, while the vowel data set showed an almost periodic trend that died out as the number of classifiers increased.
-The glass data set exhibited signficant varatition; it is thought that this occurs because of the well in the paramater space (Figure \ref{fig:ParamGlass}).
+The effect of the number of the classifiers in the ensemble is shown in Figure \ref{fig:AccuracyEnsambleSize}.
+It was observed for the un-balanced data sets the number of classifiers is the ensemble did not have a large effect (past a minimum amount of 20).
+Furthermore, it was surprising to note that the accuracy of the ensembles was constant for the liver data set, while the vowel data set showed an almost periodic trend that died out as the number of classifiers increased.
+The glass data set exhibited significant variation; it is thought that this occurs because of the well in the parameter space (Figure \ref{fig:ParamGlass}).
 \begin{figure}[!ht]
     \centering
     \includegraphics[width=0.45\textwidth]{AccuracyVSEnsambleSize}
-    \caption{Accuracy and Number of Compenents in Ensamble}
+    \caption{Accuracy and Number of Components in Ensemble}
     \label{fig:AccuracyEnsambleSize}
 \end{figure}
 
-The results using the implemented AdaBoostM1 algorthim are shown below in Table \ref{tab:AdaBoostValues}, while the weights of the individual classifers (represnative of their accuracy) are shown in Figure \ref{fig:EnsambleWeights}.
-It is immediately observablve that the AdaBoost algorthim increased the accuarcy of the the Liver and Glass data set, but failed to increase (in fact dramatically lowered) the accuaracy for the Vowel data set.
+The results using the implemented AdaBoostM1 algorithm are shown below in Table \ref{tab:AdaBoostValues}, while the weights of the individual classifiers (representative of their accuracy) are shown in Figure \ref{fig:EnsambleWeights}.
+It is immediately observable that the AdaBoost algorithm increased the accuracy of the the Liver and Glass data set, but failed to increase (in fact dramatically lowered) the accuracy for the Vowel data set.
 This is due to the vowel data set being balanced and each classifier being forced to be a weak classifier.
-When all of these weak classifiers are presented in an ensamble each classifer does not capature a specific region of the data set as the data set is balanced, but instead in the voting scheme cancel each other out, resulting in poor accuracy.
+When all of these weak classifiers are presented in an ensemble each classifier does not capture a specific region of the data set as the data set is balanced, but instead in the voting scheme cancel each other out, resulting in poor accuracy.
 \begin{table}[!ht]
-\caption{AdaBoost Classifer Values}
+\caption{AdaBoost Classifier Values}
 \label{tab:AdaBoostValues}
 \begin{center}
 \begin{tabular}{c c c c c}
@@ -110,10 +110,10 @@ When all of these weak classifiers are presented in an ensamble each classifer d
 \end{tabular}
 \end{center}
 \normalsize
-$T$ is the total number of classifiers trained, $\sigma_{init}$ is the initial $\sigma$ presented to AdaBoostM1, $C$ is the constant RBFSVM normalizaiton paramater, and $\epsilon$ is the accuracy of the ensamble method.  Refer to Table \ref{tab:FineParamValues} for the accuarcy of individual RBFSVM.
+$T$ is the total number of classifiers trained, $\sigma_{init}$ is the initial $\sigma$ presented to AdaBoostM1, $C$ is the constant RBFSVM normalization parameter, and $\epsilon$ is the accuracy of the ensemble method.  Refer to Table \ref{tab:FineParamValues} for the accuracy of individual RBFSVM.
 \end{table}
 
-The weight of each individual classifer for an ensamble of 150 members is shown in Figure \ref{fig:EnsambleWeights}
+The weight of each individual classifier for an ensemble of 150 members is shown in Figure \ref{fig:EnsambleWeights}
 \begin{figure*}[!ht]
 	\centering
 	\begin{subfigure}[b]{0.3\textwidth}
@@ -133,6 +133,6 @@ The weight of each individual classifer for an ensamble of 150 members is shown 
 		\includegraphics[width=\textwidth]{Vowel_EnsambleWeight}
         \caption{Vowel}
 	\end{subfigure}%
-	\caption{Distribution of Ensamble Weights}
+	\caption{Distribution of Ensemble Weights}
 	\label{fig:EnsambleWeights}
 \end{figure*}

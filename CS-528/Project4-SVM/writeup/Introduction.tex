@@ -4,6 +4,8 @@ A supervised machine learning problem is one which a learning algorthim is prese
 Typically the training set, denoted $S$, is a set of the form $\left \{ (\vec{x}_1,y_1), (\vec{x}_2,y_2), \dots, (\vec{x}_n,y_n) \right \}$ where $\vec{x}_i$ is vector of some features of the problem.
 Examples of problem features include discrete or real valued items such as height, weight, age, zip code, grade point average, starting salary, and telephone number (as just a few)  which might make up the features of a person.
 The $y_i$ are the class of the training feature $\vec{x}_i$ belongs to; these might be University of Tennessee students or Carnegie Mellon students.
+In this examples students with a zip code of 15213 are likely to be Tartans, while students with a zip code of 37916 are like to be Volunteers.
+The challenge arises from examples have overlaping features; for example this author as a former Tartan and current Vol would be difficult to classify by zip code.
 The learning algorthims job is then to find a hypothesis $h$ that corrrectly classifies a student as a Volunteer of Tartan based on the features providied.
 This learning process can then be defined as finding the hypothesis that has the least error (incorrect classifications) on the training data set while extending to examples outside of the training space.
 

@@ -1,5 +1,0 @@
-Data Set  & $T$ & $\sigma_{init}$ & $C$ & $\epsilon$ \\ 
-\hline 
-Glass & 50 & 5.00 & 6.16 & 76.47  \\ 
-Liver & 50 & 3.00 & 13.10 & 73.33  \\ 
-Vowel & 50 & 2.00 & 10.00 & 56.49  \\ 

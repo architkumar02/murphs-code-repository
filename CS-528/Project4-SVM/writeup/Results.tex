@@ -102,7 +102,7 @@ The confusion matrices of the RBFSVM classifiers are presented in Tables \ref{ta
 \subsection{AdaBoostM1}
 \label{sec:Results_AdaBoost}
 The effect of the number of the classifiers in the ensemble is shown in Figure \ref{fig:AccuracyEnsambleSize}.
-It was observed for the un-balanced data sets the number of classifiers is the ensemble did not have a large effect (past a minimum amount of 20).
+It was observed for the unbalanced data sets the number of classifiers is the ensemble did not have a large effect (past a minimum amount of 20).
 Furthermore, it was surprising to note that the accuracy of the ensembles was constant for the liver data set, while the vowel data set showed an almost periodic trend that died out as the number of classifiers increased.
 The glass data set exhibited significant variation; it is thought that this occurs because of the well in the parameter space (Figure \ref{fig:ParamGlass}).
 \begin{figure}[!ht]
@@ -112,10 +112,10 @@ The glass data set exhibited significant variation; it is thought that this occu
     \label{fig:AccuracyEnsambleSize}
 \end{figure}
 
-The results using the implemented AdaBoostM1 algorithm are shown below in Table \ref{tab:AdaBoostValues}, while the weights of the individual classifiers (representative of their accuracy) are shown in Figure \ref{fig:EnsambleWeights}.
-It is immediately observable that the AdaBoost algorithm increased the accuracy of the the liver and glass data set, but failed to increase (in fact dramatically lowered) the accuracy for the vowel data set.
+The results using the implemented AdaBoostM1 algorithm are shown in Table \ref{tab:AdaBoostValues}, while the weights of the individual classifiers (representative of their accuracy) are shown in Figure \ref{fig:EnsambleWeights}.
+It is immediately observable that the AdaBoost algorithm increased the accuracy of the liver and glass data set, but failed to increase, and instead dramatically lowered the accuracy for the vowel data set.
 This is due to the vowel data set being balanced and each classifier being forced to become a weak classifier in the ensemble.
-When this ensemble  is presented an input to classify each classifier does not capture a specific region of the data set (as the data set is balanced), but instead in the voting scheme cancel each other out, resulting in poor accuracy.
+When this ensemble  is presented an input to classify, each classifier does not capture a specific region of the data set (as the data set is balanced), but instead in the voting scheme cancel each other out, resulting in poor accuracy.
 \begin{table}[!ht]
 \caption{AdaBoost Classifier Values}
 \label{tab:AdaBoostValues}

@@ -43,7 +43,7 @@ This problem can be translated  in to the Wolfe dual form, which can be solved w
 Unbalanced data sets (data sets in which a majority of the values come from one class, see Figure \ref{fig:ClassDist}) are difficult for classification schemes to learn because the minority class is not well represented and tends to be thought as noise for the classifier.
 Often classifiers are trained from unbalanced data sets by artificially balancing the data set by sampling techniques; i.e. up-sampling (sampling more from the minority class) and down-sampling (sampling less from the majority class).
 Boosting is an ensemble learning method in which a set of weights is maintained over the training samples and adaptively adjusted after each training iteration according to the ones that are misclassified \cite{li_adaboost_2008}.
-Given an individual classifier $h$, an ensemble of classifiers can be constructed of a set of individual classifiers, $H=\{h_1, h_2,\dot, h_n\}$.
+Given an individual classifier $h$, an ensemble of classifiers can be constructed of a set of individual classifiers, $H=\{h_1, h_2,\dots, h_n\}$.
 By maintaining a weight distribution over all of the training examples, these weights could be updated to emphasize the training examples that are misclassified incorrectly.  These incorrectly classified examples could then be learned in a refinement of the classifier or by training adding a new classifier to the ensemble with the new weights.
 Performance of the ensemble is enhanced as long as the individual classifiers are weak and have uncorrelated errors, as when any single classifier is incorrect the other classifiers in the ensemble might correctly classify the example.
 \begin{figure*}[ht!]

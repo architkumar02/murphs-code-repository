@@ -23,10 +23,18 @@ for data = dataSets
     g = linspace(-7,7,n);
     [cv,c_coarse(i),g_coarse(i)] = gridParam(c,g,label,inst);
   
+    % Ensamble Testing
+    [label,inst]=libsvmread(fullfile(dataPath,testSets{i}));
+    [predict_label,accuracy] = SVMAdaPredict(label,inst, ensambleSVM,alpha);
+    
+    % Save the confusion maxtrix
+    fC = fopen(sprintf('Part1_Confusion_%s.dat',setNames{i}),'w');
+    PrintConfusion(fC,label,predict_label);
+    fclose(fC);
     
     % Writing the values
     fprintf(f,'%s & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f & %3.2f \\\\ \n',...
-        setNames{i},min(c),max(c),min(g),max(g),c_coarse(i),g_coarse(i),cv);
+        setNames{i},min(c),max(c),min(g),max(g),c_coarse(i),g_coarse(i),accuracy(1)*100);
     
     % Save the figure
     title(sprintf('Coarse Parameter Search: %s',setNames{i}));

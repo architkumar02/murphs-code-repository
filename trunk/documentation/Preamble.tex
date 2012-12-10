@@ -1,0 +1,75 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                                 PREAMBLE                                %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[]{article}
+
+%% PACKAGES
+\usepackage[margin=1in]{geometry}
+\usepackage[]{lineno}
+\linenumbers
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{listings,amsmath}
+\usepackage{microtype,todonotes}
+\usepackage[strings]{underscore}
+\usepackage{fancyvrb}
+\VerbatimFootnotes
+
+%% GRAPHICS RELATED
+\usepackage[outdir=./tmp/]{epstopdf}
+\graphicspath{{./images/}{./}{./tmp/}}
+%\usepackage[outdir=../images/tmp/]{epstopdf}
+%\graphicspath{{../images/}{./}{../images/tmp/}}
+\DeclareGraphicsExtensions{.eps, .pdf, .jpeg, .png}
+
+%% BIBLIOGRAPHY
+\bibliographystyle{ieeetr}
+
+%% CPATION SETUP
+%\usepackage{subfig}
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{belowskip=12pt,aboveskip=4pt}
+
+%% EQUATIONS
+%\numberwithin{equation}{section}
+
+\usepackage{hyperref}
+%% LISTINGS
+\lstset{ %
+    language=C++,
+    basicstyle=\footnotesize\ttfamily,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=2,
+    numbersep=5pt,
+    backgroundcolor=\color{white},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black},
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=false,
+    title=\lstname,
+    keywordstyle=\color{blue},
+    commentstyle=\color{OliveGreen},
+    stringstyle=\color{orange}
+}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35, 0.01}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white,singlelinecheck=false,margin=0pt,font={bf,footnotesize}}
+\lstnewenvironment{code}[1][]%
+{ \noindent\minipage{\linewidth}
+	\lstset{#1}
+}
+{\endminipage}
+
+%% USER COMMANDS
+\newcommand{\iso}[2]{${}^{#2}${#1}}
+\newcommand{\figurewidth}{\textwidth}
+\newcommand{\micron}{$\mu$m}
+

@@ -5,6 +5,7 @@
 #include "G4Event.hh"
 #include "G4Run.hh"
 #include "G4VHitsCollection.hh"
+#include "DetectorConstruction.hh"
 
 #include "TNtuple.h"
 #include "TProfile.h"
@@ -19,7 +20,6 @@
 // How do we want to save the results?
 using namespace G4Root;
 
-#define NUMLAYERS 1     // Number of layers in the detector
 #define WORLDNUM 0      // Map between material and Number
 #define GAPNUM 1
 #define ABSNUM 2
@@ -48,6 +48,9 @@ private:
 
     void ProcessHitCollection(G4VHitsCollection* hc, G4int eventID);
     
+    // Pointer to the Detector Geometry
+    DetectorConstruction *detector;
+
     // ROOT output objects
     TH1F* hEventTotEDepGap[NUMLAYERS+1];    /* Total Energy Deposited per Event */
     TH1F* hEventTotEDepAbs[NUMLAYERS+1];

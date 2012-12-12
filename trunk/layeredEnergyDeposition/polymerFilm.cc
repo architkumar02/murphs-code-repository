@@ -2,6 +2,7 @@
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
+#include "Analysis.hh"
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
@@ -33,7 +34,8 @@ int main(int argc,char** argv)
   runManager->SetUserAction(new RunAction());
   runManager->SetUserAction(new EventAction());
   runManager->Initialize();
-  
+  Analysis *a = new Analysis(detector);  // Don't store the class, access it through Singleton?  
+
 #ifdef G4VIS_USE
   // Initialize visualization
   G4VisManager* visManager = new G4VisExecutive;

@@ -25,15 +25,17 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 
 		G4double GetWorldSizeXY()			{return worldSizeXY;};
 		G4double GetWorldSizeZ()			{return worldSizeZ;};
-		G4double GetCaloThickness()		{return caloThickness;};
+		G4double GetCaloThickness()		    {return caloThickness;};
 		G4double GetCaloRadius()			{return oRadius;};
 
 		G4Material* GetAbsorberMaterial()		{return absMaterial;};
-		G4double	 GetAbsorberThickness()			{return absThickness;};
+		G4double	 GetAbsorberThickness()		{return absThickness;};
 
-		G4Material* GetGapMaterial()				{return gapMaterial;};
-		G4double	 GetGapThickness()				{return gapThickness;};
-
+		G4Material* GetGapMaterial()			{return gapMaterial;};
+		G4double	 GetGapThickness()			{return gapThickness;};
+		G4int   GetNumberGapSlices()            {return numberGapSlices;};
+        G4int   GetNumberAbsSlices()            {return numberAbsSlices;};
+        
 		const G4VPhysicalVolume* GetPhysicalWorld()		{return worldPV;};
 
 		void SetAbsorberMaterial(G4String);
@@ -62,7 +64,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4VPhysicalVolume* worldPV;		// Pointer to world physical volume
 		G4VSolid* worldS;						// Pointer to world's solid
 
-
         G4LogicalVolume* absLV;				// Absorber Mother Volume
 		G4VPhysicalVolume* absPV;			
 		G4VSolid*	absS;
@@ -90,7 +91,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4Material* gapMaterial;        	// Gap material
 
 		// Geometry parameters
-		G4double sliceThickness;        // Thickness of an energy depostion slice
+		G4int   numberGapSlices;        // Number of gap slices
+        G4int   numberAbsSlices;        // Nubmer of absorber slices
+        G4double sliceThickness;        // Thickness of an energy depostion slice
         G4double absThickness;	      	// Thickness of Absorber
 		G4double gapThickness;        	// Thickness of Gap 
 		G4double oRadius;		    			// Outer Radius of Detector

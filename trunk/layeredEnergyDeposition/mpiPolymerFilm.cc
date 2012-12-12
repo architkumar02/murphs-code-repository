@@ -41,13 +41,14 @@ int main(int argc,char** argv)
   // user application setting
   // --------------------------------------------------------------------
   G4RunManager * runManager = new G4RunManager;
-  
-  runManager->SetUserInitialization(new DetectorConstruction);
+  DetectorConstruction *detector = new DetectorConstruction();  
+  runManager->SetUserInitialization(detector);
   runManager->SetUserInitialization(new PhysicsList);
   runManager->SetUserAction(new PrimaryGeneratorAction());
   runManager->SetUserAction(new RunAction());
   runManager->SetUserAction(new EventAction());
   runManager->Initialize();
+  Analysis::Analysis(detector);  
 
 #ifdef G4VIS_USE
   G4VisExecutive* visManager= new G4VisExecutive;

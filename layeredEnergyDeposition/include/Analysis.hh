@@ -27,15 +27,20 @@ using namespace G4Root;
 class Analysis {
 
 public:
+    Analysis(DetectorConstruction *det);
+    
     // Singleton
     static Analysis* GetInstance(){
+        /*
        if(Analysis::singleton == NULL)
-           Analysis::singleton = new Analysis();
-       return Analysis::singleton;
+           Analysis::singleton = new Analysis(DetectorConstruction *det);
+      */
+      return Analysis::singleton;
     }
 
     virtual ~Analysis() {};
 
+    // Accumulation Methods
     void PrepareNewEvent(const G4Event* anEvent);
     void PrepareNewRun(const G4Run* aRun);
     void EndOfEvent(const G4Event* anEvent);
@@ -43,7 +48,6 @@ public:
 
 private:
     // Singleton Analysis
-    Analysis();
     static Analysis *singleton;
 
     void ProcessHitCollection(G4VHitsCollection* hc, G4int eventID);
@@ -51,18 +55,5 @@ private:
     // Pointer to the Detector Geometry
     DetectorConstruction *detector;
 
-    // ROOT output objects
-    TH1F* hEventTotEDepGap[NUMLAYERS+1];    /* Total Energy Deposited per Event */
-    TH1F* hEventTotEDepAbs[NUMLAYERS+1];
-    TH1F* hEventTotCalo;
-    TH1F* hHitTotEDepGap[NUMLAYERS];        /* Total Energy Deposited per Hit */
-    TH1F* hHitTotEDepAbs[NUMLAYERS]; 
-    TH1F* hSecElecKinAbs[NUMLAYERS][NUMPID+1];/* Kinetic Energy of first secondary e- */
-    
-    TFile* outfile;
-
-    // Accumulation Variables
-   G4double eventEDepTot_Abs[NUMLAYERS+1];  /* Total Energy deposited in Abs */
-   G4double eventEDepTot_Gap[NUMLAYERS+1];  /* Total Energy deposited in Gap */
 };
 #endif

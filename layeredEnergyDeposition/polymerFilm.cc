@@ -26,8 +26,8 @@ int main(int argc,char** argv)
 
     // ----------------- User Application Setting -----------------
   G4RunManager * runManager = new G4RunManager;
-  
-  runManager->SetUserInitialization(new DetectorConstruction);
+  DetectorConstruction *detector = new DetectorConstruction();  
+  runManager->SetUserInitialization(detector);
   runManager->SetUserInitialization(new PhysicsList);
   runManager->SetUserAction(new PrimaryGeneratorAction());
   runManager->SetUserAction(new RunAction());

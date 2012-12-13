@@ -21,59 +21,59 @@
 
 int main(int argc,char** argv)
 {
-  // Choose the Random engine
-  CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
- 
+    // Choose the Random engine
+    CLHEP::HepRandom::setTheEngine(new CLHEP::RanecuEngine);
+
 
     // ----------------- User Application Setting -----------------
-  G4RunManager * runManager = new G4RunManager;
-  DetectorConstruction *detector = new DetectorConstruction();  
-  runManager->SetUserInitialization(detector);
-  runManager->SetUserInitialization(new PhysicsList);
-  runManager->SetUserAction(new PrimaryGeneratorAction());
-  runManager->SetUserAction(new RunAction());
-  runManager->SetUserAction(new EventAction());
-  runManager->Initialize();
-  Analysis *a = new Analysis(detector);  // Don't store the class, access it through Singleton?  
+    G4RunManager * runManager = new G4RunManager;
+    DetectorConstruction *detector = new DetectorConstruction();  
+    runManager->SetUserInitialization(detector);
+    Analysis *a = new Analysis(detector);
+    runManager->SetUserInitialization(new PhysicsList);
+    runManager->SetUserAction(new PrimaryGeneratorAction());
+    runManager->SetUserAction(new RunAction(a));
+    runManager->SetUserAction(new EventAction(a));
+    runManager->Initialize();
 
 #ifdef G4VIS_USE
-  // Initialize visualization
-  G4VisManager* visManager = new G4VisExecutive;
-  visManager->Initialize();
+    // Initialize visualization
+    G4VisManager* visManager = new G4VisExecutive;
+    visManager->Initialize();
 #endif
 
-  // Get the pointer to the User Interface manager
-  G4UImanager* UImanager = G4UImanager::GetUIpointer();
+    // Get the pointer to the User Interface manager
+    G4UImanager* UImanager = G4UImanager::GetUIpointer();
 
-  if (argc!=1)   // batch mode
+    if (argc!=1)   // batch mode
     {
-      G4String command = "/control/execute ";
-      G4String fileName = argv[1];
-      UImanager->ApplyCommand(command+fileName);
+        G4String command = "/control/execute ";
+        G4String fileName = argv[1];
+        UImanager->ApplyCommand(command+fileName);
     }
-  else
+    else
     {  // interactive mode : define UI session
 #ifdef G4UI_USE
-      G4UIExecutive* ui = new G4UIExecutive(argc, argv);
+        G4UIExecutive* ui = new G4UIExecutive(argc, argv);
 #ifdef G4VIS_USE
-      UImanager->ApplyCommand("/control/execute vis.mac"); 
+        UImanager->ApplyCommand("/control/execute vis.mac"); 
 #else
-      UImanager->ApplyCommand("/control/execute init.mac"); 
+        UImanager->ApplyCommand("/control/execute init.mac"); 
 #endif
-      if (ui->IsGUI())
-        UImanager->ApplyCommand("/control/execute gui.mac");
-      ui->SessionStart();
-      delete ui;
+        if (ui->IsGUI())
+            UImanager->ApplyCommand("/control/execute gui.mac");
+        ui->SessionStart();
+        delete ui;
 #endif
     }
- 
- 
- // Job termination
+
+
+    // Job termination
 
 #ifdef G4VIS_USE
-  delete visManager;
+    delete visManager;
 #endif
-  delete runManager;
+    delete runManager;
 
-  return 0;
+    return 0;
 }

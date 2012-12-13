@@ -132,6 +132,7 @@ void DetectorConstruction::DefineMaterials()
     new G4Material("Galactic", z=1., a=1.01*g/mole,density= universe_mean_density,kStateGas, 2.73*kelvin, 3.e-18*pascal);
 
     nistManager->FindOrBuildMaterial("G4_PLEXIGLASS",fromIsotopes);
+    nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes);
     nistManager->FindOrBuildMaterial("G4_AIR",fromIsotopes);
     nistManager->FindOrBuildMaterial("G4_WATER",fromIsotopes);
     // Print materials
@@ -156,6 +157,7 @@ void DetectorConstruction::ComputeParameters(){
     numberAbsSlices = ceil(absThickness/sliceThickness);
     numberGapSlices = ceil(gapThickness/sliceThickness);
 }
+
 /**
  * PrintCaloParameters
  *
@@ -170,7 +172,7 @@ void DetectorConstruction::PrintCaloParameters(){
         << " + "
         << gapThickness/mm << "mm of " << gapMaterial->GetName() << " ]"
         << "\n--> A single slice is " <<sliceThickness/um << " um thick."
-        << "\n--> There are "<<numberGapSlices<<" in the gap (left and right)."
+        << "\n--> There are "<<2*numberGapSlices<<" in the gap (left and right)."
         << "\n--> There are "<<numberAbsSlices<<" in the abosrber."
         << "\n--> The calormeter is " <<caloThickness/cm << " cm thick"
         << " with a radius of "<<oRadius/cm<<" cm"

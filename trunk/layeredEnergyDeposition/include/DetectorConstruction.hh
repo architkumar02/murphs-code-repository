@@ -29,11 +29,13 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4double GetCaloRadius()			{return oRadius;};
 
 		G4Material* GetAbsorberMaterial()		{return absMaterial;};
-		G4double	 GetAbsorberThickness()		{return absThickness;};
-
 		G4Material* GetGapMaterial()			{return gapMaterial;};
-		G4double	 GetGapThickness()			{return gapThickness;};
-		G4int   GetNumberGapSlices()            {return numberGapSlices;};
+		
+        G4double    GetAbsorberThickness()		{return absThickness;};
+		G4double	GetGapThickness()			{return gapThickness;};
+		G4double    GetSliceThickness()         {return sliceThickness;};
+
+        G4int   GetNumberGapSlices()            {return numberGapSlices;};
         G4int   GetNumberAbsSlices()            {return numberAbsSlices;};
         
 		const G4VPhysicalVolume* GetPhysicalWorld()		{return worldPV;};

@@ -13,19 +13,19 @@
 
 #include "Analysis.hh"
 
-RunAction::RunAction() : G4UserRunAction()
-{ 
+RunAction::RunAction(Analysis *a) : G4UserRunAction(){
+    analysis = a;
 }
 
 
 void RunAction::BeginOfRunAction(const G4Run* run)
 { 
 	G4cout<<"Starting  run: " << run->GetRunID()<< G4endl;
-    Analysis::GetInstance()->PrepareNewRun(run);
+    analysis->PrepareNewRun(run);
 }
 
 
 void RunAction::EndOfRunAction(const G4Run* aRun)
 {
-    Analysis::GetInstance()->EndOfRun(aRun);
+    analysis->EndOfRun(aRun);
 }

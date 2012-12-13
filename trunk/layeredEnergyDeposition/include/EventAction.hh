@@ -11,6 +11,8 @@
 
 #include "G4UserEventAction.hh"
 #include "globals.hh"
+#include "Analysis.hh"
+
 class G4Event;
 
 /*!
@@ -20,18 +22,16 @@ class G4Event;
  */
 
 
-class EventAction : public G4UserEventAction
-{
-public:
-  EventAction();
-  virtual ~EventAction() {};
-  //! Beginning of the event
-  virtual void  BeginOfEventAction(const G4Event* event);
-  //! Digitize hits and store information
-  virtual void    EndOfEventAction(const G4Event* event);
-                     
-    
-private:
-  
+class EventAction : public G4UserEventAction{
+    public:
+        EventAction(Analysis *a);
+        virtual ~EventAction() {};
+        //! Beginning of the event
+        virtual void  BeginOfEventAction(const G4Event* event);
+        //! Digitize hits and store information
+        virtual void    EndOfEventAction(const G4Event* event);
+
+    private:
+        Analysis *analysis;  
 };
 #endif

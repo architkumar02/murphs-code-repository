@@ -7,7 +7,6 @@
 #include <stdlib.h>
 #include <iostream>
 
-#include "G4Exception.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Event.hh"
 #include "G4ThreeVector.hh"
@@ -40,13 +39,13 @@ void Analysis::PrepareNewEvent(const G4Event* anEvent){
 
 void Analysis::PrepareNewRun(const G4Run* aRun){
     // Creating space for the energy deposition
-    myEDepRun = malloc(sizeof(G4double)*numSlices);
-    varEDepRun = malloc(sizeof(G4double)*numSlices);
-    numEntries = malloc(sizeof(G4int)*numSlices);
-    eDepEvent = malloc(sizeof(G4double)*numSlices);
-    if (myEDepRun == NULL || varEDepRun == NULL || 
+    muEDepRun = (G4double*) malloc(sizeof(G4double)*numSlices);
+    varEDepRun = (G4double*) malloc(sizeof(G4double)*numSlices);
+    numEntries = (G4int*) malloc(sizeof(G4int)*numSlices);
+    eDepEvent = (G4double*) malloc(sizeof(G4double)*numSlices);
+    if (muEDepRun == NULL || varEDepRun == NULL || 
         numEntries == NULL || eDepEvent == NULL){
-        G4Exception("Could not allocate analysis accumulation variables");
+        G4Exception("Analsysis","malloc error",FatalException,"Could not allocate analysis accumulation variables");
     }
 
     // Initialize average energy depsoition (and variance with entries)
@@ -77,7 +76,7 @@ void Analysis::EndOfEvent(const G4Event* event){
     for(G4int i = 0; i < numSlices; i++){
         numEntries[i] ++;
         muEDepRun[i] += eDepEvent[i];
-        varEDepRun[i] += eDepEevent[i]*eDepEvent[i];
+        varEDepRun[i] += eDepEvent[i]*eDepEvent[i];
     }
 }
 /**

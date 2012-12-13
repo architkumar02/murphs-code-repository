@@ -2,26 +2,15 @@
 #include "G4UnitsTable.hh"
 #include "globals.hh"
 
-#include "G4String.hh"
-#include "G4AttDef.hh"
-#include "G4AttValue.hh"
-
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
-#include <string>
-#include <sstream>
-#include <vector>
-#include <map>
 
-#include "G4Trajectory.hh"
+#include "G4Exception.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Event.hh"
 #include "G4ThreeVector.hh"
-#include <fstream>
-
-#include "TString.h"
 
 #ifdef G4MPIUSE
 #include "G4MPImanager.hh"
@@ -35,13 +24,37 @@ Analysis::Analysis(DetectorConstruction* det):detector(det){
     <<"\n -> "<<detector->GetNumberGapSlices()<<" gap slices"
     <<"\n -> "<<detector->GetNumberAbsSlices()<<" absorber slices"
     <<G4endl;
+    numSlices = detector->GetNumberGapSlices() + detector->GetNumberAbsSlices();
 }
 
+/**
+ * PrepareNewEvent
+ *
+ * Called before each event
+ */
 void Analysis::PrepareNewEvent(const G4Event* anEvent){
-
+    // Initialize energy deposition to zero
+    for(G4int i = 0; i < numSlices; i++)
+        eDepEvent[i] = 0.0;
 }
 
 void Analysis::PrepareNewRun(const G4Run* aRun){
+    // Creating space for the energy deposition
+    myEDepRun = malloc(sizeof(G4double)*numSlices);
+    varEDepRun = malloc(sizeof(G4double)*numSlices);
+    numEntries = malloc(sizeof(G4int)*numSlices);
+    eDepEvent = malloc(sizeof(G4double)*numSlices);
+    if (myEDepRun == NULL || varEDepRun == NULL || 
+        numEntries == NULL || eDepEvent == NULL){
+        G4Exception("Could not allocate analysis accumulation variables");
+    }
+
+    // Initialize average energy depsoition (and variance with entries)
+    for(G4int i = 0; i < numSlices; i++){
+        muEDepRun[i] = 0.0;
+        varEDepRun[i] = 0.0;
+        numEntries[i] = 0.0;
+    }
 }
 
 /**
@@ -60,6 +73,12 @@ void Analysis::ProcessHitCollection(G4VHitsCollection *hc,G4int eventID){
  * @param G4Event* event
  */
 void Analysis::EndOfEvent(const G4Event* event){
+    // Need to copy the event energy deposition total into the run total
+    for(G4int i = 0; i < numSlices; i++){
+        numEntries[i] ++;
+        muEDepRun[i] += eDepEvent[i];
+        varEDepRun[i] += eDepEevent[i]*eDepEvent[i];
+    }
 }
 /**
  * EndOfRun
@@ -67,4 +86,20 @@ void Analysis::EndOfEvent(const G4Event* event){
  * Called at the end of a run, which summerizes the run
  */
 void Analysis::EndOfRun(const G4Run* aRun){
+    // Calculting the statistics!
+    for (G4int i = 0; i < numSlices; i++){
+        muEDepRun[i] = muEDepRun[i]/numEntries[i];
+        varEDepRun[i] = (numEntries[i]/(numEntries[i] - 1))*(
+            varEDepRun[i]/numEntries[i] - (muEDepRun[i]*muEDepRun[i]));
+
+    }
+
+    // Need to write out the the data
+    G4cout<<"Need to write out the data!"<<G4endl;
+    
+    // Free Willy!
+    free(muEDepRun);
+    free(varEDepRun);
+    free(numEntries);
+    free(eDepEvent);
 }

@@ -55,5 +55,12 @@ private:
     // Pointer to the Detector Geometry
     DetectorConstruction *detector;
 
+    // Accumulation Variables
+    G4int numSlices;
+    G4double *muEDepRun;
+    G4double *varEDepRun;
+    G4int    *numEntries;
+    G4double *eDepEvent;
+    
 };
 #endif

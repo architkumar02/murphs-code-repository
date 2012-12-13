@@ -16,9 +16,14 @@
 \usepackage{fancyvrb}
 \VerbatimFootnotes
 
+%% HYPERLINKS
+\ifx\pdfoutput\undefined
+\usepackage[hypertex]{hyperref}
+\else
+\usepackage[pdftex,hypertexnames=false]{hyperref}
+\fi
+
 %% GRAPHICS RELATED
-%\usepackage[outdir=./tmp/]{epstopdf}
-%\graphicspath{{./images/}{./}{./tmp/}}
 \usepackage[outdir=./tmp/]{epstopdf}
 \graphicspath{{../images/}{./}{./tmp/}}
 \DeclareGraphicsExtensions{.eps, .pdf, .jpeg, .png}
@@ -27,7 +32,6 @@
 \bibliographystyle{ieeetr}
 
 %% CPATION SETUP
-%\usepackage{subfig}
 \usepackage{caption}
 \usepackage{subcaption}
 \captionsetup{belowskip=12pt,aboveskip=4pt}
@@ -35,7 +39,6 @@
 %% EQUATIONS
 %\numberwithin{equation}{section}
 
-\usepackage{hyperref}
 %% LISTINGS
 \lstset{ %
     language=C++,

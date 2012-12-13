@@ -177,8 +177,13 @@ GUNZIP		?= gunzip	# GZipped EPS
 # == Beamer Enlarged Output ==
 PSNUP		?= psnup
 # == Viewing Stuff ==
+UNAME := $(shell uname)
 VIEW_POSTSCRIPT	?= gv
-VIEW_PDF	?= xpdf
+ifeq ($(UNAME),Linux)
+VIEW_PDF	?= evince
+else
+VIEW_PDF	?= open
+endif
 VIEW_GRAPHICS	?= display
 
 # Xindy glossaries

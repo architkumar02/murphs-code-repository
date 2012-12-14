@@ -33,11 +33,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		
         G4double    GetAbsorberThickness()		{return absThickness;};
 		G4double	GetGapThickness()			{return gapThickness;};
-		G4double    GetSliceThickness()         {return sliceThickness;};
 
-        G4int   GetNumberGapSlices()            {return numberGapSlices;};
-        G4int   GetNumberAbsSlices()            {return numberAbsSlices;};
-        
 		const G4VPhysicalVolume* GetPhysicalWorld()		{return worldPV;};
 
 		void SetAbsorberMaterial(G4String);
@@ -66,26 +62,17 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4VPhysicalVolume* worldPV;		// Pointer to world physical volume
 		G4VSolid* worldS;						// Pointer to world's solid
 
-        G4LogicalVolume* absLV;				// Absorber Mother Volume
+        G4LogicalVolume* absLV;				// Absorber Volume
 		G4VPhysicalVolume* absPV;			
 		G4VSolid*	absS;
-        G4LogicalVolume* absLVSlice;        // Absorber slice
-        G4VPhysicalVolume* absPVSlice;
-        G4VSolid*   absSSlice;
 
-        G4LogicalVolume* gapRLV;			// Gap Mother Volume (right)
+        G4LogicalVolume* gapRLV;			// Gap Volume (right)
 		G4VPhysicalVolume* gapRPV;			
 		G4VSolid*	gapRS;
-        G4LogicalVolume* gapRLVSlice;        // Gap Slice (right)
-        G4VPhysicalVolume* gapRPVSlice;
-        G4VSolid*   gapRSSlice;
 
-        G4LogicalVolume* gapLLV;			// Gap Mother Volume (left)
+        G4LogicalVolume* gapLLV;			// Gap Volume (left)
 		G4VPhysicalVolume* gapLPV;			
 		G4VSolid*	gapLS;
-        G4LogicalVolume* gapLLVSlice;        // Gap Slice (left)
-        G4VPhysicalVolume* gapLPVSlice;
-        G4VSolid*   gapLSSlice;
 
 		// Materials
 		G4Material* defaultMaterial;    	// Vacumun
@@ -93,9 +80,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4Material* gapMaterial;        	// Gap material
 
 		// Geometry parameters
-		G4int   numberGapSlices;        // Number of gap slices
-        G4int   numberAbsSlices;        // Nubmer of absorber slices
-        G4double sliceThickness;        // Thickness of an energy depostion slice
         G4double absThickness;	      	// Thickness of Absorber
 		G4double gapThickness;        	// Thickness of Gap 
 		G4double oRadius;		    			// Outer Radius of Detector
@@ -111,9 +95,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		CaloSensitiveDetector* absSD;
 		CaloSensitiveDetector* gapSD;
 
-		// data members
 		G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
-
 		DetectorMessenger* detectorMessenger;		// Pointer to the messenger
 };
 #endif

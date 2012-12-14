@@ -12,39 +12,40 @@
 
 class Analysis {
 
-public:
-    Analysis(DetectorConstruction *det);
-    
-    // Singleton
-    static Analysis* GetInstance(){
-        /*
-       if(Analysis::singleton == NULL)
-           Analysis::singleton = new Analysis(DetectorConstruction *det);
-      */
-      return Analysis::singleton;
-    }
+    public:
+        Analysis(DetectorConstruction *det);
 
-    virtual ~Analysis() {};
+        virtual ~Analysis() {};
 
-    // Accumulation Methods
-    void PrepareNewEvent(const G4Event* anEvent);
-    void PrepareNewRun(const G4Run* aRun);
-    void EndOfEvent(const G4Event* anEvent);
-    void EndOfRun(const G4Run* aRun);
+        // Accumulation Methods
+        void PrepareNewEvent(const G4Event* anEvent);
+        void PrepareNewRun(const G4Run* aRun);
+        void EndOfEvent(const G4Event* anEvent);
+        void EndOfRun(const G4Run* aRun);
+        
+        // Geometry variables
+        G4int   GetNumberGapSlices()      {return numberGapSlices;};
+        G4int   GetNumberAbsSlices()      {return numberAbsSlices;};
+        G4int   GetNumberSlices()         {return numberSlices;};
+   
+   private:
 
-private:
-    // Singleton Analysis
-    static Analysis *singleton;
+        void ComputeParameters();
 
-    // Pointer to the Detector Geometry
-    DetectorConstruction *detector;
+        // Pointer to the Detector Geometry
+        DetectorConstruction *detector;
 
-    // Accumulation Variables
-    G4int numSlices;
-    G4double *muEDepRun;
-    G4double *varEDepRun;
-    G4int    *numEntries;
-    G4double *eDepEvent;
-    
+        // Geometry Variables
+        G4double sliceThickness;        // Thickness of an energy depostion slice
+        G4int   numberGapSlices;        // Number of gap slices
+        G4int   numberAbsSlices;        // Number of absorber slices
+        G4int   numberSlices;           // Number of slice (total)
+
+        // Accumulation Variables
+        G4double *muEDepRun;
+        G4double *varEDepRun;
+        G4int    *numEntries;
+        G4double *eDepEvent;
+
 };
 #endif

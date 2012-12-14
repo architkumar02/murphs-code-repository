@@ -15,11 +15,31 @@
 #include "G4MPImanager.hh"
 #endif
 
-Analysis* Analysis::singleton = 0;
-
+/**
+ * Analysis
+ *
+ * Creates an Analysis object based on the geometry contained
+ * in det. 
+ */
 Analysis::Analysis(DetectorConstruction* det):detector(det){
     // Empty Constructor, assingment done in constuctor list
-    numSlices = 2*(detector->GetNumberGapSlices()) + detector->GetNumberAbsSlices();
+    sliceThickness = 5*um;
+    ComputeParameters();
+}
+/**
+ * ComputeParameters
+ *
+ * Computes the parameters of this run
+ */
+void Analysis::ComputeParameters(){
+    // Getting geometry of detector
+    G4double absThickness = detector->GetAbsorberThickness();
+    G4double gapThickness = detector->GetGapThickness();
+
+    // Computing number of slices
+    numberAbsSlices = ceil(absThickness/sliceThickness);
+    numberGapSlices = ceil(gapThickness/sliceThickness);
+    numberSlices = 2*numberGapSlices+numberAbsSlices;
 }
 
 /**
@@ -30,7 +50,7 @@ Analysis::Analysis(DetectorConstruction* det):detector(det){
  */
 void Analysis::PrepareNewEvent(const G4Event* anEvent){
     // Initialize energy deposition to zero
-    for(G4int i = 0; i < numSlices; i++)
+    for(G4int i = 0; i < numberSlices; i++)
         eDepEvent[i] = 0.0;
 }
 /**
@@ -39,18 +59,20 @@ void Analysis::PrepareNewEvent(const G4Event* anEvent){
  * @brief - called before each run
  */
 void Analysis::PrepareNewRun(const G4Run* aRun){
-    // Creating space for the energy deposition
-    muEDepRun = (G4double*) malloc(sizeof(G4double)*numSlices);
-    varEDepRun = (G4double*) malloc(sizeof(G4double)*numSlices);
-    numEntries = (G4int*) malloc(sizeof(G4int)*numSlices);
-    eDepEvent = (G4double*) malloc(sizeof(G4double)*numSlices);
+   ComputeParameters();
+   
+   // Creating space for the energy deposition
+    muEDepRun = (G4double*) malloc(sizeof(G4double)*numberSlices);
+    varEDepRun = (G4double*) malloc(sizeof(G4double)*numberSlices);
+    numEntries = (G4int*) malloc(sizeof(G4int)*numberSlices);
+    eDepEvent = (G4double*) malloc(sizeof(G4double)*numberSlices);
     if (muEDepRun == NULL || varEDepRun == NULL || 
             numEntries == NULL || eDepEvent == NULL){
         G4Exception("Analsysis","malloc error",FatalException,"Could not allocate analysis accumulation variables");
     }
 
     // Initialize average energy depsoition (and variance with entries)
-    for(G4int i = 0; i < numSlices; i++){
+    for(G4int i = 0; i < numberSlices; i++){
         muEDepRun[i] = 0.0;
         varEDepRun[i] = 0.0;
         numEntries[i] = 0.0;
@@ -84,7 +106,7 @@ void Analysis::EndOfEvent(const G4Event* event){
             zPos = hit->GetPosition().z();
             
             // Getting the slice from the position (pg 53 of lab notebook)
-            slice = floor( (zPos+offset)/detector->GetSliceThickness()); 
+            slice = floor( (zPos+offset)/sliceThickness); 
         
             // Adding the energy to the slice
             eDepEvent[slice]+=eDep;
@@ -92,7 +114,7 @@ void Analysis::EndOfEvent(const G4Event* event){
     }
 
     // Need to copy the event energy deposition total into the run total
-    for(G4int i = 0; i < numSlices; i++){
+    for(G4int i = 0; i < numberSlices; i++){
         numEntries[i] ++;
         muEDepRun[i] += eDepEvent[i];
         varEDepRun[i] += eDepEvent[i]*eDepEvent[i];
@@ -106,7 +128,7 @@ void Analysis::EndOfEvent(const G4Event* event){
  */
 void Analysis::EndOfRun(const G4Run* aRun){
     // Calculting the statistics!
-    for (G4int i = 0; i < numSlices; i++){
+    for (G4int i = 0; i < numberSlices; i++){
         muEDepRun[i] = muEDepRun[i]/numEntries[i];
         varEDepRun[i] = (numEntries[i]/(numEntries[i] - 1))*(
                 varEDepRun[i]/numEntries[i] - (muEDepRun[i]*muEDepRun[i]));
@@ -133,18 +155,19 @@ void Analysis::EndOfRun(const G4Run* aRun){
     
     // Writing Run Information
     G4double offset = detector->GetGapThickness()+detector->GetAbsorberThickness()/2;
-    G4double constant = -offset+detector->GetSliceThickness()/2;
+    G4double constant = -offset+sliceThickness/2;
+
     fprintf(outfile,"##################### Run Information ####################\n");
     fprintf(outfile,"# Run %d\n",aRun->GetRunID());
     fprintf(outfile,"################## Geometry Information ##################\n");
-    fprintf(outfile,"# Absorber is %5.3f um (%d slices)\n",detector->GetAbsorberThickness()/um,detector->GetNumberAbsSlices());
-    fprintf(outfile,"# Gap (one side) is %5.3f cm (%d slices)\n",detector->GetGapThickness()/cm,detector->GetNumberGapSlices());
-    fprintf(outfile,"# A slice is %5.3f um\n",detector->GetSliceThickness());
-    fprintf(outfile,"# Slice(Z) = floor( (Z + %5.3e)/%5.3e)\n",offset,detector->GetSliceThickness());
+    fprintf(outfile,"# Absorber is %5.3f um (%d slices)\n",detector->GetAbsorberThickness()/um,numberAbsSlices);
+    fprintf(outfile,"# Gap (one side) is %5.3f cm (%d slices)\n",detector->GetGapThickness()/cm,numberGapSlices);
+    fprintf(outfile,"# A slice is %5.3f um\n",sliceThickness);
+    fprintf(outfile,"# Slice(Z) = floor( (Z + %5.3e)/%5.3e)\n",offset,sliceThickness);
     fprintf(outfile,"################## Energy Deposition ##################\n");
     fprintf(outfile,"# Slice\t\tPos\tMean\tVariance\tNum Entries\n");
-    for(G4int i = 0; i < numSlices; i++)
-        fprintf(outfile,"%d\t%7.5f\t%7.5f\t%7.5f\t%d\n",i,i*detector->GetSliceThickness()+constant,muEDepRun[i],varEDepRun[i],numEntries[i]);
+    for(G4int i = 0; i < numberSlices; i++)
+        fprintf(outfile,"%d\t%7.5f\t%7.5f\t%7.5f\t%d\n",i,i*sliceThickness+constant,muEDepRun[i],varEDepRun[i],numEntries[i]);
     fclose(outfile);
 
     // Free Willy!

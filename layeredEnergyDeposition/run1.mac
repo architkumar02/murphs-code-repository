@@ -4,8 +4,8 @@
 # Setting up the detector
 #
 /PolymerTransport/det/setAbsMat PS_Detector
-/PolymerTransport/det/setGapMat G4_POLYSTYRENE
-/PolymerTransport/det/setGapThick 0.3175 cm
+/PolymerTransport/det/setGapMat G4_PLEXIGLASS
+/PolymerTransport/det/setGapThick 1 cm
 #
 /PolymerTransport/det/setAbsThick 15 um
 /PolymerTransport/det/update
@@ -48,9 +48,51 @@
 /gun/particle neutron
 /gun/energy 0.025 eV
 /run/beamOn 1000000 # 1 Million
+#
+/PolymerTransport/det/setAbsThick 100 um
+/PolymerTransport/det/update
+# Cobalt 60
+/gun/particle gamma
+/gun/direction 0 0 1
+/gun/energy 1.1732 MeV
+/run/beamOn 500000000 # 500 Million
+/gun/energy 1.3325 MeV
+/run/beamOn 500000000 # 500 Million
+# Neutron
+/gun/particle neutron
+/gun/energy 0.025 eV
+/run/beamOn 1000000 # 1 Million
 
 #
 /PolymerTransport/det/setAbsThick 150 um
+/PolymerTransport/det/update
+# Cobalt 60
+/gun/particle gamma
+/gun/direction 0 0 1
+/gun/energy 1.1732 MeV
+/run/beamOn 500000000 # 500 Million
+/gun/energy 1.3325 MeV
+/run/beamOn 500000000 # 500 Million
+# Neutron
+/gun/particle neutron
+/gun/energy 0.025 eV
+/run/beamOn 1000000 # 1 Million
+#
+/PolymerTransport/det/setAbsThick 200 um
+/PolymerTransport/det/update
+# Cobalt 60
+/gun/particle gamma
+/gun/direction 0 0 1
+/gun/energy 1.1732 MeV
+/run/beamOn 500000000 # 500 Million
+/gun/energy 1.3325 MeV
+/run/beamOn 500000000 # 500 Million
+# Neutron
+/gun/particle neutron
+/gun/energy 0.025 eV
+/run/beamOn 1000000 # 1 Million
+#
+/PolymerTransport/det/setAbsThick 250 um
 /PolymerTransport/det/update
 # Cobalt 60
 /gun/particle gamma
@@ -80,7 +122,7 @@
 /run/beamOn 1000000 # 1 Million
 
 #
-/PolymerTransport/det/setAbsThick 600 um
+/PolymerTransport/det/setAbsThick 500 um
 /PolymerTransport/det/update
 # Cobalt 60
 /gun/particle gamma

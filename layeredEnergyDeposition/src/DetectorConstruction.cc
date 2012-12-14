@@ -35,7 +35,6 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
     fCheckOverlaps(true){
 
         // Geometry parameters
-        sliceThickness= 5*um;           // Thickness of a slice
         absThickness = 50*um;	        // Thickness of Absorber
 
         gapThickness = 1*cm;            // Thickness of Gap 
@@ -152,10 +151,6 @@ void DetectorConstruction::ComputeParameters(){
     caloThickness = absThickness+2*gapThickness;
     worldSizeXY = 1.2 * oRadius;
     worldSizeZ  = caloThickness+2*cm; 
-
-        
-    numberAbsSlices = ceil(absThickness/sliceThickness);
-    numberGapSlices = ceil(gapThickness/sliceThickness);
 }
 
 /**
@@ -171,9 +166,6 @@ void DetectorConstruction::PrintCaloParameters(){
         << absThickness/um << "um of " << absMaterial->GetName() 
         << " + "
         << gapThickness/mm << "mm of " << gapMaterial->GetName() << " ]"
-        << "\n--> A single slice is " <<sliceThickness/um << " um thick."
-        << "\n--> There are "<<2*numberGapSlices<<" in the gap (left and right)."
-        << "\n--> There are "<<numberAbsSlices<<" in the abosrber."
         << "\n--> The calormeter is " <<caloThickness/cm << " cm thick"
         << " with a radius of "<<oRadius/cm<<" cm"
         << "\n------------------------------------------------------------\n"
@@ -215,9 +207,6 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
     absPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,0.0),
                 absLV,"Absorber",worldLV,false,0,fCheckOverlaps);
-    absSSlice = new G4Tubs("AbsSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
-    absLVSlice = new G4LogicalVolume(absSSlice,absMaterial,"Absorber",0);
-    absPVSlice = new G4PVReplica("AbsSlicedPV",absLVSlice,absLV,kZAxis,numberAbsSlices,sliceThickness);
 
     // Gap (right)
     G4double offset = (gapThickness + absThickness)/2;
@@ -225,18 +214,12 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     gapRLV = new G4LogicalVolume(gapRS,gapMaterial,"Gap",0);
     gapRPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-offset),
                 gapRLV,"Gap Right",worldLV,false,0,fCheckOverlaps);
-    gapRSSlice = new G4Tubs("GapSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
-    gapRLVSlice = new G4LogicalVolume(gapRSSlice,gapMaterial,"Gap Right",0);
-    gapRPVSlice = new G4PVReplica("GapSlicedPV",gapRLVSlice,gapRLV,kZAxis,numberGapSlices,sliceThickness);
     
     // Gap (left)
     gapLS = new G4Tubs("Gap Left",iRadius,oRadius,gapThickness/2,0,spanAngle);
     gapLLV = new G4LogicalVolume(gapLS,gapMaterial,"Gap",0);
     gapLPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,offset),
                 gapLLV,"Gap Left",worldLV,false,0,fCheckOverlaps);
-    gapLSSlice = new G4Tubs("GapSlice",iRadius,oRadius,sliceThickness/2,0,spanAngle);
-    gapLLVSlice = new G4LogicalVolume(gapLSSlice,gapMaterial,"Gap Left",0);
-    gapLPVSlice = new G4PVReplica("GapSlicedPV",gapLLVSlice,gapLLV,kZAxis,numberGapSlices,sliceThickness);
        
     PrintCaloParameters();
 
@@ -260,7 +243,7 @@ void DetectorConstruction::SetSensitiveDetectors(){
     gapRLV->SetSensitiveDetector(gapSD);
 
     // Setting the Maximum Step Size
-    G4double maxStep = 0.5*absThickness;
+    G4double maxStep = 0.1*absThickness;
     absLV->SetUserLimits(new G4UserLimits(maxStep));
 }
 /**

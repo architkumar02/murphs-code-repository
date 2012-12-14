@@ -39,6 +39,7 @@ Five additional classes are available for further control over the simulation:
 \subsection{GEANT4 Tracking and Secondaries}
 
 A GEANT4 simulation starts with a run which contains a set number of events.
+In GEANT4 the \verb+Run+ is the large unit of simulation (represented with a \verb+G4Run+ object), which consists of a sequence of events.
 An event is particular process of interest to the user, such as shooting a single particle at a detector. 
 Typical usage might be to have a run firing 1,000 neutrons at a detector, where each neutron is a single event.
 Each particle transported in GEANT4 is assigned a unique track ID and a parent ID.

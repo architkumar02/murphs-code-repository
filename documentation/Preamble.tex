@@ -8,22 +8,23 @@
 \usepackage[margin=1in]{geometry}
 \usepackage[]{lineno}
 \linenumbers
-\usepackage{graphicx}
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{listings,amsmath}
 \usepackage{microtype,todonotes}
-\usepackage[strings]{underscore}
+
+%% CPATION SETUP
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{belowskip=12pt,aboveskip=4pt}
+
 \usepackage{fancyvrb}
 \VerbatimFootnotes
 
 %% HYPERLINKS
-\ifx\pdfoutput\undefined
-\usepackage[hypertex]{hyperref}
-\else
-\usepackage[pdftex,hypertexnames=false]{hyperref}
-\fi
+\usepackage[debug]{hyperref}
 
 %% GRAPHICS RELATED
+\usepackage{graphicx}
 \usepackage[outdir=./tmp/]{epstopdf}
 \graphicspath{{../images/}{./}{./tmp/}}
 \DeclareGraphicsExtensions{.eps, .pdf, .jpeg, .png}
@@ -31,10 +32,6 @@
 %% BIBLIOGRAPHY
 \bibliographystyle{ieeetr}
 
-%% CPATION SETUP
-\usepackage{caption}
-\usepackage{subcaption}
-\captionsetup{belowskip=12pt,aboveskip=4pt}
 
 %% EQUATIONS
 %\numberwithin{equation}{section}

@@ -24,23 +24,12 @@ int main(int argc,char** argv)
     // --------------------------------------------------------------------
     // MPI session
     // --------------------------------------------------------------------
-    // At first, G4MPImanager/G4MPIsession should be created.
     G4MPImanager* g4MPI= new G4MPImanager(argc,argv);
-
-    // MPI session (G4MPIsession) instead of G4UIterminal
-    // Terminal availability depends on your MPI implementation.
     G4MPIsession* session= g4MPI-> GetMPIsession();
-
-    // LAM/MPI users can use G4tcsh.
-    G4String prompt= "[40;01;33m";
-    prompt+= "G4MPI";
-    prompt+= "[40;31m(%s)[40;36m[%/][00;30m:";
-    session-> SetPrompt(prompt);
 
     // --------------------------------------------------------------------
     // user application setting
     // --------------------------------------------------------------------
-    // ----------------- User Application Setting -----------------
     G4RunManager * runManager = new G4RunManager;
     DetectorConstruction *detector = new DetectorConstruction();  
     runManager->SetUserInitialization(detector);
@@ -64,15 +53,13 @@ int main(int argc,char** argv)
     // --------------------------------------------------------------------
     session-> SessionStart();
 
-
     // termination
 #ifdef G4VIS_USE
     delete visManager;
 #endif
-
     delete g4MPI;
-
     delete runManager;
-
+    delete a;
+    delete detector;
     return 0;
 }

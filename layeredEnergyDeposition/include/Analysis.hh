@@ -4,7 +4,6 @@
 #include "G4Event.hh"
 #include "G4Run.hh"
 #include "G4VHitsCollection.hh"
-#include "DetectorConstruction.hh"
 
 #include "CaloHit.hh"
 
@@ -13,10 +12,18 @@
 class Analysis {
 
     public:
-        Analysis(DetectorConstruction *det);
+        // Singleton Class
+        static Analysis* GetInstance(){
+            if(Analysis::singleton == NULL)
+                Analysis::singleton = new Analysis();
+            return Analysis::singleton;
+        }
 
-        virtual ~Analysis() {};
-
+        virtual ~Analysis();
+        
+        // Updating geometry
+        void ComputeParameters(G4double caloThickness);
+        
         // Accumulation Methods
         void PrepareNewEvent(const G4Event* anEvent);
         void PrepareNewRun(const G4Run* aRun);
@@ -24,21 +31,17 @@ class Analysis {
         void EndOfRun(const G4Run* aRun);
         
         // Geometry variables
-        G4int   GetNumberGapSlices()      {return numberGapSlices;};
-        G4int   GetNumberAbsSlices()      {return numberAbsSlices;};
         G4int   GetNumberSlices()         {return numberSlices;};
    
    private:
 
-        void ComputeParameters();
-
-        // Pointer to the Detector Geometry
-        DetectorConstruction *detector;
+        // Singleton Analysis
+        Analysis();
+        static Analysis *singleton;
 
         // Geometry Variables
         G4double sliceThickness;        // Thickness of an energy depostion slice
-        G4int   numberGapSlices;        // Number of gap slices
-        G4int   numberAbsSlices;        // Number of absorber slices
+        G4double caloThickness;         // Thickness of the calorimeters
         G4int   numberSlices;           // Number of slice (total)
 
         // Accumulation Variables

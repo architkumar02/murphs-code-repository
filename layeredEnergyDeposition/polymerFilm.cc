@@ -2,7 +2,6 @@
 #include "PrimaryGeneratorAction.hh"
 #include "RunAction.hh"
 #include "EventAction.hh"
-#include "Analysis.hh"
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
@@ -26,13 +25,11 @@ int main(int argc,char** argv){
 
     // ----------------- User Application Setting -----------------
     G4RunManager * runManager = new G4RunManager;
-    DetectorConstruction *detector = new DetectorConstruction();  
-    runManager->SetUserInitialization(detector);
-    Analysis *a = new Analysis(detector);
+    runManager->SetUserInitialization(new DetectorConstruction()); 
     runManager->SetUserInitialization(new PhysicsList);
     runManager->SetUserAction(new PrimaryGeneratorAction());
-    runManager->SetUserAction(new RunAction(a));
-    runManager->SetUserAction(new EventAction(a));
+    runManager->SetUserAction(new RunAction());
+    runManager->SetUserAction(new EventAction());
     runManager->Initialize();
 
 #ifdef G4VIS_USE
@@ -69,7 +66,5 @@ int main(int argc,char** argv){
     delete visManager;
 #endif
     delete runManager;
-    delete detector;
-    delete analysis;
     return 0;
 }

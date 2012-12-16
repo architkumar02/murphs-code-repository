@@ -24,7 +24,7 @@ class G4Event;
 
 class EventAction : public G4UserEventAction{
     public:
-        EventAction(Analysis *a);
+        EventAction();
         virtual ~EventAction() {};
         //! Beginning of the event
         virtual void  BeginOfEventAction(const G4Event* event);
@@ -32,6 +32,5 @@ class EventAction : public G4UserEventAction{
         virtual void    EndOfEventAction(const G4Event* event);
 
     private:
-        Analysis *analysis;  
 };
 #endif

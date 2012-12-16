@@ -26,6 +26,8 @@
 #include "G4TransportationManager.hh"
 #include "G4UserLimits.hh"
 
+#include "Analysis.hh"
+
 /**
  * DetectorConstruction
  *
@@ -93,10 +95,6 @@ void DetectorConstruction::DefineMaterials()
     G4bool fromIsotopes = true;
 
     // Getting Elements
-    G4Element* eH = nistManager->FindOrBuildElement("H",fromIsotopes);
-    G4Element* eC = nistManager->FindOrBuildElement("C",fromIsotopes);
-    G4Element* eO = nistManager->FindOrBuildElement("O",fromIsotopes);
-    G4Element* eN = nistManager->FindOrBuildElement("N",fromIsotopes);
     G4Element* eF = nistManager->FindOrBuildElement("F",fromIsotopes);
     G4Element* eS = nistManager->FindOrBuildElement("S",fromIsotopes);
     G4Element* eZn = nistManager->FindOrBuildElement("Zn",fromIsotopes);
@@ -151,6 +149,9 @@ void DetectorConstruction::ComputeParameters(){
     caloThickness = absThickness+2*gapThickness;
     worldSizeXY = 1.2 * oRadius;
     worldSizeZ  = caloThickness+2*cm; 
+
+    // Updating the Analysis Module
+    Analysis::GetInstance()->ComputeParameters(caloThickness);
 }
 
 /**
@@ -201,26 +202,17 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     //
     // Setting up the Calorimeter
     //
+    caloS = new G4Tubs("Calo",iRadius,oRadius,caloThickness/2,0,spanAngle);
+    caloLV = new G4LogicalVolume(caloS,gapMaterial,"Gap",0);
+    caloPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,0.0),
+                caloLV,"Calo",worldLV,false,0,fCheckOverlaps);
 
     // Absorber
     absS = new G4Tubs("Abs",iRadius,oRadius,absThickness/2,0,spanAngle);
     absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
     absPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,0.0),
-                absLV,"Absorber",worldLV,false,0,fCheckOverlaps);
+                absLV,"Absorber",caloLV,false,0,fCheckOverlaps);
 
-    // Gap (right)
-    G4double offset = (gapThickness + absThickness)/2;
-    gapRS = new G4Tubs("Gap Right",iRadius,oRadius,gapThickness/2,0,spanAngle);
-    gapRLV = new G4LogicalVolume(gapRS,gapMaterial,"Gap",0);
-    gapRPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,-offset),
-                gapRLV,"Gap Right",worldLV,false,0,fCheckOverlaps);
-    
-    // Gap (left)
-    gapLS = new G4Tubs("Gap Left",iRadius,oRadius,gapThickness/2,0,spanAngle);
-    gapLLV = new G4LogicalVolume(gapLS,gapMaterial,"Gap",0);
-    gapLPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,offset),
-                gapLLV,"Gap Left",worldLV,false,0,fCheckOverlaps);
-       
     PrintCaloParameters();
 
     // Return the worlds physical volume
@@ -233,14 +225,9 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
  */
 void DetectorConstruction::SetSensitiveDetectors(){
     G4SDManager* SDman = G4SDManager::GetSDMpointer();
-    absSD = new CaloSensitiveDetector("SD/AbsSD","AbsHitCollection");
-    SDman->AddNewDetector(absSD);
-    absLV->SetSensitiveDetector(absSD);
-
-    gapSD = new CaloSensitiveDetector("SD/GapSD","GapHitCollection");
-    SDman->AddNewDetector(gapSD);
-    gapLLV->SetSensitiveDetector(gapSD);
-    gapRLV->SetSensitiveDetector(gapSD);
+    caloSD = new CaloSensitiveDetector("SD/CaloSD","CaloHitCollection");
+    SDman->AddNewDetector(caloSD);
+    caloLV->SetSensitiveDetector(caloSD);
 
     // Setting the Maximum Step Size
     G4double maxStep = 0.1*absThickness;
@@ -260,12 +247,11 @@ void DetectorConstruction::SetVisAttributes(){
     //atb->SetForceSolid(true);
     absLV->SetVisAttributes(atb);}
 
-    // Setting the Visualization attributes for the Gap
+    // Setting the Visualization attributes for the Calorimeter 
     {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Gray());
     //atb->SetForceWireframe(true);
     //atb->SetForceSolid(true);
-    gapLLV->SetVisAttributes(atb);
-    gapRLV->SetVisAttributes(atb);}
+    caloLV->SetVisAttributes(atb);}
 
     // Setting the Layers to be white and invisiable
     {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
@@ -332,9 +318,7 @@ void DetectorConstruction::SetCaloRadius(G4double val){
 void DetectorConstruction::UpdateGeometry(){
     G4RunManager::GetRunManager()->DefineWorldVolume(ConstructCalorimeter());
     
-    absLV->SetSensitiveDetector(absSD);
-    gapLLV->SetSensitiveDetector(gapSD);
-    gapRLV->SetSensitiveDetector(gapSD);
+    caloLV->SetSensitiveDetector(caloSD);
 
     // Setting the Maximum Step Size
     G4double maxStep = 0.5*absThickness;

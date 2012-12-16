@@ -58,22 +58,18 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		void SetSensitiveDetectors();
 
 		// Geometry Names
-		G4LogicalVolume* worldLV;			// Pointer to world logical volume
-		G4VPhysicalVolume* worldPV;		// Pointer to world physical volume
-		G4VSolid* worldS;						// Pointer to world's solid
+		G4LogicalVolume*    worldLV;		// World
+		G4VPhysicalVolume*  worldPV;
+		G4VSolid*           worldS;
 
-        G4LogicalVolume* absLV;				// Absorber Volume
-		G4VPhysicalVolume* absPV;			
-		G4VSolid*	absS;
+        G4LogicalVolume*    absLV;			// Absorber Volume
+		G4VPhysicalVolume*  absPV;			
+		G4VSolid*	        absS;
 
-        G4LogicalVolume* gapRLV;			// Gap Volume (right)
-		G4VPhysicalVolume* gapRPV;			
-		G4VSolid*	gapRS;
-
-        G4LogicalVolume* gapLLV;			// Gap Volume (left)
-		G4VPhysicalVolume* gapLPV;			
-		G4VSolid*	gapLS;
-
+        G4LogicalVolume*    caloLV;         // Calorimeter (gap)
+        G4VPhysicalVolume*  caloPV;
+        G4VSolid*           caloS;
+    
 		// Materials
 		G4Material* defaultMaterial;    	// Vacumun
 		G4Material* absMaterial;   		// Detector material
@@ -82,8 +78,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		// Geometry parameters
         G4double absThickness;	      	// Thickness of Absorber
 		G4double gapThickness;        	// Thickness of Gap 
-		G4double oRadius;		    			// Outer Radius of Detector
-		G4double iRadius;						// Inner radious of  Detector
+		G4double oRadius;		    	// Outer Radius of Detector
+		G4double iRadius;			    // Inner radious of  Detector
 		G4double startAngle;
 		G4double spanAngle;
 
@@ -92,8 +88,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4double worldSizeZ;
 
 		// Sensitive Detectors
-		CaloSensitiveDetector* absSD;
-		CaloSensitiveDetector* gapSD;
+		CaloSensitiveDetector* caloSD;
 
 		G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
 		DetectorMessenger* detectorMessenger;		// Pointer to the messenger

@@ -31,13 +31,11 @@ int main(int argc,char** argv)
     // user application setting
     // --------------------------------------------------------------------
     G4RunManager * runManager = new G4RunManager;
-    DetectorConstruction *detector = new DetectorConstruction();  
-    runManager->SetUserInitialization(detector);
-    Analysis *a = new Analysis(detector);
+    runManager->SetUserInitialization(new DetectorConstruction());  
     runManager->SetUserInitialization(new PhysicsList);
     runManager->SetUserAction(new PrimaryGeneratorAction());
-    runManager->SetUserAction(new RunAction(a));
-    runManager->SetUserAction(new EventAction(a));
+    runManager->SetUserAction(new RunAction());
+    runManager->SetUserAction(new EventAction());
     runManager->Initialize();
 
 #ifdef G4VIS_USE
@@ -59,7 +57,5 @@ int main(int argc,char** argv)
 #endif
     delete g4MPI;
     delete runManager;
-    delete a;
-    delete detector;
     return 0;
 }

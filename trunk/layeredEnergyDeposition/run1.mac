@@ -13,9 +13,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -27,9 +27,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -41,9 +41,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -55,9 +55,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -70,9 +70,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -84,9 +84,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -98,9 +98,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -113,9 +113,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -128,9 +128,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -143,9 +143,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -158,9 +158,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -173,9 +173,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV
@@ -188,9 +188,9 @@
 /gun/particle gamma
 /gun/direction 0 0 1
 /gun/energy 1.1732 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 /gun/energy 1.3325 MeV
-/run/beamOn 500000000 # 500 Million
+/run/beamOn 1000000 # 500 Million
 # Neutron
 /gun/particle neutron
 /gun/energy 0.025 eV

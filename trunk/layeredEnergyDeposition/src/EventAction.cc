@@ -8,15 +8,15 @@
 #include "G4UnitsTable.hh"
 #include "G4ios.hh"
 
-EventAction::EventAction(Analysis *a) : G4UserEventAction(){
-    analysis = a;
-}
+EventAction::EventAction() : G4UserEventAction(){ }
 
-
-
+/*
+ * BeginOfEventAction
+ *
+ * Called before the begining of each event
+ */
 void EventAction::BeginOfEventAction(const G4Event* event){
-
-    analysis->PrepareNewEvent(event);
+    Analysis::GetInstance()->PrepareNewEvent(event);
 }
 
 /**
@@ -28,6 +28,5 @@ void EventAction::BeginOfEventAction(const G4Event* event){
  * this event, and record the useful information.
  */
 void EventAction::EndOfEventAction(const G4Event* event){  
-
-    analysis->EndOfEvent(event);
+    Analysis::GetInstance()->EndOfEvent(event);
 }

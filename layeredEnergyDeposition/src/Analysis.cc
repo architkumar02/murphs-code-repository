@@ -105,7 +105,7 @@ void Analysis::EndOfEvent(const G4Event* event){
         for(G4int i = 0; i < hc->GetSize(); i++){
             hit = (CaloHit*) hc->GetHit(i);
 
-            hit->Print();
+    //        hit->Print();
 
             // Getting Hit Properties
             eDep = hit->GetEdep();

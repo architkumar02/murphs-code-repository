@@ -1,0 +1,36 @@
+ABOUT:
+    Tracks the enegy deposition of neutron and gamma events in a polymer 
+    (or layers of polymers) using the GEANT4 simulation toolkit
+
+USAGE:
+    path:   # export G4WORKDIR=$(pwd)
+    compile:# make -j8
+            # make -j8 --eval=G4MPIUSE:=true
+    run:    # ./bin/Linux-g++/polymerFilm <runMacro.mac>
+            # mpirun -np <#> -machinefile <NodeList> ./bin/Linux-g++/mpiPolymerFilm <runMacro.mac>
+
+ANALYSIS SCRIPTS:
+    compile:    root[#] .L <scriptName>.C+g
+    run:
+        DetectorEDep.C
+        SecondaryElectrons.C    - Looks at the energy depsoited by sec. e-
+        PlotHistograms.C        - Utility for plotting histograms
+        GetHistData.C
+
+RUN MACROS:
+alphaRun.mac
+Co60.mac
+electronRun.mac
+gammaAbsThickness.mac
+gammaRun.mac
+gui.mac
+init.mac
+init_vis.mac
+mpiPolymerFilm.cc
+neutronRun.mac
+polymerFilm.cc
+run1.mac
+run1_neutron.mac
+run2.mac
+testRun.mac
+vis.mac

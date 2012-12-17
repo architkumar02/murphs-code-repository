@@ -15,18 +15,14 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
-#include "pdf2cdf.C"
-#include "pdf2cdfWeighted.C"
 /*
  * Sometimes it is VERY, VERY useful to compile
  *  root[#] .L psDetectorVal.C+g
  */
 void energyDep(const char* fileName,double XMAX){
 
-    // XMAX = 4.78 for N, 1.34 for gamma
-
-    char histKey[128] ="totEventEDepGap_00";
     // Getting the files and thickness
+    char histKey[128] ="totEventEDepGap_00";
     FILE* in = fopen(fileName,"r");
     TObjArray *files = new TObjArray();
     TObjArray *hist = new TObjArray();
@@ -60,8 +56,8 @@ void energyDep(const char* fileName,double XMAX){
     thickness->Print();
 
     // Plotting
-    double numEvents = 1000000000;
     float scale = 1.0;
+    double numEvents;
     gStyle->SetOptStat(0);
     TCanvas* c1 = new TCanvas();
     TLegend* leg = new TLegend(0.8,0.7,0.9,0.9);
@@ -93,43 +89,8 @@ void energyDep(const char* fileName,double XMAX){
     leg->Draw("same");
     c1->Update();
 
-    // Looking at the CDF
-    TObjArray *cdf = new TObjArray();
-    TCanvas* c2 = new TCanvas();
-    TLegend* legcdf = new TLegend(0.8,0.7,0.9,0.9);
-    for (int i = 0; i < hist->GetEntriesFast(); i ++){
-        cdf->Add(pdf2cdfWeighted((TH1F*) hist->At(i)));
-        s = (TObjString*) thickness->At(i);
-        legcdf->AddEntry(((TH1F*) cdf->At(i)),s->String().Data(),"l");
-        fprintf(stdout,"Plotting CDF of histogram %s\n",s->String().Data());
-        if (i == 0){
-            ((TH1F*) cdf->At(i))->Draw();
-            TAxis *xaxis = ((TH1F*) cdf->At(i))->GetXaxis();
-            xaxis->SetRangeUser(0,XMAX);
-
-            TAxis *yaxis = ((TH1F*) cdf->At(i))->GetYaxis();
-            yaxis->SetRangeUser(1E-2,1.0);
-            
-            ((TH1F*) cdf->At(i))->GetXaxis()->SetTitle("Energy Deposition per Event (MeV)");
-            ((TH1F*) cdf->At(i))->GetYaxis()->SetTitle("Probability");
-            ((TH1F*) cdf->At(i))->SetTitle("Energy Deposition CDF");
-        }
-        else{
-            ((TH1F*) cdf->At(i))->Draw("same");
-        }
-        ((TH1F*) cdf->At(i))->SetLineColor(i+1);
-    }
-    legcdf->Draw("same");
-    c2->Update();
-    fprintf(stdout,"Finished CDF Plotting\n");
-    
-    
     // Getting some properities
-    double lower = 0.01;
-    double upper = 0.99;
-    double lowError = 0.0;
-    double highError = XMAX;
-    fprintf(stdout,"\n\tInter.\t\tMean\t\tWeighted Mean\t\t+%3.2f Error\t\t-%3.2f error\n",lower,upper);
+    fprintf(stdout,"\n\tInter.\t\tMean\t\tWeighted Mean\n");
     for (int i =0; i < hist->GetEntriesFast(); i++){
         h = (TH1F*) hist->At(i);
         double inter = 1.0 - h->GetBinContent(1);
@@ -142,18 +103,9 @@ void energyDep(const char* fileName,double XMAX){
         }
         double i2 = h->Integral(2,h->GetNbinsX());
         s = (TObjString*) thickness->At(i);
-        // Finding the error on the average value from the histogram
-        for (int bin = 1; bin < ((TH1F*) cdf->At(i))->GetNbinsX(); bin++){
-            if ( ((TH1F*) cdf->At(i))->GetBinContent(bin) <= lower*(i1/i2)){
-                lowError = ((TH1F*) cdf->At(i))->GetBinCenter(bin);
-            }
-            else if ( ((TH1F*) cdf->At(i))->GetBinContent(bin) <= upper*(i1/i2) ) 
-                highError = ((TH1F*) cdf->At(i))->GetBinCenter(bin);
-        }
-        fprintf(stdout,"%s\t%5.4e\t%5.4e\t%5.4e\t%5.4e\t%5.4e\n",s->String().Data(),inter,mean,i1/i2,lowError,highError);
+        fprintf(stdout,"%s\t%5.4e\t%5.4e\t%5.4e\n",s->String().Data(),inter,mean,i1/i2);
 
     }
-
     
     // Saving Histograms
     char buffer[128];
@@ -186,7 +138,6 @@ void energyDep(const char* fileName,double XMAX){
 void generateHADD(){
     system("source MergeRoot.sh run1");
 }
-
 
 /**
  * Main

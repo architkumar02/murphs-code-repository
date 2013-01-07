@@ -8,15 +8,11 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <TObjArray.h>
 #include <TH1F.h>
 #include <TFile.h>
-#include <TLegend.h>
-#include <TAxis.h>
-#include <TPad.h>
-#include <TStyle.h>
-#include <TCanvas.h>
 
-#include "PlotHistograms.C"
+#include "HistUtilities.hh"
 
 
 /*
@@ -67,11 +63,10 @@ void SecondaryElectronsGamma(const char* fileName,int numEvents){
     fprintf(stdout,"\nThickness:\n");
     thickness->Print();
 
-    PlotHistogram(histPID1,thickness,XMAX,"PID = 1","Electron Kinetic Energy (MeV)");
-    PlotHistogram(histPID2,thickness,XMAX,"PID = 2","Electron Kinetic Energy (MeV)");
-    PlotHistogram(histPID3,thickness,XMAX,"PID = 3","Electron Kinetic Energy (MeV)");
+    plotHistograms("SecondaryElec_Gamma_PID1.eps",histPID1,thickness,XMAX,"PID = 1","Electron Kinetic Energy (MeV)");
+    plotHistograms("SecondaryElec_Gamma_PID2.eps",histPID2,thickness,XMAX,"PID = 2","Electron Kinetic Energy (MeV)");
+    plotHistograms("SecondaryElec_Gamma_PID3.eps",histPID3,thickness,XMAX,"PID = 3","Electron Kinetic Energy (MeV)");
     
-    fprintf(stdout,"Code Ran to Completion\n");
 }
 
 void SecondaryElectronsNeutrons(const char* fileName,int numEvents){
@@ -122,17 +117,11 @@ void SecondaryElectronsNeutrons(const char* fileName,int numEvents){
     fprintf(stdout,"\nThickness:\n");
     thickness->Print();
 
-    PlotHistogram(histPID3,thickness,XMAX,"PID = 3","Electron Kinetic Energy (MeV)");
-    PlotHistogram(histPID4,thickness,XMAX,"PID = 4","Electron Kinetic Energy (MeV)");
+    plotHistograms("SecElec_Neutrons_PID3.eps",histPID3,thickness,XMAX,"PID = 3","Electron Kinetic Energy (MeV)");
+    plotHistograms("SecElec_Neturons_PID4.eps",histPID4,thickness,XMAX,"PID = 4","Electron Kinetic Energy (MeV)");
     
     fprintf(stdout,"Code Ran to Completion\n");
 }
-// 
-// Code used to generate the input files
-void generateHADD(){
-    system("source MergeRoot.sh run1");
-}
-
 
 /**
  * Main
@@ -140,5 +129,6 @@ void generateHADD(){
 # ifndef __CINT__
 int main(){
     SecondaryElectronsGamma("PS_GammaList.txt",1000000);
+    SecondaryElectronsNeutrons("PS_NeutronList.txt",100000);
 }
 #endif

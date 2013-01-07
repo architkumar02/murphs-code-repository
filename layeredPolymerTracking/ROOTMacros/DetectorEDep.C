@@ -17,51 +17,7 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
-
-/**
- * saveHistograms
- * @brief - saves the histogram data to a file
- * @param fileName  - name of the file
- * @param hist      - Histograms
- * @param labels    - labels of the histograms
- *
- * Only the energy bin for the first histogram is written. Entries in the
- * files are tab ('\t') seperated.
- */
-void saveHistograms(const char *fileName, TObjArray *hist, TObjArray *labels){
-
-    TH1F* h = NULL;
-    TH1F* hRef = NULL;
-    TObjString *s = NULL;
-    FILE* outFile = fopen(fileName,"w");
-    printf("Writing histograms to: %s\n",fileName);
-    if (outFile != NULL){
-
-        // Creating headers
-        fprintf(outFile,"Energy\t");
-        for (int i = 0; i<hist->GetEntriesFast(); i++){
-            s = (TObjString*) labels->At(i);
-            fprintf(outFile,"\t%s\t",s->String().Data());
-        }
-        fprintf(outFile,"\n");
-        
-        // Writing the histogram data
-        hRef = (TH1F*) hist->At(0);
-        for(int bin = 3; bin < hRef->GetNbinsX(); bin++){
-            fprintf(outFile,"%5.4e\t",hRef->GetBinCenter(bin));
-            for(int i = 0; i < hist->GetEntriesFast(); i++){
-                h = (TH1F*) hist->At(i);
-                fprintf(outFile,"%5.4e\t",h->GetBinContent(bin));
-            }
-            fprintf(outFile,"\n");
-        }
-        fclose(outFile);
-        printf("Wrote histograms data to: %s\n",fileName);
-    }
-    else{
-        fprintf(stderr,"Could not open file: %s\n",fileName);
-    }
-}
+#include "HistUtilities.hh"
 
 /*
  * Sometimes it is VERY, VERY useful to compile
@@ -103,42 +59,6 @@ void energyDep(const char* fileName,double XMAX){
     fprintf(stdout,"\nThickness:\n");
     thickness->Print();
 
-    // Plotting
-    float scale = 1.0;
-    double numEvents;
-    gStyle->SetOptStat(0);
-    TCanvas* c1 = new TCanvas();
-    TLegend* leg = new TLegend(0.8,0.7,0.9,0.9);
-    for (int i = 0; i < hist->GetEntriesFast(); i ++){
-        h = (TH1F*) hist->At(i);
-        s = (TObjString*) thickness->At(i);
-        leg->AddEntry(h,s->String().Data(),"l");
-        fprintf(stdout,"Plotting histogram %s\n",s->String().Data());
-        if (i == 0){
-            h->Draw();
-            TAxis *xaxis = h->GetXaxis();
-            xaxis->SetRangeUser(0,XMAX);
-            h->GetXaxis()->SetTitle("Energy Deposition per Event (MeV)");
-            h->GetYaxis()->SetTitle("Frequency");
-            h->SetTitle("Energy Deposition");
-            numEvents = h->GetEntries();
-        }
-        else{
-            numEvents = h->GetEntries();
-            h->Draw("same");
-        }
-        scale = 1.0/numEvents;
-        h->SetLineColor(i+1);
-        h->Scale(scale);
-    }
-
-    // Histogram Prettying
-    gPad->SetLogy();
-    leg->Draw("same");
-    c1->Update();
-    char buffer[128];
-    sprintf(buffer,"%s_.eps",fileName);
-    c1->SaveAs(buffer);
 
     // Getting some properities
     fprintf(stdout,"\n\tInter.\t\tMean\t\tWeighted Mean\n");
@@ -158,6 +78,11 @@ void energyDep(const char* fileName,double XMAX){
 
     }
     
+    char buffer[128];
+    // Plotting the Histograms
+    sprintf(buffer,"%s_.eps",fileName);
+    plotHistograms(buffer,hist,thickness,XMAX,"Energy Deposition","Energy (MeV)");
+
     // Saving Histograms
     sprintf(buffer,"%s_HistData.txt",fileName);
     saveHistograms(buffer,hist,thickness);

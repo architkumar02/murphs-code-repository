@@ -11,7 +11,7 @@
 # --------------------------------------------------------------
 CC     =g++
 CFLAGS =-g -Wall
-INC    =
+INC    = -I ./include
 LIBS   =
 LDFLAGS=
 ifdef G4WORKDIR
@@ -33,18 +33,24 @@ ifdef ROOTSYS
 	LIBS    += $(ROOTLIBS)
 	CFLAGS  += $(ROOTCFLAGS)
 	LDFLAGS += $(ROOTLDFLAGS)
-	INC     += $(ROOTINCLUDE)
+	INC     += -I$(ROOTINCLUDE)
 endif
 
 # --------------------------------------------------------------
 # TARGETS
 # --------------------------------------------------------------
-all: energyDep
+all: energyDep secondaryElectrons
 	@echo "$@ done"
+
+secondaryElectrons: SecondaryElectrons.C 
+	@echo "Building $@"
+	$(CC) $(CPPFLAGS) $(INC) -o secondaryElectrons SecondaryElectrons.C $(LDFLAGS) $(LIBS) 
+	@echo "$@ done"
+	@echo
 
 energyDep: DetectorEDep.C 
 	@echo "Building $@"
-	$(CC) $(CPPFLAGS) -I $(INC) -o energyDep DetectorEDep.C $(LDFLAGS) $(LIBS) 
+	$(CC) $(CPPFLAGS) $(INC) -o energyDep DetectorEDep.C $(LDFLAGS) $(LIBS) 
 	@echo "$@ done"
 	@echo
 
@@ -52,12 +58,12 @@ energyDep: DetectorEDep.C
 
 install: all
 	@echo "Copy files to install directory:" $(INSTALLDIR)
-	@cp energyDep $(INSTALLDIR)
+	@cp energyDep secondaryElectrons $(INSTALLDIR)
 	@echo "$@ done"
 	@echo
 
 clean:
 	@echo "Cleaning up files and executables ..."
-	rm -f *.d energyDep $(INSTALLDIR)/energyDep
+	rm -f *.d energyDep $(INSTALLDIR)/energyDep secondaryElectrons $(INSTALLDIR)/secondaryElectrons
 	@echo "$@ done"
 #

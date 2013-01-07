@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+#include <TObjArray.h>
+#include <TObjString.h>
 #include <TH1F.h>
 #include <TFile.h>
 #include <TLegend.h>

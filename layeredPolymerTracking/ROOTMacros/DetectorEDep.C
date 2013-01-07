@@ -17,6 +17,41 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
+void saveHistograms(const char *fileName, TObjArray *hist, TObjArray *labels){
+
+    TH1F* h = NULL;
+    TH1F* hRef = NULL;
+    TObjString *s = NULL;
+    FILE* outFile = fopen(fileName,"w");
+    printf("Writing histograms to: %s\n",fileName);
+    if (outFile != NULL){
+        fprintf(outFile,"Energy\t");
+        fprintf(stdout,"Here 1\n");
+        // Looping through the labels
+        for (int i = 0; i<hist->GetEntriesFast(); i++){
+            s = (TObjString*) labels->At(i);
+            fprintf(outFile,"\t%s\t",s->String().Data());
+        }
+        fprintf(outFile,"\n");
+        fprintf(stdout,"Here 2\n");
+        // Writing the histogram data
+        hRef = (TH1F*) hist->At(0);
+        for(int bin = 3; bin < hRef->GetNbinsX(); bin++){
+            fprintf(outFile,"%5.4e\t",hRef->GetBinCenter(bin));
+            for(int i = 0; i < hist->GetEntriesFast(); i++){
+                h = (TH1F*) hist->At(i);
+                fprintf(outFile,"%5.4e\t",h->GetBinContent(bin));
+            }
+            fprintf(outFile,"\n");
+        }
+        fclose(outFile);
+        printf("Wrote histograms data to: %s\n",fileName);
+    }
+    else{
+        fprintf(stderr,"Could not open file: %s\n",fileName);
+    }
+}
+
 /*
  * Sometimes it is VERY, VERY useful to compile
  *  root[#] .L psDetectorVal.C+g
@@ -110,28 +145,10 @@ void energyDep(const char* fileName,double XMAX){
     }
     
     // Saving Histograms
+    fprintf(stdout,"Saving the histograms\n");
     char buffer[128];
     sprintf(buffer,"%s_HistData.txt",fileName);
-    FILE* outFile = fopen(buffer,"w");
-
-    if (outFile != NULL){
-        fprintf(outFile,"\t\t");
-        for (int i = 0; i<hist->GetEntriesFast(); i++){
-            s = (TObjString*) thickness->At(i);
-            fprintf(outFile,"\t%s\t",s->String().Data());
-        }
-        fprintf(outFile,"\n");
-
-        for(int bin = 3; bin < hRef->GetNbinsX(); bin++){
-            fprintf(outFile,"%5.4e\t",hRef->GetBinCenter(bin));
-            for(int i = 0; i < hist->GetEntriesFast(); i++){
-                h = (TH1F*) hist->At(i);
-                fprintf(outFile,"%5.4e\t",h->GetBinContent(bin));
-            }
-            fprintf(outFile,"\n");
-        }
-        fclose(outFile);
-    }
+    saveHistograms(buffer,hist,thickness);
 
     fprintf(stdout,"Code Ran to Completion\n");
 }

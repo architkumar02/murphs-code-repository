@@ -57,9 +57,7 @@ endif
 all: lib bin
 
 macros:
-	$(MAKE) -C ./ROOTMacros/
-	@echo "Built root macros"
-
+	$(MAKE) -C ./ROOTMacros/ install
 
 histclean:
 	rm ${G4WORKDIR}/tmp/${G4SYSTEM}/${G4TARGET}/HistoManager.o

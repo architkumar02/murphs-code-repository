@@ -17,6 +17,17 @@
 #include <TStyle.h>
 #include <TCanvas.h>
 
+
+/**
+ * saveHistograms
+ * @brief - saves the histogram data to a file
+ * @param fileName  - name of the file
+ * @param hist      - Histograms
+ * @param labels    - labels of the histograms
+ *
+ * Only the energy bin for the first histogram is written. Entries in the
+ * files are tab ('\t') seperated.
+ */
 void saveHistograms(const char *fileName, TObjArray *hist, TObjArray *labels){
 
     TH1F* h = NULL;
@@ -25,15 +36,15 @@ void saveHistograms(const char *fileName, TObjArray *hist, TObjArray *labels){
     FILE* outFile = fopen(fileName,"w");
     printf("Writing histograms to: %s\n",fileName);
     if (outFile != NULL){
+
+        // Creating headers
         fprintf(outFile,"Energy\t");
-        fprintf(stdout,"Here 1\n");
-        // Looping through the labels
         for (int i = 0; i<hist->GetEntriesFast(); i++){
             s = (TObjString*) labels->At(i);
             fprintf(outFile,"\t%s\t",s->String().Data());
         }
         fprintf(outFile,"\n");
-        fprintf(stdout,"Here 2\n");
+        
         // Writing the histogram data
         hRef = (TH1F*) hist->At(0);
         for(int bin = 3; bin < hRef->GetNbinsX(); bin++){
@@ -125,6 +136,9 @@ void energyDep(const char* fileName,double XMAX){
     gPad->SetLogy();
     leg->Draw("same");
     c1->Update();
+    char buffer[128];
+    sprintf(buffer,"%s_.eps",fileName);
+    c1->SaveAs(buffer);
 
     // Getting some properities
     fprintf(stdout,"\n\tInter.\t\tMean\t\tWeighted Mean\n");
@@ -145,12 +159,9 @@ void energyDep(const char* fileName,double XMAX){
     }
     
     // Saving Histograms
-    fprintf(stdout,"Saving the histograms\n");
-    char buffer[128];
     sprintf(buffer,"%s_HistData.txt",fileName);
     saveHistograms(buffer,hist,thickness);
 
-    fprintf(stdout,"Code Ran to Completion\n");
 }
 // 
 // Code used to generate the input files

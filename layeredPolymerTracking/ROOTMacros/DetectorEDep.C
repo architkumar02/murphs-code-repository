@@ -19,10 +19,6 @@
 
 #include "HistUtilities.hh"
 
-/*
- * Sometimes it is VERY, VERY useful to compile
- *  root[#] .L psDetectorVal.C+g
- */
 void energyDep(const char* fileName,double XMAX){
 
     // Getting the files and thickness

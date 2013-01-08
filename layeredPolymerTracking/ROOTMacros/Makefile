@@ -9,9 +9,10 @@
 # --------------------------------------------------------------
 # GENERAL OPTIONS
 # --------------------------------------------------------------
+INCLUDEDIR = ./include
 CC     =g++
 CFLAGS =-g -Wall
-INC    = -I ./include
+INC    = -I $(INCLUDEDIR)
 LIBS   =
 LDFLAGS=
 ifdef G4WORKDIR
@@ -42,13 +43,15 @@ endif
 all: energyDep secondaryElectrons
 	@echo "$@ done"
 
-secondaryElectrons: SecondaryElectrons.C 
+headers: $(wildcard $(INCLUDEDIR)/*.hh)
+
+secondaryElectrons: headers SecondaryElectrons.C 
 	@echo "Building $@"
 	$(CC) $(CPPFLAGS) $(INC) -o secondaryElectrons SecondaryElectrons.C $(LDFLAGS) $(LIBS) 
 	@echo "$@ done"
 	@echo
 
-energyDep: DetectorEDep.C 
+energyDep: headers DetectorEDep.C 
 	@echo "Building $@"
 	$(CC) $(CPPFLAGS) $(INC) -o energyDep DetectorEDep.C $(LDFLAGS) $(LIBS) 
 	@echo "$@ done"

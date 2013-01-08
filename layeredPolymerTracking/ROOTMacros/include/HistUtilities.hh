@@ -41,7 +41,7 @@ void saveHistograms(const char *fileName, TObjArray *hist, TObjArray *labels){
         fprintf(outFile,"Energy");
         for (int i = 0; i<hist->GetEntriesFast(); i++){
             s = (TObjString*) labels->At(i);
-            fprintf(outFile,"\t\t%s\t\t\t",s->String().Data());
+            fprintf(outFile,"\t\t%s\t\t%s\t",s->String().Data(),"+/-");
         }
         fprintf(outFile,"\n");
         

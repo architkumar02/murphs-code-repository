@@ -38,10 +38,10 @@ void saveHistograms(const char *fileName, TObjArray *hist, TObjArray *labels){
     if (outFile != NULL){
 
         // Creating headers
-        fprintf(outFile,"Energy\t");
+        fprintf(outFile,"Energy");
         for (int i = 0; i<hist->GetEntriesFast(); i++){
             s = (TObjString*) labels->At(i);
-            fprintf(outFile,"\t%s\t",s->String().Data());
+            fprintf(outFile,"\t\t%s\t\t\t",s->String().Data());
         }
         fprintf(outFile,"\n");
         
@@ -51,7 +51,7 @@ void saveHistograms(const char *fileName, TObjArray *hist, TObjArray *labels){
             fprintf(outFile,"%5.4e\t",hRef->GetBinCenter(bin));
             for(int i = 0; i < hist->GetEntriesFast(); i++){
                 h = (TH1F*) hist->At(i);
-                fprintf(outFile,"%5.4e\t",h->GetBinContent(bin));
+                fprintf(outFile,"%5.4e\t%5.4e\t",h->GetBinContent(bin),h->GetBinError(bin));
             }
             fprintf(outFile,"\n");
         }

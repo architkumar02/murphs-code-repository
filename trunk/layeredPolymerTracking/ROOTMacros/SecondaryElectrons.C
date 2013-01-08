@@ -63,9 +63,12 @@ void SecondaryElectronsGamma(const char* fileName,int numEvents){
     fprintf(stdout,"\nThickness:\n");
     thickness->Print();
 
-    plotHistograms("SecondaryElec_Gamma_PID1.eps",histPID1,thickness,XMAX,"PID = 1","Electron Kinetic Energy (MeV)");
-    plotHistograms("SecondaryElec_Gamma_PID2.eps",histPID2,thickness,XMAX,"PID = 2","Electron Kinetic Energy (MeV)");
-    plotHistograms("SecondaryElec_Gamma_PID3.eps",histPID3,thickness,XMAX,"PID = 3","Electron Kinetic Energy (MeV)");
+    plotHistograms("SecElec_Gamma_PID1.eps",histPID1,thickness,XMAX,"PID = 1","Electron Kinetic Energy (MeV)");
+    plotHistograms("SecElec_Gamma_PID2.eps",histPID2,thickness,XMAX,"PID = 2","Electron Kinetic Energy (MeV)");
+    plotHistograms("SecElec_Gamma_PID3.eps",histPID3,thickness,XMAX,"PID = 3","Electron Kinetic Energy (MeV)");
+    
+    // Printing the histogram data
+    saveHistograms("Gamma_PID1_HistData.txt", histPID1, thickness);
     
 }
 
@@ -118,9 +121,11 @@ void SecondaryElectronsNeutrons(const char* fileName,int numEvents){
     thickness->Print();
 
     plotHistograms("SecElec_Neutrons_PID3.eps",histPID3,thickness,XMAX,"PID = 3","Electron Kinetic Energy (MeV)");
-    plotHistograms("SecElec_Neturons_PID4.eps",histPID4,thickness,XMAX,"PID = 4","Electron Kinetic Energy (MeV)");
-    
-    fprintf(stdout,"Code Ran to Completion\n");
+    plotHistograms("SecElec_Neutrons_PID4.eps",histPID4,thickness,XMAX,"PID = 4","Electron Kinetic Energy (MeV)");
+
+    // Saving the histograms
+    saveHistograms("Neutron_PID3_HistData.txt", histPID3, thickness);
+    saveHistograms("Neutron_PID4_HistData.txt", histPID4, thickness);
 }
 
 /**

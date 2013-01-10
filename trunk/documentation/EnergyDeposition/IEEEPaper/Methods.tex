@@ -1,0 +1,68 @@
+\section{Methods}
+\label{sec:Methods}
+
+\subsection{Support Vector Machines}
+
+Support vector machines were implemented with the LIBSVM library \cite{chang_libsvm:_2011}.
+Radial basis functions were used as the kernel space for the SVM to create RBFSVM.
+There are then two parameters that need to be determined, $C$, the regularization parameter and $\sigma$, the width of the kernel.
+These parameters where determined by a grid search of the parameter space.
+In searching for the optimal parameters with a grid search, five fold cross validation of the data was used.
+In addition, it was noticed for the vowel data sets that the large degree of accuracy was achieved by using a large amount of support vectors in which the SVM was essentially memorizing the training examples.
+This was mitigated by decreasing the error factor by passing the correct input argument to \verb+svmtrain+.
+
+\subsection{AdaBoost}
+
+AdaBoost was implemented as an ensemble of support vector machines by maintaining a weight distribution of the misclassified error over all of the training examples.
+At each cycle $t$ AdaBoost provides the learning algorithm with training examples $\vec{x}$ and a weight distribution $w$ (initialized uniformly).
+The learning algorithm is trained to generate a classifier $h_t$ and the weight distribution is updated to reflect the predicted results; easy training examples (in which the classifier is very certain) have their weights lowered, while hard samples have their weights increased.
+This process continues for $T$ cycles.
+Finally, the AdaBoost combines all of the component classifiers into the ensemble whose signal, final hypothesis, is constructed by weighting the individual classifiers by their training errors.
+
+The AdaBoost algorithm (Algorithm \ref{algo:AdaBoostSVM} was extended to AdaBoostM1 in order to use the RBFSVM.
+This algorithm uses a fairly large RBFSVM kernel (a weak learning ability) for the first classifier, $h_t$.
+The classifier is then retrained with a smaller $\sigma$ until the accuracy of the classifier has an accuracy of just over 50\%.
+At this point the classifier is added to the ensemble, along with its weight based on its accuracy.
+The weights of the training samples are then updated to reflect the training examples that the classifier struggled with.
+This process is then repeated for the next classifier in the ensemble until all of the ensemble is full.
+
+\begin{algorithm}
+\caption{AdaBoost SVM}
+\label{algo:AdaBoostSVM}
+\begin{algorithmic}[1]
+\Procedure{AdaBoostSVM}{$\sigma_{init},\sigma_{min},\sigma_{step},C,\vec{x},\vec{y}$}
+\State $w_{i}^{1} \gets 1/N ~~\forall ~~ i=1,\dots,N$
+\While{$\sigma > \sigma_{min}$}
+    \label{marker}
+    \Statex{Train a RBFSVM component classifier}
+    \State $h_t \gets \text{ComponentClassifier}(\vec{x},\vec{w})$
+    \Statex{Compute the error of that classifier}
+    \State $h_t~:~\epsilon_t = \sum_{i=1}^{N}w_{i}^{t} , y_i \ne h_t(\vec{x}_i)$
+    \Statex{Decrease $\sigma$ until a weak classifier}
+    \If{$\epsilon_t > 0.5$}
+        \State $\sigma = \sigma - \sigma_{step}$
+        \State \Goto{marker}
+    \EndIf
+    \Statex{Set weight of component classifier}
+    \State $h_t~:~\alpha_t = \frac{1}{2} ln\left ( \frac{1-\epsilon_t}{\epsilon_t}\right)$
+    \Statex{Update weights of training samples}
+    \State $w_i^{t+1} = \frac{w_i^{t} exp\left ( -\alpha_i y_i h_t(\vec{x})\right)}{C_t}$
+    \Statex{$C_t$ is a normalization value, $\sum_{i=1}^N w_i^{t+1} = 1$}
+\EndWhile
+\Statex
+\Return{$f(\vec{x}) = sign \left ( \sum_{t=1}^T \alpha_t h_t (\vec{x}) \right )$}
+\EndProcedure
+\end{algorithmic}
+\end{algorithm}
+
+The choice of $\sigma$ is critical for the convergence of the presented algorithm.
+Too small a $\sigma$ and the RBFSVM tends to over fit the data and provide correlated classifiers (and thus their error will be correlated), while too large a value of $\sigma$ and the classifier is too weak.
+The implemented algorithm only varied the value of $\sigma$ because it is known that RBFSVM depend highly on $\sigma$ and less on $C$ so the performance of the classifier can be changed over a set $C$ by simply changing $\sigma$ \cite{li_adaboost_2008}.
+In addition ensemble sizes for 5 to 150 were tested; these results are shown in Section \ref{sec:Results}.
+
+Several experiments were completed once the code base was written.
+Three data sets were obtained from the LIBSVM homepage \cite{chang_libsvm:_2011}.
+These data sets were parsed and scaled with the tools provided in the LIBSVM package.
+First the optimal number of ensemble members was found by investigating the classification accuracy dependence on the number of support vectors.
+Next the AdaBoost implementation versus the accuracy achieved by the a single parameter grid search.
+Finally the classification errors between the two methods are analyzed.

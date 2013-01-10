@@ -1,0 +1,82 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                                   PREAMBLE                                   %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\documentclass[confrence]{IEEEtran}
+\documentclass[draftcls,onecolumn]{IEEEtran}
+
+\usepackage{listings,graphicx,amsmath}
+\usepackage{microtype,todonotes}
+\usepackage{hyperref}
+
+%% LINE NUMBERS
+\usepackage[switch]{lineno}
+\linenumbers
+
+%% BIBLIOGRAPHY
+\bibliographystyle{ieeetr}
+
+%% GRAPHICS RELATED
+\usepackage{graphicx}
+\usepackage{listings,amsmath}
+\graphicspath{{./images/}}
+\DeclareGraphicsExtensions{.pdf, .jpeg, .png}
+
+%% CAPTION SETUP
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{belowskip=12pt,aboveskip=4pt}
+
+% *** CITATION PACKAGES ***
+\usepackage{cite}
+
+% *** ALIGNMENT PACKAGES ***
+\usepackage{array}
+\usepackage{pgfplotstable}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                               START OF DOCUMENT                              %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% paper title
+\title{Energy deposition in thin polymeric films}
+
+% author names and affiliations
+\author{
+    \IEEEauthorblockN{L.F. Miller\IEEEauthorrefmark{1}, M. J. Urffer\IEEEauthorrefmark{1}, A. Mabe\IEEEauthorrefmark{2}}
+    \IEEEauthorblockA{\IEEEauthorrefmark{1}
+    University of Tennessee \\
+    Deparment of Nuclear Engineering \\
+    Knoxville, Tennessee, 37916 \\
+    }
+    \IEEEauthorblockA{\IEEEauthorrefmark{2}
+    University of Tennessee \\
+    Deparment of Chemistry \\
+    Knoxville, Tennessee, 37916 \\
+    }
+}
+
+\maketitle
+
+\begin{abstract}
+Let's just copy the abstract over on the mac.
+\end{abstract}
+
+\IEEEpeerreviewmaketitle
+
+% Sections (Other Documents)
+\input{Introduction}
+\input{Methods}
+\input{Results}
+\input{Conclusions}
+\input{Acknowledgements}
+
+% Bibliography
+\bibliography{./Zotero}
+
+\end{document}
+

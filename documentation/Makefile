@@ -2830,6 +2830,7 @@ clean-graphics:
 .PHONY: clean-backups
 clean-backups:
 	$(QUIET)$(call clean-files,$(backup_patterns) *.temp)
+#	$(QUIET)$(shell rm -rf tmp)
 
 .PHONY: clean-auxiliary
 clean-auxiliary:

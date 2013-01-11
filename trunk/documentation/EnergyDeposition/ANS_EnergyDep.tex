@@ -50,8 +50,9 @@ $^{\dagger}$Department of Chemistry, University of Tennessee, Knoxville, TN, 379
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 The Department of Homeland Security (DHS) continues to fund research (through the Domestic Nuclear Detection Office (DNDO)) for replacement detectors for nuclear material.
-These detectors are designed to replace the \iso{He}{3} detectors currently installed as radation portal monitors.
-DHS / DNDO (along with PNNL) has determined a set of objectives that replacement technologies should meet (summerized in Table ~\ref{tab:DHSCriteria}).
+These detectors are designed to replace the \iso{He}{3} detectors currently installed as radiation portal monitors.
+DHS / DNDO (along with PNNL) has determined a set of objectives that replacement technologies should meet (summarized in Table ~\ref{tab:DHSCriteria}).
+These detectors must be able to effectively discriminate between gammas (which can occur in medical isotopes) and neutrons (indicative of special nuclear material).
 \begin{table}[h]
     \caption{Replacement Detector Requirements  }
     %\caption{Replacement Detector Requirements \protect\cite{kouzes_neutron_1999} }
@@ -68,12 +69,11 @@ DHS / DNDO (along with PNNL) has determined a set of objectives that replacement
 	\end{tabular}
     \label{tab:DHSCriteria}
 \end{table}
-These detectors must be able to effectively discriminate between gammas (which can occur in medical isotopes) and neutrons (indictive of special nuclear material).
 
-A possible replacment technology being investigated is \iso{Li}{6} (thermal cross section of 940 barns) embeded in a scinilating polymer matrix.
-Upon the absorbition of a neutron \iso{li}{6} fissions into two fragments; an alpha particle of energy 2.05 Mev and a triton of energy 2.73 MeV.
-This large amount ofkinetic energy liberated (Q-value 4.78 MeV) makes \iso{Li}{6} an attractive alternative compared to other reactions such as the \iso{He}{3} reaction which has a Q-value of 0.756 MeV or \iso{B}{10} (Q-value of 2.31 MeV).
-In addition, the the alpha and triton produced are charged ions and relavively easy to stop and detect.
+A possible replacement technology being investigated is \iso{Li}{6} (thermal cross section of 940 barns) embedded in a scintillating polymer matrix.
+Upon the absorption of a neutron \iso{Li}{6} fissions into two fragments; an alpha particle of energy 2.05 MeV and a triton of energy 2.73 MeV.
+This large amount of kinetic energy liberated (Q-value 4.78 MeV) makes \iso{Li}{6} an attractive alternative compared to other reactions such as the \iso{He}{3} reaction which has a Q-value of 0.756 MeV or \iso{B}{10} (Q-value of 2.31 MeV).
+In addition, the the alpha and triton produced are charged ions and relatively easy to stop and detect.
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -95,43 +95,42 @@ The difference in the transfer of kinetic energy from charged particle to electr
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Description of Work}
-The energy deposition was investigated using simulation and then benchmarking the simulation against the measured performance of the detector.
-\subsection{Detector Simulation}
+The energy deposition of neutrons and gammas was investigated for polymeric films containing \iso{Li}{6} as \iso{LiF}{6} of thickness ranging from 15 \micron to 1 cm.
+The pulse height spectra of these samples was measured on site at the University of Tennessee's characterization laboratory from a moderated neutron source as wells as a \iso{Co}{6} source.
+Simulations were completed using GEANT4, a modern toolkit for Monte Carlo transport simulation \cite{agostinelli_geant4simulation_2003,allison_geant4_2006}.
+The measurements were then used to validate and bench marking the simulation.
 
-%%%%%% DETECTOR GEOMETRY %%%%%
+\subsection{Detector Simulation}
 The detector geometry was simulated as a single layer of neutron absorbing material mounted atop of a non-scintillating material (PMMA).
 The initial events for runs where chosen by setting up a particle gun for thermal (0.025 eV) neutrons upon the detector and for both gammas resulting from a \iso{Co}{60} decay.
-
-%%%%%% PHYSICS LISTS %%%%%%%
-The user of the GEANT4 toolkit is responsible for selecting the proper physics processes to model in the \verb+PhysicsList+.
+The user of the GEANT4 toolkit is responsible for selecting the proper physics processes to model.
 Thus, extensive use of \verb+G4ModularPhysicsList+ was employed to handle the assigning of the physics processes to each particle in the correct order.
 The physics lists chosen for this simulation are listed below:
 \begin{itemize}
-    \item \verb+G4EmStandardPhysics+ The electromagnetic physics defines the electrons, muons, and taus along with their corresponding neutrinos. For electrons, the primary concern of this simulation, multiple scattering, electron ionization, and electron bremsstrahlung processes were assigned.  In addition the positron is defined and the multiple scattering process, electron ionization process, electron bremsstrahlung process and positron annihilation is assigned \cite{cern_physics_2012}.
-    \item \verb+G4EmLivermorePhysics+ The Livermore physics process extend the \verb+EMStandardPhyiscs+ down to low (250 eV) energies. Even lower energies can be reached by including \verb+G4DNAPhysics+. The physics processes extended with \verb+G4EmLivermorePhysics+ are the photo-electric effect, Compton scattering, Rayleigh scattering, gamma conversion, Ionisation and Bremsstrahlung\cite{cern_physics_2012}. 
-    \item \verb+HadronPhysicsQGSP_BERT_HP+ Hadronic physics are included to model the nuclear interactions. The chosen list is a Quark Gluon String Model for energies in the 5-25 GeV range, with a Bertini cascade model until 20 MeV.  Once a hadron has an energy of 20 MeV the high precision cross section driven models are applied\cite{cern_reference_2008}.
+    \item \verb+G4EmStandardPhysics+ The electromagnetic physics defines the electrons, muons, and taus along with their corresponding neutrinos. For electrons, the primary concern of this simulation, multiple scattering, electron ionization, and electron bremsstrahlung processes were assigned.  In addition the positron is defined and the multiple scattering process, electron ionization process, electron bremsstrahlung process and positron annihilation is assigned.
+    \item \verb+G4EmLivermorePhysics+ The Livermore physics process extend the \verb+EMStandardPhyiscs+ down to low (250 eV) energies. The physics processes extended with \verb+G4EmLivermorePhysics+ are the photo-electric effect, Compton scattering, Rayleigh scattering, gamma conversion, Ionisation and Bremsstrahlung. 
+    \item \verb+HadronPhysicsQGSP_BERT_HP+  Hadronic physics are included to model the nuclear interactions. The chosen list is a Quark Gluon String Model for energies in the 5-25 GeV range, with a Bertini cascade model until 20 MeV.  Once a hadron has an energy of 20 MeV the high precision cross section driven models are applied.
     \item \verb+G4IonPhysics+ Finally, to handle the transport of the charged ions resulting from an ${}^6\text{Li}(\text{n},\alpha){}^{3}\text{H}$ interaction the \verb+G4IonPhysics+ list was used.
 \end{itemize}
 
 
 \subsection{Fabricated Detector Measurements}
-The pulse height of a radiation event is proportional to the energy deposition of the event\cite{birks_scintillations_1951}.
 
-Samples are mounted to a Philips XP2202B 10 stage PMT with silicone based optical grease (Saint Gobain BC-630), which is attached to a Canberra 2007P base (also serving as a preamplifier).   
-The PMT's voltage is supplied by an Ortec 556 high voltage power supply, with the power being supplied to the Canberra 2007P pre amplifier base by the Ortec 571 amplifier.  
-The output signal of the Canberra 2007P base feeds into an Ortec 572A amplifier for pulse shaping and amplification. 
-The amplified signal is then inputted to an Ortec 926 MCB-ADC, and can then be read using the MAESTRO-32 software. 
+Samples are mounted to a 10 stage PMT with silicone based optical grease which is attached to a Canberra base (also serving as a preamplifier).   
+The PMT's voltage is supplied by a high voltage power supply, with the power being supplied to the pre amplifier base by an amplifier.  
+The output signal of the C base feeds into the amplifier for pulse shaping and amplification. 
+The amplified signal is then inputted to an MCB-ADC, and can then be read using the MAESTRO-32 software. 
 A schematic of the setup is shown in Figure ~\ref{fig:ElectronicsSpectra}.
 \begin{figure}
 	\centering
 	\includegraphics[width=\figurewidth]{ElectronicsSpectra}
-	\caption{Pulse height measurment electronics}
+	\caption{Pulse height measurement electronics}
 	\label{fig:ElectronicsSpectra}
 \end{figure}
 A 100 $\mu$Ci \iso{60}{Co} source was used to measure the gamma energy deposition of the films, while a moderated \iso{Cf}{252} source was used for the neutrons.
 The \iso{Cf}{252} irridiator contains two detector wells; a lead well and a cadmium well.
-The lead well measures the reponse of neutron of all energies, while the cadmium well measures the responses of fast neutrons.
-The two responses are then subtracted, as shwon in Figure ~\ref{fig:SimPbCdSpectra}.
+The lead well measures the response of neutron of all energies, while the cadmium well measures the responses of fast neutrons.
+The two responses are then subtracted, as shown in Figure ~\ref{fig:SimPbCdSpectra}.
 \begin{figure}
 	\centering
 	\includegraphics[width=\figurewidth]{Graph19N}
@@ -144,8 +143,32 @@ The two responses are then subtracted, as shwon in Figure ~\ref{fig:SimPbCdSpect
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
-
-
+It is well established that the pulse height of a radiation event is proportional to the energy deposition of the event\cite{birks_scintillations_1951}.
+Thus, the validity of the GEANT4 simulation can be determined by comparing the spectra shapes of measured spectra to simulated energy deposition.
+The measured gamma spectra for six polymeric films along with the neutron response of two of the films in Figure ~\ref{fig:GammaIntrNeutronCounts}, while the simulated energy deposition is shown in Figure ~\ref{fig:SimEDepGamma}.
+It is observed that the simulated energy deposition from gammas has the same shape as the measured pulse height spectra (thicker films were not available to be measured), while the pulse height deficit and low energy resolution of the films make a comparison of the neutron spectra difficult.
+A more quantitative approach was taken for validation by computing the average energy deposition and pulse height, the results of which are shown in Figure ~\ref{fig:EDepLightYield}. 
+With the average energy deposition on the left axis and the average light yield (pulse height) on the right axis, it is possible to compare the measurement and the simulation and agreement is observed.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\figurewidth]{PS_IntEff_LiF20_PPO5}
+    \caption{Gamma intrinsic efficiency (dashed lines) plotted against neutron counts (solid). The gamma spectra has been normalized by the number of incident photons upon the sample, while the neutron spectra has not.}
+    \label{fig:GammaIntrNeutronCounts}
+\end{figure}
+\begin{figure*}[h]
+	\centering
+	\begin{subfigure}[b]{\figurewidth}
+    		\includegraphics[width=\textwidth]{PS_EDepSim_Co60}
+		\caption{Gamma (\iso{Co}{60})}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{\figurewidth}
+    		\includegraphics[width=\textwidth]{PS_EDepSim_Neutron}
+		\caption{Neutrons}
+	\end{subfigure}%
+	\caption{Simulated Energy Deposition}
+	\label{fig:SimEDepGamma}
+\end{figure*}
 \begin{figure*}[!ht]
 	\centering
 	\begin{subfigure}[b]{\figurewidth}
@@ -157,45 +180,47 @@ The two responses are then subtracted, as shwon in Figure ~\ref{fig:SimPbCdSpect
     		\includegraphics[width=\textwidth]{G4EDep_LightYield_Neutron}
 		\caption{Neutrons}
 	\end{subfigure}%
-	\caption{Average Energy Depostion and Measured Light Yield}
-	\label{fig:EDepLightYeild}
+	\caption{Average Energy Deposition and Measured Light Yield}
+	\label{fig:EDepLightYield}
 \end{figure*}
-
-\begin{figure*}[!ht]
-	\centering
-	\begin{subfigure}[b]{\figurewidth}
-    		\includegraphics[width=\textwidth]{PS_EDepSim_Co60}
-		\caption{Gamma (\iso{Co}{60})}
-	\end{subfigure}%
-	~
-	\begin{subfigure}[b]{\figurewidth}
-    		\includegraphics[width=\textwidth]{PS_EDepSim_Neutron}
-		\caption{Neutrons}
-	\end{subfigure}%
-	\caption{Simulated Energy Depositon}
-	\label{fig:SimEDepGamma}
-\end{figure*}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                             CONCLUSIONS                                 %
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Conclusions}
-
-The included ANS style file and this clear example file are a panacea for
-the hours of headache that invariably results from formatting a document in
-Microsoft Word.
-
-
+\section{Conclusions and Future Work}
+The energy deposition for neutrons and gammas was calculated in thin polymeric films of thickness from 15 \micron to 1 cm with the GEANT4 toolkit and compared to the measured spectra.
+The average energy deposited was computed for each thickness and and normalized by the incident energy for gammas or the Q-value of the reaction for neutrons, and is presented in Table ~\ref{tab:FractionEDep}.
+\begin{table}[!htb]
+    \caption{Fractional Energy Deposition for Various Thickness}
+	\centering
+	\begin{tabular}{c | c c}
+	Thickness & Gamma Fraction & Neutron Fraction \\
+	\hline
+	\hline
+	15 \micron & 0.010 & 0.531 \\
+	25 \micron & 0.013 & 0.634 \\
+	50 \micron & 0.017 & 0.782 \\
+	150 \micron & 0.032 & 0.927 \\
+	300 \micron & 0.052 & 0.964 \\
+	600 \micron & 0.087 & 0.982 \\
+	1 mm & 0.130 & 0.989 \\
+	1 cm & 0.425 & 0.998 \\
+	\hline
+	\end{tabular}
+    \label{tab:FractionEDep}
+\end{table}
+Future work will be focused on utilizing the GEANT4 toolkit to explore the energy deposition mechanisms in thin films, focusing on secondary electrons and their ranges. 
+In addition, light transport in layered thin film detectors will be explored.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgments}
 This works was supported by the Domestic Nuclear Detection Office (DNDO) through award 003387891.
-Any opinions, fidinings, and conclusions or rrecommendations expressed in this material are those of the authors and do necessarily reflect the views of DNDO.
+Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do necessarily reflect the views of DNDO.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\bibliographystyle{ans}
+%\bibliographystyle{ans}
+\bibliographystyle{ieeetr}
 \bibliography{../Zotero}
 \end{document}
 

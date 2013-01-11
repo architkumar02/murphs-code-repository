@@ -84,15 +84,13 @@ The user of the GEANT4 toolkit is responsible for selecting the proper physics p
 Thus, extensive use of \verb+G4ModularPhysicsList+ was employed to handle the assigning of the physics processes to each particle in the correct order.
 The physics lists chosen for this simulation are listed below:
 \begin{itemize}
-    \item \verb+G4EmStandardPhysics+ The electromagnetic physics defines the electrons, muons, and taus along with their corresponding neutrinos. For electrons, the primary concern of this simulation, multiple scattering, electron ionization, and electron bremsstrahlung processes were assigned.  In addition the positron is defined and the multiple scattering process, electron ionization process, electron bremsstrahlung process and positron annihilation is assigned.
-    \item \verb+G4EmLivermorePhysics+ The Livermore physics process extend the \verb+EMStandardPhyiscs+ down to low (250 eV) energies. The physics processes extended with \verb+G4EmLivermorePhysics+ are the photo-electric effect, Compton scattering, Rayleigh scattering, gamma conversion, Ionisation and Bremsstrahlung. 
-    \item \verb+HadronPhysicsQGSP_BERT_HP+  Hadronic physics are included to model the nuclear interactions. The chosen list is a Quark Gluon String Model for energies in the 5-25 GeV range, with a Bertini cascade model until 20 MeV.  Once a hadron has an energy of 20 MeV the high precision cross section driven models are applied.
+   \item \verb+G4EmStandardPhysics+ The electromagnetic physics defines the electrons, muons, and taus along with their corresponding neutrinos. For electrons, the primary concern of this simulation, multiple scattering, electron ionization, and electron bremsstrahlung processes were assigned.  In addition the positron is defined and the multiple scattering process, electron ionization process, electron bremsstrahlung process and positron annihilation is assigned.
+    \item \verb+G4EmLivermorePhysics+ The Livermore physics process extend the \verb+EMStandardPhyiscs+ down to low (250 eV) energies. Even lower energies can be reached by including \verb+G4DNAPhysics+. The physics processes extended with \verb+G4EmLivermorePhysics+ are the photo-electric effect, Compton scattering, Rayleigh scattering, gamma conversion, Ionisation and Bremsstrahlung. 
+    \item \verb+HadronPhysicsQGSP_BERT_HP+ Hadronic physics are included to model the nuclear interactions. The chosen list is a Quark Gluon String Model for energies in the 5-25 GeV range, with a Bertini cascade model until 20 MeV.  Once a hadron has an energy of 20 MeV the high precision cross section driven models are applied.
     \item \verb+G4IonPhysics+ Finally, to handle the transport of the charged ions resulting from an ${}^6\text{Li}(\text{n},\alpha){}^{3}\text{H}$ interaction the \verb+G4IonPhysics+ list was used.
 \end{itemize}
 
-
 \subsection{Fabricated Detector Measurements}
-
 Samples are mounted to a 10 stage PMT with silicone based optical grease.
 The PMT is attached to a base which also serves as a preamplifier.   
 The PMT's voltage is supplied by a high voltage power supply, with the power being supplied to the pre amplifier base by an amplifier.  
@@ -189,7 +187,6 @@ The average energy deposited was computed for each thickness and and normalized 
     \label{tab:FractionEDep}
 \end{table}
 Future work will be focused on utilizing the GEANT4 toolkit to explore the energy deposition mechanisms in thin films, focusing on secondary electrons and their ranges. 
-In addition, light transport in layered thin film detectors will be explored.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Acknowledgments}
 This works was supported by the Domestic Nuclear Detection Office (DNDO) through award 003387891.

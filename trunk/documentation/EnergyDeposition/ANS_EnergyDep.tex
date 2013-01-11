@@ -24,7 +24,7 @@
 
 %% USER COMMANDS
 \newcommand{\iso}[2]{${}^{#2}${#1}}
-\newcommand{\figurewidth}{\textwidth}
+\newcommand{\figurewidth}{0.45\textwidth}
 \newcommand{\micron}{$\mu$m}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -68,7 +68,7 @@ DHS / DNDO (along with PNNL) has determined a set of objectives that replacement
 \end{table}
 These detectors must be able to effectively discriminate between gammas (which can occur in medical isotopes) and neutrons (indictive of special nuclear material).
 
-A possible replacment technology being investigated is \iso{6}{Li} embeded in a scinilating polymer matrix.
+A possible replacment technology being investigated is \iso{Li}{6} embeded in a scinilating polymer matrix.
 
 The effective discrimination between neutrons and gammas is necessary for replacement detectors 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -79,7 +79,7 @@ The effective discrimination between neutrons and gammas is necessary for replac
 \section{Theory}
 Neutron detectors often utilize a material doped with an isotope of large thermal cross section for absorption such as \iso{Li}{6} or \iso{B}{10}. 
 When these materials absorb a neutron the nucleus of the isotope becomes unstable and fissions into reaction products.
-These reaction products (having an initial kinetic energy from the Q-value of the neutron absorption reaction) travel through the material, transferring their kinetic energy to the material.
+These reaction products (having an initial kinetic energy equal to the Q-value of the neutron absorption reaction) travel through the material, transferring their kinetic energy to the material.
 Photon interactions in the detector occur when a photon scatters off a single electron in a Compton scattering event and transfers a portion of its energy to the electron predominately through Compton scattering.
 This Compton electron then produces a cascade of secondary electrons in the material, which, depending upon the energy, may or may not deposit a majority of its energy in the detector.
 The difference in the transfer of kinetic energy from charged particle to electrons and from photon interactions (Compton scattering) to electrons introduces an opportunity to exploit the difference in energy deposition in order to maximize the discrimination between neutron and photon interactions in a detector.
@@ -103,8 +103,8 @@ The amplified signal is then inputted to an Ortec 926 MCB-ADC, and can then be r
 A schematic of the setup is shown in Figure ~\ref{fig:ElectronicsSpectra}.
 \begin{figure}
 	\centering
-	\includegraphics[width=\textwidth]{ElectronicsSpectra}
-	\caption{Electronic Setup for measuring}
+	\includegraphics[width=\figurewidth]{ElectronicsSpectra}
+	\caption{Pulse height measurment electronics}
 	\label{fig:ElectronicsSpectra}
 \end{figure}
 A 100 $\mu$Ci \iso{60}{Co} source was used to measure the gamma energy deposition of the films, while a moderated \iso{252}{Cf} source was used for the neutrons.
@@ -113,8 +113,8 @@ The lead well measures the reponse of neutron of all energies, while the cadmium
 The two responses are then subtracted, as shwon in Figure ~\ref{fig:SimPbCdSpectra}.
 	\begin{figure}
 		\centering
-		\includegraphics[width=\textwidth]{Graph19N}
-		\caption{Simulated Lead and Cadmium Well Spectra}
+		\includegraphics[width=\figurewidth]{Graph19N}
+		\caption{Simulated Lead and Cadmium Well Spectra. The difference between the two spectra is the thermal neutron response and is what is measured.}
 		\label{fig:SimPbCdSpectra}
 	\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -133,12 +133,12 @@ The two responses are then subtracted, as shwon in Figure ~\ref{fig:SimPbCdSpect
 %PS_EDepSim_Co60.eps
 %PS_EDepSim_Neutron.eps
 \begin{figure}[h]
-    \includegraphics[width=\textwidth]{PS_EDepSim_Co60}
+    \includegraphics[width=\figurewidth]{PS_EDepSim_Co60}
 	\caption{Simulated Energy Depositon for a Single Film (gammas)}
     \label{fig:SimEDepGamma}
 \end{figure}
 \begin{figure}[h]
-    \includegraphics[width=\textwidth]{PS_EDepSim_Neutron}
+    \includegraphics[width=\figurewidth]{PS_EDepSim_Neutron}
 	\caption{Simulated Energy Depositon for a Single Film (neutron)}
     \label{fig:SimEDepGamma}
 \end{figure}

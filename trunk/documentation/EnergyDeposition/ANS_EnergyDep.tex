@@ -90,17 +90,58 @@ The difference in the transfer of kinetic energy from charged particle to electr
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Description of Work}
-
-\subsection{Fabricated Detector Measurements}
-
+The energy deposition was investigated using simulation and then benchmarking the simulation against the measured performance of the detector.
 \subsection{Detector Simulation}
 
+\subsection{Fabricated Detector Measurements}
+The pulse height of a radiation event is proportional to the energy deposition of the event\cite{birks_scintillations_1951}.
+
+Samples are mounted to a Philips XP2202B 10 stage PMT with silicone based optical grease (Saint Gobain BC-630), which is attached to a Canberra 2007P base (also serving as a preamplifier).   
+The PMT’s voltage is supplied by an Ortec 556 high voltage power supply, with the power being supplied to the Canberra 2007P pre amplifier base by the Ortec 571 amplifier.  
+The output signal of the Canberra 2007P base feeds into an Ortec 572A amplifier for pulse shaping and amplification. 
+The amplified signal is then inputted to an Ortec 926 MCB-ADC, and can then be read using the MAESTRO-32 software. 
+A schematic of the setup is shown in Figure ~\ref{fig:ElectronicsSpectra}.
+\begin{figure}
+	\centering
+	\includegraphics[width=\textwidth]{ElectronicsSpectra}
+	\caption{Electronic Setup for measuring}
+	\label{fig:ElectronicsSpectra}
+\end{figure}
+A 100 $\mu$Ci \iso{60}{Co} source was used to measure the gamma energy deposition of the films, while a moderated \iso{252}{Cf} source was used for the neutrons.
+The \iso{252}{Cf} irridiator contains two detector wells; a lead well and a cadmium well.
+The lead well measures the reponse of neutron of all energies, while the cadmium well measures the responses of fast neutrons.
+The two responses are then subtracted, as shwon in Figure ~\ref{fig:SimPbCdSpectra}.
+	\begin{figure}
+		\centering
+		\includegraphics[width=\textwidth]{Graph19N}
+		\caption{Simulated Lead and Cadmium Well Spectra}
+		\label{fig:SimPbCdSpectra}
+	\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                     RESULTS and ANALYSIS                                %
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results and Analysis}
+%G4EDep_Co60_Fraction.eps
+%G4EDep_LightYeild_Co60.eps
+%G4EDep_LightYield_Co60.eps
+%G4EDep_LightYield_Neutron.eps
+%G4EDep_Neutrons_Fraction.eps
+%G4EDep_NGComparison.eps
+%G4EDep_NGComparison_SimChannel.eps
+%PS_EDepSim_Co60.eps
+%PS_EDepSim_Neutron.eps
+\begin{figure}[h]
+    \includegraphics[width=\textwidth]{PS_EDepSim_Co60}
+	\caption{Simulated Energy Depositon for a Single Film (gammas)}
+    \label{fig:SimEDepGamma}
+\end{figure}
+\begin{figure}[h]
+    \includegraphics[width=\textwidth]{PS_EDepSim_Neutron}
+	\caption{Simulated Energy Depositon for a Single Film (neutron)}
+    \label{fig:SimEDepGamma}
+\end{figure}
 The results were interesting, so interesting in fact that we have decided to
 present them here.
 

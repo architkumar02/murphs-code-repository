@@ -33,11 +33,13 @@
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \title{An Improved ANS Transaction Template}
-\author{Matthew J. Urffer \and L. F. Miller}
+\author{Matthew J. Urffer$^{*}$, L. F. Miller$^{*}$ \and A. Mabe$^{\dagger}$}
 \institute{
-Department of Nuclear Engineering, University of Tennessee, Knoxville, TN, 37916
+$^{*}$Department of Nuclear Engineering, University of Tennessee, Knoxville, TN, 37916
+\and
+$^{\dagger}$Department of Chemistry, University of Tennessee, Knoxville, TN, 37916
 }
-\email{murffer@utk.edu \and lfmiller@utk.edu}
+\email{murffer@utk.edu \and lfmiller@utk.edu \and amabe1@utk.edu}
 
 
 \begin{document}
@@ -68,16 +70,19 @@ DHS / DNDO (along with PNNL) has determined a set of objectives that replacement
 \end{table}
 These detectors must be able to effectively discriminate between gammas (which can occur in medical isotopes) and neutrons (indictive of special nuclear material).
 
-A possible replacment technology being investigated is \iso{Li}{6} embeded in a scinilating polymer matrix.
+A possible replacment technology being investigated is \iso{Li}{6} (thermal cross section of 940 barns) embeded in a scinilating polymer matrix.
+Upon the absorbition of a neutron \iso{li}{6} fissions into two fragments; an alpha particle of energy 2.05 Mev and a triton of energy 2.73 MeV.
+This large amount ofkinetic energy liberated (Q-value 4.78 MeV) makes \iso{Li}{6} an attractive alternative compared to other reactions such as the \iso{He}{3} reaction which has a Q-value of 0.756 MeV or \iso{B}{10} (Q-value of 2.31 MeV).
+In addition, the the alpha and triton produced are charged ions and relavively easy to stop and detect.
 
-The effective discrimination between neutrons and gammas is necessary for replacement detectors 
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                                 THEORY                                  %
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Theory}
-Neutron detectors often utilize a material doped with an isotope of large thermal cross section for absorption such as \iso{Li}{6} or \iso{B}{10}. 
+Neutron detectors often utilize a material doped with an isotope of large thermal cross section for absorption such as \iso{He}{3}, \iso{Li}{6} or \iso{B}{10}. 
 When these materials absorb a neutron the nucleus of the isotope becomes unstable and fissions into reaction products.
 These reaction products (having an initial kinetic energy equal to the Q-value of the neutron absorption reaction) travel through the material, transferring their kinetic energy to the material.
 Photon interactions in the detector occur when a photon scatters off a single electron in a Compton scattering event and transfers a portion of its energy to the electron predominately through Compton scattering.
@@ -93,11 +98,27 @@ The difference in the transfer of kinetic energy from charged particle to electr
 The energy deposition was investigated using simulation and then benchmarking the simulation against the measured performance of the detector.
 \subsection{Detector Simulation}
 
+%%%%%% DETECTOR GEOMETRY %%%%%
+The detector geometry was simulated as a single layer of neutron absorbing material mounted atop of a non-scintillating material (PMMA).
+The initial events for runs where chosen by setting up a particle gun for thermal (0.025 eV) neutrons upon the detector and for both gammas resulting from a \iso{Co}{60} decay.
+
+%%%%%% PHYSICS LISTS %%%%%%%
+The user of the GEANT4 toolkit is responsible for selecting the proper physics processes to model in the \verb+PhysicsList+.
+Thus, extensive use of \verb+G4ModularPhysicsList+ was employed to handle the assigning of the physics processes to each particle in the correct order.
+The physics lists chosen for this simulation are listed below:
+\begin{itemize}
+    \item \verb+G4EmStandardPhysics+ The electromagnetic physics defines the electrons, muons, and taus along with their corresponding neutrinos. For electrons, the primary concern of this simulation, multiple scattering, electron ionization, and electron bremsstrahlung processes were assigned.  In addition the positron is defined and the multiple scattering process, electron ionization process, electron bremsstrahlung process and positron annihilation is assigned \cite{cern_physics_2012}.
+    \item \verb+G4EmLivermorePhysics+ The Livermore physics process extend the \verb+EMStandardPhyiscs+ down to low (250 eV) energies. Even lower energies can be reached by including \verb+G4DNAPhysics+. The physics processes extended with \verb+G4EmLivermorePhysics+ are the photo-electric effect, Compton scattering, Rayleigh scattering, gamma conversion, Ionisation and Bremsstrahlung\cite{cern_physics_2012}. 
+    \item \verb+HadronPhysicsQGSP_BERT_HP+ Hadronic physics are included to model the nuclear interactions. The chosen list is a Quark Gluon String Model for energies in the 5-25 GeV range, with a Bertini cascade model until 20 MeV.  Once a hadron has an energy of 20 MeV the high precision cross section driven models are applied\cite{cern_reference_2008}.
+    \item \verb+G4IonPhysics+ Finally, to handle the transport of the charged ions resulting from an ${}^6\text{Li}(\text{n},\alpha){}^{3}\text{H}$ interaction the \verb+G4IonPhysics+ list was used.
+\end{itemize}
+
+
 \subsection{Fabricated Detector Measurements}
 The pulse height of a radiation event is proportional to the energy deposition of the event\cite{birks_scintillations_1951}.
 
 Samples are mounted to a Philips XP2202B 10 stage PMT with silicone based optical grease (Saint Gobain BC-630), which is attached to a Canberra 2007P base (also serving as a preamplifier).   
-The PMT’s voltage is supplied by an Ortec 556 high voltage power supply, with the power being supplied to the Canberra 2007P pre amplifier base by the Ortec 571 amplifier.  
+The PMT's voltage is supplied by an Ortec 556 high voltage power supply, with the power being supplied to the Canberra 2007P pre amplifier base by the Ortec 571 amplifier.  
 The output signal of the Canberra 2007P base feeds into an Ortec 572A amplifier for pulse shaping and amplification. 
 The amplified signal is then inputted to an Ortec 926 MCB-ADC, and can then be read using the MAESTRO-32 software. 
 A schematic of the setup is shown in Figure ~\ref{fig:ElectronicsSpectra}.
@@ -107,43 +128,54 @@ A schematic of the setup is shown in Figure ~\ref{fig:ElectronicsSpectra}.
 	\caption{Pulse height measurment electronics}
 	\label{fig:ElectronicsSpectra}
 \end{figure}
-A 100 $\mu$Ci \iso{60}{Co} source was used to measure the gamma energy deposition of the films, while a moderated \iso{252}{Cf} source was used for the neutrons.
-The \iso{252}{Cf} irridiator contains two detector wells; a lead well and a cadmium well.
+A 100 $\mu$Ci \iso{60}{Co} source was used to measure the gamma energy deposition of the films, while a moderated \iso{Cf}{252} source was used for the neutrons.
+The \iso{Cf}{252} irridiator contains two detector wells; a lead well and a cadmium well.
 The lead well measures the reponse of neutron of all energies, while the cadmium well measures the responses of fast neutrons.
 The two responses are then subtracted, as shwon in Figure ~\ref{fig:SimPbCdSpectra}.
-	\begin{figure}
-		\centering
-		\includegraphics[width=\figurewidth]{Graph19N}
-		\caption{Simulated Lead and Cadmium Well Spectra. The difference between the two spectra is the thermal neutron response and is what is measured.}
-		\label{fig:SimPbCdSpectra}
-	\end{figure}
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth]{Graph19N}
+	\caption{Simulated Lead and Cadmium Well Spectra. The difference between the two spectra is the thermal neutron response and is what is measured.}
+	\label{fig:SimPbCdSpectra}
+\end{figure}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                     RESULTS and ANALYSIS                                %
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Results and Analysis}
-%G4EDep_Co60_Fraction.eps
-%G4EDep_LightYeild_Co60.eps
-%G4EDep_LightYield_Co60.eps
-%G4EDep_LightYield_Neutron.eps
-%G4EDep_Neutrons_Fraction.eps
-%G4EDep_NGComparison.eps
-%G4EDep_NGComparison_SimChannel.eps
-%PS_EDepSim_Co60.eps
-%PS_EDepSim_Neutron.eps
-\begin{figure}[h]
-    \includegraphics[width=\figurewidth]{PS_EDepSim_Co60}
-	\caption{Simulated Energy Depositon for a Single Film (gammas)}
-    \label{fig:SimEDepGamma}
-\end{figure}
-\begin{figure}[h]
-    \includegraphics[width=\figurewidth]{PS_EDepSim_Neutron}
-	\caption{Simulated Energy Depositon for a Single Film (neutron)}
-    \label{fig:SimEDepGamma}
-\end{figure}
-The results were interesting, so interesting in fact that we have decided to
-present them here.
+\section{Results}
+
+
+\begin{figure*}[!ht]
+	\centering
+	\begin{subfigure}[b]{\figurewidth}
+    		\includegraphics[width=\textwidth]{G4EDep_LightYield_Co60}
+		\caption{Gamma (\iso{Co}{60})}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{\figurewidth}
+    		\includegraphics[width=\textwidth]{G4EDep_LightYield_Neutron}
+		\caption{Neutrons}
+	\end{subfigure}%
+	\caption{Average Energy Depostion and Measured Light Yield}
+	\label{fig:EDepLightYeild}
+\end{figure*}
+
+\begin{figure*}[!ht]
+	\centering
+	\begin{subfigure}[b]{\figurewidth}
+    		\includegraphics[width=\textwidth]{PS_EDepSim_Co60}
+		\caption{Gamma (\iso{Co}{60})}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{\figurewidth}
+    		\includegraphics[width=\textwidth]{PS_EDepSim_Neutron}
+		\caption{Neutrons}
+	\end{subfigure}%
+	\caption{Simulated Energy Depositon}
+	\label{fig:SimEDepGamma}
+\end{figure*}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
@@ -164,6 +196,6 @@ Any opinions, fidinings, and conclusions or rrecommendations expressed in this m
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \bibliographystyle{ans}
-\bibliography{bibliography}
+\bibliography{../Zotero}
 \end{document}
 

@@ -25,22 +25,18 @@
 %% USER COMMANDS
 \newcommand{\iso}[2]{${}^{#2}${#1}}
 \newcommand{\figurewidth}{0.45\textwidth}
-\newcommand{\micron}{$\mu$m}
+\newcommand{\micron}{$\mu$m }
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                        AUTHOR, TITLE, and ABSTRACT                      %
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\title{An Improved ANS Transaction Template}
-\author{Matthew J. Urffer$^{*}$, L. F. Miller$^{*}$ \and A. Mabe$^{\dagger}$}
+\title{Simulated Energy Depostion in Thin Polymeric Films}
+\author{Matthew J. Urffer, L. F. Miller \and A. Mabe}
 \institute{
-$^{*}$Department of Nuclear Engineering, University of Tennessee, Knoxville, TN, 37916
-\and
-$^{\dagger}$Department of Chemistry, University of Tennessee, Knoxville, TN, 37916
+University of Tennessee, Knoxville, TN, 37916
 }
-\email{murffer@utk.edu \and lfmiller@utk.edu \and amabe1@utk.edu}
-
 
 \begin{document}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -51,30 +47,11 @@ $^{\dagger}$Department of Chemistry, University of Tennessee, Knoxville, TN, 379
 \section{Introduction}
 The Department of Homeland Security (DHS) continues to fund research (through the Domestic Nuclear Detection Office (DNDO)) for replacement detectors for nuclear material.
 These detectors are designed to replace the \iso{He}{3} detectors currently installed as radiation portal monitors.
-DHS / DNDO (along with PNNL) has determined a set of objectives that replacement technologies should meet (summarized in Table ~\ref{tab:DHSCriteria}).
-These detectors must be able to effectively discriminate between gammas (which can occur in medical isotopes) and neutrons (indicative of special nuclear material).
-\begin{table}[h]
-    \caption{Replacement Detector Requirements  }
-    %\caption{Replacement Detector Requirements \protect\cite{kouzes_neutron_1999} }
-	\centering
-	\begin{tabular}{p{0.2\textwidth} | p{0.2\textwidth} }
-	Parameter & Specification \\
-	\hline
-	\hline
-	Absolute neutron detection efficiency & 2.5 cps/ng of ${}^{252}$Cf \\
-	Intrinsic gamma-neutron detection efficiency & $ \epsilon_{int,\gamma n}\leq 10^{-6}$ \\
-	Gamma absolute rejection ratio for neutrons (GARRn) & $ 0.9 \leq \text{ GARRn }\leq$ 1.1 at 10 mR/h exposure \\
-	Cost &  \$ 30,000 per system \\
-	\hline
-	\end{tabular}
-    \label{tab:DHSCriteria}
-\end{table}
+DHS / DNDO (along with PNNL) has determined a set of objectives that replacement technologies should meet, of which the effective discriminatone between gammas (which can occur in medical isotopes) and neutrons (indicative of special nuclear material) is emphasized \cite{kouzes_neutron_2010,kouzes_neutron_1999}. 
 
 A possible replacement technology being investigated is \iso{Li}{6} (thermal cross section of 940 barns) embedded in a scintillating polymer matrix.
 Upon the absorption of a neutron \iso{Li}{6} fissions into two fragments; an alpha particle of energy 2.05 MeV and a triton of energy 2.73 MeV.
-This large amount of kinetic energy liberated (Q-value 4.78 MeV) makes \iso{Li}{6} an attractive alternative compared to other reactions such as the \iso{He}{3} reaction which has a Q-value of 0.756 MeV or \iso{B}{10} (Q-value of 2.31 MeV).
-In addition, the the alpha and triton produced are charged ions and relatively easy to stop and detect.
-
+The Q-value of 4.78 MeV makes \iso{Li}{6} an attractive alternative compared to other reactions such as the \iso{He}{3} reaction which has a Q-value of 0.756 MeV or \iso{B}{10} (Q-value of 2.31 MeV).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
@@ -95,8 +72,8 @@ The difference in the transfer of kinetic energy from charged particle to electr
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Description of Work}
-The energy deposition of neutrons and gammas was investigated for polymeric films containing \iso{Li}{6} as \iso{LiF}{6} of thickness ranging from 15 \micron to 1 cm.
-The pulse height spectra of these samples was measured on site at the University of Tennessee's characterization laboratory from a moderated neutron source as wells as a \iso{Co}{6} source.
+The energy deposition of neutrons and gammas was investigated for polymeric films containing \iso{LiF}{6} of thickness ranging from 15 \micron to 1 cm.
+The pulse height spectra of these samples was measured on site at the University of Tennessee's characterization laboratory from a moderated neutron source and a \iso{Co}{60} source.
 Simulations were completed using GEANT4, a modern toolkit for Monte Carlo transport simulation \cite{agostinelli_geant4simulation_2003,allison_geant4_2006}.
 The measurements were then used to validate and bench marking the simulation.
 
@@ -116,7 +93,8 @@ The physics lists chosen for this simulation are listed below:
 
 \subsection{Fabricated Detector Measurements}
 
-Samples are mounted to a 10 stage PMT with silicone based optical grease which is attached to a Canberra base (also serving as a preamplifier).   
+Samples are mounted to a 10 stage PMT with silicone based optical grease.
+The PMT is attached to a base which also serves as a preamplifier.   
 The PMT's voltage is supplied by a high voltage power supply, with the power being supplied to the pre amplifier base by an amplifier.  
 The output signal of the C base feeds into the amplifier for pulse shaping and amplification. 
 The amplified signal is then inputted to an MCB-ADC, and can then be read using the MAESTRO-32 software. 
@@ -127,10 +105,10 @@ A schematic of the setup is shown in Figure ~\ref{fig:ElectronicsSpectra}.
 	\caption{Pulse height measurement electronics}
 	\label{fig:ElectronicsSpectra}
 \end{figure}
-A 100 $\mu$Ci \iso{60}{Co} source was used to measure the gamma energy deposition of the films, while a moderated \iso{Cf}{252} source was used for the neutrons.
+A 100 $\mu$Ci \iso{Co}{60} source was used to measure the gamma energy deposition of the films, while a moderated \iso{Cf}{252} source was used for the neutrons.
 The \iso{Cf}{252} irridiator contains two detector wells; a lead well and a cadmium well.
-The lead well measures the response of neutron of all energies, while the cadmium well measures the responses of fast neutrons.
-The two responses are then subtracted, as shown in Figure ~\ref{fig:SimPbCdSpectra}.
+The lead well measures the response of neutron of all energies, while the cadmium well measures the responses of fast neutrons (Figure ~\ref{fig:SimPbCdSpectra}).
+The two responses are then subtracted.
 \begin{figure}
 	\centering
 	\includegraphics[width=\figurewidth]{Graph19N}
@@ -183,7 +161,6 @@ With the average energy deposition on the left axis and the average light yield 
 	\caption{Average Energy Deposition and Measured Light Yield}
 	\label{fig:EDepLightYield}
 \end{figure*}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                             CONCLUSIONS                                 %
@@ -217,10 +194,10 @@ In addition, light transport in layered thin film detectors will be explored.
 \section{Acknowledgments}
 This works was supported by the Domestic Nuclear Detection Office (DNDO) through award 003387891.
 Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do necessarily reflect the views of DNDO.
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%\bibliographystyle{ans}
 \bibliographystyle{ieeetr}
-\bibliography{../Zotero}
+\bibliography{ANSBib}
+
+
 \end{document}
 

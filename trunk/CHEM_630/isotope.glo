@@ -1,4 +1,0 @@
-\glossaryentry{v0.1> =General:>Initial version.}{1}
-\glossaryentry{v0.2>isotopestyle=\verb!*+\isotopestyle+:>\texttt  {\textbackslash isotopestyle} determines also the style of nuclear and atomic number.}{2}
-\glossaryentry{v0.2>isotope=\verb!*+\isotope+:>Vertical spacing between nuclear and atomic number has been improved. The implementation is based no a suggestion of Walter Schmidt in \texttt  {de.comp.text.tex}.}{2}
-\glossaryentry{v0.3> =General:>Changed \texttt  {\textbackslash isotopestyle} from \texttt  {\textbackslash rm} to \texttt  {\textbackslash mathrm} to improve typographic quality when sans serif math fonts are used.}{2}

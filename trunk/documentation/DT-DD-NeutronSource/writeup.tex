@@ -1,0 +1,162 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                                   PREAMBLE                                   %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% TO COMPILE: pdflatex
+\documentclass[draftcls,onecolumn]{IEEEtran}
+\usepackage{listings,graphicx,amsmath}
+\usepackage{microtype,todonotes}
+\usepackage{hyperref}
+\usepackage{isotope}
+
+%% BIBLIOGRAPHY
+\bibliographystyle{ieeetr}
+
+%% GRAPHICS RELATED
+\usepackage{graphicx}
+\usepackage{listings,amsmath}
+\graphicspath{{./images/}{./}}
+\DeclareGraphicsExtensions{.pdf, .jpeg, .png, .jpg}
+
+%% CAPTION SETUP
+\usepackage{caption}
+\usepackage{subcaption}
+\captionsetup{belowskip=12pt,aboveskip=4pt}
+
+% *** CITATION PACKAGES ***
+\usepackage{cite}
+
+% *** SPECIALIZED LIST PACKAGES ***
+\usepackage{algpseudocode}
+\usepackage{algorithm}
+\algnewcommand{\algorithmicgoto}{\textbf{go to}}%
+\algnewcommand{\Goto}[1]{\algorithmicgoto~\ref{#1}}
+
+% *** ALIGNMENT PACKAGES ***
+\usepackage{array}
+\usepackage{pgfplotstable}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                               START OF DOCUMENT                              %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{document}
+
+% paper title
+\title{Moderation of HDPE source}
+
+% author names and affiliations
+%\author{\IEEEauthorblockN{Matthew J. Urffer}
+%matthew.urffer@gmail
+%}
+
+\maketitle
+
+
+\IEEEpeerreviewmaketitle
+
+% Sections (Other Documents)
+\section{Introduction}
+A 2.4 MeV D-D neutron source of $1.2\times 10^{12}$ n/s or a 14.1 MeV D-T neutron source of $3.5\times10^{14}$ n/s is desired to be moderated to thermal energies with a thermal flux on the order of $10^{7} n/cm^2s$.
+Thermal energies were defined to be energies below $1\times10^{-7}$ MeV or 100 meV.
+A brief literature review suggest that a large amount of moderator is needed  in order to decrease the ratio of the fast neutron flux to thermal flux (RFNT) as shown in the reproduced published results (Figure ~\ref{fig:Fig2Paper}).
+It should be noted that the fraction of thermal neutrons is not the same as the RFNT, but demonstrates that the amount of moderator needed is on the order of 50-100 cm.
+\begin{figure}
+	\centering
+\includegraphics[width=0.5\textwidth]{DTModeratorFig2}
+\caption{Fraction of Spectra Thermalized}
+\label{fig:Fig2Paper}
+\end{figure}
+
+\section{Methods}
+\subsection{Geometry and MCNP Simulation}
+The geometry was modeled as a point source of the energies of the D-D reaction (2.4 MeV) and of the D-T reaction (14.1 MeV).
+The source was then surrounded by a sphere of HDPE, with the detector being another sphere concentric with the HDPE moderator (encompassing 4$\pi$ steradians).
+The neutronics was calculated with MCNP. Two tallies were employed:
+\begin{itemize}
+    \item Current tally (F1) over the source to ensure correct energy distribution.
+    \item Current tally (F1) over the edge of the HDPE to calculate moderation.
+    \item Flux tally (F2) over detector boundary to calculate the moderated flux.
+\end{itemize}
+The tally normalization was left as the MCNP results; i.e. no normalization on the F1 tally, and normalized by the surface area for the F2 surface flux tallies.
+This allowed for the easy verification of the source distribution (a spike of 1.0 at the source energy), and for the amount of neutrons absorbed in the moderator to be easily calculated \footnote{MCNP reports on a per source particle basis, leaving it up to the user to correct for the source strength.}.
+
+The fraction of  thermal neutrons is calculated as follows:
+\begin{equation}
+\eta = \frac{\int_{0}^{1\times10^{-7} MeV} \phi(E)dE}{\int_0^{\infty}\phi(E)dE}
+\end{equation}
+The validity of this calculation was checked by computing the fraction of thermal neutrons for neutron energies from the \isotope[252]{Cf} spontaneous fission spectra - \isotope[252]{Cf} spontaneous fission spectra has the most probable energy of 0.7 MeV with the average of 2.1 MeV.
+As shown in Figure ~\ref{fig:FractionThermalized} for low neutron energies (less than 2 MeV) a significant fraction can be thermalized in 15 cm or so, which is about the thickness of moderator present in the counting lab.
+\begin{figure}[ht]
+	\centering
+\includegraphics[width=0.5\textwidth]{FractionThermalized_EDep}
+\caption{Fraction of Spectra Thermalized}
+\label{fig:FractionThermalized}
+\end{figure}
+\subsection{Example Calculations}
+The number of neutrons outside of the moderator can be calculated as follows:
+For the 2.4 MeV source of strength $1.2\times10^{12} n/s$:
+\begin{equation}
+\eta = \frac{1.04266E-05}{1.54171E-05} = 0.67
+\end{equation}
+So 67\% of the neutrons leaving the 60 cm radius sphere of HDPE have an energy below $10^{-7}$ MeV. 
+The total number of neutrons making it outside of the HDPE sphere is then:
+\begin{equation}
+1.2\times10^{12} n/s \cdot 1.54\times10^{-5} = 1.84\times10^{7} n/s
+\end{equation}
+Given that the sphere is 60 cm, the flux can be calculated at the surface of the sphere for both the thermal and total flux:
+\begin{align}
+    \Phi_{E\le10^{-7} MeV} &= \frac{1.2\times10^{12} n/s \cdot 1.042\times10^{-5}}{4\pi (60 cm)^2} \\
+                           &= 276 \pm 52 n/cm^2 s 
+\end{align}
+\begin{align}
+    \Phi_{Total} &= \frac{1.2\times10^{12} n/s \cdot 1.54\times10^{-5}}{4\pi (60 cm)^2} \\
+                  &= 408 n/cm^2 s
+\end{align}
+This value can be compared to the MCNP calculated thermal flux at the surface of HDPE.
+\begin{align}
+    \Phi_{E\le10^{-7} MeV} &= 1.2\times10^{12} n/s \cdot  4.080 \times10^{-10} particles/cm^2\\
+                           &= 489 \pm 107 n/cm^2s 
+\end{align}
+It follows that the F2 flux tally is slightly higher than the F1 current tally because the F1 tally is weighted by the do product of the particle direction and the surface normal, while the F2 tally does not.
+
+The 14.1 D-T source had 5.63936E-03 neutrons per source neutron below 1E-7 MeV, with a total of 4.10137E-02 neutrons exiting the HDPE.
+Using the definition of the thermal fraction from above, $\eta$ is
+\begin{equation}
+\eta = \frac{5.63936E-03}{4.10137E-02} = 0.137499
+\end{equation}.
+If the source strength is $3.5\times10^{14}$ n/s, then there would be $3.5\times10^{14} \cdot 5.63936\times10^{-3} = 1.97\times10^{12}$ n/s leaving the HDPE moderator (all $4\pi$ solid angle), or a flux of $\frac{1.97\times10^{12}}{4\pi (60 cm)^2} = 4.36\times10^{7} n/cm^2 s$ with an energy less than $10^{-7}$ MeV.
+
+\section{Results}
+The flux on the surface of the HDPE moderator sphere is shown in Figure ~\ref{fig:ThermalFluxSources} for both the D-T and D-D sources. The D-D source has a thermal flux within the design constraint of $106{7} n/cm^2s$ around a thickness of 25 cm, while the D-T source because of it's higher energy requires significantly more (95 cm) moderator to meet the design constraint.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=0.5\textwidth]{ThermalFluxSources}
+    \caption{Thermal flux as a function of HDPE Moderator Radius for the D-D and D-T sources}
+    \label{fig:ThermalFluxSources}
+\end{figure}
+The fraction of thermal neutrons was calculated with both the F1 current tally and the F2 flux tallies, with good agreement, as shown in Figure ~\ref{fig:DDDTThermalFraction}. 
+For the D-D source the thermal fraction is around 50\% with 25 cm of moderator, and for the D-T source the thermal fraction is only at 15\% with 95 cm of moderator.
+\begin{figure*}[ht]
+	\centering
+	\begin{subfigure}[b]{0.43\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{DDThermalFraction}
+        \caption{D-D Thermal Fraction (2.4 MeV)}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.43\textwidth}
+		\centering
+		\includegraphics[width=\textwidth]{DTThermalFraction}
+        \caption{D-T Thermal Fraction (14.1 MeV)}
+	\end{subfigure}	
+	\caption{Thermal fraction calculated by F1 and F2 tallies}
+	\label{fig:DDDTThermalFraction}
+\end{figure*}
+% Bibliography
+\bibliography{./Zotero}
+
+\end{document}
+

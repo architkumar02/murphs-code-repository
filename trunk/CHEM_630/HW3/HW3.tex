@@ -48,141 +48,37 @@ January 22, 2013 \\
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \part{a}{Calculate the average atomic weight of the element when Ag has 51.35\% \isotope[107]{Ag} and \isotope[109]{Ag}}
 
-
+\begin{align}
+	<mass> &= 0.5135\times106.90508\text{mu} + (1-0.5135)\times108.90475\text{mu}\\
+			 &= 107.85592\text{mu}
+\end{align}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \part{b}{Identify an element which has 7 stable isotopes}
-{Calculate the nuclear radius of \isotope[242]{Cr}}
 
-An approximation of the nuclear radius is given by \ref{eqn:NuclearRadius}
-\begin{align}
-	r(A)[cm] = 1.4\times10^{-13}A^{1/3} 
-	\label{eqn:NuclearRadius}
-\end{align}
-\isotope[242]{Cr} has an $A=242$, yielding
-\begin{align}
-	r(A=242)[cm] &= 1.4\times10^{-13}242^{1/3} 
-					 &= 8.7\times10^{-13} cm 
-\end{align}
-The nuclear radius listed on Wolfram-Alpha for Cr was 3.4 fm, which is roughly one half of the calculated radius.
+Ruthenium, dysprosium, ytterbium, and mercury all have 7 stable isotopes.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\part{c}{Calculate the nuclear mass of \isotope[27]{Mg}}
+\part{c}{Identify a stable nuclide which shows wither a magic neutron number only or a magic proton number only. What sign of extra stability to you find in it?}
 
-The atomic mass of \isotope[27]{Mg} is 26.98434 u. Mg has 12 protons, and therefore a neutral isotope would have 12 electrons.
-The nuclear mass is then
-\begin{align}
-	M(27,12) &= 26.98434 u - (12e^-)\frac{5.4858\times10{-4} u}{e^-}
-				&= 26.9778 u
-\end{align}
+The magic nucleon numbers are 2,8,20,28,50,82 and 126.
+A stable nuclide with a magic proton number of 8 is \isototope[18]{O}.  
+In this isotope the 10 neutrons are paired up in even-even spin, and is therefore a more stable energy state than an even-odd paring.
+Even-odd pairings would occur with the magic nucleon numbers since the magic nucleon numbers are all even.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\part{d}{Look up the mass in mu of \isotope[19]{O}. Then add the masses of the constituent particles. Explain why there is a discrepancy}
+\part{d}{Plat a graph of the average atomic weight of the elements up through Th minus the atomic number (avg atomic wt - Z) against the atomic number (Z). How is this line related to the stability band?}
 
-The atomic mass of \isotope[19]{O} is 19.00358 u (Wolfram-Alpha).
-The masses of the constituents are:
-\begin{center}
-	\begin{tabular}{c c c}
-	Constituent & Amount & Mass \\
-	\hline
-	\hline
-	Neutrons & 11 & 11.0953 \\
-	Protons & 8 & 8.0582 \\
-	Electrons & 8 & 0.0044 \\ 
-	\multicolumn{2}{c}{Total} & 19.1579
-\end{tabular}
-\end{center}
-The difference in the total mass of the constituents and the atomic mass comes is 0.1543 u, which comes from the binding energy.
-The act of bringing the nucleus together creates a nuclear potential well, and the excess mass is turned into the energy depth of this potential well.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\part{e}{Calculate the binding energy per nucleon of \isotope[45]{Sc}}
-
-The semi-empirical equation for the binding energies was implemented in MATLAB. For \isotope[45]{Sc} the total binding energy was calculated to be 389.1 MeV, and with 45 nucleons the binding energy per nucleon is then 8.647 MeV. The published value by the NNDC (BNL) is 8.618 MeV per nucleon.
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\part{f}{Draw three isotopes with Z = 45}
-
-Isotopes are nuclides with the same Z (number of protons), but have a different number of neutrons.
-The isotopes of Z=45 are shown in Figure ~\ref{fig:Isotopes}.
-\begin{figure*}[!ht]
+Data was parsed from the 2007 atomic weights of the elements (IUPAC Technical Report) for the average atomic weight.
+The Z of each element was then subtracted off the of the atomic weight, and plotted in Figure ~\ref{fig:StabilityBand}.
+The resulting line is essentially the center of the stability band.
+\begin{figure}[ht]
 	\centering
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{HW2_102Rh.png}
-	\end{subfigure}%
-	~
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{HW2_103Rh.png}
-	\end{subfigure}%
-	~
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{HW2_104Rh.png}
-	\end{subfigure}
-	\caption{Isotopes of Z = 45}
-	\label{fig:Isotopes}
-\end{figure*}
+	\includegraphics[width=\textwidth]{StabilityBand.png}
+	\caption{Average Atomic Weight - Z}
+	\label{fig:StabilityBand}
+\end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\part{g}{Draw three isotones with N = 40}
-
-Isotones are nuclides with the same N, but with different number of protons.
-The isotones of N = 40 are shown in Figure ~\ref{fig:Isotones}.
-\begin{figure*}[!ht]
-	\centering
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{HW2_71Ga.png}
-	\end{subfigure}%
-	~
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{HW2_72Ge.png}
-	\end{subfigure}%
-	~
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{HW2_73As.png}
-	\end{subfigure}
-	\caption{Isotones of N = 40}
-	\label{fig:Isotones}
-\end{figure*}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\part{h}{Draw three isobars with A = 69}
-
-Isobars are nuclides with the same A.
-The isobars of A = 69 are shown in Figure ~\ref{fig:Isobars}
-\begin{figure*}[!ht]
-	\centering
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{HW2_69Ga.png}
-	\end{subfigure}%
-	~
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{HW2_69Ge.png}
-	\end{subfigure}%
-	~
-	\begin{subfigure}[b]{0.3\textwidth}
-		\centering
-		\includegraphics[width=\textwidth]{HW2_69Zn.png}
-	\end{subfigure}
-	\caption{Isobars of A = 69}
-	\label{fig:Isobars}
-\end{figure*}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\part{g}{Identify the nuclide with $I=0$, the one with $I\ge0$, and the one with a half number I}
-
-\begin{itemize}
-	\item Even-even isotopes have $I=0$, therefore \isotope[40]{Ca}
-	\item Odd-odd isotopes have an integer spin, therefore \isotope[36]{Cl}
-	\item Even-odd isotopes have half integer spin, therefore \isotope[49]{Ti}
-\end{itemize}
-
 \question{Advanced Topic}{Extended Periodic Table - Part 2, Binding Energy}
 
 The binding energy per nucleon was investigated using the semi-empirical mass model along with published data.
@@ -192,17 +88,5 @@ This plateau ends around a Z of 80, which is around where the elements have a hi
 In addition, the binding energy per nucleon starts to decline, indicating that according the the semi-empirical mass model that there is a finite number of elements\footnote{The coefficients of the semi-empirical mass model are from fitted data, so it probably should not be extrapolated very far}.
 The semi-empirical binding energy per nucleon was compared to the published values from the NNDC\footnote{Data from http://www.nndc.bnl.gov/masses/mass.mas03}, and the log error between the two was calculated and shown in Figure ~\ref{fig:BEError}.
 In general, there was very good agreement.  However, the real values did not show as much variability as the semi-empirical model. In addition, the semi-empirical model fails to capture the binding energy at very low A and Z, where quantum / shell models would be more accurate.
-\begin{figure}[hb]
-	\centering
-	\includegraphics[width=\textwidth]{BEPerNuc_SemiEmp.png}
-	\caption{Binding Energy per Nucleon (Semi-empirical Mass Model)}
-	\label{fig:BESemiEmperical}
-\end{figure}
-\begin{figure}[ht]
-	\centering
-	\includegraphics[width=\textwidth]{BEError.png}
-	\caption{Binding Energy Error (Log Difference)}
-	\label{fig:BEError}
-\end{figure}
 \end{document}
 

@@ -52,21 +52,26 @@ January 22, 2013 \\
 	<mass> &= 0.5135\times106.90508\text{mu} + (1-0.5135)\times108.90475\text{mu}\\
 			 &= 107.85592\text{mu}
 \end{align}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \part{b}{Identify an element which has 7 stable isotopes}
 
+
 Ruthenium, dysprosium, ytterbium, and mercury all have 7 stable isotopes.
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \part{c}{Identify a stable nuclide which shows wither a magic neutron number only or a magic proton number only. What sign of extra stability to you find in it?}
 
+
 The magic nucleon numbers are 2,8,20,28,50,82 and 126.
-A stable nuclide with a magic proton number of 8 is \isototope[18]{O}.  
+A stable nuclide with a magic proton number of 8 is \isotope[18]{O}.  
 In this isotope the 10 neutrons are paired up in even-even spin, and is therefore a more stable energy state than an even-odd paring.
 Even-odd pairings would occur with the magic nucleon numbers since the magic nucleon numbers are all even.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \part{d}{Plat a graph of the average atomic weight of the elements up through Th minus the atomic number (avg atomic wt - Z) against the atomic number (Z). How is this line related to the stability band?}
+
 
 Data was parsed from the 2007 atomic weights of the elements (IUPAC Technical Report) for the average atomic weight.
 The Z of each element was then subtracted off the of the atomic weight, and plotted in Figure ~\ref{fig:StabilityBand}.
@@ -79,14 +84,29 @@ The resulting line is essentially the center of the stability band.
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\question{Advanced Topic}{Extended Periodic Table - Part 2, Binding Energy}
+\question{Advanced Topic}{Predicting Radiological Half-Lives}
 
-The binding energy per nucleon was investigated using the semi-empirical mass model along with published data.
-For each A, Z the semi-empirical mass model was used to calculate the binding energy, with the results shown in the contour plot of Figure ~\ref{fig:BESemiEmperical}.
-It is immediately evident why the heavy elements tend to have more isotopes, because their is a large plateau in the 8 MeV per nucleon range.
-This plateau ends around a Z of 80, which is around where the elements have a high change of being radioactive.
-In addition, the binding energy per nucleon starts to decline, indicating that according the the semi-empirical mass model that there is a finite number of elements\footnote{The coefficients of the semi-empirical mass model are from fitted data, so it probably should not be extrapolated very far}.
-The semi-empirical binding energy per nucleon was compared to the published values from the NNDC\footnote{Data from http://www.nndc.bnl.gov/masses/mass.mas03}, and the log error between the two was calculated and shown in Figure ~\ref{fig:BEError}.
-In general, there was very good agreement.  However, the real values did not show as much variability as the semi-empirical model. In addition, the semi-empirical model fails to capture the binding energy at very low A and Z, where quantum / shell models would be more accurate.
+The prediction of the radiological half-life from first principles was investigated for alpha decay, following the presentation of Dommelen in Quantum Mechanics for Engineers. 
+In general there are 10 orders of magnitudes for the half-lives of different nuclei, from nano seconds to quintillions of years (excluding beryllium, which is in the atto second range).
+A simple model for alpha decay involves treating the alpha particle as a wavelet packet inside the nucleus.
+This packet is trapped inside the nucleus because of the strong nuclear force, but there is always some probability that the particle can tunnel out, this probability is approximated by a transmission coefficient ~\ref{eqn:TransCoeff}.
+\begin{align}
+	T &\approx e^{-2\gamma_{12}}
+	\label{eqn:TransCoeff}
+\end{align}
+where $\gamma_{12}$ is shown for the case of a high and wide barrier (Coulomb repulsion outside nucleus for wide, strong nuclear force for high).
+\begin{align}
+	\gamma_{12} &= \frac{1}{\hbar} \int_{x_1}^{x_2} \left | p_c \right | dx \\
+	\left | p_c \right | &= \sqrt{2m(V-E)}
+\end{align}.
+Under this approximation the probability for passing through the barrier is the integration from inside the nucleus to outside the nucleus.
+While the probability of a successful tunnel per attempt is quite low the wavelet  bounces around the potential barrier inside the nucleus on the order of $2r_0/v_\alpha$ times per second.
+When the integration is preformed there is very good agreement for the even-even nuclei, with slightly less for all nuclei, as shown in Figure ~\ref{fig:AlphaDecayAgreement}.
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=\textwidth]{Gamow_GurneyCondonTheory.pdf}
+	\caption{Theory predict half-life agreement.  Reproduced from Dommelen, Quantum Mechanics for Engineers}
+	\label{fig:AlphaDecayAgreement}
+\end{figure}
 \end{document}
 

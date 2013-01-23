@@ -1,6 +1,6 @@
 #!/bin/bash
 
-FILES=Output/*.o
+FILES=*.o
 echo "r tally total"
 for f in $FILES
 do

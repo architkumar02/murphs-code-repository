@@ -4,7 +4,7 @@
 rm -rf nohup.out out* comou* runtp* mcta* INP.mcnp
 export PBS_O_WORKDIR=$(pwd)
 # Radius
-radius=(0.0001 2.5 5 7.5 10 12.5 15 17.5 20)
+radius=(0.1 0.5 1 2.5 5 7.5 10 12.5 15 17.5 20)
 for r in "${radius[@]}"
 do
 

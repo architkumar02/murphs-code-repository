@@ -1,6 +1,7 @@
 A Cf-252 Source  moderated by HDPE of various thickness
 C @Author: Matthew Urffer (matthew.urffer@gmail.com)
 C @date:   January 22, 2013
+C Modified 01/26/2013 to correct for the HDPE mderator with 0.5 cm of Pb
 c ############################ Cell Cards ######################################
 c --------------------------- Source -------------------------------------------
 100   5  -15.1      -100                                   $ 252Cf source
@@ -14,9 +15,9 @@ c ---------------------------- Outside World -----------------------------------
 
 c  ############################# Surface Cards #################################
 100   so    2.510E-04    $ Source
-101   so    5.0025E-01   $ 0.5 cm lead surrounding source
+101   so    0.5          $ 0.5 cm lead surrounding source
 200   so    RHDPE        $ HDPE sheilding
-1000  so    100          $ 1 m outside world
+1000  so    50           $ 50 cm outside world
 
 c ------------------------------ Run Info --------------------------------------
 nps 1E6

@@ -48,49 +48,76 @@ January 29, 2013 \\
 \question{2.07}{Radioactivity - Predict Probable Decay}
 \part{a}{Predict the probable decay of \iso[55]{Mn}, \iso[123]{Sn}, \iso[66]{Ga}, \iso[185]{Os}, \iso[242]{Pu}, \iso[55]{Fe}, and \iso[249]{Cm}}
 
-\part{b}{Check the above nuclides in a nculide table or chart to see how they actually decay\footnote{Decay schemes for this problem where taken from the Nuclear Data Sheets,2003. (http://www.nndc.bnl.gov/chart/chartNuc.jsp)}}
-\begin{center}[hb]
-\begin{tabular}{m{1.5cm} m{5.5cm} m{4cm} m{2cm}}
+\part{b}{Check the above nuclides in a nuclide table or chart to see how they actually decay\footnote{Decay schemes for this problem where taken from the Nuclear Data Sheets,2003. (http://www.nndc.bnl.gov/chart/chartNuc.jsp)}}
+\begin{center}
+\begin{tabular}{m{1.5cm} m{5.5cm} m{3cm} m{5.1cm}}
 \centering
-Isotope & Reason & Predicted Decay Mode & Actual Decay \\
+Isotope & Reason & Predicted Decay Mode & Decay modes \\
 \hline
 \hline
 \iso[55][25]{Mn} & Odd Z with W-A = 0 &  Stable & Stable \\
-\iso[123][50]{Sn} & Even Z with W-A = 4 indicating instability, but Sn has 10 stable isotopes &  Stable & \includegraphics[width=4cm]{123SnDecay.png} \\
-\iso[66][31]{Ga} & Odd Z with W-A = -4 indicating instablity with an abudance of neutrons probably $\beta^{-}$ &  $\beta^{-}$ & \includegraphics[width=4cm]{66GaDecay.png} \\
-\iso[185][76]{Os} & Even Z with W-A = -5 indicating instability with an abudance of neutrons, but probably alpha decay and not beta due to being so far from stability &  $\alpha$ & \includegraphics[width=4cm]{185OsDecay.png} \\
-\iso[242][94]{Pu} & Even Z with W-A = -2, but all elments above Z=82 are unstable, prediomently through alpha decay &  $\alpha$ & \includegraphics[width=4cm]{242PuDecay.png} \\
-\iso[55][26]{Fe} & Even Z with W-A = 1 &  Stable & Estimated half-life is \\
-\iso[249][96]{Cm} & Even Z with W-A = 2, but all elments above Z=82 are unstable, prediomently through alpha decay &  $\alpha$ & \includegraphics[width=4cm]{249CmDecay.png} \\
+\iso[123][50]{Sn} & Even Z with W-A = 4 indicating instability, but Sn has 10 stable isotopes &  Stable & $\beta^{-}$: 100.00\% \\
+\iso[66][31]{Ga} & Odd Z with W-A = -4 indicating instability with an abundance of neutrons probably $\beta^{-}$ &  $\beta^{-}$ & $\beta^{+}$: 100.00\% \\
+\iso[185][76]{Os} & Even Z with W-A = -5 indicating instability with an abundance of neutrons, but probably alpha decay and not beta due to being so far from stability &  $\alpha$ & $\beta^{+}$: 100.00\%\\
+\iso[242][94]{Pu} & Even Z with W-A = -2, but all elements above Z=82 are unstable, predominately through alpha decay &  $\alpha$ & $\alpha$: 100.00\% , SF: $5.5\times10^{-4}$\% \\
+\iso[55][26]{Fe} & Even Z with W-A = 1 &  Stable & $\beta^{+}$: 100.00\% \\
+\iso[249][96]{Cm} & Even Z with W-A = 2, but all elements above Z=82 are unstable, predominately through alpha decay &  $\alpha$ & $\beta$: 100.00\% \\
 \end{tabular}
 \end{center}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \question{2.09}{Radioactivity - Reaction Energy}
-\part{a}{Calculate the reaction energy invovled in the beta deay of \iso[110]{Ag}}
-\begin{align}
-	\iso[110][47]{Ag} &\to \iso[110][46]{Pd}^{+} +\beta +\bar{\nu} + Q \\
-	Q &= M_{\iso[110]{Ag}} - \left (M_{\iso[110]{Pd}} - M_{e^{-}} + \right ) - M_{e^{-}} - M_{\bar{\nu}} \\
-\end{align}
-\part{b}{Calculate the reaction energy invovled in the positron decay of \iso[98]{Rh}}
-\begin{align}
-	\iso[98][45]{Rh} &\to \iso[98][46]{Pd}^{-} + \beta^{+} + \nu + Q \\
-	Q &= M_{\iso[98]{Rh}} - \left ( M_{\iso[98]{Pd}} + M_{e^{-}} \right ) - M_{e^{-}} -M_{\nu} \\
-\end{align}
-\part{c}{Calculate the reaction energy invovled in the electron-capture decay of \iso[111]{Sn}}
-\begin{align}
-	\iso[110][50]{Sn} + e^{-} &\to \iso[110][49]{In} + \bar{\nu} \\
-	Q &= 
-\end{align}
-\part{d}{Calculate the reaction energy invovled in the alpha decay of \iso[148]{Gd}}
-\begin{align}
-	\iso[148][64]{Gd} &\to \iso[144][62]{Sm}^{2+} +\alpha^{2-} \\
-	Q &= M_{\iso[148]{Gd}} - \left (M_{\iso[114]{Sm}}  + 2m_{e^{-}} \right ) - \left ( M_{\iso[4]{He}} - 2m_{e^{-}} \right ) \\
-\end{align}
-\part{e}{Calculate the reaction energy invovled in the gamma decay of \iso[107m]{Ag}}
 
-The reaction energy involved in the decay of a meta-stable isotope (such as \iso[107m]{Ag}) cannot be calculated from a mass difference. See the Advanded Topic section for more details.
+The reaction energies are calculated as the mass difference between the parents and the daughters.
+\begin{align*}
+	Q = M_{\text{parents}} - M_{\text{daughters}}
+\end{align*}
+The mass excess of the nuclides, $\Delta$, (differences between actual mass and atomic number) was used instead of the actual nuclide mass. 
+The nuclide mass, if desired could be recovered by adding on the mass excess.
+It is assumed that the mass of the neutrino is negligible.
+
+\part{a}{Calculate the reaction energy involved in the beta decay of \iso[110]{Ag}}
+\begin{align}
+	\iso[110][47]{Ag} &\to \iso[110][48]{Cd}^{+} +\beta +\bar{\nu} + Q \notag\\
+	Q &= M_{\iso[110]{Ag}} - \left (M_{\iso[110]{Cd}} - M_{e^{-}} + \right ) - M_{e^{-}} - M_{\bar{\nu}} \notag\\
+	  &= \Delta_{\iso[110]{Ag}} -\Delta_{\iso[110]{Cd}} \notag \\
+	  &= -87.4574 \text{MeV} - \left ( -90.3503 \text{MeV} \right) \notag \\
+	  &= 2.8929\text{MeV}
+\end{align}
+
+\part{b}{Calculate the reaction energy involved in the positron decay of \iso[98]{Rh}}
+\begin{align}
+	\iso[98][45]{Rh} &\to \iso[98][44]{Ru}^{-} + \beta^{+} + \nu + Q \notag \\
+	Q &= M_{\iso[98]{Rh}} - \left ( M_{\iso[98]{Ru}} + M_{e^{-}} \right ) - M_{e^{-}} -M_{\nu} \notag \\
+	  &= \Delta_{\iso[98]{Rh}} - \Delta_{\iso[98]{Ru}} \notag \\
+	  &= -83.1751\text{MeV} - \left ( -88.2248\text{MeV} \right ) \notag \\
+	  &= 5.057 \text{MeV}
+\end{align}
+
+\part{c}{Calculate the reaction energy involved in the electron-capture decay of \iso[111]{Sn}}
+\begin{align}
+	\iso[110][50]{Sn} + e^{-} &\to \iso[110][49]{In} + \bar{\nu} \notag \\
+	Q &= M_{\iso[110]{Sn}} - \left (M_{\iso[110]{In}} + M_{e^{-}} \right ) - M_{e^{-}} -M_{\nu} \notag \\
+	  &= \Delta_{\iso[110]{Sn}} - \Delta_{\iso[110]{In}} \notag \\
+	  &= -85.9414\text{MeV} - \left (-88.3832\text{MeV} \right ) \notag \\
+	  &= 2.451\text{MeV}
+\end{align}
+
+\part{d}{Calculate the reaction energy involved in the alpha decay of \iso[148]{Gd}}
+\begin{align}
+	\iso[148][64]{Gd} &\to \iso[144][62]{Sm}^{2+} +\alpha^{2-} \notag \\
+	Q &= M_{\iso[148]{Gd}} - \left (M_{\iso[114]{Sm}}  + 2m_{e^{-}} \right ) - \left ( M_{\iso[4]{He}} - 2m_{e^{-}} \right ) \notag \\
+	  &= \Delta_{\iso[148]{Gd}} - \Delta_{\iso[114]{Sm}} - \Delta_{\iso[4]{He}} \notag \\
+	  &= -76.2692\text{MeV} -\left (-81.9657\text{MeV} + 2.4249\text{MeV} \right ) \notag \\
+	  &= 3.2712\text{MeV}
+\end{align}
+
+\part{e}{Calculate the reaction energy involved in the gamma decay of \iso[107m]{Ag}}
+
+The reaction energy involved in the decay of a meta-stable isotope (such as \iso[107m]{Ag}) cannot be calculated from a mass difference as masses are only listed for stable states. 
+However,the Q-value for this reaction is 931 keV. 
+See the Advanced Topic section for more details.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \question{Advanced Topic}{Possible Options}

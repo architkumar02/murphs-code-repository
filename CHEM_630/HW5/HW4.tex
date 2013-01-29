@@ -1,0 +1,146 @@
+\documentclass[11pt]{article}
+
+\usepackage{amsmath}
+\usepackage{amssymb}
+\usepackage{fancyhdr}
+\usepackage{isotope}
+\usepackage{graphicx}
+\graphicspath{{./images/}{./}}
+\usepackage{array}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\oddsidemargin0cm
+\topmargin-2cm     %I recommend adding these three lines to increase the 
+\textwidth16.5cm   %amount of usable space on the page (and save trees)
+\textheight23.5cm  
+
+\newcommand{\question}[2] {\vspace{.25in} \hrule\vspace{0.5em}
+\noindent{\bf #1: #2} \vspace{0.5em}
+\hrule \vspace{.10in}}
+\renewcommand{\part}[1] {\vspace{.10in} {\bf (#1)}}
+
+\newcommand{\myname}{Matthew J. Urffer}
+\newcommand{\myemail}{murffer@utk.edu}
+\newcommand{\myhwnum}{4}
+
+\pagestyle{fancyplain}
+\lhead{\fancyplain{}{\textbf{HW\myhwnum}}}      % Note the different brackets!
+\rhead{\fancyplain{}{\myname\\ \myemail}}
+\chead{\fancyplain{}{CHEM-630}}
+
+\begin{document}
+
+\medskip                        % Skip a "medium" amount of space
+                                % (latex determines what medium is)
+                                % Also try: \bigskip, \littleskip
+
+\thispagestyle{plain}
+\begin{center}                  % Center the following lines
+{\Large CHEM-630 Assignment \myhwnum} \\
+\myname \\
+\myemail \\
+January 24, 2013 \\
+\end{center}
+
+\question{2.05}{Radioactivity - Decay Modes}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{a}{Write the complete equations for the beta decay of \isotope[29]{Al} and \isotope[140]{La}}
+
+Beta decay is when a neutron in the nucleus decays into a proton, a beta,and an anti-neutrino:
+\begin{align*}
+    \text{n} \to \text{p}^{+} + \beta^{-} + \bar{\nu_e}
+\end{align*}
+\begin{align}
+    \isotope[29][13]{Al} & \to \isotope[29][14]{Si}^{+} + \beta^{-} + \bar{\nu_e} \\
+    \isotope[140][57]{La} & \to \isotope[140][58]{Ce}^{+} + \beta^{-} + \bar{\nu_e} 
+\end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{b}{Write the complete equations for the positron decay of \isotope[22]{Na} and \isotope[98]{Pd}}
+
+Positron decay (or $\beta^{+}$ decay) is when a proton in the nucleus decays into a neutron, positron, and a neutrino:
+\begin{align*}
+    \text{p}^{+} \to \text{n} + \beta^{+} + \nu_e
+\end{align*}
+\begin{align}
+    \isotope[22][11]{Na} & \to \isotope[22][10]{Ne}^{-} + \beta^{+} + \nu_e \\
+    \isotope[98][46]{Pd} & \to \isotope[98][45]{Rh}^{-} + \beta^{+} + \nu_e
+\end{align}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{c}{Write the complete equations for the electron capture decay of \isotope[135]{La} and \isotope[212]{Fr}}
+
+Electron capture is when the wave functions of the nucleus and the low level electrons overlap and an electron is pulled into the nucleus, changing a proton in the nucleus to a neutron:
+\begin{align*}
+    \text{p}^{+} + e^{-} \to \text{n} + \nu_e
+\end{align*}
+\begin{align}
+    \isotope[135][57]{La} +e^{-} &\to \isotope[135][56]{Ba}^{-} + \nu_e \\
+    \isotope[212][87]{Fr} +e^{-} &\to \isotope[212][86]{Rn}^{-} + \nu_e
+\end{align}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{d}{Write the complete equations for the alpha decay of \isotope[208]{Pb} and \isotope[248]{Fm}}
+
+Alpha decay is when an alpha particle (a helium nucleus) is emitted from a nucleus:
+\begin{align*}
+    \isotope[A][Z]{X} \to \isotope[A-4][Z-2]{Y} + \isotope[4][2]{\mathnormal{\alpha}}
+\end{align*}
+\begin{align}
+    \isotope[208][82]{Pb} &\to \isotope[204][80]{Hg}^{2e^{-}} + \isotope[4][2]{\mathnormal{\alpha}}^{2+} \\ 
+    \isotope[248][100]{Fm} &\to \isotope[244][98]{Cf}^{2e^{-}} + \isotope[4][2]{\mathnormal{\alpha}}^{2+} 
+\end{align}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{e}{Write the complete equations for the gamma decay of \isotope[110m]{Ag}}
+
+Gamma decay is when a nucleus in an excited state (meta-stable) emits a gamma and then goes into a lower energy state.
+\begin{align}
+    \isotope[110m]{Ag} &\to \isotope[110]{Ag} + \gamma
+\end{align}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{f}{Write the complete equations for an internal conversion decay different than the once given above}
+
+Internal conversion occurs when a nucleus in an excited (meta-stable) state interacts with an electron in the lower orbitals and that electron is ejected from the nucleus. This electron is not of nuclear origin, but the energy that allowed for its ejection is. An example of internal conversion is provided below:
+\begin{align}
+    \isotope[99m]{Tc} &\to \isotope[99]{Tc}^{+} + e^{-}
+\end{align}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\part{g}{Write the complete equations for a proton decay different than the once given above}
+
+Proton decay is the theoretical decay of a proton:
+\begin{align*}
+    \text{p}^{+} &\to e^{+} + \pi^{0} \\
+    \text{p}^{+} &\to \mu^{+} + \pi^{0}
+\end{align*}
+While proton decay has never been observed (see the Advanced Topic section) a hypothetical proton decay was searched for by the Super-K Collaboration:
+\begin{align}
+    \isotope[1][1]{H} &\to e^{+} +\pi^{0}
+\end{align}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\question{Advanced Topic}{Proton Decay}
+Proton decay, in which a proton decays into a position and pion or a muon and pion is a prediction of some Grand Unified Theories (GUTs) that extended the Standard Model.
+In the Standard Model particles are divided into three classes; quarks, leptons, and Gauge bosons.
+Hadrons consist of particles bound together by quarks (three quarks for baryons such as neutrons and protons while two quarks for mesons).
+Electrons are leptons, which are not bound together by quarks.
+Under the Standard Model all baryons are stable.
+Models that go beyond the standard model in attempts to unify all physics models (GUTs) break the stability of the baryon number, allowing for baryons such as protons to decay.
+If such a proton decay is observed, it allows for the verification of that aspect of the GUT.
+However, such a decay has not been observed with the proton lifetime being estimated at greater than $6.6\times10^{33}$ years (90\% confidence level).
+
+As an aside, the Super-K (see attached paper) was the first to announce the first experimental evidence for neutrino oscillation in 1998.
+The oscillation of the neutrinos implies that neutrino's have mass, and effectively resolved the solar-neutrino problem, for which the Nobel Prize in physics was awarded in 2002.
+
+The data for this article was taken from various Wikipedia entries and Nuclear and Particle Physics by B.R. Martin.
+\end{document}
+

@@ -1,0 +1,49 @@
+\documentclass[draftcls,onecolumn]{IEEEtran}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                                   PREAMBLE                                   %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% INCLUDING THE PREAMBLE
+\input{../Preamble}
+\usepackage{standalone}
+\graphicspath{{./images/}{./}}
+\DeclareGraphicsExtensions{.pdf, .jpeg, .png, .jpg}
+% TO COMPILE: lmake
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                              %
+%                               START OF DOCUMENT                              %
+%                                                                              %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+
+% Cover Page
+\title{Moderation of Neutron Sources with HDPE}
+\author{Matthew J. Urffer}
+
+\maketitle
+
+
+% To Do List
+\listoftodos
+\pagebreak
+% Tables of Contents, Figures, Tables
+\tableofcontents
+\pagebreak
+\listoffigures
+\pagebreak
+\listoftables
+\pagebreak
+\lstlistoflistings
+
+\section{Introduction}
+
+% Bibliography
+\bibliography{./Zotero}
+
+\appendix
+\include{DTDDSheilding}
+%\includepdf[pages=-]{DTDDSheilding.pdf}
+
+\end{document}
+

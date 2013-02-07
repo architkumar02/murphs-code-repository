@@ -1,0 +1,28 @@
+A Point Neutron Sourcei moderated by HDPE of various thickness
+C @Author: Matthew Urffer (matthew.urffer@gmail.com)
+C @date:   Febuary 6, 2013
+c ############################ Cell Cards ######################################
+c ----------------------------- HDPE Moderating --------------------------------
+200   456  -0.92    -200
+c ---------------------------- Outside World -----------------------------------
+1000   0            200
+
+c  ############################# Surface Cards #################################
+200   so    RHDPE        $ HDPE sheilding
+
+c ------------------------------ Run Info --------------------------------------
+nps 1E6
+c ------------------------------ Physics ---------------------------------------
+IMP:n 1 0
+c -------------------------- Source Defination ---------------------------------
+sdef  pos=0 0 0 par=n erg=ENERGY
+c -------------- Output --------------------------------------------------------
+PRDMP j j 1      $ Write a MCTAL File (have script for input MCTAL)
+c -------------------------- Material Cards ------------------------------------
+m456  1001.70c      -0.143716  $Polyethylene - rho = 0.93 g/cc
+      6000.70c      -0.856284 
+C -------------------------- Tally Ho! ----------------------------------------
+FC21 Current across edge of HDPE Sheilding
+F21:n 200
+E21 0 5E-7 10 
+

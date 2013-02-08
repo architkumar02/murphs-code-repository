@@ -22,7 +22,13 @@
 \author{Matthew J. Urffer}
 
 \maketitle
+\begin{abstract}
+The moderation of neutrons by high density polyethylene (HDPE) is invistigated as a function of source energy and thickness of HDPE.
+MCNP was used to simulate the neutronics for a point neturon source, as well as a \isotope[252]{Cf} source for thickness ranging from 0.5 cm to 32 cm (\~ 1 foot).
+A series of curves were constructed in order to present this data.
+\end{abstract}
 
+\IEEEpeerreviewmaketitle
 
 % To Do List
 \listoftodos
@@ -37,12 +43,27 @@
 \lstlistoflistings
 
 \section{Introduction}
+Understanding the moderation of neutrons is essential in neutron detectors designs.
+Many of the neutron detection reactions have a much larger (by orders of magnitudes) probability of occurance if the neutrons are thermal.
+Thus, great effort is taken to moderate the neutron spectra in order to increase the probability of a desired reaction to occur.
+High density polyethelene (HDPE) is a well known neutron moderator with a denisty ranging from $0.93 g/cm^3$ to $0.97 g/cm^3$.
+Polyethelene,$\left (C_2 H_4\right )_n H_2$, has four hydrogen atoms per repeating unit making it an ideal neutron moderator because each neutron can lose almost all of it's energy upon an elastic collision with a hydrogen atom given that the hydrogen atom and neutron have similar masses.
+HDPE is also stable at room temperature, non-toxic, and has enough strucutral integrity that one can build with it.
+
+This work will focus on the moderation of two types of neutron sources; a mono energic point source of various energies and a \iso[252]{Cf} source.
+For both sources the thickness of HDPE encasing the source is varied, and the fraction of thermal neutrons is calcualted.
+
+
+This paper is organzied into the following sections.  The Methods section will outline the geometry used for the MCNP simulation, as well as an indepth explanation of how the fraction of thermal neutrons was calculated.  The Results section will outline the pertiant results, with the Conclusions section summerizing the work.
+
+\include{HDPEMethods}
+\include{HDPEResults}
 
 % Bibliography
 \bibliography{./Zotero}
 
 \appendix
-\include{DTDDSheilding}
+%\include{DTDDSheilding}
 %\includepdf[pages=-]{DTDDSheilding.pdf}
 
 \end{document}

@@ -7,7 +7,6 @@
 \documentclass[draftcls,onecolumn]{IEEEtran}
 \usepackage{listings,graphicx,amsmath}
 \usepackage{microtype,todonotes}
-\usepackage{hyperref}
 \usepackage{isotope}
 
 %% BIBLIOGRAPHY
@@ -20,6 +19,7 @@
 \DeclareGraphicsExtensions{.pdf, .jpeg, .png, .jpg}
 
 %% CAPTION SETUP
+\usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
 \captionsetup{belowskip=12pt,aboveskip=4pt}
@@ -32,6 +32,8 @@
 \usepackage{algorithm}
 \algnewcommand{\algorithmicgoto}{\textbf{go to}}%
 \algnewcommand{\Goto}[1]{\algorithmicgoto~\ref{#1}}
+
+\usepackage{hyperref}
 
 % *** ALIGNMENT PACKAGES ***
 \usepackage{array}

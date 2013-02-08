@@ -7,7 +7,7 @@ export PBS_O_WORKDIR=$(pwd)
 
 # Radius
 rPb=0.5
-radius=(0.1 0.5 1 2.5 5 7.5 10 12.5 15 17.5 20)
+radius=(0.5 1 2.5 5 7.5 10 12.5 15 17.5 20 32 64)
 for r in "${radius[@]}"
 do
 

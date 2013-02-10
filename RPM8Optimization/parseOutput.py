@@ -47,6 +47,9 @@ def ReadFile(filename):
     data['NumLayers']=int(tokens[4])
     data['AssemblySpace']=float(tokens[6])
 
+    # Sum up each in data
+    tally = 0;
+    error = 0;
     # Finding the interaction rates
     with open(filename,'r') as f:
         while True:
@@ -56,7 +59,11 @@ def ReadFile(filename):
             if line.startswith('tally'):
                 tokens = line.strip().split()
                 if tokens[1].isdigit() and int(tokens[1]) %10 == 4:
-                    data['tallies'] = ReadTally(f)
+                    key = 'tally'+tokens[1]
+                    data[key] = ReadTally(f)
+                    tally = tally + data[key]['total'][0]
+                    error = error + math.pow(data[key]['total'][0]*data[key]['total'][1],2)
+    data['TallyTotal']=[tally,math.sqrt(error)]
     return data
 
 # Looping through all of the files in the directory
@@ -72,24 +79,43 @@ def ParseOutput(dirpath):
         data.append(ReadFile(filename))
    return data
 
-import csv
-def WriteSummary(data):
-    with open('summary.csv','wb') as f:
-        writer = csv.writer(f):
-        writer.writerow(['HDPE','Num Assemblies','Space Between Assemblies','Reactions','Reaction Errors'])
-        # Sum up each in data
-        for d in data:
-            tally = 0;
-            error = 0;
-            for c in data['tallies']:
+##########################################################################
+import csv, xlwt
+from datetime import date
+"""
+Write
+"""
+def Write(data):
+    book = xlwt.Workbook(encoding="utf-8")
+    summary = book.add_sheet("Summary")
+    # Writting the summary
+    summaryHeaders = ['HDPE','Num Assemblies','Space Between Assemblies','Reactions','Reaction Errors']
+    for col, value in enumerate(summaryHeaders):
+        summary.write(0,col,value)
+    row = 1
+    for d in data:
+        summary.write(row,0,d['HDPE'])
+        summary.write(row,1,d['NumLayers'])
+        summary.write(row,2,d['AssemblySpace'])
+        summary.write(row,3,d['TallyTotal'][0])
+        summary.write(row,4,d['TallyTotal'][1])
+        row += 1
+
+    # Writing the data 
+    for d in data:
+        book.add_sheet(str.format('Mod_{0}_NumAssm_{1}_AssmSpace_{2}',d['HDPE'],d['NumLayers'],d['AssemblySpace']))
+    
+    # Saving before exit
+    book.save(str(date.today())+"Data.xls")
+
+##########################################################################
 """ 
 main
 Parses the files in directory Output, and then writes output to .csv files
 """
 def main():
     data = ParseOutput('Output')
-    WriteSummary(data)
-    WriteData(data)
+    Write(data)
 
 if __name__ == "__main__":
     main()

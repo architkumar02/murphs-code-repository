@@ -1,0 +1,12 @@
+If the scalar flux is defiend as $\phi(\vec{r},E,t)=\int d\Omega \Phi(\vec{r},\hat{\Omega},E,t) $ the surface flux and 
+\newcommand{\AngularFlux}{\Phi \left ( \vec{r},\hat{\Omega},E,t \right )}
+\begin{align}
+    \label{eqn:F2TallyDef}
+    \bar{\phi_S} = \frac{1}{A}\int dE \int dt \int dA \int d\Omega \AngularFlux
+\end{align}
+\begin{align}
+    \label{eqn:F4TallyDef
+    \bar{\phi_V} = \frac{1}{V}\int dE \int dt \int dV \int d\Omega \AngularFlux
+\end{align}
+
+The FM card can modify any flux or current tally of the form $\int \psi (E) dE$ into $\int R(E)\psi(E) dE$, where $R(E)$ is the response function known to MCNP.

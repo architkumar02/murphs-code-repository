@@ -1,0 +1,32 @@
+Optimization of the RPM8 based on MCNPX simulation
+Author: Matthew J. Urffer
+
+ABOUT:
+    This project was started in the begining of Febuary, 2013. It was orginally
+intended as a c code to generate the input decks, but this approach was 
+abandonded in order to make the input deck more portable. The calling structure
+is as follows:
+
+    RUNDATA.sh calls createInputDeck.sh, which uses SCRIPT.mcnp as the base
+    RUNDATA.sh copies the contents of queueRunScript.sh into a temp file which
+        is then submitted to the job queue
+    Data parsing is done with the python script
+
+CHANGELOG:
+   2/08/2013 - Started createInputDeck.sh
+   2/09/2013 - Finished createInputDeck.sh
+
+
+FILES:
+    README              - this fileE
+    RUNDATA.sh          - main driver for running the simulations
+    createInputDeck.sh  - creates the input deck based off of SCRIPT.mcnp
+    SCRIPT.mcnp         - base of all of the MCNP input decks
+    queueRunScript.sh   - base file for jobs submitted to the queue system
+    paraseOutput.py     - parses the output mctal files
+
+RUN OUTPUT:
+    2013-02-09_RunOutput.tgz 
+        linear spacing with a front modeterator spacing of 2.5 cm, the number
+        of detector layers going from (1 2 3 4), and the spacing between the
+        detector assemplies ranging from (1 2 3 4) cm.

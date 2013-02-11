@@ -1,7 +1,4 @@
 A Cf-252 Source  moderated by HDPE of various thickness
-C @Author: Matthew Urffer (matthew.urffer@gmail.com)
-C @date:   January 22, 2013
-C Modified 01/26/2013 to correct for the HDPE mderator with 0.5 cm of Pb
 c ############################ Cell Cards ######################################
 c --------------------------- Source -------------------------------------------
 100   5  -15.1      -100                                   $ 252Cf source
@@ -28,9 +25,6 @@ c 1 nanogram Cf-252 source = 1E-9 grams = 6.623E-11 cc - modeled as sphere in SS
 sdef  pos=0 0 0  cel=100  par=SF  rad=d1
 si1  0 2.510E-04
 sp1 -21 1
-C sp1 -3 
-c -------------- Output --------------------------------------------------------
-PRDMP j j 1      $ Write a MCTAL File (have script for input MCTAL)
 c -------------------------- Material Cards ------------------------------------
 m5    98252.66c  1             $ Cf252 (rho=15.1 g/cc wiki)
 m204  7014.70c      -0.755636  $air (US S. Atm at sea level) rho = 0.001225

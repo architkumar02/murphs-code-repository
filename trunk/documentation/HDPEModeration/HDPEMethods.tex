@@ -29,9 +29,14 @@ The thermal fraction is defined in \eqref{eqn:ThermalFraction} and was calculate
 The thermal energy of 0.5 eV was chosen because this is the close to the cadmium cutoff.
 \begin{align}
     \label{eqn:ThermalFraction}
-    \eta = \frac{\int_0^E_\text{termal} \phi(E)dE}{\int_0^\infty \phi(E)dE}
+    \eta = \frac{\int_0 ^{E_\text{termal}} \phi(E)dE}{\int_0^\infty \phi(E)dE}
 \end{align}
 
 \subsection{Simulation}
-%%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
-%\lstinputlisting[linerange={217-220},caption=World Physical Volume,label=lst:World]{src/DetectorConstruction.cc}
+The neutronic simulations were completed in MCNPX. 
+A generic MCNPX input deck was written for the point source (Listing ~\ref{lst:PointSrcScript}) and for the \iso[252]{Cf} source (Listing ~\ref{lst:Cf252SrcScript}).
+A BASH script was then written in order to run multiple jobs, using \verb+sed+ to preform in place edits of the files.
+For the point source this invovled itterating through a list of energies and then a list of distances.
+The \iso[252]{Cf} source only involved itterating through a list of distances.
+These scripts are shown in Listing ~\ref{lst:PointSrcRUNDATA} and Listing ~\ref{lst:Cf252SrcRUNDATA}.
+

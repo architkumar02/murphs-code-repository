@@ -1,12 +1,12 @@
 %%% Methods Section
 \section{Methods}
 
-In the case of the mono energic point source the source is directly surrounded by HDPE, as shown in Figure ~\ref{fig:PointSrcGeo}. 
+In the case of the mono energetic point source the source is directly surrounded by HDPE, as shown in Figure ~\ref{fig:PointSrcGeo}. 
 The \iso[252]{Cf} source is not presented as a bare point source.
-Rather, the source is modeled as as a point \iso[252]{Cf} source sournded by 0.5 cm of lead. The lead sphere is then encased in HDPE as shown in Figure ~\ref{fig:Cf252SrcGeo}.
+Rather, the source is modeled as as a point \iso[252]{Cf} source surrounded by 0.5 cm of lead. The lead sphere is then encased in HDPE as shown in Figure ~\ref{fig:Cf252SrcGeo}.
 In both source configurations the source is taken to be isotropic. 
 For the point source was modeled for neutron energies of 1 eV, 1 keV, and 1 MeV.
-The \iso[252]{Cf} source was modeled using the spontanous fission spectra built into MCNPX.
+The \iso[252]{Cf} source was modeled using the spontaneous fission spectra built into MCNPX.
 \begin{figure}
   \centering
   \begin{subfigure}[b]{0.45\textwidth}
@@ -25,18 +25,17 @@ The \iso[252]{Cf} source was modeled using the spontanous fission spectra built 
   \caption{Simulated Geometry}
 \end{figure}
 
-The thermal fraction is defined in \eqref{eqn:ThermalFraction} and was calculated by bining into two energy bins seperated by $5\times10^{-7}\text{MeV}$ (0.5 eV), normalizing by the total flux.
+The thermal fraction is defined in \eqref{eqn:ThermalFraction} and was calculated by binning into two energy bins separated by $5\times10^{-7}\text{MeV}$ (0.5 eV), normalizing by the total flux.
 The thermal energy of 0.5 eV was chosen because this is the close to the cadmium cutoff.
 \begin{align}
     \label{eqn:ThermalFraction}
-    \eta = \frac{\int_0 ^{E_\text{termal}} \phi(E)dE}{\int_0^\infty \phi(E)dE}
+    \eta = \frac{\int_0 ^{E_\text{thermal}} \phi(E)dE}{\int_0^\infty \phi(E)dE}
 \end{align}
 
-\subsection{Simulation}
 The neutronic simulations were completed in MCNPX. 
-A generic MCNPX input deck was written for the point source (Listing ~\ref{lst:PointSrcScript}) and for the \iso[252]{Cf} source (Listing ~\ref{lst:Cf252SrcScript}).
+A generic MCNPX input deck was written for the point source (Listing \ref{lst:PointSrcScript}) and for the \iso[252]{Cf} source (Listing \ref{lst:Cf252SrcScript}).
 A BASH script was then written in order to run multiple jobs, using \verb+sed+ to preform in place edits of the files.
-For the point source this invovled itterating through a list of energies and then a list of distances.
-The \iso[252]{Cf} source only involved itterating through a list of distances.
-These scripts are shown in Listing ~\ref{lst:PointSrcRUNDATA} and Listing ~\ref{lst:Cf252SrcRUNDATA}.
+For the point source this involved iterating through a list of energies and then a list of distances.
+The \iso[252]{Cf} source only involved iterating through a list of distances.
+These scripts are shown in Listing \ref{lst:PointSrcRUNDATA} and Listing \ref{lst:Cf252SrcRUNDATA}.
 

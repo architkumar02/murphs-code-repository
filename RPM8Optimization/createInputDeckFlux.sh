@@ -48,9 +48,6 @@ XSPACE=$3
 #       - tallies are grouped into the detector units                         #
 ###############################################################################
 
-# Only use one tally, over many surfaces and cells.
-# Break up unto each line
-
 cellCounter=0
 #
 # Writes the surface and cells

@@ -16,6 +16,6 @@ with open('SCRIPT.mcnp','r') as i,open('INP.mcnp','w') as o:
                     o.write(line)
         elif line.startswith('IMP:N'):
             numCells += 4 # 3 Source, 1 RPM8 Encasing
-            o.write('IMP:n 1 '+str(numCells)+' 0           $ Particle Importances within cells')
+            o.write('IMP:n 1 '+str(numCells)+'r  0\n')
         else:
             o.write(line)

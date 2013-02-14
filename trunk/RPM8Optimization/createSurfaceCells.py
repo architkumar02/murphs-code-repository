@@ -16,15 +16,17 @@ parser.add_argument('--filmLayers',help="Number of film layers in an assembly",a
 parser.add_argument('--assemblySpace',help="Space between film assemblies",action="store",type=float,default=1.0)
 parser.add_argument('--minSpace',help="mininum space between film assemblies",action="store",type=float,default=0.5)
 parser.add_argument('--filmThickness',help="thickness of the films",action="store",type=float,default=0.01)
+parser.add_argument('--verbose',help='Verbosity and printing',action="store",type=bool,default=False)
 args = parser.parse_args()
 
 # Printing a description of the geometry
-print "Creating a geometry of"
-print "\t"+str(args.modSpace)+" cm front moderator thickness"
-print "\t"+str(args.filmLayers)+" film layers per assembly"
-print "\t"+str(args.assemblySpace)+" cm between film assemblies"
-print "\t"+str(args.minSpace)+" cm spacing light guide between film layers"
-print "\t"+str(args.filmThickness)+" cm thick film layers"
+if args.verbose:
+    print "Creating a geometry of"
+    print "\t"+str(args.modSpace)+" cm front moderator thickness"
+    print "\t"+str(args.filmLayers)+" film layers per assembly"
+    print "\t"+str(args.assemblySpace)+" cm between film assemblies"
+    print "\t"+str(args.minSpace)+" cm spacing light guide between film layers"
+    print "\t"+str(args.filmThickness)+" cm thick film layers"
 
 # Material Dictionaries
 detMaterial = {'name':'Detector','mt': 3, 'rho': 1.1}       # detector
@@ -77,7 +79,6 @@ F2Tallies = list()
 with open('cells.txt','w') as c, open('surfaces.txt','w') as s:
     
     for key in keyList:
-        print key, material[key]
         # Surfaces and cells
         s.write(str.format('{:5d} px {:5.3f}\n',sNum, float(key)))
         c.write(str.format('{:5d} {:d} -{:4.3f} {:d} -{:d} 502 -503 504 -505\n',

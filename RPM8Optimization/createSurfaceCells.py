@@ -24,48 +24,93 @@ print "\t"+str(args.modSpace)+" cm front moderator thickness"
 print "\t"+str(args.filmLayers)+" film layers per assembly"
 print "\t"+str(args.assemblySpace)+" cm between film assemblies"
 print "\t"+str(args.minSpace)+" cm spacing light guide between film layers"
-
-# Computing and printing variable stepping
-x = 0.0
-dx = args.minSpace      # Spacing of surfaces
-xMax = 12.7             # Maximum surface
-print "\t"+str.format("Stepping by {0} cm to {1} cm",dx,xMax)
-
-cell=600
-sNum=600
-sPrev=500
+print "\t"+str(args.filmThickness)+" cm thick film layers"
 
 # Material Dictionaries
-detMaterial = {'mt': 3, 'rho': 1.1}         # detector
-lightGuideMaterial = {'mt':10, 'rho':0.93}  # PMMA
-modMaterial = {'mt':456, 'rho': 0.93}       # HPDE
+detMaterial = {'name':'Detector','mt': 3, 'rho': 1.1}       # detector
+lightGuideMaterial = {'name': 'PMMA','mt':10, 'rho':0.93}   # PMMA
+modMaterial = {'name':'HDPE','mt':456, 'rho': 0.93}         # HPDE
 
 # Creating a mapping between the distance and the material
 material = dict()
-x = args.modSpace
+dx = args.minSpace      # Spacing of surfaces
+xMax = 12.7             # Maximum surface
+x = args.modSpace       # Starting at the moderator
 material[str(x)] = modMaterial
 while (x < xMax):
-    x += dx
-    
 
-# Writing the surfaces and cells
+    # Film assemblies
+    layer = 0
+    while layer < args.filmLayers and x < xMax:
+        # Detector
+        x += args.filmThickness
+        if x < xMax:
+            material[str(x)] = detMaterial
+        
+        # Light Guide (spacer)
+        xLightGuide = 0
+        while xLightGuide <= args.minSpace and x < xMax:
+            x += dx
+            xLightGuide += dx
+            if x < xMax:
+                material[str(x)] = lightGuideMaterial
+        layer += 1
+
+    # Assembly spacers / moderator
+    xSpace = 0
+    while xSpace <= args.assemblySpace and x < xMax:
+        x += dx
+        xSpace += dx
+        if x < xMax:
+            material[str(x)] = modMaterial
+
+# Printing out mapping
+keyList = sorted(material.keys(), key = lambda x : float(x))
+
+cNum=600
+sNum=600
+sPrev=500
+
+F4Tallies = list()
+F2Tallies = list()
+# Writing the surfaces,cells and tallies
 with open('cells.txt','w') as c, open('surfaces.txt','w') as s:
     
-    # Need to write the initial moderator
-    x = args.modSpace
-    s.write(str.format('{:5d} px {:5.3f}\n',sNum, x))
-    m = material[str(x)]
-    c.write(str.format('{:5d} {:d} -{:4.3f} {:d} -{:d} 502 -503 504 -505',cNum,m['mt'],m['rho'],sPrev,sNum))
-    sNum += 1
-    cNum += 1
-    sPrev = sNum
-    
-    # Repeated Detector Assemblies
-    while (x < xMax):
-        s.write(str.format('{:5d} px {:5.3f}\n',sNum, x))
-        m = material[str(x)]
-        c.write(str.format('{:5d} {:d} -{:4.3f} {:d} -{:d} 502 -503 504 -505',cNum,m['mt'],m['rho'],sPrev,sNum))
-        x += dx
+    for key in keyList:
+        print key, material[key]
+        # Surfaces and cells
+        s.write(str.format('{:5d} px {:5.3f}\n',sNum, float(key)))
+        c.write(str.format('{:5d} {:d} -{:4.3f} {:d} -{:d} 502 -503 504 -505\n',
+                cNum,material[key]['mt'],material[key]['rho'],sPrev,sNum))
+        # Tallies
+        if material[key]['name'] is 'Detector':
+            F4Tallies.append(str(cNum))
+        F2Tallies.append(str(sNum))
+        sPrev = sNum
         sNum += 1
         cNum += 1
-        sPrev = sNum
+    
+with open('tallies.txt','w') as t:
+    # Write the tallies
+    F4String = 'F4:n'
+    SDString = 'SD4 '
+    i = 0
+    for tally in F4Tallies:
+        F4String += ' '+tally
+        SDString += ' 1'
+        if i % 6 is 5:
+            F4String += '\n      '
+        i += 1
+    t.write(F4String+' T'+'\n')
+    t.write(SDString+' 1'+'\n')
+    t.write('FM4 -1 3 105\n')
+    F2String = 'F2:n'
+    i = 0
+    for tally in F2Tallies:
+        F2String += ' '+tally
+        if i % 6 is 5:
+            F2String += '\n      '
+        i += 1
+    t.write(F2String+'\n')
+    t.write('E2 0 5E-7 10\n')
+

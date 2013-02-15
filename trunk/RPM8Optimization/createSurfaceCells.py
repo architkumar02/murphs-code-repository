@@ -5,7 +5,8 @@
 #   2013-02-13 Started the file.  Intent is to have regular layers for
 #       determing the flux profile, and then impose the cell and tallies on
 #       top of that layer structure.
-
+#   2013-02-15 Fixed a geometry error (forgot about last cell). Also improved
+#       the tally writing, and fixed an error with an extra newline in F2Tally
 import sys
 import argparse
 
@@ -90,7 +91,11 @@ with open('cells.txt','w') as c, open('surfaces.txt','w') as s:
         sPrev = sNum
         sNum += 1
         cNum += 1
-    
+    # Need to write the last cell!
+    sNum = 501
+    c.write(str.format('{:5d} {:d} -{:4.3f} {:d} -{:d} 502 -503 504 -505\n',
+        cNum,lightGuideMaterial['mt'],lightGuideMaterial['rho'],sPrev,sNum))
+
 with open('tallies.txt','w') as t:
     # Write the tallies
     F4String = 'F4:n'
@@ -112,6 +117,8 @@ with open('tallies.txt','w') as t:
         if i % 6 is 5:
             F2String += '\n      '
         i += 1
-    t.write(F2String+'\n')
+    if not F2String.endswith('\n'):
+            F2String += '\n'
+    t.write(F2String)
     t.write('E2 0 5E-7 10\n')
 

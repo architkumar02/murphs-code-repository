@@ -43,14 +43,6 @@ sdef  pos=-200 0 108.85  cel=70  par=SF  rad=d1
 si1  0 2.510E-04
 sp1 -21 1
 c ------------------------- Tallies Yo! ----------------------------------------
-FC1 Neutron Crossing Source Cell
-F1:n 70
-C1 0 1
-E1 0 200i 5
-FC41 Neutrons Crossing Detector Front
-F41:n 500
-C41 0 1
-E41 0 200i 5
 c TALLYPREPENDTOKEN
 c -------------- Output --------------------------------------------------------
 PRDMP j j 1      $ Write a MCTAL File

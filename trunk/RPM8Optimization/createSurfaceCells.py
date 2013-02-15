@@ -105,7 +105,7 @@ with open('tallies.txt','w') as t:
         F4String += ' '+tally
         SDString += ' 1'
         if i % 6 is 5:
-            F4String += '\n      '
+            F4String += '\n     '
         i += 1
     t.write(F4String+' T'+'\n')
     t.write(SDString+' 1'+'\n')
@@ -115,10 +115,8 @@ with open('tallies.txt','w') as t:
     for tally in F2Tallies:
         F2String += ' '+tally
         if i % 6 is 5:
-            F2String += '\n      '
+            F2String += '\n     '
         i += 1
-    if not F2String.endswith('\n'):
-            F2String += '\n'
-    t.write(F2String)
+    t.write(F2String.rstrip()+'\n')
     t.write('E2 0 5E-7 10\n')
 

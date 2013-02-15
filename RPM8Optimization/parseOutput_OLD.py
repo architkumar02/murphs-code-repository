@@ -4,8 +4,66 @@
 import sys
 import os
 import math
-import mctal
 
+"""
+ReadTally
+"""
+def ReadTally(f):
+    data = dict()
+    tallies = list()
+    # Need to extract a tally - looking for the vals card
+    line = f.readline()
+    while not line.startswith('vals'):
+        line=f.readline()
+        if line.startswith('f'):
+            cells=f.readline().strip().split()
+    # Next stop card is the tfc
+    line = f.readline()
+    while not line.startswith('tfc'):
+        # These are the ones we want!
+        tallies.append([float(t) for t in line.strip().split()])
+        line = f.readline()
+    # Creating a mapping between the cells and the tallies
+    i = 0;
+    tallies=sum(tallies,[])
+    for c in cells:
+        if c in data or int(c) == 0:
+            data['total'] = [tallies[2*i],tallies[2*i+1]]
+        else:
+            data[c] = [tallies[2*i],tallies[2*i+1]]
+        i=i+1
+    return data
+
+"""
+ReadFile
+"""
+def ReadFile(filename):
+    # Creating the return value
+    data = dict()
+    # Parsing the filename
+    tokens = filename.split('_')
+    data['HDPE']=float(tokens[2])
+    data['NumLayers']=int(tokens[4])
+    data['AssemblySpace']=float(tokens[6])
+
+    # Sum up each in data
+    tally = 0;
+    error = 0;
+    # Finding the interaction rates
+    with open(filename,'r') as f:
+        while True:
+            line = f.readline()
+            if line is None or not line: break
+            # Checking if we need to extract a tally
+            if line.startswith('tally'):
+                tokens = line.strip().split()
+                if tokens[1].isdigit() and int(tokens[1]) %10 == 4:
+                    key = 'tally'+tokens[1]
+                    data[key] = ReadTally(f)
+                    tally = tally + data[key]['total'][0]
+                    error = error + math.pow(data[key]['total'][0]*data[key]['total'][1],2)
+    data['TallyTotal']=[tally,math.sqrt(error)]
+    return data
 
 # Looping through all of the files in the directory
 """"
@@ -17,8 +75,7 @@ def ParseOutput(dirpath):
    for files in os.listdir('Output'):
         # Looking through the files
         filename = os.path.join('Output',files)
-        print "Parsing file: "+filename
-        data.append(mctal.MCTAL(filename))
+        data.append(ReadFile(filename))
    return data
 
 ##########################################################################
@@ -87,8 +144,7 @@ Parses the files in directory Output, and then writes output to .csv files
 """
 def main():
     data = ParseOutput('Output')
-    print data
-#    Write(data)
+    Write(data)
 
 if __name__ == "__main__":
     main()

@@ -26,9 +26,9 @@ do
     sed -i "s/SPACE/$s/g" queueRun.sh
    
     # Error checking input deck
-    #mcnpx i inp=INP_${HDPE}_cm_${NUMASSEM}_asm_${SPACE}_cm.mcnp | grep "error"
+    mcnpx i inp=INP_${HDPE}_cm_${NUMASSEM}_asm_${SPACE}_cm.mcnp | grep "error"
     # running MCNP by submitting jobs to TORQUE/Maui
-    qsub queueRun.sh 
+    #qsub queueRun.sh 
     done
 
 done

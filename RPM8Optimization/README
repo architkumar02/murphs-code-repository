@@ -15,7 +15,9 @@ is as follows:
 CHANGELOG:
    2/08/2013 - Started createInputDeck.sh
    2/09/2013 - Finished createInputDeck.sh
-
+   2/13/2013 - Started a python module to create the input decks
+                createSurfaceCells.py and mergeInputDecks.py 
+   2/15/2013 - Updated README
 
 FILES:
     README              - this fileE
@@ -24,9 +26,20 @@ FILES:
     SCRIPT.mcnp         - base of all of the MCNP input decks
     queueRunScript.sh   - base file for jobs submitted to the queue system
     paraseOutput.py     - parses the output mctal files
+    createSurfaceCells.py- creates surfaces and cells cards
+    mergeInputDecks.py  - meges the output of createSurfacCells.py and SCRIPT
 
 RUN OUTPUT:
     2013-02-09_RunOutput.tgz 
         linear spacing with a front modeterator spacing of 2.5 cm, the number
         of detector layers going from (1 2 3 4), and the spacing between the
-        detector assemplies ranging from (1 2 3 4) cm.
+        detector assemplies ranging from (1 2 3 4) cm. The interaction rate
+        tallies and the surface current tallies were used.
+    2014-02-14_RunOutput.tgz
+        linear spacing with a front moderator spacing of 2.5 cm, the number of
+        detector layers (1 2 3 4 5 6), and the spacing between the detecor 
+        assemplies being (1 2 3 4) cm. Each regions was subdivided into 5 mm
+        spacing. The tallies were an F2 flux tally on each surface (as to 
+        determine the thermal flux profile) with an F4 with a FM card to 
+        determine the interaction rate.
+        determine the fraction of ther

@@ -20,20 +20,24 @@ class Header:
         self.ntals = []         # array of tally numbers
         self.npert = 0          # number of perturbations
 
-    def Print(self):
+    def __str__(self):
         """Prints the class members"""
-        print ("code:\t\t%s" % self.kod)
-        print ("version:\t%s" % self.ver)
-        print ("date and time:\t%s" % self.probid)
-        print ("dump number:\t%s" % self.knod)
-        print ("number of histories:\t%s" % self.nps)
-        print ("number of pseudorandom numbers used:\t%s" % self.rnr)
-        print ("title: %s" % self.title)
+        s ="code:\t\t{}\n".format(self.kod)
+        s+="version:\t{}\n".format(self.ver)
+        s+="date and time:\t{}\n".format(self.probid)
+        s+="dump number:\t{}\n".format(self.knod)
+        s+="number of histories:\t{}\n".format(self.nps)
+        s+="number of pseudorandom numbers used:\t{}\n".format(self.rnr)
+        s+="title: {}\n".format(self.title)
 
-        if self.ntal>1: print self.ntal, 'tallies:', self.ntals
-        else: print self.ntal, 'tally:', self.ntals
+        if self.ntal>1: 
+            s +=str(self.ntal)+' tallies: '+str(self.ntals)+'\n'
+        else: 
+            s +=str(self.ntal)+' tally: '+str(self.ntals)+'\n'
 
-        if self.npert != 0: print("number of perturbations: %s" % self.npert)
+        if self.npert != 0: s+="number of perturbations: {}\n".format(self.npert)
+
+        return s
 
 class Tally:
     number = None
@@ -76,31 +80,21 @@ class Tally:
         self.number = number
         del self.data[:]
         del self.errors[:]
-
-    def Print(self, option=''):
+    
+    def __str__(self):
         """Tally printer"""
-        print "\nprinting tally:"
         types = ['nondetector', 'point detector', 'ring', 'FIP', 'FIR', 'FIC']
-        print "tally #%d:\t%s" % (self.number, self.title)
-        if option == 'title': return
-        print "\tparticles:", self.particle
-        print "\ttype: %s (%s)" % (self.type, types[self.type])
+        s="tally #{}:\t{}\n".format(self.number, self.title)
+        s+="\tparticles: ".join(self.GetParticleNames())+'\n'
+        s+="\ttype: {} ({})\n".format(self.type, types[self.type])
 
         if self.d == 1:
-            print '\tthis is a cell or surface tally unless there is CF or SF card'
+            s+='\tthis is a cell or surface tally unless there is CF or SF card\n'
         elif self.d == 2:
-            print '\tthis is a detector tally (unless thre is an ND card on the F5 tally)'
+            s+='\tthis is a detector tally (unless thre is an ND card on the F5 tally)\n'
+        return s
 
-        print "\taxes:"
-        for b in self.axes.keys():
-            self.axes[b].Print()
-
-        print "\tdata:"
-        print self.data
-        print "\terrors:"
-        print self.errors
-
-    def GetParticleNames(a):
+    def GetParticleNames(self):
         """Convert the array of 1 and 0 to the list of particles
         according to the Table 4-1 on page 4-10 (48) of the MCNP 2.7.0 Manual
         """
@@ -111,9 +105,9 @@ class Tally:
              'pion+', 'pion-', 'pion0', 'kaon+', 'kaon-', 'K0short', 'K0long', 'D+', 'D0', 'Ds+', 'B+', 'B0', 'Bs0',
              'deuteron', 'triton', 'He3', 'He4', 'heavy ions']
         vals = []
-        for i in range(len(a)):
-            if a[i] == 1: vals.append(names[i])
-            elif a[i] != 0:
+        for i in range(len(self.particle)):
+            if self.particle[i] == 1: vals.append(names[i])
+            elif self.particle[i] != 0:
                 print 'strange values (not 0 or 1) found in the list of particles:', a
         return vals
 
@@ -156,6 +150,7 @@ class MCTAL:
         """Constructor"""
         self.fname = fname # mctal file name
         self.tallies = []  # list of tallies
+        self.header = None # Header
         self.read()
 
     def read(self):
@@ -166,45 +161,42 @@ class MCTAL:
         tally = None             # current tally
         is_vals = False          # True in the data/errors section
         is_list_of_particles = False # True if the line with the list of particles follows the ^tally line
-        h = Header()
+        self.header = Header()
 
         file_in = open(self.fname)
         for line in file_in.readlines():
-            if h.kod == 0:
-                h.kod, h.ver, probid_date, probid_time, h.knod, h.nps, h.rnr = line.split()
-                h.probid.append(probid_date)
-                h.probid.append(probid_time)
+            if self.header.kod == 0:
+                self.header.kod, self.header.ver, probid_date, probid_time, self.header.knod, self.header.nps, self.header.rnr = line.split()
+                self.header.probid.append(probid_date)
+                self.header.probid.append(probid_time)
                 continue
             else:
-                if h.title is None and line[0] == " ":
-                    h.title = line.strip()
+                if self.header.title is None and line[0] == " ":
+                    self.header.title = line.strip()
                     continue
 
             words = line.split()
 
-            if not h.ntal and words[0] == 'ntal':
-                h.ntal = int(words[1])
+            if not self.header.ntal and words[0] == 'ntal':
+                self.header.ntal = int(words[1])
                 if len(words) == 4 and words[2] == 'npert':
-                    h.npert = int(words[3])
+                    self.header.npert = int(words[3])
                 continue
 
-            if h.ntal and not tally and words[0] != 'tally':
+            if self.header.ntal and not tally and words[0] != 'tally':
                 for w in words:
-                    h.ntals.append(int(w))
+                    self.header.ntals.append(int(w))
 
             if words[0] == 'tally':
-                if tally: 
-                    if tally.number:
-                        self.tallies.append(tally)
-                    del tally
                 tally = Tally(int(words[1]))
+                self.tallies.append(tally)
                 tally.particle = int(words[2])
                 if tally.particle < 0: # then tally.particle is number of particle types and the next line lists them
                     is_list_of_particles = True
                 tally.type = int(words[3])
-                if tally.number not in h.ntals:
+                if tally.number not in self.header.ntals:
                     print 'tally %d is not in ntals' % tally.number
-                    print h.ntals
+                    print self.header.ntals
                     return 1
                 continue
 
@@ -253,5 +245,12 @@ class MCTAL:
                         else: tally.errors.append(float(w))
                 else:
                     is_vals = False
-
         file_in.close()
+
+    def __str__(self):
+        """ String  """
+        s = 'Filename: {}\n'.format(str(self.fname))
+        s += str(self.header)
+        for t in self.tallies:
+            s += str(t)
+        return s

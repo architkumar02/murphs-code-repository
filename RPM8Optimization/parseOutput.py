@@ -87,7 +87,8 @@ Parses the files in directory Output, and then writes output to .csv files
 """
 def main():
     data = ParseOutput('Output')
-    print data
+    print data[0]
+    #print data
 #    Write(data)
 
 if __name__ == "__main__":

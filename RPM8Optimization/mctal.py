@@ -4,6 +4,7 @@
 
 import sys, re, string
 from array import array
+import copy
 
 class Header:
     """mctal header container"""
@@ -92,6 +93,11 @@ class Tally:
             s+='\tthis is a cell or surface tally unless there is CF or SF card\n'
         elif self.d == 2:
             s+='\tthis is a detector tally (unless thre is an ND card on the F5 tally)\n'
+        
+        for ax in self.axes:
+            s += '\t'+str(self.axes[ax])+''
+        
+        s += 'Also have data and errors fields\n'
         return s
 
     def GetParticleNames(self):
@@ -110,6 +116,10 @@ class Tally:
             elif self.particle[i] != 0:
                 print 'strange values (not 0 or 1) found in the list of particles:', a
         return vals
+    
+    def GetBins(self,binName):
+        """ Returns the bins of binName """
+        return self.axes[binName].GetBins()
 
     def getName(self):
         """
@@ -135,6 +145,14 @@ class Axis:
         if len(self.numbers)>1:
             self.ni, self.nj, self.nk = self.numbers[2:]
             print self.ni, self.nj, self.nk
+    
+    def __str__(self):
+        s = "Axis: "+self.name+' Number Bins: {}\n'.format(self.number)
+        return s
+
+    def GetBins(self):
+        """ Returns the bins for the tally """
+        return [int(i) for i in self.arraycsn]
 
     def Print(self):
         """Axis printer"""
@@ -148,9 +166,9 @@ class MCTAL:
 
     def __init__(self, fname):
         """Constructor"""
-        self.fname = fname # mctal file name
-        self.tallies = []  # list of tallies
-        self.header = None # Header
+        self.fname = fname      # mctal file name
+        self.tallies = dict()   # list of tallies
+        self.header = None      # Header
         self.read()
 
     def read(self):
@@ -188,8 +206,10 @@ class MCTAL:
                     self.header.ntals.append(int(w))
 
             if words[0] == 'tally':
+                if tally:
+                    self.tallies[words[1]] = tally
+                    del tally
                 tally = Tally(int(words[1]))
-                self.tallies.append(tally)
                 tally.particle = int(words[2])
                 if tally.particle < 0: # then tally.particle is number of particle types and the next line lists them
                     is_list_of_particles = True
@@ -252,5 +272,5 @@ class MCTAL:
         s = 'Filename: {}\n'.format(str(self.fname))
         s += str(self.header)
         for t in self.tallies:
-            s += str(t)
+            s += str(self.tallies[t])
         return s

@@ -18,7 +18,12 @@ CHANGELOG:
    2/13/2013 - Started a python module to create the input decks
                 createSurfaceCells.py and mergeInputDecks.py 
    2/15/2013 - Updated README
-
+   2/17/2013 - Fixed the mctal.py so that each tally data as not shared between
+                the tally  class. Worked on ParseOutput.py such that it not has
+                a summary sheet in which it presents the parameters in the 
+                interaction rate, and also the surface flux thermal fraction 
+                for each surface (with the distance). Next step is to put into
+                Origin and normalize by the number of cells.
 FILES:
     README              - this fileE
     RUNDATA.sh          - main driver for running the simulations
@@ -28,6 +33,7 @@ FILES:
     paraseOutput.py     - parses the output mctal files
     createSurfaceCells.py- creates surfaces and cells cards
     mergeInputDecks.py  - meges the output of createSurfacCells.py and SCRIPT
+    mctal.py            - Finally a mctal python reader! 
 
 RUN OUTPUT:
     2013-02-09_RunOutput.tgz 

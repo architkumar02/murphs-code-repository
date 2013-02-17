@@ -68,34 +68,13 @@ class Header:
         return s
 
 class Tally:
-    number = None
-    title = ""
-    particle = None
-    type = None     # tally type: 0=nondetector, 1=point detector; 2=ring; 3=pinhole radiograph; 4=transmitted image radiograph (rectangular grid); 5=transmitted image radiograph (cylindrical grid) - see page 320 of MCNPX 2.7.0 Manual
-    f  = None       # number of cell, surface or detector bins
-    d  = None       # number of total / direct or flagged bins
-# u is the number of user bins, including the total bin if there is one.
-#   If there is a total bin, then 'ut' is used.
-#   If there is cumulative binning, then 'uc' is used
-# The same rules apply for the s, m, c, e, and t - lines
-    u  = None
-    s  = None       # segment or radiography s-axis bin
-    m  = None       # multiplier bin
-    c  = None       # cosine or radiography t-axis bin
-    e  = None       # energy bin
-    t  = None       # time bin
-    binlabels = []
-
-    axes = {}
-
-    data = []
-    errors = [] # errors are relative
-
-    tfc_n   = None  # number of sets of tally fluctuation data
-    tfc_jtf = []    # list of 8 numbers, the bin indexes of tally fluctuation chart bin
-    tfc_data = []   # list of 4 numbers for each set of tally fluctuation chart data: nps, tally, error, figure of merit
-    
-    def __init__(self,data=None):
+    def __init__(self,text=None):
+        self.number = None
+        self.title = ""
+        self.particle = None
+        self.type = None    
+   
+        self.axes = dict()
         self.axes['f'] = None
         self.axes['d'] = None
         self.axes['u'] = None
@@ -105,11 +84,17 @@ class Tally:
         self.axes['e'] = None
         self.axes['t'] = None
 
-        if data:
-            self.parse(data)
+        self.data = []
+        self.errors = []
+        self.tfc_n =  None
+        self.tfc_jtf = []
+        self.tfc_data = []
+
+        if text:
+            self.parse(text)
    
     def parse(tally,data):
-        """ Parsin the tally """
+        """ Parsing the tally """
         is_vals = False          # True in the data/errors section
         is_list_of_particles = False # True if the line with the list of particles follows the ^tally line
         for line in data.split('\n'):
@@ -127,8 +112,6 @@ class Tally:
             if is_list_of_particles:
                 tally.particle = map(int, words)
                 is_list_of_particles = False
-            
-            if not tally: continue
 
             if tally.axes['f'] and tally.axes['d'] is None and line[0] == ' ':
                 for w in words:
@@ -169,6 +152,7 @@ class Tally:
                         else: tally.errors.append(float(w))
                 else:
                     is_vals = False
+    
     def __str__(self):
         """Tally printer"""
         types = ['nondetector', 'point detector', 'ring', 'FIP', 'FIR', 'FIC']
@@ -251,7 +235,7 @@ class MCTAL:
     """mctal container"""
     good_tallies = [5] # list of 'good' tally types
 
-    def __init__(self, fname):
+    def __init__(self, fname='mctal'):
         """Constructor"""
         self.fname = fname      # mctal file name
         self.tallies = dict()   # list of tallies
@@ -272,8 +256,7 @@ class MCTAL:
         # Header
         self.header = Header(data[0])
         for i in range(1,len(data)):
-            tally = Tally('tally'+data[i])
-            self.tallies[tally.number] = tally
+            self.tallies[self.header.ntals[i-1]] = Tally('tally'+data[i])
 
     def __str__(self):
         """ String  """

@@ -113,6 +113,8 @@ class Tally:
         is_vals = False          # True in the data/errors section
         is_list_of_particles = False # True if the line with the list of particles follows the ^tally line
         for line in data.split('\n'):
+            if not line:
+                break
             words = line.split()
             if words[0] == 'tally':
                 tally.number = int(words[1])
@@ -120,10 +122,6 @@ class Tally:
                 if tally.particle < 0: # then tally.particle is number of particle types and the next line lists them
                     is_list_of_particles = True
                 tally.type = int(words[3])
-                if tally.number not in self.header.ntals:
-                    print 'tally %d is not in ntals' % tally.number
-                    print self.header.ntals
-                    return 1
                 continue
 
             if is_list_of_particles:
@@ -274,7 +272,7 @@ class MCTAL:
         # Header
         self.header = Header(data[0])
         for i in range(1,len(data)):
-            tally = Tally(data[i])
+            tally = Tally('tally'+data[i])
             self.tallies[tally.number] = tally
 
     def __str__(self):

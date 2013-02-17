@@ -8,7 +8,7 @@ import copy
 
 class Header:
     """mctal header container"""
-    def __init__(self):
+    def __init__(self,data=None):
         """Header initialisation"""
         self.kod = 0            # name of the code, MCNPX
         self.ver = 0            # code version
@@ -20,6 +20,33 @@ class Header:
         self.ntal = 0           # number of tallies
         self.ntals = []         # array of tally numbers
         self.npert = 0          # number of perturbations
+        if data:
+            self.parse(data)
+
+    def parse(self,data):
+        """ Parses the header data """
+        for line in data.split('\n'):
+            if self.kod == 0:
+                self.kod, self.ver, probid_date, probid_time, self.knod, self.nps, self.rnr = line.split()
+                self.probid.append(probid_date)
+                self.probid.append(probid_time)
+                continue
+            else:
+                if self.title is None and line[0] == " ":
+                    self.title = line.strip()
+                    continue
+
+            words = line.split()
+
+            if not self.ntal and words[0] == 'ntal':
+                self.ntal = int(words[1])
+                if len(words) == 4 and words[2] == 'npert':
+                    self.npert = int(words[3])
+                continue
+
+            if self.ntal:
+                for w in words:
+                    self.ntals.append(int(w))
 
     def __str__(self):
         """Prints the class members"""
@@ -68,7 +95,7 @@ class Tally:
     tfc_jtf = []    # list of 8 numbers, the bin indexes of tally fluctuation chart bin
     tfc_data = []   # list of 4 numbers for each set of tally fluctuation chart data: nps, tally, error, figure of merit
     
-    def __init__(self, number):
+    def __init__(self,data=None):
         self.axes['f'] = None
         self.axes['d'] = None
         self.axes['u'] = None
@@ -78,10 +105,72 @@ class Tally:
         self.axes['e'] = None
         self.axes['t'] = None
 
-        self.number = number
-        del self.data[:]
-        del self.errors[:]
-    
+        if data:
+            self.parse(data)
+   
+    def parse(tally,data):
+        """ Parsin the tally """
+        is_vals = False          # True in the data/errors section
+        is_list_of_particles = False # True if the line with the list of particles follows the ^tally line
+        for line in data.split('\n'):
+            words = line.split()
+            if words[0] == 'tally':
+                tally.number = int(words[1])
+                tally.particle = int(words[2])
+                if tally.particle < 0: # then tally.particle is number of particle types and the next line lists them
+                    is_list_of_particles = True
+                tally.type = int(words[3])
+                if tally.number not in self.header.ntals:
+                    print 'tally %d is not in ntals' % tally.number
+                    print self.header.ntals
+                    return 1
+                continue
+
+            if is_list_of_particles:
+                tally.particle = map(int, words)
+                is_list_of_particles = False
+            
+            if not tally: continue
+
+            if tally.axes['f'] and tally.axes['d'] is None and line[0] == ' ':
+                for w in words:
+                    tally.axes['f'].arraycsn.append(str(w))
+
+            if tally.axes['t'] and is_vals == False and len(tally.data) == 0 and line[0] == ' ':
+                for w in words: tally.axes['t'].arraycsn.append(float(w))
+
+            if tally.axes['e'] and tally.axes['t'] is None and line[0] == ' ':
+                for w in words: tally.axes['e'].arraycsn.append(float(w))
+
+            if tally.axes['u'] and tally.axes['s']is None and line[0] == ' ':
+                for w in words: tally.axes['u'].arraycsn.append(float(w))
+
+            if   not tally.axes['f'] and re.search('^f', line[0]):        tally.axes['f'] = Axis(words[0], map(int, words[1:]))
+            elif not tally.axes['d'] and re.search('^d', line[0]):        tally.axes['d'] = Axis(words[0], map(int, words[1:]))
+            elif not tally.axes['u'] and re.search ("u[tc]?", line[0:1]): tally.axes['u'] = Axis(words[0], map(int, words[1:]))
+            elif not tally.axes['s'] and re.search('^s[tc]?', line[0:1]): tally.axes['s'] = Axis(words[0], map(int, words[1:]))
+            elif not tally.axes['m'] and re.search('^m[tc]?', line[0:1]): tally.axes['m'] = Axis(words[0], map(int, words[1:]))
+            elif not tally.axes['c'] and re.search('^c[tc]?', line[0:1]): tally.axes['c'] = Axis(words[0], map(int, words[1:]))
+            elif not tally.axes['e'] and re.search("^e[tc]?",  line[0:1]):tally.axes['e'] = Axis(words[0], map(int, words[1:]))
+            elif not tally.axes['t'] and re.search("^t[tc]?", line[0:1]): tally.axes['t'] = Axis(words[0], map(int, words[1:]))
+            elif line[0:2] == 'tfc':
+                tally.tfc_n = words[1]
+                tally.tfc_jtf = words[2:]
+
+            if tally.tfc_n and line[0] == ' ':
+                tally.tfc_data = words
+
+            if words[0] == 'vals':
+                is_vals = True
+                continue
+
+            if is_vals:
+                if line[0] == ' ':
+                    for iw, w in enumerate(words):
+                        if not iw % 2: tally.data.append(float(w))
+                        else: tally.errors.append(float(w))
+                else:
+                    is_vals = False
     def __str__(self):
         """Tally printer"""
         types = ['nondetector', 'point detector', 'ring', 'FIP', 'FIR', 'FIC']
@@ -177,95 +266,16 @@ class MCTAL:
         probid_date = None       # date from probid
         probid_time = None       # time from probid
         tally = None             # current tally
-        is_vals = False          # True in the data/errors section
-        is_list_of_particles = False # True if the line with the list of particles follows the ^tally line
         self.header = Header()
 
-        file_in = open(self.fname)
-        for line in file_in.readlines():
-            if self.header.kod == 0:
-                self.header.kod, self.header.ver, probid_date, probid_time, self.header.knod, self.header.nps, self.header.rnr = line.split()
-                self.header.probid.append(probid_date)
-                self.header.probid.append(probid_time)
-                continue
-            else:
-                if self.header.title is None and line[0] == " ":
-                    self.header.title = line.strip()
-                    continue
-
-            words = line.split()
-
-            if not self.header.ntal and words[0] == 'ntal':
-                self.header.ntal = int(words[1])
-                if len(words) == 4 and words[2] == 'npert':
-                    self.header.npert = int(words[3])
-                continue
-
-            if self.header.ntal and not tally and words[0] != 'tally':
-                for w in words:
-                    self.header.ntals.append(int(w))
-
-            if words[0] == 'tally':
-                if tally:
-                    self.tallies[words[1]] = tally
-                    del tally
-                tally = Tally(int(words[1]))
-                tally.particle = int(words[2])
-                if tally.particle < 0: # then tally.particle is number of particle types and the next line lists them
-                    is_list_of_particles = True
-                tally.type = int(words[3])
-                if tally.number not in self.header.ntals:
-                    print 'tally %d is not in ntals' % tally.number
-                    print self.header.ntals
-                    return 1
-                continue
-
-            if is_list_of_particles:
-                tally.particle = map(int, words)
-                is_list_of_particles = False
-            
-            if not tally: continue
-
-            if tally.axes['f'] and tally.axes['d'] is None and line[0] == ' ':
-                for w in words:
-                    tally.axes['f'].arraycsn.append(str(w))
-
-            if tally.axes['t'] and is_vals == False and len(tally.data) == 0 and line[0] == ' ':
-                for w in words: tally.axes['t'].arraycsn.append(float(w))
-
-            if tally.axes['e'] and tally.axes['t'] is None and line[0] == ' ':
-                for w in words: tally.axes['e'].arraycsn.append(float(w))
-
-            if tally.axes['u'] and tally.axes['s']is None and line[0] == ' ':
-                for w in words: tally.axes['u'].arraycsn.append(float(w))
-
-            if   not tally.axes['f'] and re.search('^f', line[0]):        tally.axes['f'] = Axis(words[0], map(int, words[1:]))
-            elif not tally.axes['d'] and re.search('^d', line[0]):        tally.axes['d'] = Axis(words[0], map(int, words[1:]))
-            elif not tally.axes['u'] and re.search ("u[tc]?", line[0:1]): tally.axes['u'] = Axis(words[0], map(int, words[1:]))
-            elif not tally.axes['s'] and re.search('^s[tc]?', line[0:1]): tally.axes['s'] = Axis(words[0], map(int, words[1:]))
-            elif not tally.axes['m'] and re.search('^m[tc]?', line[0:1]): tally.axes['m'] = Axis(words[0], map(int, words[1:]))
-            elif not tally.axes['c'] and re.search('^c[tc]?', line[0:1]): tally.axes['c'] = Axis(words[0], map(int, words[1:]))
-            elif not tally.axes['e'] and re.search("^e[tc]?",  line[0:1]):tally.axes['e'] = Axis(words[0], map(int, words[1:]))
-            elif not tally.axes['t'] and re.search("^t[tc]?", line[0:1]): tally.axes['t'] = Axis(words[0], map(int, words[1:]))
-            elif line[0:2] == 'tfc':
-                tally.tfc_n = words[1]
-                tally.tfc_jtf = words[2:]
-
-            if tally.tfc_n and line[0] == ' ':
-                tally.tfc_data = words
-
-            if words[0] == 'vals':
-                is_vals = True
-                continue
-
-            if is_vals:
-                if line[0] == ' ':
-                    for iw, w in enumerate(words):
-                        if not iw % 2: tally.data.append(float(w))
-                        else: tally.errors.append(float(w))
-                else:
-                    is_vals = False
-        file_in.close()
+        lines = open(self.fname).read()
+        data = lines.split('tally')
+        
+        # Header
+        self.header = Header(data[0])
+        for i in range(1,len(data)):
+            tally = Tally(data[i])
+            self.tallies[tally.number] = tally
 
     def __str__(self):
         """ String  """

@@ -38,9 +38,11 @@ def CountDetectorCells(t):
     command +=' --assemblySpace '+str(t['AssemblySpace'])
     os.system(command)
     s = 0
-    for k in csc.material:
-        if csc.material[k]['name'] is 'Detector':
-            s += 1
+    with open('cells.txt','r') as f:
+        for line in f:
+            tokens = line.strip().split()
+            if int(tokens[1]) == 3:
+                s += 1
     return s
 
 ##########################################################################

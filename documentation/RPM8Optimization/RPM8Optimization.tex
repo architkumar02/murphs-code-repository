@@ -9,6 +9,7 @@
 \input{../Preamble}
 \usepackage{standalone}
 \usepackage{siunitx}
+\newcommand{\AngularFlux}{\Phi \left ( \vec{r},\hat{\Omega},E,t \right )}
 % TO COMPILE: lmake
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
@@ -50,8 +51,8 @@ Project Goals:
 Radiation portal monitors are designed to detect special nuclear material entering the country.
 An optimized radition portal monitor is necessary in order to minimize the production cost, while ensuring that the detector requirments are meet.
 Thus, the optimization becomes constrained by the detector requirements, namely \SI{2.5}{cps\per\nano\gram\iso[252]{Cf}} while mainting a intrisinic gamma rejection ratio of \num{1.e-6}  \cite{kouzes_neutron_2010,kouzes_neutron_1999}.
-The envisioned detector design consits of layers of \iso{6}[Li] neutron absorbing sheets sandwiched between layers of a thin light guide (less than \SI{5}{\milli \meter}).
-Previous works has shwon that this design is feasible.
+The envisioned detector design consits of layers of \iso{6}[Li] neutron absorbing sheets sandwiched between layers of a thin light guide (less than \SI{5}{\milli \meter})\footnote{The spacing of \SI{5}{\milli \meter} was chosen because the maximum energy of the compton scattered electron from \iso[60]{Co} is \SI{1.08}{\mega \electronvolt}, which corresponds to a range of \SI{5}{\milli \meter} in plastic}.
+Previous works has shown that this design is feasible.
  
 \input{RPM8Methods}
 

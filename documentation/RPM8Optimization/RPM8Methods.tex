@@ -2,11 +2,31 @@
 \label{sec:Methodes}
 
 
-The optimization of the films was formulated as finding the minimum of mass of \iso[6]{Li}
+The optimization of the films was formulated as finding the minimum mass of \iso[6]{Li} for a given detector material necesary to fulfilll an interaction rate of \SI{2.5}{cps\per\nano\gram\iso[252]{Cf}} while mainting a intrisinic gamma rejection ratio of \num{1.e-6}.
+
+\subsection{Design Parameters}
+\label{sec:DesignParameters}
+The design parameters were then:
+\begin{itemize}
+  \item The detector material. Materials with a high \iso{6}[Li] concentration will observe more neturons.
+  \item The thickness of the detector material.
+  \item The spacing of detector layers.
+  \item The initial moderator thickness.
+\end{itemize}
+
+The intial moderator thickness was set at \SI{2.5}{\centi \meter}.
+At this thickness around 10\% of the neutrons are thermalized (\todo{Cite my report})\footnote{The thermal energy was chosen to be \SI{5}{\ev}}.
+
+The optimization of the detector design is presented in two parts: a numerical approcach in which a matrix of detector spacing and assemblies are varied (Section ~\ref{sec:MCNPXMethods}, and a multi-variate optimization in which the paramters are fit to a functional form which is then optimized (Section ~\ref{sec:MVOptimization}.
 \subsection{MCNPX Simulations}
 \label{sec:MCNPXMethods}
+A matrix of detector designs was simulated in MCNPX.
+A generic script file was writen (Listing ~\ref{lst:MCNPXScript}) that was modified to include a user supplied number of detector assemblies, spacing between these assemblies, and initial moderator at the front of the assembly.
+
 
 \subsection{1 D Transport Part}
+The large detector and far away source suggest that the problem can be simplified into a one dimenionsal transport problem without suffering the accuracy of the solution.
+As 1D deterministic transport is much faster than 3D Monte Carlo, 1D transport was explored in order to vary the problem parameters.
 
 \subsection{Multi-variate Optimization}
 \label{sec:MVOptimization}

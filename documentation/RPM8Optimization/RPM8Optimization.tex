@@ -1,5 +1,5 @@
-%\documentclass[draftcls,onecolumn]{IEEEtran}
-\documentclass[final,onecolumn]{IEEEtran}
+\documentclass[draftcls,onecolumn]{IEEEtran}
+%\documentclass[final,onecolumn]{IEEEtran}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                                   PREAMBLE                                   %
@@ -52,12 +52,14 @@ An optimized radition portal monitor is necessary in order to minimize the produ
 Thus, the optimization becomes constrained by the detector requirements, namely \SI{2.5}{cps\per\nano\gram\iso[252]{Cf}} while mainting a intrisinic gamma rejection ratio of \num{1.e-6}  \cite{kouzes_neutron_2010,kouzes_neutron_1999}.
 The envisioned detector design consits of layers of \iso{6}[Li] neutron absorbing sheets sandwiched between layers of a thin light guide (less than \SI{5}{\milli \meter}).
 Previous works has shwon that this design is feasible.
+ 
+\input{RPM8Methods}
 
-The basis of this works stems from neturons comiming
+\input{RPM8Results}
 % Bibliography
 \bibliography{../Zotero}
 
 \pagebreak
 \appendix
-
+\input{RPM8Listings}
 \end{document}

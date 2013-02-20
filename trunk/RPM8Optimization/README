@@ -44,8 +44,12 @@ RUN OUTPUT:
     2014-02-14_RunOutput.tgz
         linear spacing with a front moderator spacing of 2.5 cm, the number of
         detector layers (1 2 3 4 5 6), and the spacing between the detecor 
-        assemplies being (1 2 3 4) cm. Each regions was subdivided into 5 mm
+        assemplies being (1 2 3 4) cm. Each regions was subdivided into 5 mm*
         spacing. The tallies were an F2 flux tally on each surface (as to 
         determine the thermal flux profile) with an F4 with a FM card to 
-        determine the interaction rate.
-        determine the fraction of ther
+        determine the interaction rate. 
+        
+*Pretty sure this is 10 mmm. See 2013-02-15_RunInputs.tgz for the input decks
+    which have the spacing between layers of 10 mm.  This was attrbuted to a
+    <= instead of a < in createSurfaceCells.py
+    

@@ -24,7 +24,9 @@ do
     sed -i "s/HDPE/$HDPE/g" queueRun.sh
     sed -i "s/NUMASSEM/$n/g" queueRun.sh
     sed -i "s/SPACE/$s/g" queueRun.sh
-   
+
+    # Removing files
+    rm cells.txt surfaces.txt tallies.txt 
     # Error checking input deck
     #mcnpx i inp=INP_${HDPE}_cm_${NUMASSEM}_asm_${SPACE}_cm.mcnp | grep "error"
     # running MCNP by submitting jobs to TORQUE/Maui

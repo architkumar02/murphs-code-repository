@@ -7,6 +7,7 @@
 #       top of that layer structure.
 #   2013-02-15 Fixed a geometry error (forgot about last cell). Also improved
 #       the tally writing, and fixed an error with an extra newline in F2Tally
+#   2013-02-19 Fixed a <= args.minSpace to < args.minSpace to avoid duplicates
 import sys
 import argparse
 
@@ -14,9 +15,10 @@ import argparse
 parser = argparse.ArgumentParser(description='Write surface and cells for MCNPX input deck for layered detectors in the RPM8')
 parser.add_argument('--modSpace',help="Thickness of the front moderator",action="store",type=float,default=2.5)
 parser.add_argument('--filmLayers',help="Number of film layers in an assembly",action="store",type=int,default=1)
-parser.add_argument('--assemblySpace',help="Space between film assemblies",action="store",type=float,default=1.0)
+parser.add_argument('--assemblySpace',help="Space between film assemblies",action="store",type=float,default=1)
 parser.add_argument('--minSpace',help="mininum space between film assemblies",action="store",type=float,default=0.5)
 parser.add_argument('--filmThickness',help="thickness of the films",action="store",type=float,default=0.01)
+parser.add_argument('--dx',help="spacing of surfaces",action="store",type=float,default=0.1)
 parser.add_argument('--verbose',help='Verbosity and printing',action="store",type=bool,default=False)
 args = parser.parse_args()
 
@@ -36,7 +38,7 @@ modMaterial = {'name':'HDPE','mt':456, 'rho': 0.93}         # HPDE
 
 # Creating a mapping between the distance and the material
 material = dict()
-dx = args.minSpace      # Spacing of surfaces
+dx = args.dx            # Spacing of surfaces
 xMax = 12.7             # Maximum surface
 x = args.modSpace       # Starting at the moderator
 material[str(x)] = modMaterial
@@ -52,7 +54,7 @@ while (x < xMax):
         
         # Light Guide (spacer)
         xLightGuide = 0
-        while xLightGuide <= args.minSpace and x < xMax:
+        while xLightGuide < args.minSpace and x < xMax:
             x += dx
             xLightGuide += dx
             if x < xMax:
@@ -70,8 +72,8 @@ while (x < xMax):
 # Printing out mapping
 keyList = sorted(material.keys(), key = lambda x : float(x))
 
-cNum=600
-sNum=600
+cNum=6000
+sNum=6000
 sPrev=500
 
 F4Tallies = list()

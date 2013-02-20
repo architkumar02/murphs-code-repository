@@ -110,7 +110,7 @@ def Write(data):
         comments = ['Distance',t['AssemblySpace'],'']
         for col, value in enumerate(comments):
             sheet.write(row,col+colDict[t['NumLayers']],value)
-        row += 1
+        row += 0
 
         # Writing data
         tally = d.tallies[tallyKey]

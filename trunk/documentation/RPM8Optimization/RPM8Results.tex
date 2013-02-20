@@ -3,20 +3,27 @@
 
 \subsection{Simulated Geometries}
 
-The simulated count for the detector designs is shown in Figure ~\ref{fig:SimCountRate}.
-Not that this value does not include the scaling necessary to acheive the gamma discrimination. 
+The simulated count for the detector designs is shown in Figure ~\ref{fig:SimCountRate}\todo{Change to CPS, not interactions}.
+Not that this value does not include the scaling necessary to achieve the gamma discrimination. 
+It is immediately obvious that as the maximum total count rate occurs when the most \iso[6]{Li} is present in the detector, this occurs when 6 assemblies are spaced \si{\centi\meter} from each other.
+However, this is also the least efficient use of the \iso[6]{Li}.
+The most efficient use of the neutron absorber requires the flux to be thermalized in order to have a high probability of interaction.
+Thus, it is expected that 1 film per assembly spaced \SI{4}{\centi\meter} apart would have the the largest count rate per absorber mass.
+However, it was observed in Figure ~\ref{fig:SimCountRate} that one film per assembly with assemblies spaced \SI{3}{\centi\meter} apart had the highest count rate per \si{\milli\gram} \iso[6]{Li}.
+In both cases only 3 assemblies fit into the RPM8 module.
+It is then thought that the additional reflector material with the assemblies spaced \SI{3}{\centi\meter} apart caused more neutrons to cross the last film.
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{RPM8Opt_CR.eps}
-        \caption{Count Rate per \SI{1}{\per\nano\gram\iso[252]{Cf}}}
+        \caption{Count Rate per \si{\nano\gram\iso[252]{Cf}}}
     \end{subfigure}%
     ~
     \begin{subfigure}[b]{0.45\textwidth}
         \includegraphics[width=\textwidth]{RPM8Opt_CRperLi.eps}
-        \caption{Count Rate per nano gram \iso[252]{Cf} per \SI{1}{\milli\gram} \iso[6]{Li}}
+        \caption{Count Rate per nano gram \iso[252]{Cf} per \si{\milli\gram} \iso[6]{Li}}
     \end{subfigure}
-    \caption{Count rate per depdenance on number of assemblies and spacing of the simulated detectors. The amount of \iso[6]{Li} is not constnat}
+    \caption{Count rate per dependence on number of assemblies and spacing of the simulated detectors. The amount of \iso[6]{Li} is not constant}
     \label{fig:SimCountRate}
 \end{figure}
 
@@ -61,4 +68,4 @@ Not that this value does not include the scaling necessary to acheive the gamma 
 	\caption{Thermal Flux Profiles for Various Assemblies}
 	\label{fig:ThermalFlux}
 \end{figure}
-\subsection{Optimzied Detector Configuration}
+\subsection{Optimized Detector Configuration}

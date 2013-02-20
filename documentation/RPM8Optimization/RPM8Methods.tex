@@ -32,22 +32,23 @@ After the absorb film and light guide assemblies is additional moderator.
 Figure ~\ref{fig:GenericDetector} shows the a generic setup, while Figure ~\ref{fig:MCNPXRendering} shows the MCNPX renderings of the X-Z profile of two detector configurations.
 The source is not shown as it is located \SI{2}{\meter} from the detector midpoint.
 \begin{figure}
-   \missingfigure{Fig on pg 68 of notebook}
+   \includegraphics[width=\textwidth]{RPM8_GenericGeo}
+   \caption{Generic Geometry to Optimize}
    \label{fig:GenericDetector}
 \end{figure}
 
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{RPM8Opt_2_asm_2_cm.pdf}
-        \caption{Two films per assembly with \SI{2}{\centi\meter} moderator spacing between assemblies}
+        \includegraphics[width=\textwidth]{RPM8_MCNPXRender_4Assm_2cm}
+        \caption{Four films per assembly with \SI{2}{\centi\meter} moderator spacing between assemblies}
     \end{subfigure}%
     ~
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{RPM8Opt_4_asm_1_cm.pdf}
-        \caption{Four films per assembly with \SI{1}{\centi\meter} moderator spacing between assemblies}
+        \includegraphics[width=\textwidth]{RPM8_MCNPXRender_1Assm_1cm}
+        \caption{One film per assembly with \SI{1}{\centi\meter} moderator spacing between assemblies}
     \end{subfigure}
-    \caption{MCNPX rendering of layered geometry. The coloring is done by material.}
+    \caption{MCNPX rendering of layered geometry}
     \label{fig:MCNPXRendering}
 \end{figure}
 The optimization of the detector design is presented in two parts: a numerical approach in which a matrix of detector spacing and assemblies are varied (Section ~\ref{sec:MCNPXMethods}, and a multivariate-variate optimization in which the parameters are fit to a functional form which is then optimized (Section ~\ref{sec:MVOptimization}.

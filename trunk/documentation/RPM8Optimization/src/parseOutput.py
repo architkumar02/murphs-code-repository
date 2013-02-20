@@ -74,7 +74,6 @@ def Write(data):
     for col, value in enumerate(summaryHeaders):
         summary.write(0,col,value)
     row = 1
-    print 'Starting to Write Summary'
     tallyKey = 4
     for d in data:
         t = ParseFileName(d.fname) 
@@ -85,31 +84,49 @@ def Write(data):
         summary.write(row,4,d.tallies[tallyKey].data[-1])
         summary.write(row,5,d.tallies[tallyKey].errors[-1])
         row += 1
-    print 'Finsihed writing summary'
     
     # Writing the Surface 
     tallyKey = 2
+    sheetDict = dict()
+    colDict = dict()
     for d in data:
+        t = ParseFileName(d.fname)
+        if t['NumLayers'] not in sheetDict.keys():
+            sheetDict[t['NumLayers']] = book.add_sheet(str.format('NumAssm_{0}',t['NumLayers']))
+            colDict[t['NumLayers']] = 0
+        sheet = sheetDict[t['NumLayers']]
+        col = colDict[t['NumLayers']]
+        
+        # Writing headers for origin
         row = 0
-        t = ParseFileName(d.fname) 
-        sheet = book.add_sheet(str.format('Mod_{0}_NumAssm_{1}_AssmSpace_{2}',t['HDPE'],t['NumLayers'],t['AssemblySpace']))
-        # Writing
-        header=['Surface','Distance','Thermal Fraction','Error']
-        for col, value in enumerate(header):
-            sheet.write(row,col,value)
+        longName=['Distance','ThermalFrac_'+str(t['AssemblySpace']),'Error']
+        for col, value in enumerate(longName):
+            sheet.write(row,col+colDict[t['NumLayers']],value)
         row +=1
+        units = ['cm','','']
+        for col, value in enumerate(units):
+            sheet.write(row,col+colDict[t['NumLayers']],value)
+        row +=1
+        comments = ['Distance',t['AssemblySpace'],'']
+        for col, value in enumerate(comments):
+            sheet.write(row,col+colDict[t['NumLayers']],value)
+        row += 0
+
+        # Writing data
         tally = d.tallies[tallyKey]
         surfaces = tally.axes['f'].arraycsn
         sDict = SurfaceDict(t)
+        sDict['501'] = 12.7
+        sDict['500'] = 0.0
+        col = colDict[t['NumLayers']]
         for i in range(len(surfaces)):
-            sheet.write(row,0,int(surfaces[i]))
-            sheet.write(row,1,sDict[surfaces[i]])
+            sheet.write(row,col,sDict[surfaces[i]])
             thermalFraction = tally.data[4*i+1]/tally.data[4*i+3]
             error = thermalFraction*math.sqrt(math.pow(tally.data[4*i+1],2)+math.pow(tally.data[4*i+3],2))
-            sheet.write(row,2,thermalFraction)
-            sheet.write(row,3,error)
+            sheet.write(row,col+1,thermalFraction)
+            sheet.write(row,col+2,error)
             row +=1
-
+        colDict[t['NumLayers']] += 3
     # Saving before exit
     book.save(str(date.today())+"Data.xls")
 

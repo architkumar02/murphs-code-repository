@@ -1,10 +1,9 @@
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Code Listings}
 Simulations were completed in MCNPX using a BASH script to generate the multiple input decks.
-Listing \ref{lst:PointSrcScript} is the generic MCNPX input deck, while Listing \ref{lst:CF252SrcScript} is for the \iso[252]{Cf} source.
+Listing \ref{lst:PointSrcScript} is the generic MCNPX input deck, while Listing \ref{lst:Cf252SrcScript} is for the \iso[252]{Cf} source.
 These input decks are called by the BASH scripts presented in Listing \ref{lst:PointSrcRUNDATA} and \ref{lst:Cf252SrcRUNDATA} which creates
 jobs that are submitted to the necluster queue system.
-
 
 \lstinputlisting[float,caption=Point Source Input Deck,label=lst:PointSrcScript]{PointSource/SCRIPT.mcnp}
 \lstinputlisting[float,caption=Cf-252 Source Input Deck,label=lst:Cf252SrcScript]{Cf252Source/SCRIPT.mcnp}
@@ -13,7 +12,7 @@ The BASH scripts presented in Listing \ref{lst:PointSrcRUNDATA} and \ref{lst:Cf2
 Listing \ref{lst:PointSrcRUNDATA} iterates through the energy and radii.
 For each energy and raid a separate input deck is created using the variable expansion of the values. 
 A temporary queue run script (based on Listing ~\ref{lst:QueueRun} is then created and submitted to the queue system.
-A similar process is completed for the \isop[252]{Cf} source, expect that only the different radii are iterated through.
+A similar process is completed for the \iso[252]{Cf} source, expect that only the different radii are iterated through.
 \lstinputlisting[float,language=bash,caption=Point Source Run Script,label=lst:PointSrcRUNDATA]{PointSource/RUNDATA.sh}
 \lstinputlisting[float,language=bash,caption=Cf-252 Source Run Script,label=lst:Cf252SrcRUNDATA]{Cf252Source/RUNDATA.sh}
 \lstinputlisting[float,language=bash,caption=Queue Run,label=lst:QueueRun]{PointSource/queueRunScript.sh}

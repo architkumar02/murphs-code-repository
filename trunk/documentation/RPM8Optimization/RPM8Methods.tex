@@ -8,13 +8,13 @@ The optimization of the films was formulated as finding the minimum mass of \iso
 \label{sec:DesignParameters}
 The design parameters were then:
 \begin{itemize}
-  \item The detector material. Materials with a high \iso{6}[Li] concentration will observe more neutrons.
+  \item The detector material. Materials with a high \iso{6}[Li] concentration will absorb more neutrons.
   \item The thickness of the detector material.
   \item The spacing of detector layers.
   \item The initial moderator thickness.
 \end{itemize}
 
-The geometry is described as follows.
+The geometry is described as follows:
 There is an initial moderator of \SI{2.5}{\centi \meter} HDPE to achieve a thermal fraction around 10\%.
 \footnote{The thermal energy was chosen to be \SI{5}{\electronvolt}. 
 The \isotope[6]{Li} neutron cross section as this energy is 67 barns. 
@@ -27,12 +27,14 @@ The macroscopic cross section calculation is shown below.
        &= \SI{0.67}{\per\centi\meter} 
 \end{align*}
 }..
-Following the moderator there are repeated sections of detector assembly and moderator. A single detector assembly consist of a layered film \SI{100}{\micron} thick with a light guide of \SI{0.5}{\centi\meter}.
+Following the moderator there are repeated sections of detector assembly and moderator.
+A single detector assembly consists of a layered film \SI{100}{\micron} thick with a light guide of \SI{0.5}{\centi\meter}.
 After the absorb film and light guide assemblies is additional moderator.
-Figure ~\ref{fig:GenericDetector} shows the a generic setup, while Figure ~\ref{fig:MCNPXRendering} shows the MCNPX renderings of the X-Z profile of two detector configurations.
+Figure ~\ref{fig:GenericDetector} shows a generic setup, while Figure ~\ref{fig:MCNPXRendering} shows the MCNPX renderings of the X-Z profile of two detector configurations.
 The source is not shown as it is located \SI{2}{\meter} from the detector midpoint.
 \begin{figure}
-   \includegraphics[width=\textwidth]{RPM8_GenericGeo}
+   \centering
+	 \includegraphics[width=\textwidth,width=5cm,keepaspectratio]{RPM8_GenericGeo}
    \caption{Generic Geometry to Optimize}
    \label{fig:GenericDetector}
 \end{figure}
@@ -51,13 +53,19 @@ The source is not shown as it is located \SI{2}{\meter} from the detector midpoi
     \caption{MCNPX rendering of layered geometry}
     \label{fig:MCNPXRendering}
 \end{figure}
-The optimization of the detector design is presented in two parts: a numerical approach in which a matrix of detector spacing and assemblies are varied (Section ~\ref{sec:MCNPXMethods}, and a multivariate-variate optimization in which the parameters are fit to a functional form which is then optimized (Section ~\ref{sec:MVOptimization}.
+The optimization of the detector design is presented in two parts: a numerical approach in which a matrix of detector spacing and assemblies are varied (Section ~\ref{sec:MCNPXMethods}, and a multivariate-variate optimization in which the parameters are fit to a functional form which is then optimized (Section ~\ref{sec:MVOptimization}).
 \subsection{MCNPX Simulations}
 \label{sec:MCNPXMethods}
-A matrix of detector designs was simulated in MCNPX.
-A generic script file was written (Listing ~\ref{lst:MCNPScript}) that was modified to with the code in Listing ~\ref{lst:CreateSurfaceCell} to include a user supplied number of detector assemblies, spacing between these assemblies, and initial moderator at the front of the assembly.
+A matrix of detector designs was simulated in MCNPX, with the parameters are described in Table \ref{tab:MCNPXGeoMatrix}.
+A generic script file was written (Listing ~\ref{lst:MCNPScript}) that was modified with the code in Listing ~\ref{lst:CreateSurfaceCell} to include a user supplied number of detector assemblies, spacing between these assemblies, and initial moderator at the front of the assembly.
 The MCNPX output was post processed with the python modules presented in Listing ~\ref{lst:ParseOutput} and Listing ~\ref{lst:mctal}.
 See ~\ref{sec:RPM8Listings} for detailed information on the developed scripts and details on the running of the problems.
+\begin{table}
+	\caption{Number of Film Assemblies and Spacing of MCNPX Simulations}
+	\label{tab:MCNPXGeoMatrix}
+  \centering
+	\input{MCNPXGeoMatrix.dat}
+\end{table}
 
 Two tallies were used in the MCNPX calculations: the interaction rate tally (tally type 4) and the surface flux tally (type 2).
 If the scalar flux is defined as $\phi(\vec{r},E,t)=\int d\Omega \Phi(\vec{r},\hat{\Omega},E,t)$ the  interaction rate tally is the integral of all energies and directions of the scalar flux over a given volume, normalized by that volume ~\eqref{eqn:F4TallyDef}.

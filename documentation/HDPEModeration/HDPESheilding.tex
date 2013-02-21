@@ -22,55 +22,56 @@
 % Cover Page
 \title{Moderation of Neutron Sources with HDPE}
 \author{Matthew J. Urffer}
+\date{Febuary 20, 2013}
 
 \maketitle
 \begin{abstract}
 The moderation of neutrons by high density polyethylene (HDPE) is investigated as a function of source energy and thickness of HDPE.
-MCNPX was used to simulate the neutronics for a point neutron source, as well as a \iso[252]{Cf} source for thickness ranging from 0.5 cm to 32 cm.
+MCNPX was used to simulate the neutronics for a point neutron source, as well as a \iso[252]{Cf} source for thickness ranging from \SI{0.5}{\centi\meter} to \SI{32}{\centi\meter}.
 A series of curves were constructed in order to present this data plotting the thermal fraction of the spectra versus moderator thickness.
-It is observed for neutrons with an energy below 1 keV less than 2 cm of HDPE moderator are needed in order to have a thermal fraction greater than 10 \%.  
-For 1 MeV neutrons about 4 cm of moderator are needed, while for the \iso[252]{Cf} source spectra about 8 cm of moderator are needed in order to thermalize the spectra to above 10\%.
+It is observed for neutrons with an energy below 1 keV less than \SI{2}{\centi\meter} of HDPE moderator are needed in order to have a thermal fraction greater than 10 \%.
+For 1 MeV neutrons about \SI{4}{\centi\meter} of moderator are needed, while for the \iso[252]{Cf} source spectra about \SI{8}{\centi\meter} of moderator are needed in order to thermalize the spectra to above 10\%.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
 
 % Tables of Contents, Figures, Tables
-\pagebreak
 \tableofcontents
 \listoftodos
 \listoffigures
-\listoftables
 \lstlistoflistings
-\pagebreak
 
 \section{Introduction}
-Understanding the moderation of neutrons is essential in neutron detector designs.
-Many of the neutron detection reactions have a much larger (by orders of magnitudes) probability of occurrence if the neutrons are thermal.
-Thus, great effort is taken to moderate the neutron spectra in order to increase the probability of a desired reaction to occur.
-High density polyethylene (HDPE) is a well known neutron moderator with a density ranging from $~0.93~g/cm^3$ to $~0.97~ g/cm^3$.
+Understanding the moderation of neutrons is essential for neutron detector design.
+Many of the neutron detection reactions have a significantly larger (by orders of magnitudes) probability of occurrence if the neutrons are thermal.
+For example, \iso[6]{Li} has a total neutron absorbtion cross section of \SI{5.4}{\barn} at \SI{1}{\kilo\electronvolt} which increase to \SI{150}{\barn} at \SI{1}{\electronvolt}.
+Thus, great effort is taken to moderate the neutron spectra in order to increase the probability of a desired reaction occuring.
+High density polyethylene (HDPE) is a well known neutron moderator with a density ranging from \SI{0.93}{\gram\per\cubic\centi\meter} to \SI{0.97}{\gram\per\cubic\centi\meter}.
 Polyethylene,$~\left (C_2 H_4\right )_n H_2~$, has four hydrogen atoms per repeating unit making it an ideal neutron moderator because each neutron can lose almost all of it's energy upon an elastic collision with a hydrogen atom.
 HDPE is also stable at room temperature, non-toxic, and has enough structural integrity that one can build with it.
 
 This work will focus on the moderation of two types of neutron sources; a mono energetic point source of various energies and a \iso[252]{Cf} source.
 For both sources the thickness of HDPE encasing the source is varied, and the fraction of thermal neutrons is calculated.
-This paper is organized into the following sections.  The Methods section will outline the geometry used for the MCNPX simulation, as well as an in depth explanation of how the fraction of thermal neutrons was calculated.  The Results section will outline the   results, with the Conclusions section summarizing the work.
+This paper is organized into the following sections.  Section \ref{sec:Methods} will outline the geometry used for the MCNPX simulation, as well as an in depth explanation of how the fraction of thermal neutrons was calculated.
+Section ~\ref{sec:Results} will outline the results, while section ~\ref{sec:Conclusions} will summarize the work.
 
 \input{HDPEMethods}
 \input{HDPEResults}
 
 \section{Conclusions}
+\label{sec:Conclusions}
 The fraction of the neutron spectra that had energies below 0.5 eV was calculated for a variety of points sources and HDPE moderator thickness.
 In addition, the thermal fraction was calculated for different thickness of HDPE moderator surrounding a \iso[252]{Cf} source encased in 0.5 cm of lead.
 It was found that 2 cm in sufficient to have over 10\% of neutrons with an initial energy of 1 keV to have an energy below 0.5 eV.
 For the more energetic \iso[252]{Cf} source (most probable energy of 0.7 MeV and an average energy of 2.1 MeV) the thermal fraction was above 10\% with a moderator thickness slightly less than 8 cm.
+
 % Bibliography
 \bibliography{./Zotero}
 
-\pagebreak
+\newpage
 \appendix
 \input{HDPEListings}
 %\include{DTDDSheilding}
-%\includepdf[pages=-]{DTDDSheilding.pdf}
 
 \end{document}
 

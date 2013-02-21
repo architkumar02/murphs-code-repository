@@ -3,7 +3,7 @@
 
 \subsection{Simulated Geometries}
 
-The simulated count for the detector designs is shown in Figure ~\ref{fig:SimCountRate}\todo{Change to CPS, not interactions}.
+The simulated count for the detector designs is shown in Figure ~\ref{fig:SimCountRate}\todo{Change to CPS, not interactions}, with the values enumerated in Table \ref{tab:MCNPXCountRatePerMg}.
 Not that this value does not include the scaling necessary to achieve the gamma discrimination. 
 It is immediately obvious that as the maximum total count rate occurs when the most \iso[6]{Li} is present in the detector, this occurs when 6 assemblies are spaced \si{\centi\meter} from each other.
 However, this is also the least efficient use of the \iso[6]{Li}.
@@ -26,6 +26,12 @@ It is then thought that the additional reflector material with the assemblies sp
     \caption{Count rate per dependence on number of assemblies and spacing of the simulated detectors. The amount of \iso[6]{Li} is not constant}
     \label{fig:SimCountRate}
 \end{figure}
+\begin{table}
+  \caption{Count Rate per nano gram \iso[252]{Cf} per \si{\milli\gram} \iso[6]{Li} for the MCNPX simulated geometries}
+	\label{tab:MCNPXCountRatePerMg}
+  \centering
+	\input{CountRatePerMg.dat}
+\end{table}
 
 \begin{figure}
 	\centering

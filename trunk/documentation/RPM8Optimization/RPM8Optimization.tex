@@ -10,6 +10,7 @@
 \usepackage{standalone}
 \usepackage{siunitx}
 \newcommand{\AngularFlux}{\Phi \left ( \vec{r},\hat{\Omega},E,t \right )}
+\newcommand{\tdi}[1]{\todo[inline]{#1}}
 % TO COMPILE: lmake
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
@@ -51,12 +52,29 @@ Project Goals:
 Radiation portal monitors are designed to detect special nuclear material entering the country.
 An optimized radiation portal monitor is necessary in order to minimize the production cost, while ensuring that the detector requirements are meet.
 Thus, the optimization becomes constrained by the detector requirements, namely \SI{2.5}{cps\per\nano\gram\iso[252]{Cf}} while maintaining an intrinsic gamma rejection ratio of \num{1.e-6}  \cite{kouzes_neutron_2010,kouzes_neutron_1999}.
-The envisioned detector design consists of layers of \iso{6}[Li] neutron absorbing sheets sandwiched between layers of a thin light guide (less than \SI{5}{\milli \meter})\footnote{The spacing of \SI{5}{\milli \meter} was chosen because the maximum energy of the Compton scattered electron from \iso[60]{Co} is \SI{1.08}{\mega \electronvolt}, which corresponds to a range of \SI{5}{\milli \meter} in plastic}.
+The envisioned detector design consists of thin layers (approximately \SI{100}{\micro\meter}) of \iso[6]{Li} neutron absorbing sheets sandwiched between a thin light guide (less than \SI{5}{\milli \meter})\footnote{The spacing of \SI{5}{\milli \meter} was chosen because the maximum energy of the Compton scattered electron from \iso[60]{Co} is \SI{1.08}{\mega \electronvolt}, which corresponds to a range of \SI{5}{\milli \meter} in plastic}.
+A group of alternating layers and light guides is then a detector assembly.
+The detector assemblies are then placed between a high density polyethelyene (HDPE) moderator and reflector in the SIAC RPM8 case.
+
 Previous works has shown that this design is feasible.
  
+The cost of a radiation portal monitor can be broken into the material cost, the cost of the associated electronics, and the assembly cost.
+The material cost consists of the neutron absorbing material, the cost of any neutron moderator materials, and the cost of any encasing material. 
+It is thought that the \iso[6]{Li} will dominiate the material cost \todo{check material cost}.
+As the detector is a scintillation based detector the electronics will consitst of photomultiplier tubes and the associated electronics to create the necessary readout.
+In addition there is also a cost to assemble the detector which will depend primarly on the number of components to assemble.
+
+Optimization is the search for the best solution (provided a set of criteria) to a problem over some problem domain.
+There are serveral methods of optimization: deterministic methods such as a gradient search, stochatistic methods such as random sampling and heuristic methods such as genetic programs and algorthims.\todo{Check with a book and cite}.
+
+
 \input{RPM8Methods}
 \input{RPM8Results}
 
+\section{Conclusions}
+
+Future work needs to be completed on the light transport in order to determine the number of photo-multiplier tubes necessary. 
+If each detector assembly requires one photomultiplier tube this will serve to penalize designs that consits of mutliple detector assemblies.
 % Bibliography
 \bibliography{../Zotero}
 

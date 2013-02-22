@@ -6,7 +6,7 @@ The optimization of the films was formulated as finding the minimum mass of \iso
 
 It is assumed that there is a fixed cost to assemble each detector assembly and mount it between the moderator.
 
-\todo{Cost Tradeoff section}
+\todo[inline]{Cost Trade-off section. In detector designs there can never be too much reflector based on a neutronics perspective, however at some point the moderator serves to reflect neutrons back to the source.}
 
 \subsection{Design Parameters}
 \label{sec:DesignParameters}
@@ -34,6 +34,36 @@ The macroscopic cross section calculation is shown below.
 Following the moderator there are repeated sections of detector assembly and moderator.
 A single detector assembly consists of a layered film \SI{100}{\micron} thick with a light guide of \SI{0.5}{\centi\meter}.
 After the absorb film and light guide assemblies is additional moderator.
+Four basic detector designs were considered, as shown in Figure ~\ref{fig:OptDesignSchematics}
+In the first design there are only three parameters; the thickness of the moderator $P_1$, the thickness of the reflector $P_2$ and the number of layers, $n$. 
+In the second detector design (B) there are two assemblies of layered detectors surrounded by HDPE moderator.  Thus there are five parameters to optimize; the thickness of the front moderator $p_1$, the thickness of the moderator separating the assemblies $p_2$, the thickness of the reflector $p_3$, and the number of films in each assembly, $n_1$ and $n_2$.
+Similarly there are seven parameters to optimize in design C, and nine parameters to optimize in design D.
+
+\begin{figure}
+    \centering
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{RPM8_Diagrams_OptDesign_A}
+        \caption{A single detector assembly}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{RPM8_Diagrams_OptDesign_B}
+        \caption{Two detector assemblies}
+    \end{subfigure}
+
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{RPM8_Diagrams_OptDesign_C}
+        \caption{Three detector assemblies}
+    \end{subfigure}
+    ~
+    \begin{subfigure}[b]{0.45\textwidth}
+        \includegraphics[width=\textwidth]{RPM8_Diagrams_OptDesign_D}
+        \caption{Four detector assemblies}
+    \end{subfigure}
+    \caption{Detector Designs for Optimization}
+    \label{fig:OptDesignSchematics}
+\end{figure}
+
 Figure ~\ref{fig:GenericDetector} shows a generic setup, while Figure ~\ref{fig:MCNPXRendering} shows the MCNPX renderings of the X-Z profile of two detector configurations.
 The source is not shown as it is located \SI{2}{\meter} from the detector midpoint.
 \begin{figure}

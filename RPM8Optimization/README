@@ -24,6 +24,9 @@ CHANGELOG:
                 interaction rate, and also the surface flux thermal fraction 
                 for each surface (with the distance). Next step is to put into
                 Origin and normalize by the number of cells.
+    2/23/2013 - Working on creating an optimiziation function setup. Probably
+                will have to create a geometry file 
+
 FILES:
     README              - this fileE
     RUNDATA.sh          - main driver for running the simulations

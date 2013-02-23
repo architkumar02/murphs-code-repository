@@ -4,20 +4,18 @@
 # Module for preforming cost optimization of the RPM8
 #
 # CHANGELOGE:
-#   2/23/2013 - Create the file
+#   2/23/2013 - Implemented createGeometry, working on interaction rate
+#               models (MCNPX and 1D transport)
 
 import numpy as np
 
-def createGeometry(p=np.array([2.5,2]),n=np.array([15]),
-                m={'Moderator':'HDPE','LightGuide':'PMMA','Detector':'PEN'},
-                dThickness=0.01,
+def createGeometry(p=np.array([2.5,2]),n=np.array([15]),dThickness=0.01,
                 geoConstraints={'RPM8Size':12.7,'MinLightGuide':0.5}):
     """Create a dictionary of the geometry 
 
     Keyword arguments:
     p -- numpy array of moderator thickness
     n -- numpy array of detectory layers per assembly
-    m -- dictionary of problem materials
     dThickness -- thickness of the detector in cm
     geoConstraints -- dictionary of RPM8 based geometry constraints
 
@@ -25,7 +23,6 @@ def createGeometry(p=np.array([2.5,2]),n=np.array([15]),
     dictionary between a position and a material
     """
     # Check for valid inputs
-    print len(n), len(p)
     if (len(n) + 1 is not len(p)):
         raise ValueError('Invalid moderator and assemblies')
     
@@ -42,14 +39,14 @@ def createGeometry(p=np.array([2.5,2]),n=np.array([15]),
     geo = dict()
     for x,assembly in zip(p,n):
         # Moderator
-        geo[x] = m['Moderator']
+        geo[x] = 'Moderator'
         
         # Detector Assembly
         for layer in range(assembly):
             x += dThickness
-            geo[x] = m['Detector']
+            geo[x] = 'Detector'
             x += lightGuideThickness
-            geo[x] = m['LightGuide']
+            geo[x] = 'LightGuide'
 
     # Checking that we are ended correctly
     x += p[-1]
@@ -58,17 +55,39 @@ def createGeometry(p=np.array([2.5,2]),n=np.array([15]),
         raise ValueError(errStr)
     
     # Adding on the last element
-    geo[x] = m['Moderator']
+    geo[x] = 'Moderator'
     
-    # Printing the dictionary
-    keyList = sorted(geo.keys(), key = lambda x : float(x))
-    for key in keyList:
-        print key, geo[key]
-
     # Returning the geometry dictionary
     return geo
 
+def calculateInteractionRates(geo=createGeometry(),model='MCNPX'):
+    """ calculateInteractionRates
+
+    Calculates the simulated interaction rate of the specified detector
+
+    Keyword arguments:
+    geo -- geometry dictionary with a mapping between an x position and the
+            material to the left of the position
+    model -- model on which to calculate the interaction rate. Can be either
+            MCNPX or a 1D transport
+
+    Return:
+    The calcualted interaction rate
+    """
+    
+    if model is '1DTransport':
+        raise NotImplementedError('1DTransport is currently not implemented')
+    elif model is 'MCNPX':
+        print 'Selected MCNPX model'
+        import MCNPXModel as mcnpx
+        model = mcnpx.MCNPX()
+        model.createInputDeck(geo)
+    else:
+        raise ValueError('Model '+model+' is not reconized')
+
+
 def main():
     createGeometry()
+    calculateInteractionRates()
 if __name__ == "__main__":
     main()

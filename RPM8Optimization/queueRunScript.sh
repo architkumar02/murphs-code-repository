@@ -5,5 +5,5 @@
 #PBS -V
 #PBS -l nodes=4:ppn=4
 cd $PBS_O_WORKDIR
-mpirun mcnpx inp=INP_HDPE_cm_NUMASSEM_asm_SPACE_cm.mcnp name=DHSDNDO_PEN_HDPE_cm_NUMASSEM_asm_SPACE_cm.
+RUNCOMMAND
 

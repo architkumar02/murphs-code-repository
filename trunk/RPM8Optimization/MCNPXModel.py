@@ -27,7 +27,16 @@ class MCNPX:
         self.n = n
         self.INP = self.createINPName()
         self.NAME = self.createOutputName()
-   
+  
+    def getInteractionRate(self):
+        """ Returns the interaction rate """
+        import mctal
+        m = mctal.MCTAL(self.NAME+'.m')
+        t = m.tallies[4]
+        # Returing the total
+        return t.data[-1],t.errors[-1]
+        
+
     def createOutputName(self,p=None,n=None):
         """ Create an output file name 
 
@@ -44,7 +53,7 @@ class MCNPX:
         self.NAME = 'OUT_'
         for x,a in zip(p,n): 
             self.NAME+='{}_cm_{}'.format(x,a)
-        self.NAME+='_{}_cm.mcnp'.format(p[-1])
+        self.NAME+='_{}_cm'.format(p[-1])
         return self.NAME
 
     def createINPName(self,p=None,n=None):
@@ -67,27 +76,42 @@ class MCNPX:
         return self.INP
 
     def runModel(self,queue='gen3',attropl=None):
-        import pbs
-        # Setting up the submission if it doesn't exists
-        server = pbs.pbs_default()
-        c = pbs.pbs_connect(server)
-        if not attropl:
-            queue='gen3'
-            attropl = pbs.new_attropl(2)
-            attropl[0].name = pbs.ATTR_N
-            attropl[0].value = 'MCNPX Model '+self.INP
-            attropl[1].name = pbs.ATTR_l
-            attropl[1].resource = 'nodes'
-            attropl[1].value = '4:ppn=4'
-       
+        """ Runs the Model """
+        import os
         runcmd='mpirun mcnpx inp='+self.INP+' name='+self.NAME+'.'
-        print runcmd
-        job_id = pbs.pbs_submit(c,attropl,runcmd,queue,'NULL')
-        e, e_txt = pbs.error()
-        if e:
-            print e,e_txt
-        return job_id
+        usePBS = False
+        
+        if usePBS:
+            import pbs
+            # Setting up the submission if it doesn't exists
+            server = pbs.pbs_default()
+            c = pbs.pbs_connect(server)
+            
+            if not attropl:
+                queue='gen3'
+                attropl = pbs.new_attropl(2)
+                attropl[0].name = pbs.ATTR_N
+                attropl[0].value = 'MCNPX Model '+self.INP
+                attropl[1].name = pbs.ATTR_l
+                attropl[1].resource = 'nodes'
+                attropl[1].value = '4:ppn=4'
+           
+            print runcmd
+            print
+            job_id = pbs.pbs_submit(c,attropl,runcmd,queue,'NULL')
+            e, e_txt = pbs.error()
+            if e:
+                print e,e_txt
+            return job_id
 
+        else:
+            with open('queueRunScript.sh','r') as f, open('QSUB.qsub','w') as o:
+                for line in f:
+                    if line.startswith('RUNCOMMAND'):
+                        o.write(runcmd+'\n')
+                    else:
+                        o.write(line)
+            os.system('qsub QSUB.qsub')
     def createInputDeck(self,geo,baseFile='SCRIPT.mcnp',oFile=None):
         """ createInputDeck 
 

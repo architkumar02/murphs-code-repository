@@ -81,17 +81,24 @@ def calculateInteractionRates(p=np.array([2.5,2]),n=np.array([15]),
     elif model is 'MCNPX':
         print 'Selected MCNPX model'
         import MCNPXModel as mcnpx
+        
         model = mcnpx.MCNPX(p,n,geo)
         model.createInputDeck(geo)
-        job_id = model.runModel()
-        print job_id
+        model.runModel()
+        
+        import os,time
+        while not os.path.isfile(model.NAME+'.m'):
+            time.sleep(10)
 
+        return model.getInteractionRate()
+    
     else:
         raise ValueError('Model '+model+' is not reconized')
 
 
 def main():
     createGeometry()
-    calculateInteractionRates()
+    v,e = calculateInteractionRates()
+    print v,e
 if __name__ == "__main__":
     main()

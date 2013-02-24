@@ -60,7 +60,8 @@ def createGeometry(p=np.array([2.5,2]),n=np.array([15]),dThickness=0.01,
     # Returning the geometry dictionary
     return geo
 
-def calculateInteractionRates(geo=createGeometry(),model='MCNPX'):
+def calculateInteractionRates(p=np.array([2.5,2]),n=np.array([15]),
+    geo=createGeometry(),model='MCNPX'):
     """ calculateInteractionRates
 
     Calculates the simulated interaction rate of the specified detector
@@ -74,14 +75,17 @@ def calculateInteractionRates(geo=createGeometry(),model='MCNPX'):
     Return:
     The calcualted interaction rate
     """
-    
+    import pbs
     if model is '1DTransport':
         raise NotImplementedError('1DTransport is currently not implemented')
     elif model is 'MCNPX':
         print 'Selected MCNPX model'
         import MCNPXModel as mcnpx
-        model = mcnpx.MCNPX()
+        model = mcnpx.MCNPX(p,n,geo)
         model.createInputDeck(geo)
+        job_id = model.runModel()
+        print job_id
+
     else:
         raise ValueError('Model '+model+' is not reconized')
 

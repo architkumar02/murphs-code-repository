@@ -52,8 +52,8 @@ class MCNPX:
             n = self.n
         self.NAME = 'OUT_'
         for x,a in zip(p,n): 
-            self.NAME+='{}_cm_{}'.format(x,a)
-        self.NAME+='_{}_cm'.format(p[-1])
+            self.NAME+='{}_cm_{}_'.format(x,a)
+        self.NAME+='{}_cm'.format(p[-1])
         return self.NAME
 
     def createINPName(self,p=None,n=None):
@@ -71,8 +71,8 @@ class MCNPX:
             n = self.n
         self.INP = 'INP_'
         for x,a in zip(p,n): 
-            self.INP+='{}_cm_{}'.format(x,a)
-        self.INP+='_{}_cm.mcnp'.format(p[-1])
+            self.INP+='{}_cm_{}_'.format(x,a)
+        self.INP+='{}_cm.mcnp'.format(p[-1])
         return self.INP
 
     def runModel(self,queue='gen3',attropl=None):
@@ -94,7 +94,7 @@ class MCNPX:
                 attropl[0].value = 'MCNPX Model '+self.INP
                 attropl[1].name = pbs.ATTR_l
                 attropl[1].resource = 'nodes'
-                attropl[1].value = '4:ppn=4'
+                attropl[1].value = '2:ppn=8'
            
             print runcmd
             print

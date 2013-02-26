@@ -128,7 +128,9 @@ The multivariate optimization problem was formulated as finding $\min_{\vec{x}} 
 
 \subsubsection{Genetic Algorithm}
 \label{sec:GeneticAlgoMethods}
-Genetic programming attempts to mimic the evolutionary process by creating an intial population, only letting the best individuals in a population reproduce, and using an analogy of DNA mutations and the crossing of genetic material that occurs during breeding.
+Genetic algorthims provide a search method analous to biological evoluation.
+Rather than following a gradient of a response function, genetic algorthims generate possible hypothesis by repeatably applying genetic operators (mutation and recombination) of the best currently known hypothesis in order to generate new ones\todo{CIte Mitchel}.
+In this way the search space of canidate hypothesis (possible detector designs) is searched to identify the best hypothesis; the design that uses the least amount of \iso[6]{Li} while meeting the critera.
 The genetic algorithm typically consist of four tasks: creating an initial population, evaluating that populations fitness, selecting members of the current population to breed, and then applying genetic operators to the selected members to breed the new population. 
 This is completed for either a maximum generation is reached or the desired fitness is achieved. 
 
@@ -156,4 +158,7 @@ For example the sequence \verb+0001110010+ would represent a detector that had t
 It was originally thought to have all of the moderator and detector slice the same thickness, \SI{0.5}{\centi \meter}\footnote{Astute readers may note that with a \SI{0.5}{\centi \meter} light guide and \SI{100}{\micro \meter} detector that the detector size is not \SI{0.5}{\centi\meter} and that 25 slices of \SI{0.5}{\centi\meter} each is \SI{0.2}{\centi\meter} short of the RPM8 size. However, it is not envisioned that \SI{20}{\milli\meter} will greatly impact the solution, or be within the manufacturing tolerances. }.
 However, that would create 25 slices with a search space of $2^{25}$ or 33.5 million options.
 
-\todo[inline]{A possibility would be to do a 2 centimeter reflector and a 2 centimeter reflector as constant.  This would then only have $2^15$ options, 32,000. I don't want to mess with different sized layers, because then my genomes are different lengths, and it becomes difficult to ensure that it is a correct geometry}.
+\todo[inline]{A possibility would be to do a 2 centimeter reflector and a 2 centimeter reflector as constant.  This would then only have $2^{15}$ options, 32,000. I don't want to mess with different sized layers, because then my genomes are different lengths, and it becomes difficult to ensure that it is a correct geometry}.
+
+The fitness function was choosen to count rate per mass of \iso[6]{Li}.
+\todo[inline]{Implmeneation of the fitness function might be completed by a dictionary of precomputed geometries. Interlopation could then be used to calculate the interaction of new geometries, and these could then be added to the dictionary.  An ANN might be used for the interoplation, and then retrained (or maybe online training) after a certain number of new hypothesis are made.  It might be useful to have some sort of degree of similarity between hypothsis. One might be logical and of the two hypothesis. In this case 0 would be the same, and len(hypothesis) would be the most disimilar.  Maybe if they are greater than 25 percent different we would want to run the case and add it?}

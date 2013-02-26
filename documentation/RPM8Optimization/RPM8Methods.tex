@@ -64,25 +64,19 @@ Similarly there are seven parameters to optimize in design C, and nine parameter
     \label{fig:OptDesignSchematics}
 \end{figure}
 
-Figure ~\ref{fig:GenericDetector} shows a generic setup, while Figure ~\ref{fig:MCNPXRendering} shows the MCNPX renderings of the X-Z profile of two detector configurations.
+Figure ~\ref{fig:MCNPXRendering} shows the MCNPX renderings of the X-Z profile of two detector configurations.
 The source is not shown as it is located \SI{2}{\meter} from the detector midpoint.
-\begin{figure}
-   \centering
-	 \includegraphics[width=\textwidth,width=5cm,keepaspectratio]{RPM8_GenericGeo}
-   \caption{Generic Geometry to Optimize}
-   \label{fig:GenericDetector}
-\end{figure}
 
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{RPM8_MCNPXRender_4Assm_2cm}
-        \caption{Four films per assembly with \SI{2}{\centi\meter} moderator spacing between assemblies}
+        \includegraphics[width=\textwidth]{RPM8_Diagrams_MCNPXRender_1Assm}
+        \caption{MCNPX Model of One Assembly}
     \end{subfigure}%
     ~
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{RPM8_MCNPXRender_1Assm_1cm}
-        \caption{One film per assembly with \SI{1}{\centi\meter} moderator spacing between assemblies}
+        \includegraphics[width=\textwidth]{RPM8_Diagrams_MCNPXRender_2Assm}
+        \caption{MCNPX Model of Two Assemblies}
     \end{subfigure}
     \caption{MCNPX rendering of layered geometry}
     \label{fig:MCNPXRendering}
@@ -125,7 +119,41 @@ The large detector and far away source suggest that the problem can be simplifie
 As 1D deterministic transport is much faster than 3D Monte Carlo, 1D transport was explored in order to vary the problem parameters.
 
 A matrix of \SI{25}{\percent} \iso[6]{Li} PEN films were completed with the film assemblies being 1,2,3, and 4 and with a spacing of \SI{1}{\centi\meter},\SI{2}{\centi\meter},\SI{3}{\centi\meter},and \SI{4}{\centi\meter}. 
+
+
 \subsection{Multivariate Optimization}
 \label{sec:MVOptimization}
 
 The multivariate optimization problem was formulated as finding $\min_{\vec{x}} f (\vec{x})$ subject to constraints, where $f(\vec{x})$ is the response function.
+
+\subsubsection{Genetic Algorithm}
+\label{sec:GeneticAlgoMethods}
+Genetic programming attempts to mimic the evolutionary process by creating an intial population, only letting the best individuals in a population reproduce, and using an analogy of DNA mutations and the crossing of genetic material that occurs during breeding.
+The genetic algorithm typically consist of four tasks: creating an initial population, evaluating that populations fitness, selecting members of the current population to breed, and then applying genetic operators to the selected members to breed the new population. 
+This is completed for either a maximum generation is reached or the desired fitness is achieved. 
+
+\begin{figure}
+\begin{algorithmic}
+  \WHILE{$error>goal$}
+		\FORALL{$p \in P$}
+			\STATE{Compute fitness}
+		\ENDFOR
+		\FORALL{$p \in P$}	
+			\STATE{Choose individuals based on fitness}
+			\STATE{Select individuals for next population}
+			\STATE{Crossover selected individuals}
+			\STATE{Mutate selected individual}
+		\ENDFOR
+	\ENDWHILE
+\end{algorithmic}
+\caption{Genetic Program Outline}
+\label{AlgoOutline}
+\end{figure}
+
+The genome representation of the geometry was chosen to be represented as a bit string.
+Each \verb+1+ or \verb+0+ in the string would represent a detector slice or a moderator slice, respectively.
+For example the sequence \verb+0001110010+ would represent a detector that had three moderator slices, three detector slices, another two moderator slices, and a final detector slice before a single moderator slice as the reflector.
+It was originally thought to have all of the moderator and detector slice the same thickness, \SI{0.5}{\centi \meter}\footnote{Astute readers may note that with a \SI{0.5}{\centi \meter} light guide and \SI{100}{\micro \meter} detector that the detector size is not \SI{0.5}{\centi\meter} and that 25 slices of \SI{0.5}{\centi\meter} each is \SI{0.2}{\centi\meter} short of the RPM8 size. However, it is not envisioned that \SI{20}{\milli\meter} will greatly impact the solution, or be within the manufacturing tolerances. }.
+However, that would create 25 slices with a search space of $2^{25}$ or 33.5 million options.
+
+\todo[inline]{A possibility would be to do a 2 centimeter reflector and a 2 centimeter reflector as constant.  This would then only have $2^15$ options, 32,000. I don't want to mess with different sized layers, because then my genomes are different lengths, and it becomes difficult to ensure that it is a correct geometry}.

@@ -7,6 +7,7 @@
 # CHANGELOG:
 #   2013-02-26 Removed depance on p,n to accomadete bit string detecotrs
 
+import subprocess
 class MCNPX:
     
     # Material Dictionaries
@@ -15,7 +16,9 @@ class MCNPX:
     modMaterial = {'name':'HDPE','mt':456, 'rho': 0.93}         # HPDE
     cellForStr = '{:5d} {:d} -{:4.3f} {:d} -{:d} 502 -503 504 -505\n'
     surForStr = '{:5d} px {:5.3f}\n'
-
+    geoParam={'GenomeLength':13,'LayersPerAssembly':2,
+            'RPM8Size':12.7,'DetectorThickness':0.01}
+    
     def __init__(self,geo=None,inp='INP.mcnp',name=None):
         # Material dictionary for the moderator, light guide, and detector
         self.material =  {'Moderator':self.modMaterial,'Detector':self.detMaterial,
@@ -39,6 +42,11 @@ class MCNPX:
         # Returing the total
         return t.data[-1],t.errors[-1]
 
+    def printGeo(self):
+        keyList = sorted(self.geo.keys(), key = lambda x : float(x))
+        for key in keyList:
+            print 'x: {:5.3f} {}'.format(key,self.geo[key])
+    
     def runModel(self):
         """ Runs the Model """
         runcmd='mpirun mcnpx inp='+self.INP+' name='+self.NAME+'.'
@@ -48,9 +56,59 @@ class MCNPX:
                     o.write(runcmd+'\n')
                 else:
                     o.write(line)
-        os.system('qsub QSUB.qsub')
+        process = subprocess.Popen('qsub QSUB.qsub',shell=True)
+        process.wait()
 
-    def createInputDeck(self,geo,baseFile='SCRIPT.mcnp',oFile=None):
+    def createBinaryGeometry(self,genome):
+        """Create a dictionary of the geometry 
+
+        Keyword arguments:
+        genome -- A bit string of the genome
+        geoParam -- dictionary of RPM8 based eometry constraints.
+
+        Return arguments:
+        dictionary between a position and a material
+        """
+        # Computing parameters
+        slices = len(genome)
+        if slices != self.geoParam['GenomeLength']:
+            raise ValueError()
+
+        sT = self.geoParam['RPM8Size']/slices
+        modT = sT
+        lGT = (sT/self.geoParam['LayersPerAssembly']) - self.geoParam['DetectorThickness']
+        dT = self.geoParam['DetectorThickness'] 
+        
+        # Creating the geometry dictionary
+        geo = dict()
+        numDetector = 0
+        x = 0
+        for s in genome:
+            if s is '1':
+                # Detector
+                for layer in range(self.geoParam['LayersPerAssembly']):
+                    x += dT
+                    geo[x] = 'Detector'
+                    numDetector += 1
+                    x += lGT
+                    geo[x] = 'LightGuide'
+            else:
+                # Moderator
+                x += modT 
+                geo[x] = 'Moderator'
+        
+        # Checking that we ended correctly
+        if (abs(x-self.geoParam['RPM8Size']) >= 0.0001):
+            errStr = 'x ({:5.3f}) is not within a micron'
+            errstr += 'of the  detector size ({:5.3f})'
+            errStr.format(x,self.geoParam['RPM8Size'])
+            raise ValueError(errStr)
+        
+        # Returning the geometry dictionary
+        self.geo = geo
+        return numDetector
+    
+    def createInputDeck(self,baseFile='SCRIPT.mcnp',oFile=None):
         """ createInputDeck 
 
         Creates an input deck of the given geometry
@@ -62,10 +120,9 @@ class MCNPX:
         """
         if not oFile:
             oFile = self.INP
-        self.geo = geo
         numCells = 0
         detectorCells = list()
-        keyList = sorted(geo.keys(), key = lambda x: float(x))
+        keyList = sorted(self.geo.keys(), key = lambda x: float(x))
         with open('SCRIPT.mcnp','r') as i,open(oFile,'w') as o:
             for line in i:
                 if line.startswith('c CELLPREPENDTOKEN'):
@@ -75,12 +132,12 @@ class MCNPX:
                     sPrev = self.ZeroSurfaceNum
                     for key in keyList:
                         # Creating the cell
-                        m = self.material[geo[key]] 
+                        m = self.material[self.geo[key]] 
                         line = self.cellForStr.format(cNum,m['mt'],m['rho'],
                                 sPrev,sNum)
                         o.write(line)
                         # List of cells for the detector
-                        if geo[key] is 'Detector':
+                        if self.geo[key] is 'Detector':
                             detectorCells.append(cNum)
                         # Incrementing counters
                         sPrev = sNum
@@ -122,5 +179,4 @@ class MCNPX:
                     o.write('IMP:n 1 '+str(numCells)+'r  0\n')
                 else:
                     o.write(line.rstrip()+'\n')
-
 

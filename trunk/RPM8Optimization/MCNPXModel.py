@@ -38,7 +38,6 @@ class MCNPX:
         t = m.tallies[4]
         # Returing the total
         return t.data[-1],t.errors[-1]
-        
 
     def runModel(self):
         """ Runs the Model """

@@ -10,8 +10,8 @@ import geneticGeo as geo
 import geneticEval as evaluator
 
 
-def ParameterExplore():
-    g = G1DBinaryString.G1DBinaryString(13)
+def ParameterExplore(numSlices):
+    g = G1DBinaryString.G1DBinaryString(numSlices)
     
     # Two extremes
     allMod = '0000000000000'
@@ -50,14 +50,13 @@ def evolve_callback(ga_engine):
 
 def eval_func(chromosome):
     return evaluator.evaluate(chromosome.getBinary())
-    
-def main():
-    #ParameterExplore()
-    
+
+def runGA(numSlices):
     evaluator.readOutput('CoarseRuns')
     evaluator.printData()
-    csv_adapter = DBFileCSV(identify="run1",filename="stats_1.csv")
-    genome = G1DBinaryString.G1DBinaryString(13)
+    csv_adapter = DBFileCSV(identify=str(numSlices)+'_slices',
+                    filename='stats_'+str(numSlices)_'.csv')
+    genome = G1DBinaryString.G1DBinaryString(numSlices)
     genome.evaluator.set(eval_func)
     ga = GSimpleGA.GSimpleGA(genome)
     ga.setDBAdapter(csv_adapter)
@@ -65,6 +64,10 @@ def main():
     ga.evolve(freq_stats=10)
     print ga.bestIndividual()
     evaluator.printData()
+
+def main():
+    #ParameterExplore()
+    runGA9(13)
 
 
 

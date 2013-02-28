@@ -41,15 +41,15 @@ def evolve_callback(ga_engine):
     # Getting a list of indvidviduals
     indList = list()
     for ind in pop:
-        indList.append(''.join(str(x) for x in ind[0:len(ind)]))
+        indList.append(ind.getBinary())
     evaluator.runPopulation(indList)
+    if generation == 0:
+        pop.evaluate()
+        pop.sort()
     return False
 
 def eval_func(chromosome):
-    if evaluator.countRate[chromosome] < 2.5:
-        return 0
-    else:
-        return evaluator.countRatePerMass[chromosome]
+    return evaluator.evaluate(chromosome.getBinary())
     
 def main():
     #ParameterExplore()
@@ -63,6 +63,10 @@ def main():
     ga.setDBAdapter(csv_adapter)
     ga.stepCallback.set(evolve_callback)
     ga.evolve(freq_stats=10)
-    
+    print ga.bestIndividual()
+    evaluator.printData()
+
+
+
 if __name__ == "__main__":
     main()

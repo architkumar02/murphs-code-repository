@@ -42,6 +42,7 @@ class MCNPX:
 
     def runModel(self):
         """ Runs the Model """
+        runcmd='mpirun mcnpx inp='+self.INP+' name='+self.NAME+'.'
         with open('queueRunScript.sh','r') as f, open('QSUB.qsub','w') as o:
             for line in f:
                 if line.startswith('RUNCOMMAND'):

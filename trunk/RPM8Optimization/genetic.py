@@ -6,10 +6,10 @@ from pyevolve import G1DList
 from pyevolve import GSimpleGA
 from pyevolve.DBAdapters import DBFileCSV
 from pyevolve.GPopulation import GPopulation
-import geneticGeo as geo
+import geneticGeo as geometry
 import geneticEval as evaluator
 
-
+global geoParam
 def ParameterExplore(numSlices):
     g = G1DBinaryString.G1DBinaryString(numSlices)
     
@@ -42,7 +42,7 @@ def evolve_callback(ga_engine):
     indList = list()
     for ind in pop:
         indList.append(ind.getBinary())
-    evaluator.runPopulation(indList)
+    evaluator.runPopulation(indList,wait=True)
     if generation == 0:
         pop.evaluate()
         pop.sort()
@@ -51,25 +51,33 @@ def evolve_callback(ga_engine):
 def eval_func(chromosome):
     return evaluator.evaluate(chromosome.getBinary())
 
-def runGA(numSlices):
-    evaluator.readOutput('CoarseRuns')
+def runGA(numSlices,lpa):
+    global GeoParam
+    # Setting up Geometry
+    geoParam={'GenomeLength':numSlices,'LayersPerAssembly':lpa,
+        'RPM8Size':12.7,'DetectorThickness':0.01}
+    # Reading Previous Runs
+    evaluator.readOutput(str(numSlices)+'SlicesOutput')
     evaluator.printData()
+    # Setting up GA output
     csv_adapter = DBFileCSV(identify=str(numSlices)+'_slices',
-                    filename='stats_'+str(numSlices)_'.csv')
+                    filename='stats_'+str(numSlices)+'.csv')
+    # Setting up Genome
     genome = G1DBinaryString.G1DBinaryString(numSlices)
     genome.evaluator.set(eval_func)
+    # Setting up GA
     ga = GSimpleGA.GSimpleGA(genome)
     ga.setDBAdapter(csv_adapter)
     ga.stepCallback.set(evolve_callback)
+    # Evolve and print
     ga.evolve(freq_stats=10)
     print ga.bestIndividual()
     evaluator.printData()
 
 def main():
     #ParameterExplore()
-    runGA9(13)
-
-
+    #runGA(13,2)
+    runGA(5,4)
 
 if __name__ == "__main__":
     main()

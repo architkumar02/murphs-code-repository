@@ -2,9 +2,9 @@
 import os
 import numpy as np
 from multiprocessing import Process, Queue, Pool
-import geneticGeo as geo
 import MCNPXModel as mcnpx
 import mctal
+
 
 # Shared among all class instances
 interactions = dict()
@@ -31,7 +31,7 @@ def calcResults(fname,massLiPerCell=7.30382E1*5.63475E-3,
     m = mctal.MCTAL(fname)
     t = m.tallies[4]
     inter = np.array([t.data[-1],t.errors[-1]])
-    m = genome.count('1')*massLiPerCell
+    m = genome.count('1')*massLiPerCell*geoParam['LayersPerAssembly']
     cr = inter*sourceStrength
      
     interactions[genome] = inter
@@ -40,7 +40,7 @@ def calcResults(fname,massLiPerCell=7.30382E1*5.63475E-3,
     countRatePerMass[genome] = cr/m
     return genome
 
-def readOutput(path='CoarseRuns',massLiPerCell=7.30382E1*5.63475E-3,
+def readOutput(path='Output',massLiPerCell=7.30382E1*5.63475E-3,
     sourceStrength = 2.3E3):
     """ readOutput
 
@@ -56,12 +56,14 @@ def readOutput(path='CoarseRuns',massLiPerCell=7.30382E1*5.63475E-3,
         if files.endswith('.m'):
             calcResults(os.path.join(path,files),massLiPerCell,sourceStrength)
 
-
 def runModel(genome,wait=False):
     """ Runs the Model """
     runName = 'INP_'+genome+'.mcnp'
+    print runName
     g,num = geo.createGeometry(genome)
+    print 'Created a geometry with ',str(num)
     model = mcnpx.MCNPX(g,runName)
+    print 'Trying to create an input deck'
     model.createInputDeck(g)
     model.runModel()
     if wait:

@@ -84,6 +84,14 @@ def runPopulation(pop,wait=True):
     pool.close()
     pool.join()  
 
+def evaluate(chromosome):
+    if chromosome not in countRate:
+        return 0
+    elif countRate[chromosome][0] < 2.5:
+        return 0
+    else:
+        return  countRatePerMass[chromosome][0]
+
 def printData(): 
     with open('RunSummary.txt','w') as f:
         f.write('Genome,Mass Li-6,Count Rate, Count Rate per Mass\n')

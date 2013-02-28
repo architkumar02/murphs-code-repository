@@ -4,6 +4,8 @@
 # Runs MCNPX on a simulated geometry. Expects to have SCRIPT.mcnp and 
 #   queueRunScript.sh
 #
+# CHANGELOG:
+#   2013-02-26 Removed depance on p,n to accomadete bit string detecotrs
 
 class MCNPX:
     
@@ -14,7 +16,7 @@ class MCNPX:
     cellForStr = '{:5d} {:d} -{:4.3f} {:d} -{:d} 502 -503 504 -505\n'
     surForStr = '{:5d} px {:5.3f}\n'
 
-    def __init__(self,p=None,n=None,geo=None):
+    def __init__(self,geo=None,inp='INP.mcnp',name=None):
         # Material dictionary for the moderator, light guide, and detector
         self.material =  {'Moderator':self.modMaterial,'Detector':self.detMaterial,
                             'LightGuide':self.lightGuideMaterial}
@@ -23,10 +25,11 @@ class MCNPX:
         self.SurfaceStartNum = 6000
         self.ZeroSurfaceNum = 500
         self.geo = geo
-        self.p = p
-        self.n = n
-        self.INP = self.createINPName()
-        self.NAME = self.createOutputName()
+        self.INP = inp
+        if name:
+            self.NAME = name
+        else:
+            self.NAME = self.INP.strip('.mcnp').replace('INP','OUT')
   
     def getInteractionRate(self):
         """ Returns the interaction rate """
@@ -37,81 +40,16 @@ class MCNPX:
         return t.data[-1],t.errors[-1]
         
 
-    def createOutputName(self,p=None,n=None):
-        """ Create an output file name 
-
-        Keyword Arguments:
-        p -- list of HDPE moderators
-        n -- list of assemblies
-        
-        Returns the filename string in addition to assigning it to the class
-        """
-        if p is None:
-            p = self.p
-        if n is None:
-            n = self.n
-        self.NAME = 'OUT_'
-        for x,a in zip(p,n): 
-            self.NAME+='{}_cm_{}_'.format(x,a)
-        self.NAME+='{}_cm'.format(p[-1])
-        return self.NAME
-
-    def createINPName(self,p=None,n=None):
-        """ Create an INPUT file name 
-
-        Keyword Arguments:
-        p -- list of HDPE moderators
-        n -- list of assemblies
-        
-        Returns the filename string in addition to assigning it to the class
-        """
-        if p is None:
-            p = self.p
-        if n is None:
-            n = self.n
-        self.INP = 'INP_'
-        for x,a in zip(p,n): 
-            self.INP+='{}_cm_{}_'.format(x,a)
-        self.INP+='{}_cm.mcnp'.format(p[-1])
-        return self.INP
-
-    def runModel(self,queue='gen3',attropl=None):
+    def runModel(self):
         """ Runs the Model """
-        import os
-        runcmd='mpirun mcnpx inp='+self.INP+' name='+self.NAME+'.'
-        usePBS = False
-        
-        if usePBS:
-            import pbs
-            # Setting up the submission if it doesn't exists
-            server = pbs.pbs_default()
-            c = pbs.pbs_connect(server)
-            
-            if not attropl:
-                queue='gen3'
-                attropl = pbs.new_attropl(2)
-                attropl[0].name = pbs.ATTR_N
-                attropl[0].value = 'MCNPX Model '+self.INP
-                attropl[1].name = pbs.ATTR_l
-                attropl[1].resource = 'nodes'
-                attropl[1].value = '2:ppn=8'
-           
-            print runcmd
-            print
-            job_id = pbs.pbs_submit(c,attropl,runcmd,queue,'NULL')
-            e, e_txt = pbs.error()
-            if e:
-                print e,e_txt
-            return job_id
+        with open('queueRunScript.sh','r') as f, open('QSUB.qsub','w') as o:
+            for line in f:
+                if line.startswith('RUNCOMMAND'):
+                    o.write(runcmd+'\n')
+                else:
+                    o.write(line)
+        os.system('qsub QSUB.qsub')
 
-        else:
-            with open('queueRunScript.sh','r') as f, open('QSUB.qsub','w') as o:
-                for line in f:
-                    if line.startswith('RUNCOMMAND'):
-                        o.write(runcmd+'\n')
-                    else:
-                        o.write(line)
-            os.system('qsub QSUB.qsub')
     def createInputDeck(self,geo,baseFile='SCRIPT.mcnp',oFile=None):
         """ createInputDeck 
 

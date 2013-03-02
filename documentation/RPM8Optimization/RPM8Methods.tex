@@ -1,7 +1,6 @@
 \section{Methods}
 \label{sec:Methodes}
 
-
 The optimization of the films was formulated as finding the minimum mass of \iso[6]{Li} for a given detector material necessary to fulfill an interaction rate of \SI{2.5}{cps\per\nano\gram\iso[252]{Cf}} while maintaining a intrinsic gamma rejection ratio of \num{1.e-6}.
 
 It is assumed that there is a fixed cost to assemble each detector assembly and mount it between the moderator.
@@ -178,18 +177,18 @@ Crossover, in which two individuals are breed in produce the new generataion was
 An example of the crossover operations is shown in the Figure ~\ref{figGeneticCrossover}.
 \begin{figure}
     \missingfigure{Crossover examples}
-    \caption{Genetic Crossover Operations}
+    \caption[Genetic Crossover Operations]{Genetic Crossover Operations}
     \label{fig:GeneticCrossover}
 \end{figure}
 
 The pyevolve toolkit was used for running of the genetic algorthim.
 The genetic algorthim used a mutation rate of 2\%\todo{Check Mutation Rate} and a crossover rate of 80\%\todo{Check crossover rate}.
 Tournamnet selectrion was used to determine which individuals would be allowed to breed for the next generation.
-
+\todo[inline]{There is also the possibility to bootstrap to be population by variations on the best from previous generations.}
 The accuracy of the genetic algorthim was checked by hand in simplified geometries.
 As shown in Table \ref{tab:BitStringGeo} some of the these geometries are simple enougth that the search space can be computed exaustively.
 \begin{table}
-    \caption{Bit String Simplified Geometetry Descriptions}
+    \caption[Genome Bit String Geometries]{Bit String Simplified Geometetry Descriptions}
     \label{tab:BitStringGeo}
     \centering
     \begin{tabular}{ c | c c c c}

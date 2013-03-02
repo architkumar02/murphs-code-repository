@@ -75,3 +75,28 @@ It is then thought that the additional reflector material with the assemblies sp
 	\label{fig:ThermalFlux}
 \end{figure}
 \subsection{Optimized Detector Configuration}
+The results of the genetic algorthim are shown below. 
+Some of the search spaces were run multiple times, and what is shown is the majority vote of the algorthim on what the answer should be.
+\begin{table}
+  \begin{minipage}{\textwidth}
+    \caption[Genomes of Optimized Geometries and Performace]{Optimized Geometries and Detector Performance\footnote{Subject to the given constraints}}
+    \label{tab:GeneticOptimizedGeo}
+    \centering
+    \begin{tabular}{ c | c c c c}
+        Genome &Assemblies&Films &Mass \iso[6]{Li} &Count Rate\\
+        \hline
+        \hline
+        \verb+010+&1&4&16.75 &  0.175 \\
+        \verb+0100+&1&4&16.75 & 0.197  \\
+        \verb+01000+&1&3&12.56 & 0.230 \\
+        \verb+01100+&2&6&25.13 & 0.157 \\
+        \verb+0100000+&1&3&12.56& 0.229 \\
+        \verb+01000000+&1&3&12.56&0.226 \\ 
+        \hline
+        \verb+0010000000+&1&3&& \\
+        \hline
+        13&2&&& \\
+        26&1&&& \\
+    \end{tabular}
+    \end{minipage}
+\end{table}

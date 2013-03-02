@@ -20,30 +20,10 @@
 }
 
 % Package Setup
-\usepackage[english]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage{times}
-\usepackage[T1]{fontenc}
-\usepackage{multicol}
-\usepackage{array}				% Table Stuff
-\usepackage{arydshln}
-\usepackage{multirow}
-\usepackage{rotating}
-\usepackage{graphics}
-\usepackage{caption}            % Caption Stuff
-\captionsetup{font=scriptsize,labelfont=scriptsize}
-\usepackage{amsmath}				% Math Stuff
-\usepackage{listings}				% Code Example Stuff
-\bibliographystyle{ieeetr}
-
-\lstset{% General Listing Settings
-	basicstyle=\tiny,
-	frame=single
-}
-
+\input{../PresentationPreamable}
 
 % Preamble / Frst Size
-\setbeamersize{text margin left=5mm, text margin right 5mm}
+%\setbeamersize{text margin left=5mm, text margin right 5mm}
 \title[Matthew Urffer Master's Thesis] {Design of a Neutron Detector Capable of Replacing ${}^3$He Detectors Utilizing Thin Polymeric Films}
 \subtitle{Master's Thesis Defense}
 \author[] {Matthew Urffer\inst{1} }
@@ -54,7 +34,7 @@
 }
 
 \date[] {November 8th, 2012}
-\pgfdeclareimage[height=0.5cm]{university-logo}{images/utwordmarkhorz.eps}
+\pgfdeclareimage[height=0.5cm]{university-logo}{utwordmarkhorz.eps}
 \logo{\pgfuseimage{university-logo}}
 
 
@@ -146,7 +126,7 @@
   \end{itemize}
 \begin{figure}
 	\centering
-		\includegraphics[width=0.3\textwidth]{images/Questions.eps}
+		\includegraphics[width=0.3\textwidth]{Questions.eps}
 \end{figure}
 \end{frame}
 
@@ -155,7 +135,7 @@
 \begin{frame}[plain,allowframebreaks]
 \frametitle{Works Cited}
 	\tiny
-    \bibliography{Zotero}
+    \bibliography{../Zotero}
 \end{frame}
 
 % APPENDIX
@@ -165,7 +145,7 @@
 \begin{frame}{Absorption Cross Sections}
 \begin{figure}
 	\centering
-		\includegraphics[width=0.9\textwidth]{images/CrossSections.eps}
+		\includegraphics[width=0.9\textwidth]{CrossSections.eps}
 	\caption{Cross sections of selected isotopes \protect \cite{nist_neutron_2012}}
 	\label{fig:CrossSections}
 \end{figure}

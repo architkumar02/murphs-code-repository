@@ -8,7 +8,6 @@
 \usepackage[]{lineno}
 %\linenumbers
 \usepackage[usenames,dvipsnames]{xcolor}
-\usepackage{listings,amsmath}
 \usepackage{microtype}
 \usepackage[obeyDraft]{todonotes}
 \usepackage{fancyvrb}
@@ -27,8 +26,6 @@
 \usepackage{subcaption}
 \captionsetup{belowskip=12pt,aboveskip=4pt}
 
-%% HYPERLINKS
-\usepackage[debug]{hyperref}
 
 %% BIBLIOGRAPHY
 \bibliographystyle{ieeetr}
@@ -37,9 +34,18 @@
 \usepackage{siunitx}
 
 %% EQUATIONS
+\usepackage{amsmath}
 %\numberwithin{equation}{section}
 
-%% LISTINGS
+%% HYPERLINKS
+\usepackage[debug]{hyperref}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                             Listing Setup                               %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{listings}
 \lstset{ %
     language=C++,
     basicstyle=\footnotesize\ttfamily,
@@ -69,7 +75,6 @@
 %	\lstset{#1}
 %}
 %{\endminipage}
-
 %% USER COMMANDS
 \usepackage{isotope}
 \newcommand{\iso}{\isotope}

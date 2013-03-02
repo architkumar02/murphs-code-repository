@@ -2,73 +2,39 @@
 % !TEX encoding = UTF-8 Unicode
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% 																							         %
-%					                         PREAMBLE      								%
-%																										%
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% 																							                           %
+%					                         PREAMBLE      							             %
+%	                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \documentclass[compress]{beamer}
 
 \mode<presentation>
 {
-  %\usetheme{Boadilla}
   \usetheme{Frankfurt}
   \usecolortheme{crane}
   \setbeamercovered{transparent}
 }
 
 % Package Setup
-\usepackage[english]{babel}
-\usepackage[utf8]{inputenc}
-\usepackage{times}
-\usepackage[T1]{fontenc}
-\usepackage{multicol}
-\usepackage{array}				% Table Stuff
-\usepackage{arydshln}
-\usepackage{multirow}
-\usepackage{rotating}
-\usepackage{graphics}
-\usepackage{caption}            % Caption Stuff
-\captionsetup{font=scriptsize,labelfont=scriptsize}
-\usepackage{amsmath}				% Math Stuff
-\usepackage{listings}				% Code Example Stuff
-\bibliographystyle{ieeetr}
-
-\lstset{% General Listing Settings
-	basicstyle=\tiny,
-	frame=single
-}
-
+\input{../PresentationPreamable}
 
 % Preamble / Frst Size
-\setbeamersize{text margin left=5mm, text margin right 5mm}
-\title[ANS 2012] {Characterization and Simulation of Thin Polymeric Films for Portal Monitors}
+%\setbeamersize{text margin left=5mm, text margin right 5mm}
+\title[RPM8 Optimiziation] {Optimization of the RPM8 Detector with Genetic Algorthims}
 \author[] {
-    Matthew Urffer\inst{1} \and 
-    R. Uppal \inst{2} \and 
-    A.Mabe \inst{3}  \and
-    D. Penumadu \inst{2} \and
-    L. F. Miller \inst{1}
+    Matthew Urffer\inst{1}
 }
 \institute[University of Tennessee] { 
   \inst{1}%
   Department of Nuclear Engineering,
   University of Tennessee, Knoxville, TN
-    \\
-    \inst{2}
-  Department of Civil Engineering,
-  University of Tennessee, Knoxville, TN
-  \\
-  \inst{3}
-  Department of Chemistry,
-  University of Tennessee, Knoxville, TN
 
 }
 
-\date[] {November 15th, 2012}
+\date[] {March 3, 2013}
 \pgfdeclareimage[height=0.5cm]{university-logo}{images/utwordmarkhorz.eps}
 \logo{\pgfuseimage{university-logo}}
-
 
 % Delete this, if you do not want the table of contents to pop up at
 % the beginning of each subsection:
@@ -77,17 +43,10 @@
   \begin{frame}<beamer>{}
     \frametitle{\insertsectionhead}
     \begin{multicols}{2}
-  % \tableofcontents[currentsubsection,hideothersubsections,sectionstyle=show/hide,subsectionstyle=show/shaded,]
     \tableofcontents[currentsection] 
     \end{multicols}
   \end{frame}
 }
-
-
-% If you wish to uncover everything in a step-wise fashion, uncomment
-% the following command: 
-%\beamerdefaultoverlayspecification{<+->}
-
 
 \begin{document}
 
@@ -108,24 +67,20 @@
 \end{frame}
 
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                                             %
-%                             START OF CONTENT                                %
-%                                                                             %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\include{./Introduction}
-\include{./Methods}
-\include{./SimMethods}
-\include{./FilmPerformance}
-\include{./SimPerformance}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                          %
+%                            START OF CONTENT                              %
+%                                                                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%\include{./Introduction}
 \section*{Conclusions}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{frame}{Summary}
 
   \begin{itemize}
   \small
   \item
-    A framework has been developed for the characterization of possible replacement technologies for radiation portal monitors
+    A framework has been developed for the characterization of possible replacement technologies for radiation portal monitors\cite{NotHere}
     \begin{itemize}
 	        \tiny
 			\item Verification of instrument gains
@@ -141,34 +96,20 @@
   \end{itemize}
 \begin{figure}
 	\centering
-		\includegraphics[width=0.2\textwidth]{images/Questions.eps}
+		\includegraphics[width=0.2\textwidth]{Questions.eps}
 \end{figure}
 \end{frame}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BILBIOLGRAPHY
 \begin{frame}[plain,allowframebreaks]
 \frametitle{Works Cited}
 	\tiny
-    \bibliography{Zotero}
+  \bibliography{../Zotero}
 \end{frame}
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APPENDIX
-\appendix
-\section<presentation>*{\appendixname}
-\subsection<presentation>*{Fundamental Physics}
-\begin{frame}{Absorption Cross Sections}
-\begin{figure}
-	\centering
-		\includegraphics[width=0.9\textwidth]{images/CrossSections.eps}
-	\caption{Cross sections of selected isotopes \protect \cite{nist_neutron_2012}}
-	\label{fig:CrossSections}
-\end{figure}
-
-\end{frame}
-
-
-
 
 \end{document}
 

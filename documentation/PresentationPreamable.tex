@@ -7,7 +7,7 @@
 %% PACKAGES
 \usepackage[]{lineno}
 %\linenumbers
-\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage{amsmath}
 \usepackage{microtype}
 \usepackage[obeyDraft]{todonotes}
 \usepackage{fancyvrb}
@@ -20,12 +20,15 @@
 \graphicspath{{../images/}{./}{./tmp/}}
 \DeclareGraphicsExtensions{.eps, .pdf, .jpeg, .png}
 
-%% CPATION SETUP
+%% CAPTION SETUP
 \usepackage{float}
 \usepackage{caption}
 \usepackage{subcaption}
 \captionsetup{belowskip=12pt,aboveskip=4pt}
 
+%% BEAMER
+\usepackage{multicol}
+\usepackage{multirow}
 
 %% BIBLIOGRAPHY
 \bibliographystyle{ieeetr}
@@ -34,11 +37,7 @@
 \usepackage{siunitx}
 
 %% EQUATIONS
-\usepackage{amsmath}
 %\numberwithin{equation}{section}
-
-%% HYPERLINKS
-\usepackage[debug]{hyperref}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %

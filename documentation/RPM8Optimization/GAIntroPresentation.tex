@@ -3,20 +3,32 @@
 \begin{frame}{Genetic Algorithms}
 A search technique mimicking natural evolution.
 \begin{columns}[onlytextwidth]
-\begin{column}{0.45\textwidth}
-\small
-\begin{itemize}
-	\item Population of candidate solutions is evolved toward better solutions
-	\item Each candidate has properties that can be mutated and altered
-	\item Traditionally solutions are represented as bit strings or trees
-\end{itemize}
-\end{column}
-\begin{column}{0.45\textwidth}
-	\centering
-	\begin{figure}
-		\includegraphics[width=\textwidth]{genetic_algorithm_principle}
-	\end{figure}
-\end{column}
+  \begin{column}{0.45\textwidth}
+    \small
+    \begin{itemize}
+      \item Population of candidate solutions is evolved toward better solutions
+      \item Each candidate has properties that can be mutated and altered
+      \item Traditionally solutions are represented as bit strings or trees
+    \end{itemize}
+    \end{column}
+  \begin{column}{0.45\textwidth}
+    \begin{figure}
+    \begin{algorithmic}
+      \WHILE{$error>goal$}
+        \FORALL{$p \in P$}
+          \STATE{Compute fitness}
+        \ENDFOR
+        \FORALL{$p \in P$}	
+          \STATE{Choose individuals based on fitness}
+          \STATE{Select individuals for next population}
+          \STATE{Crossover selected individuals}
+          \STATE{Mutate selected individual}
+        \ENDFOR
+      \ENDWHILE
+    \end{algorithmic}
+    \caption{Genetic Program Outline}
+    \end{figure}
+  \end{column}
 \end{columns}
 \end{frame}
 \begin{frame}{Crossover Operations}

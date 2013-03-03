@@ -3,46 +3,42 @@
 %                      Pyevole Introduction                              %
 %                                                                        %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{PyEvovle Introduciton}
-  \begin{figure}
-    \centering
-    \includegraphics[width=0.2\textwidth]{PyEvolveLogo.png}
-  \end{figure}
-  \begin{itemize}
+\subsection{PyEvolve}
+\begin{frame}{PyEvolve Introduction}
+	\begin{itemize}
   \small
-  \item PyEvolve is a genetic algorthim framework written in pure python
-  \item Genatic Algorthim Features:
+  \item PyEvolve is a genetic algorithm framework written in pure python
+  \item Genetic Algorithm Features:
     \begin{itemize}
-      \tiny
       \item Crossover operations (single point, two point, uniform)
-      \item Mutaor operations (swap, flip)
+      \item Mutator operations (swap, flip)
       \item Selection operations (rank, uniform, tournament, roulette)
     \end{itemize}
-  \small
   \item Additional Features:
     \begin{itemize}
-      \tiny
       \item Run statistics
-      \item Convergene critera
+      \item Convergence criteria
       \item Function callbacks
     \end{itemize}
   \end{itemize}
+  \begin{figure}
+    \includegraphics[width=0.2\textwidth]{PyEvolveLogo.png}
+  \end{figure}
 \end{frame}
-%\begin{frame}[allowframebreaks]
-%  \frametitle{PyEvovle - Belly of the Lizard}
-\begin{frame}{PyEvolve Framework}
+\begin{frame}{PyEvolve - Belly of the Lizard}
+	Representation of the the Genetic Algorithm
   \begin{itemize}
-    \item GSimpleGA genetic algorthim
-    %\item \verb+GPopulation+ - the population
-    %\item \verb+Initializators+ - intiliazation methods
-    %\item \verb+Mutators+ - collection of mutator methods
-    %\item \verb+Crossovers+ - collection of crossover methods
-    %\item \verb+Selectors+ - collection of selection methods
+    \item \texttt{GSimpleGA} genetic algorithm
+    \item \texttt{GPopulation} - the population
+    \item \texttt{Initializators} - initialization methods
+    \item \texttt{Mutators} - collection of mutator methods
+    \item \texttt{Crossovers} - collection of crossover methods
+    \item \texttt{Selectors} - collection of selection methods
   \end{itemize}
-  Represenation of an individual
+  Representation of an individual
   \begin{itemize}
-    \item hi
-    %\item Bitstring representation \verb+10010101+
-    %\item Defined in \verb+G1DBinaryString.py+
+    \item Bit string representation \texttt{10010101}
+    \item Defined in \texttt{G1DBinaryString.py}
+		\item Other representations are available (tree, 2D list)
   \end{itemize}
 \end{frame}

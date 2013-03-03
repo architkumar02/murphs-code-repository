@@ -1,15 +1,14 @@
-#!/usr/bin/python
-# @author matther.uffer@gmail.com
-#
-# Runs MCNPX on a simulated geometry. Expects to have SCRIPT.mcnp and 
-#   queueRunScript.sh
-#
-# CHANGELOG:
-#   2013-02-26 Removed depance on p,n to accomadete bit string detecotrs
+""" MCNPX Model for RPM8
 
+Shared Data
+detMaterial -- dictionary of detector material mt and density
+lightGuideMaterial -- dictionary of light guide material mt and density
+modMaterial -- dictionary of moderator material mt and density
+geoParam -- geometry parameters
+"""
 import subprocess
+import mctal
 class MCNPX:
-    
     # Material Dictionaries
     detMaterial = {'name':'Detector','mt': 3, 'rho': 1.1}       # detector
     lightGuideMaterial = {'name': 'PMMA','mt':10, 'rho':0.93}   # PMMA
@@ -19,15 +18,21 @@ class MCNPX:
     geoParam={'GenomeLength':13,'LayersPerAssembly':2,
             'RPM8Size':12.7,'DetectorThickness':0.01}
     
-    def __init__(self,geo=None,inp='INP.mcnp',name=None):
-        # Material dictionary for the moderator, light guide, and detector
+    def __init__(self,inp='INP.mcnp',name=None):
+        """ MCNPX Model of RPM8
+
+        Keywords:
+        inp -- desired name of the input deck
+        name -- desired name of the output deck
+        """
+       # Material dictionary for the moderator, light guide, and detector
         self.material =  {'Moderator':self.modMaterial,'Detector':self.detMaterial,
                             'LightGuide':self.lightGuideMaterial}
         # Cell and Surface Inital Numbering
         self.CellStartNum = 6000
         self.SurfaceStartNum = 6000
         self.ZeroSurfaceNum = 500
-        self.geo = geo
+        self.geo = None
         self.INP = inp
         if name:
             self.NAME = name
@@ -36,13 +41,13 @@ class MCNPX:
   
     def getInteractionRate(self):
         """ Returns the interaction rate """
-        import mctal
         m = mctal.MCTAL(self.NAME+'.m')
         t = m.tallies[4]
         # Returing the total
         return t.data[-1],t.errors[-1]
 
     def printGeo(self):
+        """ Print the geometry """
         keyList = sorted(self.geo.keys(), key = lambda x : float(x))
         for key in keyList:
             print 'x: {:5.3f} {}'.format(key,self.geo[key])
@@ -50,24 +55,26 @@ class MCNPX:
     def runModel(self):
         """ Runs the Model """
         runcmd='mpirun mcnpx inp='+self.INP+' name='+self.NAME+'.'
-        with open('queueRunScript.sh','r') as f, open('QSUB.qsub','w') as o:
+        qsub='/usr/torque/torque-4.2.0/bin/qsub'
+        genome = self.INP.strip('INP_').strip('.mcnp')
+        name='QSUB_'+genome+'.qsub'
+        with open('queueRunScript.sh','r') as f, open(name,'w') as o:
             for line in f:
                 if line.startswith('RUNCOMMAND'):
                     o.write(runcmd+'\n')
                 else:
                     o.write(line)
-        process = subprocess.Popen('qsub QSUB.qsub',shell=True)
+        process = subprocess.Popen(qsub+' '+name,shell=True)
         process.wait()
-
+    
     def createBinaryGeometry(self,genome):
         """Create a dictionary of the geometry 
 
         Keyword arguments:
         genome -- A bit string of the genome
-        geoParam -- dictionary of RPM8 based eometry constraints.
 
         Return arguments:
-        dictionary between a position and a material
+        num of detector cells in the geometry
         """
         # Computing parameters
         slices = len(genome)
@@ -113,10 +120,8 @@ class MCNPX:
 
         Creates an input deck of the given geometry
         Keyword Arguments:
-        geo -- geometry description
         oFile -- output file name (default is INP.mcnp)
         baseFile -- base input deck (default is SCRIPT.mcnp')
-
         """
         if not oFile:
             oFile = self.INP

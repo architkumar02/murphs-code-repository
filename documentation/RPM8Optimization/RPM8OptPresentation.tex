@@ -48,9 +48,8 @@
 
 \begin{frame}{Table of Contents}
   \begin{multicols}{2}
-    %\tableofcontents[currentsection,pausesections]
-    \tableofcontents[currentsection]
-    \end{multicols}
+    \tableofcontents
+  \end{multicols}
 \end{frame}
 
 
@@ -167,19 +166,36 @@ Cost trade offs
 	\item Fabrication cost for a complicated design might hinder this
 	\item Is the space thick enough to get the light out?
 \end{itemize}
-\begin{figure}
+Can significantly reduce the amount of \iso[6]{Li} needed
+\end{frame}
+\begin{frame}{Future Work}
+\begin{itemize}
+	\item Improve performance on GA
+	\small
+	\begin{itemize}
+		\item Can play with mutation rate and crossover rate
+		\item Can play with population size and selection
+		\item Use PyEvolve multiprocessing instead of mine - might remove code sensitivity
+	\end{itemize}
+	\normalsize
+	\item Use a 1D transport code
+	\item Run for different materials
+	\item More runs at higher lengths
+\end{itemize}
+\end{frame}
+\begin{frame}
 	\centering
-  \includegraphics[height=3cm]{Questions.eps}
+\begin{figure}
+  \includegraphics[height=6cm]{Questions.eps}
 \end{figure}
 \end{frame}
-
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % BILBIOLGRAPHY
-\begin{frame}[plain,allowframebreaks]
-\frametitle{Works Cited}
-	\tiny
-  \bibliography{../Zotero}
-\end{frame}
+%\begin{frame}[plain,allowframebreaks]
+%\frametitle{Works Cited}
+%	\tiny
+%  \bibliography{../Zotero}
+%\end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % APPENDIX

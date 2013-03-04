@@ -51,13 +51,13 @@ Genome BitString Representation
 \begin{figure}
     \centering
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{RPM8_Diagrams_MCNPXRender_1Assm}
-        \caption{MCNPX Model of One Assembly}
+        \includegraphics[width=\textwidth]{RPM8_Diagrams_MCNPXRender_10Opt}
+        \caption{MCNPX Model of 10 Slices}
     \end{subfigure}%
     ~
     \begin{subfigure}[b]{0.45\textwidth}
-        \includegraphics[width=\textwidth]{RPM8_Diagrams_MCNPXRender_2Assm}
-        \caption{MCNPX Model of Two Assemblies}
+        \includegraphics[width=\textwidth]{RPM8_Diagrams_MCNPXRender_26Opt}
+        \caption{MCNPX Model of 26 Slices Assemblies}
     \end{subfigure}
     \caption{MCNPX rendering of layered geometry}
     \label{fig:MCNPXRendering}
@@ -78,22 +78,35 @@ Genome BitString Representation
 \begin{frame}{Fitness Function}
 The fitness function was choosen to count rate per mass of \iso[6]{Li}, provided that the geometry meet the total count rate criteria.
 If it failed to meet the count rate criteria a zero fitness was returned \eqref{eqn:FitnessFun}.
-\begin{align}
-    \label{eqn:FitnessFun}
-    f(\vec{x})
-    = \begin{cases}
-    0 & \text{if} \text{countRate}(\vec{x}) \leq \SI{2.5}{cps\per\nano\gram\iso[252]{Cf}} \\
-    \text{countRatePerMass}(\vec{x})
-    \end{cases}
-\end{align}
-Computationally intensive to calculate the fitness function 
-\begin{itemize}
-  \item Memoization with dictionaries
-  \item Multithreading for items not in the dictionary
-  \begin{itemize}
-    \item This made it sensitive while running
-    \item Future work would be to use the PyEvovle multithreading option
-  \end{itemize}
-\end{itemize}
+	\tiny
+	\begin{align}
+			\label{eqn:FitnessFun}
+			f(\vec{x})
+			= \begin{cases}
+			0 & \text{if}~\text{countRate}(\vec{x}) \leq \SI{2.5}{cps\per\nano\gram\iso[252]{Cf}} \\
+			\text{countRatePerMass}(\vec{x}) & \text{otherwise}
+			\end{cases}
+	\end{align}
+\begin{columns}[onlytextwidth]
+  \begin{column}{0.5\textwidth}
+\small
+	Computationally intensive to calculate the fitness function 
+	\begin{itemize}
+		\item Memoization with dictionaries
+		\item Multithreading for items not in the dictionary
+		\tiny
+		\begin{itemize}
+			\item This made it sensitive while running
+			\item Future work would be to use the PyEvovle multithreading option
+		\end{itemize}
+	\end{itemize}
+	\end{column}
+	\begin{column}{0.4\textwidth}
+    \begin{figure}
+      \centering
+      \includegraphics[width=\textwidth]{genetic_algorithms}
+    \end{figure}
+	\end{column}
+\end{columns}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

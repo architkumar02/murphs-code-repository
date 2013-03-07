@@ -1,0 +1,21 @@
+# Setting up verbosity
+/tracking/verbose 0
+/run/verbose 0
+#
+# Setting up the detector
+#
+/PolymerTransport/det/setAbsMat PS_Detector
+/PolymerTransport/det/setGapMat G4_PLEXIGLASS
+/PolymerTransport/det/setGapThick 1 cm
+/PolymerTransport/det/setAbsThick 15 um
+/PolymerTransport/det/update
+# 
+# Running the co60 beam source
+#
+/control/execute co60Source.mac
+/run/beamOn 1000000
+#
+# Running the neutron beam source
+#
+/control/execute neutronSource.mac
+/run/beamOn 1000000

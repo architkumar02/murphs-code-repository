@@ -35,6 +35,7 @@ class Analysis {
         // Singleton Analysis
         Analysis();
         static Analysis *singleton;
+        G4double GetDetectorThickness();
 
         // ROOT Output variables
         TFile* outfile;

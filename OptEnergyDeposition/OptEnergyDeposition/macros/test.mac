@@ -7,15 +7,15 @@
 /PolymerTransport/det/setAbsMat PS_Detector
 /PolymerTransport/det/setGapMat G4_PLEXIGLASS
 /PolymerTransport/det/setGapThick 1 cm
-/PolymerTransport/det/setAbsThick 15 um
+/PolymerTransport/det/setAbsThick 100 um
 /PolymerTransport/det/update
 # 
 # Running the co60 beam source
 #
-/control/execute co60Source.mac
-/run/beamOn 1000000
+/control/execute macros/co60Source.mac
+/run/beamOn 1000
 #
 # Running the neutron beam source
 #
-/control/execute neutronSource.mac
-/run/beamOn 1000000
+/control/execute macros/neutronSource.mac
+/run/beamOn 1000

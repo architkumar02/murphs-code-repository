@@ -2,6 +2,11 @@
 #include "G4UnitsTable.hh"
 #include "globals.hh"
 
+#include "G4RunManager.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4LogicalVolume.hh"
+#include "G4Tubs.hh"
+
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -38,7 +43,9 @@ Analysis::~Analysis(){
  */
 void Analysis::PrepareNewRun(const G4Run* aRun){
 
-  // Creating ROOT analysis objects (histogram)
+  // Getting the detector thickness
+  G4double detThickness = GetDetectorThickness();
+
   char name[256] ="/home/tmp_scale/murffer/";
   char title[256];
   char buffer[64];
@@ -47,20 +54,39 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
   char hostName[64];
   gethostname(hostName,64);
   G4int rank= G4MPImanager::GetManager()-> GetRank();
-  sprintf(buffer,"run_%d_\0",aRun->GetRunID());
+  sprintf(buffer,"run_%d_thickness_%05.4f\0",aRun->GetRunID(),detThickness);
   strcat(name,buffer);
   strcat(name,hostName);  
   sprintf(buffer,"_%03d.root",rank);
   strcat(name,buffer);
 #else
-  sprintf(name,"run_%d.root",aRun->GetRunID());
+  sprintf(name,"run_%d_thickness_%05.4f.root",aRun->GetRunID(),detThickness);
 #endif
+  
+  // Creating ROOT analysis objects (histogram)
   outfile = new TFile(name,"RECREATE");
   posEDepTuple = new TNtuple("posEDepTuple","Initial Position and Energy Deposition","x:y:z:EnergyDep");
   eDepHist = new TH1F("eDepHist","Total Energy Deposition",500,0*eV,5*MeV);
   G4cout<<"Prepared run "<<aRun->GetRunID()<<G4endl;
 }
 
+G4double Analysis::GetDetectorThickness(){
+  G4double detThickness = 0;
+  G4LogicalVolume* detLV
+    = G4LogicalVolumeStore::GetInstance()->GetVolume("Absorber");
+  G4Tubs* detTubs = 0;
+  if ( detLV) {
+    detTubs = dynamic_cast< G4Tubs*>(detLV->GetSolid()); 
+  } 
+  if ( detTubs ) {
+    detThickness = detTubs->GetZHalfLength()*2;  
+  }
+  else  {
+    G4cerr << "Detector Thickness not found." << G4endl;
+  } 
+  return detThickness;
+
+}
 /**
  * PrepareNewEvent
  *
@@ -116,9 +142,15 @@ void Analysis::EndOfEvent(const G4Event* event){
  */
 void Analysis::EndOfRun(const G4Run* aRun){
 
+  // Lets get the number of events simulated
+  G4int numEvents = aRun->GetNumberOfEventToBeProcessed();
+  G4double detThickness = GetDetectorThickness();
+  
   G4cout<<"End Of Run "<<aRun->GetRunID()
-        <<"\tAverage Energy Deposition (MeV): "<<eDepHist->GetMean()
-        <<" +/- "<<eDepHist->GetMeanError()<<G4endl;
+        <<"\n\tRan "<<numEvents<<" events"
+        <<"\n\tThickness [mm]: "<<detThickness/mm
+        <<"\n\tAverage Energy Deposition per event (MeV): "<<eDepHist->GetMean()/numEvents
+        <<" +/- "<<eDepHist->GetMeanError()/numEvents<<G4endl;
   outfile->Write();
   outfile->Close();
   delete outfile;

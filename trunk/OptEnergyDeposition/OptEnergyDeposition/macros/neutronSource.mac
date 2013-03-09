@@ -11,7 +11,7 @@
 # the beam spot is centered at the origin and is 
 # of 1d gaussian shape with a 3mm central plateau
 /gps/pos/shape Circle 
-/gps/pos/centre 0. 0. 0. mm
+/gps/pos/centre 0. 0. 10 cm
 /gps/pos/radius 3. mm
 #
 # the beam is travelling along the z-axis with 5 degrees dispersion

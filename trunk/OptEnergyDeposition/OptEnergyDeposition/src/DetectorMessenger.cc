@@ -42,7 +42,7 @@ DetectorMessenger::DetectorMessenger(
   GapThickCmd->SetUnitCategory("Length");  
   GapThickCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
   
-  SizeRadiusCmd = new G4UIcmdWithADoubleAndUnit("/PolymerTransport/det/setSizeRadius",this);
+  SizeRadiusCmd = new G4UIcmdWithADoubleAndUnit("/PolymerTransport/det/setRadius",this);
   SizeRadiusCmd->SetGuidance("Set tranverse size of the calorimeter");
   SizeRadiusCmd->SetParameterName("Size",false);
   SizeRadiusCmd->SetRange("Size>0.");

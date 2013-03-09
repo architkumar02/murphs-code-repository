@@ -82,7 +82,7 @@ void OpticalPhysics::ConstructProcess(){
   theScintillationProcess->AddSaturation(emSaturation);
 
   G4OpticalSurfaceModel themodel = unified;
-  theBoundaryProcess->SetModel(themodel);
+  //theBoundaryProcess->SetModel(themodel);
 
   theParticleIterator->reset();
   while( (*theParticleIterator)() ){

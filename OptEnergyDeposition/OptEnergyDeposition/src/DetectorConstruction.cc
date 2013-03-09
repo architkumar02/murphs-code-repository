@@ -36,9 +36,11 @@
 DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
     fCheckOverlaps(true){
 
+        worldSizeZ  = 10*cm;      // Fixed World Size; 
+        
         // Geometry parameters
-        absThickness = 50*um;	        // Thickness of Absorber
-
+        absThickness = 5*cm;	        // Thickness of Absorber
+        //absThickness = 50*um;	        // Thickness of Absorber
         gapThickness = 1*cm;            // Thickness of Gap 
         oRadius  = 2.54*cm;		        // Outer Radius of Detector
         iRadius = 0.*cm;				// Inner radious of  Detector
@@ -166,7 +168,7 @@ void DetectorConstruction::DefineMaterials()
     nistManager->FindOrBuildMaterial("G4_WATER",fromIsotopes);
    
    // Print materials
-    //G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+    G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
     // Get materials
     defaultMaterial = G4Material::GetMaterial("Galactic");
@@ -181,7 +183,6 @@ void DetectorConstruction::ComputeParameters(){
 
     caloThickness = absThickness+2*gapThickness;
     worldSizeXY = 1.2 * oRadius;
-    worldSizeZ  = caloThickness+2*cm; 
 }
 
 /**
@@ -224,7 +225,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 
 
     // World
-    worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ*0.5); 
+    worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ); 
     worldLV = new G4LogicalVolume(worldS,defaultMaterial,"World");
     worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",
             0,false,0,fCheckOverlaps);
@@ -232,16 +233,20 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     //
     // Setting up the Calorimeter
     //
-    caloS = new G4Tubs("Calo",iRadius,oRadius,caloThickness/2,0,spanAngle);
-    caloLV = new G4LogicalVolume(caloS,gapMaterial,"Gap",0);
-    caloPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,0.0),
-                caloLV,"Calo",worldLV,false,0,fCheckOverlaps);
+    // The beam is shotting along the z, comming from +z
 
     // Absorber
     absS = new G4Tubs("Abs",iRadius,oRadius,absThickness/2,0,spanAngle);
     absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
-    absPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,0.0),
-                absLV,"Absorber",caloLV,false,0,fCheckOverlaps);
+    absPV = new G4PVPlacement(0,G4ThreeVector(0,0,(gapThickness+absThickness)/2),
+                absLV,"Absorber",worldLV,false,0,fCheckOverlaps);
+    
+    // Spacer / gap
+    gapS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,0,spanAngle);
+    gapLV = new G4LogicalVolume(gapS,gapMaterial,"Gap",0);
+    //gapPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,(gapThickness+absThickness)/2),
+    gapPV = new G4PVPlacement(0,G4ThreeVector(),
+                gapLV,"Gap",worldLV,false,0,fCheckOverlaps);
 
     PrintCaloParameters();
 
@@ -257,7 +262,7 @@ void DetectorConstruction::SetSensitiveDetectors(){
     G4SDManager* SDman = G4SDManager::GetSDMpointer();
     caloSD = new CaloSensitiveDetector("SD/CaloSD","CaloHitCollection");
     SDman->AddNewDetector(caloSD);
-    caloLV->SetSensitiveDetector(caloSD);
+    absLV->SetSensitiveDetector(caloSD);
 
     // Setting the Maximum Step Size
     G4double maxStep = 0.01*absThickness;
@@ -281,7 +286,7 @@ void DetectorConstruction::SetVisAttributes(){
     {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Gray());
     //atb->SetForceWireframe(true);
     //atb->SetForceSolid(true);
-    caloLV->SetVisAttributes(atb);}
+    gapLV->SetVisAttributes(atb);}
 
     // Setting the Layers to be white and invisiable
     {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
@@ -348,7 +353,7 @@ void DetectorConstruction::SetCaloRadius(G4double val){
 void DetectorConstruction::UpdateGeometry(){
     G4RunManager::GetRunManager()->DefineWorldVolume(ConstructCalorimeter());
     
-    caloLV->SetSensitiveDetector(caloSD);
+    absLV->SetSensitiveDetector(caloSD);
 
     // Setting the Maximum Step Size
     G4double maxStep = 0.01*absThickness;

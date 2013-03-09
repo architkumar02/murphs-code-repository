@@ -66,9 +66,9 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4VPhysicalVolume*  absPV;			
 		G4VSolid*	        absS;
 
-        G4LogicalVolume*    caloLV;         // Calorimeter (gap)
-        G4VPhysicalVolume*  caloPV;
-        G4VSolid*           caloS;
+        G4LogicalVolume*    gapLV;         // Calorimeter (gap)
+        G4VPhysicalVolume*  gapPV;
+        G4VSolid*           gapS;
     
 		// Materials
 		G4Material* defaultMaterial;    	// Vacumun

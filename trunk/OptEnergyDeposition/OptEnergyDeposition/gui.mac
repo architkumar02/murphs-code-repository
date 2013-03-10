@@ -10,9 +10,12 @@
 #
 # Run menu :
 /gui/addMenu run Run
-/gui/addButton run "beamOn 1" "/run/beamOn 1"
-/gui/addButton run run1 "/control/execute run1.mac"
-/gui/addButton run run2 "/control/execute run2.mac"
+/gui/addButton run "test" "/control/execute macros/test.mac"
+/gui/addButton run "0.025 eV neutron" "/control/execute macros/neutronSource.mac"
+/gui/addButton run "Co60 gamma" "/control/execute macros/co60Source.mac"
+/gui/addButton run "10 events" "/run/beamOn 10"
+/gui/addButton run "100 events" "/run/beamOn 100"
+/gui/addButton run "1,000 events" "/run/beamOn 1000"
 #
 # Gun menu :
 /gui/addMenu gun Gun

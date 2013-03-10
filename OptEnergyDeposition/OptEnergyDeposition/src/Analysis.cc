@@ -119,6 +119,7 @@ void Analysis::EndOfEvent(const G4Event* event){
     hc = event->GetHCofThisEvent()->GetHC(hitItter);
     for(G4int i = 0; i < hc->GetSize(); i++){
       hit = (CaloHit*) hc->GetHit(i);
+      //hit->Print();
       if (i == 0 ){
         // First Hit is the intial interaction
         xPos = hit->GetPosition().x();
@@ -126,8 +127,8 @@ void Analysis::EndOfEvent(const G4Event* event){
         zPos = hit->GetPosition().z();
       }
 
-      // Adding the energy deposition
-      eDepEvent=+hit->GetEdep();
+      // Adding the energy deposition (in MeV)
+      eDepEvent += hit->GetEdep()/MeV;
     }
   }
   // Adding to the run accumulation
@@ -149,8 +150,8 @@ void Analysis::EndOfRun(const G4Run* aRun){
   G4cout<<"End Of Run "<<aRun->GetRunID()
         <<"\n\tRan "<<numEvents<<" events"
         <<"\n\tThickness [mm]: "<<detThickness/mm
-        <<"\n\tAverage Energy Deposition per event (MeV): "<<eDepHist->GetMean()/numEvents
-        <<" +/- "<<eDepHist->GetMeanError()/numEvents<<G4endl;
+        <<"\n\tAverage Energy Deposition per event (MeV): "<<eDepHist->GetMean()
+        <<" +/- "<<eDepHist->GetMeanError()<<G4endl;
   outfile->Write();
   outfile->Close();
   delete outfile;

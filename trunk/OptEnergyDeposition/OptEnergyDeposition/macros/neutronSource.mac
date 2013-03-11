@@ -1,6 +1,5 @@
 # 1D neutron beam incident upon a surface of radius 3 mm in the y-z plane
 # at the origin.  Beam is traveling along the x-axis
-/gps/source/intensity 1.
 /gps/particle neutron
 /gps/pos/type Beam
 #

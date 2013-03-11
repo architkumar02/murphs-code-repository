@@ -6,6 +6,7 @@
 #include "G4LogicalVolumeStore.hh"
 #include "G4LogicalVolume.hh"
 #include "G4Tubs.hh"
+#include "G4Material.hh"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -45,12 +46,13 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 
   // Getting the detector thickness
   G4double detThickness = GetDetectorThickness();
+  G4String detMat = GetDetectorMaterial();
 
   char name[256] ="/home/tmp_scale/murffer/";
   char title[256];
-  char buffer[64];
 
 #ifdef G4MPIUSE
+  char buffer[64];
   char hostName[64];
   gethostname(hostName,64);
   G4int rank= G4MPImanager::GetManager()-> GetRank();
@@ -60,7 +62,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
   sprintf(buffer,"_%03d.root",rank);
   strcat(name,buffer);
 #else
-  sprintf(name,"run_%d_thickness_%05.4f.root",aRun->GetRunID(),detThickness);
+  sprintf(name,"run_%d_material_%s_thickness_%05.4f.root",aRun->GetRunID(),detMat.data(),detThickness);
 #endif
   
   // Creating ROOT analysis objects (histogram)
@@ -69,7 +71,25 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
   eDepHist = new TH1F("eDepHist","Total Energy Deposition",500,0*eV,5*MeV);
   G4cout<<"Prepared run "<<aRun->GetRunID()<<G4endl;
 }
-
+/**
+ * GetDetectorMaterial
+ */
+G4String Analysis::GetDetectorMaterial(){
+  G4LogicalVolume* detLV
+    = G4LogicalVolumeStore::GetInstance()->GetVolume("Absorber");
+  G4Material* detMat = NULL;
+  if ( detLV) {
+    detMat = dynamic_cast< G4Material*>(detLV->GetMaterial()); 
+  } 
+  if (detMat)
+    return detMat->GetName();
+  else
+    return G4String("UNKOWN");
+}
+/**
+ * GetDetectorThickness
+ * @return the thickness of the detector, from the G4LogicalVolumeStore
+ */
 G4double Analysis::GetDetectorThickness(){
   G4double detThickness = 0;
   G4LogicalVolume* detLV
@@ -85,7 +105,6 @@ G4double Analysis::GetDetectorThickness(){
     G4cerr << "Detector Thickness not found." << G4endl;
   } 
   return detThickness;
-
 }
 /**
  * PrepareNewEvent

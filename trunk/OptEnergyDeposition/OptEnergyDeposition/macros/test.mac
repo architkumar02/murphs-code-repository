@@ -1,5 +1,5 @@
 # Setting up verbosity
-/tracking/verbose 1
+/tracking/verbose 0
 /run/verbose 0
 #
 # Setting up the detector
@@ -17,7 +17,3 @@
 /control/execute macros/co60Source.mac
 /run/beamOn 1000
 #
-# Running the neutron beam source
-#
-/control/execute macros/neutronSource.mac
-/run/beamOn 100000

@@ -7,6 +7,7 @@
 #include "TH1F.h"
 #include "TNtuple.h"
 #include "TFile.h"
+#include "G4String.hh"
 
 #include "CaloHit.hh"
 
@@ -36,6 +37,7 @@ class Analysis {
         Analysis();
         static Analysis *singleton;
         G4double GetDetectorThickness();
+        G4String GetDetectorMaterial();
 
         // ROOT Output variables
         TFile* outfile;

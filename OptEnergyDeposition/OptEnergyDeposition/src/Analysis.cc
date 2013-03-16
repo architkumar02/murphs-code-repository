@@ -12,6 +12,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <iostream>
+#include <string>
+#include <sstream>
 
 #include "G4HCofThisEvent.hh"
 #include "G4Event.hh"
@@ -30,6 +32,8 @@ Analysis* Analysis::singleton = 0;
  */
 Analysis::Analysis(){
   // Empty Constructor, assingment done in constuctor list
+  maxHistEnergy = 5*MeV;
+  incidentParticleName = "";
 }
 Analysis::~Analysis(){
   G4cout<<"Deleting the analysis object"<<G4endl;
@@ -48,27 +52,25 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
   G4double detThickness = GetDetectorThickness();
   G4String detMat = GetDetectorMaterial();
 
-  char name[256] ="/home/tmp_scale/murffer/";
-  char title[256];
+  std::ostringstream oss;
 
 #ifdef G4MPIUSE
-  char buffer[64];
   char hostName[64];
   gethostname(hostName,64);
-  G4int rank= G4MPImanager::GetManager()-> GetRank();
-  sprintf(buffer,"run_%d_thickness_%05.4f\0",aRun->GetRunID(),detThickness);
-  strcat(name,buffer);
-  strcat(name,hostName);  
-  sprintf(buffer,"_%03d.root",rank);
-  strcat(name,buffer);
+  oss <<incidentParticleName<<"run_"<<aRun->GetRunID()<<"_"
+      <<hostName<<"_rank_"<<G4MPImanager::GetManager()-> GetRank()
+      <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
 #else
-  sprintf(name,"run_%d_material_%s_thickness_%05.4f.root",aRun->GetRunID(),detMat.data(),detThickness);
+  oss <<incidentParticleName<<"run_"<<aRun->GetRunID()<<"_"
+      <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
 #endif
+  std::string fname = oss.str();
+  fname.erase(remove(fname.begin(), fname.end(),' '),fname.end());
   
   // Creating ROOT analysis objects (histogram)
-  outfile = new TFile(name,"RECREATE");
+  outfile = new TFile(fname.data(),"RECREATE");
   posEDepTuple = new TNtuple("posEDepTuple","Initial Position and Energy Deposition","x:y:z:EnergyDep");
-  eDepHist = new TH1F("eDepHist","Total Energy Deposition",500,0*eV,5*MeV);
+  eDepHist = new TH1F("eDepHist","Total Energy Deposition",500,0*eV,maxHistEnergy);
   G4cout<<"Prepared run "<<aRun->GetRunID()<<G4endl;
 }
 /**
@@ -174,4 +176,21 @@ void Analysis::EndOfRun(const G4Run* aRun){
   outfile->Write();
   outfile->Close();
   delete outfile;
+}
+/**
+ * SetIncidentParticleName
+ *
+ * Sets the incident particle name (for the messener / file name)
+ */
+void Analysis::SetIncidentParticleName(G4String pName){
+  incidentParticleName = pName;
+}
+
+/**
+ * SetHistEMax
+ *
+ * Sets the maximum energy of the Analysis histogram 
+ */
+void Analysis::SetHistEMax(G4double emax){
+  maxHistEnergy = emax;
 }

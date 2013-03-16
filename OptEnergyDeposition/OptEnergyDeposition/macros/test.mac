@@ -2,18 +2,24 @@
 /tracking/verbose 0
 /run/verbose 0
 #
+# Setting up the analysis
+#
+/Analysis/setParticleName test
+/Analysis/setHistogramMax 1.2 MeV
+#
 # Setting up the detector
 #
 /PolymerTransport/det/setAbsMat PS_Detector
 /PolymerTransport/det/setGapMat G4_PLEXIGLASS
 /PolymerTransport/det/setGapThick 1 cm
-/PolymerTransport/det/setAbsThick 10 cm
 /PolymerTransport/det/setRadius 10 cm
+/PolymerTransport/det/setAbsThick 10 cm
 /PolymerTransport/det/update
 
 # 
 # Running the co60 beam source
 #
 /control/execute macros/co60Source.mac
+/PolymerTransport/det/setAbsThick 10 cm
 /run/beamOn 1000
 #

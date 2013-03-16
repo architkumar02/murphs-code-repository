@@ -5,6 +5,7 @@
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
+#include "AnalysisMessenger.hh"
 
 #include "PhysicsList.hh"
 
@@ -31,6 +32,8 @@ int main(int argc,char** argv){
     runManager->SetUserAction(new RunAction());
     runManager->SetUserAction(new EventAction());
     runManager->Initialize();
+
+    AnalysisMessenger* aMessenger = new AnalysisMessenger();
 
 #ifdef G4VIS_USE
     // Initialize visualization

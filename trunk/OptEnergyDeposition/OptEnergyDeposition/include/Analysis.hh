@@ -30,7 +30,9 @@ class Analysis {
         void PrepareNewRun(const G4Run* aRun);
         void EndOfEvent(const G4Event* anEvent);
         void EndOfRun(const G4Run* aRun);
-   
+  
+        void SetIncidentParticleName(G4String pName);
+        void SetHistEMax(G4double emax);
    private:
 
         // Singleton Analysis
@@ -38,6 +40,8 @@ class Analysis {
         static Analysis *singleton;
         G4double GetDetectorThickness();
         G4String GetDetectorMaterial();
+        G4String incidentParticleName;
+        G4double maxHistEnergy;
 
         // ROOT Output variables
         TFile* outfile;

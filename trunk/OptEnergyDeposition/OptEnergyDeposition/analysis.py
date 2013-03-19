@@ -23,7 +23,7 @@ def GetRootFiles(path=os.getcwd(),gammaKey='Co60',neutronKey='neutron'):
         neutronFiles.append(filename)
       else:
         print 'ROOT file '+filename+' is not reconized'
- return [gammaFiles,neutronFiles]
+  return [gammaFiles,neutronFiles]
 
 def PrintFiles(filelist,wb=Workbook(),histKey='eDepHist'):
   """ PlotFiles
@@ -57,7 +57,7 @@ def GetThickness(filename):
     return float(tokens[1])*1000
   elif tokens[2] == 'cm':
     return float(tokens[1])*10
-  elif token[2] == 'mm':
+  elif tokens[2] == 'mm':
     return float(tokens[1])
   elif tokens[2] == 'um':
     return float(tokens[1])*0.001
@@ -75,10 +75,37 @@ def PrintEDepSummary(gFiles,nFiles,wb=Workbook(),tParse=GetThickness,
   # Extrating the average values
   nDict = dict()
   gDict = dict()
+  row = 0
+  col = 0
+  # Writing the headers
+  longname = ['thickness','Average Energy Deposition','Avg. EDep Error']
+  units =['mm','MeV','MeV']
+  for l,u in zip(longname,units):
+    print l,u
+    ws.cell(row=0,column=col).value = l
+    ws.cell(row=1,column=col).value = u
+    ws.cell(row=0,column=col+3).value = l
+    ws.cell(row=1,column=col+3).value = u
+    col += 1
+  ws.cell(row=2,column=1).value = 'Co-60'
+  ws.cell(row=2,column=4).value = 'Cf-252'
+  # Writing the data
+  row = 3
   for fname in gFiles:
     f = TFile(fname,'r')
     hist = f.Get(histKey)
-    gDict[str(GetThickness(fname))] = (hist.GetMean(),hist.GetMeanError())
+    ws.cell(row=row,column=0).value = GetThickness(fname)
+    ws.cell(row=row,column=1).value = hist.GetMean()
+    ws.cell(row=row,column=2).value = hist.GetMeanError()
+    row += 1
+  row = 3
+  for fname in nFiles:
+    f = TFile(fname,'r')
+    hist = f.Get(histKey)
+    ws.cell(row=row,column=3).value = GetThickness(fname)
+    ws.cell(row=row,column=4).value = hist.GetMean()
+    ws.cell(row=row,column=5).value = hist.GetMeanError()
+    row += 1
 
 def main():
   print "Getting Files"

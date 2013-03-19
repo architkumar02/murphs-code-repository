@@ -3,6 +3,8 @@ from ROOT import TFile, TH1F, TCanvas
 import os
 from openpyxl import Workbook
 import re
+import matplotlib.pyplot as plt
+import numpy as np
 
 def GetRootFiles(path=os.getcwd(),gammaKey='Co60',neutronKey='neutron'):
   """ GetRootFiles
@@ -73,15 +75,12 @@ def PrintEDepSummary(gFiles,nFiles,wb=Workbook(),tParse=GetThickness,
   ws = wb.create_sheet()
   ws.title = 'EDepSummary'
   # Extrating the average values
-  nDict = dict()
-  gDict = dict()
   row = 0
   col = 0
   # Writing the headers
   longname = ['thickness','Average Energy Deposition','Avg. EDep Error']
   units =['mm','MeV','MeV']
   for l,u in zip(longname,units):
-    print l,u
     ws.cell(row=0,column=col).value = l
     ws.cell(row=1,column=col).value = u
     ws.cell(row=0,column=col+3).value = l
@@ -107,12 +106,49 @@ def PrintEDepSummary(gFiles,nFiles,wb=Workbook(),tParse=GetThickness,
     ws.cell(row=row,column=5).value = hist.GetMeanError()
     row += 1
 
+def PlotEDepSummary(gFiles,nFiles,figureName='EDepSummary.png',tParse=GetThickness,
+  histKey='eDepHist'):
+  """ PlotEDepSummary
+  Plotss the energy deposition summary
+  """
+  # Extrating the average values
+  gT = list()
+  gDep = list()
+  gDepError = list()
+  nT = list()
+  nDep = list()
+  nDepError = list()
+  for fname in gFiles:
+    f = TFile(fname,'r')
+    hist = f.Get(histKey)
+    gT.append(GetThickness(fname))
+    gDep.append(hist.GetMean())
+    gDepError.append(hist.GetMeanError())
+  for fname in nFiles:
+    f = TFile(fname,'r')
+    hist = f.Get(histKey)
+    nT.append(GetThickness(fname))
+    nDep.append(hist.GetMean())
+    nDepError.append(hist.GetMeanError())
+  # Plotting
+  plt.errorbar(gT,gDep,yerr=gDepError,fmt='ro')
+  plt.hold(True)
+  plt.errorbar(nT,nDep,yerr=nDepError,fmt='go')
+  plt.xlabel("Thickness (mm)")
+  plt.ylabel("Average Energy Deposition (MeV)")
+  #plt.legend(["Co-60","Cf-252"])
+  plt.xscale("log")
+  plt.yscale("log")
+  plt.grid(True)
+  plt.savefig(figureName)
+
 def main():
   print "Getting Files"
   [g,n] = GetRootFiles()
   print "Starting Data Analysis"
   wb = Workbook()
   PrintEDepSummary(g,n,wb)
+  PlotEDepSummary(g,n)
   #print "Print Data"
   #PrintFiles(g,'GammaData.dat')
   wb.save('EnergyDepAnalysis.xlsx')

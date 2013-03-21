@@ -1,9 +1,10 @@
 # coding: utf-8
-from ROOT import TFile, TH1F, TCanvas
+from ROOT import TFile, TH1F, TCanvas, TNtuple
 import os
 from openpyxl import Workbook
+import csv
 import re
-import matplotlib.pyplot as plt
+#import matplotlib.pyplot as plt
 import numpy as np
 
 def GetRootFiles(path=os.getcwd(),gammaKey='Co60',neutronKey='neutron'):
@@ -27,22 +28,6 @@ def GetRootFiles(path=os.getcwd(),gammaKey='Co60',neutronKey='neutron'):
         print 'ROOT file '+filename+' is not reconized'
   return [gammaFiles,neutronFiles]
 
-def PrintFiles(filelist,wb=Workbook(),histKey='eDepHist'):
-  """ PlotFiles
-  Prints the files files contained in filelist
-  Keywords:
-  fileName - name of the figure to save
-  histKey - Key of the histogram in the root file
-  """
-  longName = ['Energy','Frequency','Error']
-  units =['MeV','Particles per Event','Particles per Event']
-  row = 0
-  col = 0
-  with open(fileName,'w') as outfile:
-    for fname in filelist:
-      f = TFile(fname,'r')
-      hist = f.Get(histKey)
-      # Writing the header
 
 def GetThickness(filename):
   """ 
@@ -50,10 +35,10 @@ def GetThickness(filename):
   
   Parses a filename for a given thickness, returns the thickness in mm
   """
+  [filename,ext] = os.path.splitext(filename)
   value = filename.split('_')[-1]
-  value = value.split('.')[0]
   # Uses a regular expression to seperate
-  pattern = re.compile('(\d+)(\w+)')
+  pattern = re.compile('(\d?.?\d+)(\w+)')
   tokens = pattern.split(value)
   if tokens[2] == 'm':
     return float(tokens[1])*1000
@@ -66,6 +51,41 @@ def GetThickness(filename):
   else:
     print tokens[2]," is not a reconized prefix"
     raise Exception()
+
+def PrintFiles(filelist,filename="EnergyDeposition.csv",
+    tParse=GetThickness,histKey='eDepHist'):
+  """ PlotFiles
+  Prints the files files contained in filelist
+  Keywords:
+  """
+  ws = wb.create_sheet()
+  ws.title = sheetTitle
+  row = 0
+  col = 0
+  longName = ['Energy','Frequency','Error']
+  units =['MeV','Particles per Event','Particles per Event']
+  for fname in filelist:
+    f = TFile(fname,'r')
+    print '\tSaving data from file: ',str(fname)
+    hist = f.Get(histKey)
+    # Writing the header
+    i = 0
+    for l,u in zip(longName,units):
+      ws.cell(row=0,column=col+i).value = l
+      ws.cell(row=1,column=col+i).value = u
+      i += 1
+    # Writing the Comments
+    ws.cell(row=2,column=col+1).value = tParse(fname)
+    # writing the data
+    row = 3
+    entries = hist.GetEntries()
+    hist.Scale(1.0/entries)
+    for i in range(int(entries)):
+      ws.cell(row=row,column=col).value = hist.GetBinCenter(i)
+      ws.cell(row=row,column=col+1).value = hist.GetBinContent(i)
+      ws.cell(row=row,column=col+2).value = hist.GetBinError(i)
+      row += 1
+    col += 3
 
 def PrintEDepSummary(gFiles,nFiles,wb=Workbook(),tParse=GetThickness,
   histKey='eDepHist'):
@@ -106,6 +126,32 @@ def PrintEDepSummary(gFiles,nFiles,wb=Workbook(),tParse=GetThickness,
     ws.cell(row=row,column=5).value = hist.GetMeanError()
     row += 1
 
+def GetPosEDep(files,tParse=GetThickness,key='posEDepTuple'):
+  """
+  Returns a dictionary contaiting the mapping between the thickness (in mm)
+  and an z, energy d
+  """
+  d = dict()
+  # Looping through the files
+  for fname in files:
+    f = TFile(fname,'r')
+    t = f.Get(key)
+    entries = t.GetEntriesFast()
+    data = np.zeros((2,entries))
+    for entry in xrange(entries):
+      # Loading entries into memory, addng to numpy array
+      nb = t.GetEntry(entry)
+      data[0][entry] += t.z
+      data[1][entry] += t.EnergyDep
+    d[tParse(fname)] = d
+    print 'File: ',fname,' min z ',np.amin(data[0,:]),' max z ',np.amax(data[0,:])
+  # Returning the dictonary
+  return d
+
+def EDepPosDist(d,csvFilename='EnergyDepDist.csv'):
+  longname = ['Z position','Energy Depostion']
+  units = ['mm','MeV']
+
 def PlotEDepSummary(gFiles,nFiles,figureName='EDepSummary.png',tParse=GetThickness,
   histKey='eDepHist'):
   """ PlotEDepSummary
@@ -145,13 +191,19 @@ def PlotEDepSummary(gFiles,nFiles,figureName='EDepSummary.png',tParse=GetThickne
 def main():
   print "Getting Files"
   [g,n] = GetRootFiles()
+  print "Gamma Files: ",str(g)
+  print "Neutron Files: ",str(n)
   print "Starting Data Analysis"
+  GetPosEDep(g)
+  GetPosEDep(n)
+
   wb = Workbook()
-  PrintEDepSummary(g,n,wb)
-  PlotEDepSummary(g,n)
+  #PrintEDepSummary(g,n,wb)
+  #PlotEDepSummary(g,n)
   #print "Print Data"
-  #PrintFiles(g,'GammaData.dat')
-  wb.save('EnergyDepAnalysis.xlsx')
+  #PrintFiles(g,wb,"GammaEnergyDepostion")
+  #PrintFiles(n,wb,"NeutronEnergyDepostion")
+  #wb.save('EnergyDepAnalysis.xlsx')
 
 if __name__ == "__main__":
   main()

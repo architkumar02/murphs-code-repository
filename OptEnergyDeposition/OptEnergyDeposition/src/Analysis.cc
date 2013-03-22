@@ -33,6 +33,7 @@ Analysis* Analysis::singleton = 0;
 Analysis::Analysis(){
   // Empty Constructor, assingment done in constuctor list
   maxHistEnergy = 5*MeV;
+  posHistBinWidth = 5*um;
   incidentParticleName = "";
 }
 Analysis::~Analysis(){
@@ -53,7 +54,6 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
   G4String detMat = GetDetectorMaterial();
 
   std::ostringstream oss;
-
 #ifdef G4MPIUSE
   char hostName[64];
   gethostname(hostName,64);
@@ -61,7 +61,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
       <<hostName<<"_rank_"<<G4MPImanager::GetManager()-> GetRank()
       <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
 #else
-  oss <<incidentParticleName<<"run_"<<aRun->GetRunID()<<"_"
+  oss <<incidentParticleName<<"_"
       <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
 #endif
   std::string fname = oss.str();
@@ -193,4 +193,12 @@ void Analysis::SetIncidentParticleName(G4String pName){
  */
 void Analysis::SetHistEMax(G4double emax){
   maxHistEnergy = emax;
+}
+/**
+ * SetBinWidth
+ *
+ * Sets the width of the position 
+ */
+void Analysis::SetBinWidth(G4double binWidth){
+  posHistBinWidth = binWidth;
 }

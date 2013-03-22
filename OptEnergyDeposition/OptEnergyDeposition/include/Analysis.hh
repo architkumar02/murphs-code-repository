@@ -42,6 +42,7 @@ class Analysis {
         G4String GetDetectorMaterial();
         G4String incidentParticleName;
         G4double maxHistEnergy;
+        G4double posHistBinWidth;
 
         // ROOT Output variables
         TFile* outfile;

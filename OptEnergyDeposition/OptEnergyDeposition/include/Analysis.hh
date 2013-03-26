@@ -33,6 +33,7 @@ class Analysis {
   
         void SetIncidentParticleName(G4String pName);
         void SetHistEMax(G4double emax);
+        void SetBinWidth(G4double binWidth);
    private:
 
         // Singleton Analysis

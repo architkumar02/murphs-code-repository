@@ -1,8 +1,10 @@
 #include "DetectorConstruction.hh"
 #include "DetectorMessenger.hh"
 
+#include "globals.hh"
 #include "G4Material.hh"
 #include "G4NistManager.hh"
+#include "G4UnitsTable.hh"
 
 #include "G4Box.hh"
 #include "G4Tubs.hh"
@@ -36,11 +38,10 @@
 DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
     fCheckOverlaps(true){
 
-        worldSizeZ  = 10*cm;      // Fixed World Size; 
+        worldSizeZ  = 25*cm;      // Fixed World Size; 
         
         // Geometry parameters
         absThickness = 5*cm;	        // Thickness of Absorber
-        //absThickness = 50*um;	        // Thickness of Absorber
         gapThickness = 1*cm;            // Thickness of Gap 
         oRadius  = 2.54*cm;		        // Outer Radius of Detector
         iRadius = 0.*cm;				// Inner radious of  Detector
@@ -168,9 +169,9 @@ void DetectorConstruction::DefineMaterials()
     nistManager->FindOrBuildMaterial("G4_WATER",fromIsotopes);
    
    // Print materials
-    G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+    // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
-    // Get materials
+    // Default Material
     defaultMaterial = G4Material::GetMaterial("Galactic");
 }
 
@@ -195,11 +196,11 @@ void DetectorConstruction::PrintCaloParameters(){
     // print parameters
     G4cout << "\n------------ Calorimeter Parameters ---------------------"
         <<"\n--> The carlorimeter is a single layer of: \n\t[ "
-        << absThickness/um << "um of " << absMaterial->GetName() 
+        << G4BestUnit(absThickness,"Length")<< " of " << absMaterial->GetName() 
         << " + "
-        << gapThickness/mm << "mm of " << gapMaterial->GetName() << " ]"
-        << "\n--> The calormeter is " <<caloThickness/cm << " cm thick"
-        << " with a radius of "<<oRadius/cm<<" cm"
+        << G4BestUnit(gapThickness,"Length") << " of " << gapMaterial->GetName() << " ]"
+        << "\n--> The calormeter is " <<G4BestUnit(caloThickness,"Length") << " thick"
+        << " with a radius of "<<G4BestUnit(oRadius,"Length")<<""
         << "\n------------------------------------------------------------\n"
         <<" The world is "<<worldSizeXY/cm<<" cm by "<<worldSizeXY/cm 
         <<" cm by "<<worldSizeZ/cm<<" cm."
@@ -236,15 +237,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     // The beam is shotting along the z, comming from +z
 
     // Absorber
-    absS = new G4Tubs("Abs",iRadius,oRadius,absThickness/2,0,spanAngle);
+    absS = new G4Tubs("Abs",iRadius,oRadius,absThickness/2,0,360*deg);
     absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
     absPV = new G4PVPlacement(0,G4ThreeVector(0,0,(gapThickness+absThickness)/2),
                 absLV,"Absorber",worldLV,false,0,fCheckOverlaps);
     
     // Spacer / gap
-    gapS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,0,spanAngle);
+    gapS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,0,360*deg);
     gapLV = new G4LogicalVolume(gapS,gapMaterial,"Gap",0);
-    //gapPV = new G4PVPlacement(0,G4ThreeVector(0.0,0.0,(gapThickness+absThickness)/2),
     gapPV = new G4PVPlacement(0,G4ThreeVector(),
                 gapLV,"Gap",worldLV,false,0,fCheckOverlaps);
 

@@ -141,8 +141,8 @@ void Analysis::EndOfEvent(const G4Event* event){
     for(G4int i = 0; i < hc->GetSize(); i++){
       hit = (CaloHit*) hc->GetHit(i);
       //hit->Print();
-      if (i == 0 ){
-        // First Hit is the intial interaction
+      if (hit->GetTrackID() == 2 && hit->GetParentID() == 1){
+        // First interaction of the particle
         xPos = hit->GetPosition().x();
         yPos = hit->GetPosition().y();
         zPos = hit->GetPosition().z();

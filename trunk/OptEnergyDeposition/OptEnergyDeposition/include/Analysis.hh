@@ -40,6 +40,7 @@ class Analysis {
         Analysis();
         static Analysis *singleton;
         G4double GetDetectorThickness();
+        G4double GetCalorimeterThickness();
         G4String GetDetectorMaterial();
         G4String incidentParticleName;
         G4double maxHistEnergy;

@@ -1,17 +1,17 @@
 # Setting up verbosity
-/tracking/verbose 1
-/run/verbose 1
+/tracking/verbose 0
+/run/verbose 0
 #
 # Setting up the analysis
 #
-/Analysis/setParticleName testCo60
+/Analysis/setParticleName testNeutron
 /Analysis/setHistogramMax 1.2 MeV
 #
 # Setting up the detector
 #
 /PolymerTransport/det/setAbsMat PS_Detector
 /PolymerTransport/det/setGapMat G4_PLEXIGLASS
-/PolymerTransport/det/setGapThick 1 cm
+/PolymerTransport/det/setGapThick 2.5 cm
 /PolymerTransport/det/setRadius 5 cm
 /PolymerTransport/det/setAbsThick 5 cm
 /PolymerTransport/det/update
@@ -21,6 +21,5 @@
 #
 #/control/execute macros/co60Source.mac
 /control/execute macros/neutronSource.mac
-/PolymerTransport/det/setAbsThick 1 cm
 /run/beamOn 1000
 #

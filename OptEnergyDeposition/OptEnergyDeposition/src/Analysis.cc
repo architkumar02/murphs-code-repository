@@ -109,6 +109,33 @@ G4double Analysis::GetDetectorThickness(){
   return detThickness;
 }
 /**
+ * GetCalorimeterThickness
+ * @return the thickness of the calorimeter
+ */
+G4double Analysis::GetCalorimeterThickness(){
+  G4double caloThickness = 0;
+  G4LogicalVolume* detLV
+    = G4LogicalVolumeStore::GetInstance()->GetVolume("Absorber");
+  G4LogicalVolume* gapLV
+    = G4LogicalVolumeStore::GetInstance()->GetVolume("Gap");
+  G4Tubs* detTubs = 0;
+  G4Tubs* gapTubs = 0;
+  if ( detLV && gapLV) {
+    detTubs = dynamic_cast< G4Tubs*>(detLV->GetSolid()); 
+    gapTubs = dynamic_cast< G4Tubs*>(gapLV->GetSolid()); 
+  } 
+  if ( detTubs && gapTubs) {
+    caloThickness = detTubs->GetZHalfLength();  
+    //caloThickness = gapTubs->GetZHalfLength()*2;  
+  }
+  else  {
+    G4cerr << "Calorimeter Thickness not found." << G4endl;
+  } 
+  return caloThickness;
+
+}
+
+/**
  * PrepareNewEvent
  *
  * @brief - Called before each event
@@ -146,6 +173,7 @@ void Analysis::EndOfEvent(const G4Event* event){
         xPos = hit->GetPosition().x();
         yPos = hit->GetPosition().y();
         zPos = hit->GetPosition().z();
+        zPos -= GetCalorimeterThickness(); // Subtracting the thickness
       }
 
       // Adding the energy deposition (in MeV)

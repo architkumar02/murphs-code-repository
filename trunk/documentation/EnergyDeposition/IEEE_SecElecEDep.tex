@@ -6,6 +6,11 @@
 %\documentclass[confrence]{IEEEtran}
 \documentclass[draftcls,onecolumn]{IEEEtran}
 \input{../Preamble}
+\DeclareSIUnit\roetgen{R}
+\DeclareSIUnit\eV{\electronVolt}
+\DeclareSIUnit\count{count}
+\DeclareSIUnit\cps{\count\per\second}
+\DeclareSIUnit\cpsngcf{\count\per\second\per\nano\gram\iso[252]{Cf}}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                              %
 %                               START OF DOCUMENT                              %
@@ -31,6 +36,8 @@
 \maketitle
 
 \begin{abstract}
+
+
 Let's just copy the abstract over on the mac.
 \end{abstract}
 
@@ -43,45 +50,29 @@ Let's just copy the abstract over on the mac.
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{sec:Intro}
+The Department of Homeland Security (DHS) continues to fund research (through the Domestic Nuclear Detection Office (DNDO)) to detect radioactive material that could potentially be used to cause significant economic loss and loss or life.  
+The current technology used in Radiation Portal Monitors (RPMs) for detections emitted from special nuclear material uses a rapidly diminishing resource, \iso[3]{He}, that cannot be economically replaced. 
+As a result a number of alternative detection systems continue to be investigated with the most viable including: boron triflouride  filled proportional detectors, boron-lined proportional detectors, lithium-6 (\iso[6]{6}) loaded scintillation glass fiber detectors, and \iso[6]{Li} plus scintillator-coated wavelength-shifting fiber detectors\cite{kouzes_neutron_2010}.  
 
-The Department of Homeland Security (DHS) continues to fund research (through the Domestic Nuclear Detection Office (DNDO)) for replacement detectors for nuclear material.
-These detectors are designed to replace the \iso{He}{3} detectors currently installed as radiation portal monitors.
-DHS / DNDO (along with PNNL) has determined a set of objectives that replacement technologies should meet (summarized in Table ~\ref{tab:DHSCriteria}).
-These detectors must be able to effectively discriminate between gammas (which can occur in medical isotopes) and neutrons (indicative of special nuclear material).
-\begin{table}[h]
-    \caption{Replacement Detector Requirements  }
-    %\caption{Replacement Detector Requirements \protect\cite{kouzes_neutron_1999} }
-	\centering
-	\begin{tabular}{p{0.2\textwidth} | p{0.2\textwidth} }
-	Parameter & Specification \\
-	\hline
-	\hline
-	Absolute neutron detection efficiency & 2.5 cps/ng of ${}^{252}$Cf \\
-	Intrinsic gamma-neutron detection efficiency & $ \epsilon_{int,\gamma n}\leq 10^{-6}$ \\
-	Gamma absolute rejection ratio for neutrons (GARRn) & $ 0.9 \leq \text{ GARRn }\leq$ 1.1 at 10 mR/h exposure \\
-	Cost &  \$ 30,000 per system \\
-	\hline
-	\end{tabular}
-    \label{tab:DHSCriteria}
-\end{table}
-
-A possible replacement technology being investigated is \iso{Li}{6} (thermal cross section of 940 barns) embedded in a scintillating polymer matrix.
-Upon the absorption of a neutron \iso{Li}{6} fissions into two fragments; an alpha particle of energy 2.05 MeV and a triton of energy 2.73 MeV.
-This large amount of kinetic energy liberated (Q-value 4.78 MeV) makes \iso{Li}{6} an attractive alternative compared to other reactions such as the \iso{He}{3} reaction which has a Q-value of 0.756 MeV or \iso{B}{10} (Q-value of 2.31 MeV).
-In addition, the the alpha and triton produced are charged ions and relatively easy to stop and detect.
-
+Replacement detection technologies must satisify a neutron detection efficiency while being insenstive to a given gamma field.
+PNNL along with the DNDO have determined a set of specifications that that replacement RPMs must meet \cite{kouzes_neutron_2010, kouzes_neutron_1999}. 
+The specifications consist of an absolute neutron detection efficiency greater than \SI{2.5}{\cps} at \SI{2}{\meter} for a defined moderated source, an intrinsic gamma-neutron detection efficiency of one in a million, and a gamma absolute rejection ratio for neutrons stating that the performance of the detector should not change by more than 10\% in a \SI{10}{\milli\roetgen\per\hour} gamma field.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                                 THEORY                                  %
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-Neutron detectors often utilize a material doped with an isotope of large thermal cross section for absorption such as \iso{He}{3}, \iso{Li}{6} or \iso{B}{10}. 
-When these materials absorb a neutron the nucleus of the isotope becomes unstable and fissions into reaction products.
-These reaction products (having an initial kinetic energy equal to the Q-value of the neutron absorption reaction) travel through the material, transferring their kinetic energy to the material.
-Photon interactions in the detector occur when a photon scatters off a single electron in a Compton scattering event and transfers a portion of its energy to the electron predominately through Compton scattering.
-This Compton electron then produces a cascade of secondary electrons in the material, which, depending upon the energy, may or may not deposit a majority of its energy in the detector.
-The difference in the transfer of kinetic energy from charged particle to electrons and from photon interactions (Compton scattering) to electrons introduces an opportunity to exploit the difference in energy deposition in order to maximize the discrimination between neutron and photon interactions in a detector.
+\section{Technical Basis}
+The difference in the transfer of kinetic energy from charged particles to electrons and from photon interactions to electrons may be exploited to maximize discrimination between neutron and photon interactions in a detector.  
+In particular, a photon interacts with a single electron and transfers a portion its energy to the electron predominately through Compton scattering. 
+Neutron detectors often utilize a material with a large cross section for absorption, such as \iso[6]{li} or \iso[10]{B}.
+When these materials absorb a neutron they usually disintegrate to produce ionized reaction products that in turn transfer their kinetic energy to many electrons.
+The electrons from the neturon reation products generally have less energy than those from gamma interactions therefore depositing their energy in a shorter range.
+
+For a particular material and neutron absorber, one can optimize the detector geometry to maximize the energy deposited in scintillation material by charged particles relative to the energy deposited by photon interactions. 
+This in turn permits one to maximize the recorded neutron interaction rate relative to recorded photon interaction rates by setting a lower level discriminator (LLD) above a threshold associated with energy deposited in the detector by photons.  
+As the LLD is increased, the efficiency for detecting neutrons is diminished; however, the intrinsic efficiency for detecting neutrons relative to photons is dramatically increased. 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
@@ -95,23 +86,8 @@ The pulse height spectra of these samples was measured on site at the University
 Simulations were completed using GEANT4, a modern toolkit for Monte Carlo transport simulation \cite{agostinelli_geant4simulation_2003,allison_geant4_2006}.
 The measurements were then used to validate and bench marking the simulation.
 
-\subsection{Detector Simulation}
-The detector geometry was simulated as a single layer of neutron absorbing material mounted atop of a non-scintillating material (PMMA).
-The initial events for runs where chosen by setting up a particle gun for thermal (0.025 eV) neutrons upon the detector and for both gammas resulting from a \iso{Co}{60} decay.
-The user of the GEANT4 toolkit is responsible for selecting the proper physics processes to model.
-Thus, extensive use of \verb+G4ModularPhysicsList+ was employed to handle the assigning of the physics processes to each particle in the correct order.
-The physics lists chosen for this simulation are listed below:
-\begin{itemize}
-    \item \verb+G4EmStandardPhysics+ The electromagnetic physics defines the electrons, muons, and taus along with their corresponding neutrinos. For electrons, the primary concern of this simulation, multiple scattering, electron ionization, and electron bremsstrahlung processes were assigned.  In addition the positron is defined and the multiple scattering process, electron ionization process, electron bremsstrahlung process and positron annihilation is assigned.
-    \item \verb+G4EmLivermorePhysics+ The Livermore physics process extend the \verb+EMStandardPhyiscs+ down to low (250 eV) energies. The physics processes extended with \verb+G4EmLivermorePhysics+ are the photo-electric effect, Compton scattering, Rayleigh scattering, gamma conversion, Ionisation and Bremsstrahlung. 
-    \item \verb+HadronPhysicsQGSP_BERT_HP+  Hadronic physics are included to model the nuclear interactions. The chosen list is a Quark Gluon String Model for energies in the 5-25 GeV range, with a Bertini cascade model until 20 MeV.  Once a hadron has an energy of 20 MeV the high precision cross section driven models are applied.
-    \item \verb+G4IonPhysics+ Finally, to handle the transport of the charged ions resulting from an ${}^6\text{Li}(\text{n},\alpha){}^{3}\text{H}$ interaction the \verb+G4IonPhysics+ list was used.
-\end{itemize}
-
-
 \subsection{Fabricated Detector Measurements}
-
-Samples are mounted to a 10 stage PMT with silicone based optical grease which is attached to a Canberra base (also serving as a preamplifier).   
+Samples are mounted to a 10 stage PMT with silicone based optical grease which is attached to a Canberra base (also serving as a preamplifier). 
 The PMT's voltage is supplied by a high voltage power supply, with the power being supplied to the pre amplifier base by an amplifier.  
 The output signal of the C base feeds into the amplifier for pulse shaping and amplification. 
 The amplified signal is then inputted to an MCB-ADC, and can then be read using the MAESTRO-32 software. 
@@ -122,16 +98,61 @@ A schematic of the setup is shown in Figure ~\ref{fig:ElectronicsSpectra}.
 	\caption{Pulse height measurement electronics}
 	\label{fig:ElectronicsSpectra}
 \end{figure}
-A 100 $\mu$Ci \iso{60}{Co} source was used to measure the gamma energy deposition of the films, while a moderated \iso{Cf}{252} source was used for the neutrons.
-The \iso{Cf}{252} irridiator contains two detector wells; a lead well and a cadmium well.
-The lead well measures the response of neutron of all energies, while the cadmium well measures the responses of fast neutrons.
-The two responses are then subtracted, as shown in Figure ~\ref{fig:SimPbCdSpectra}.
+
+ The films where exposed to a 100 $\mu$Ci \iso{60}{Co} source producing a \SI{10}{\milli\roetgen\per\hour} field. 
+The gamma irradiator is a thin steel outer box 14” x 12” x 12” which contains 4” x 8” x 2” lead bricks.  
+The 00 $\mu$Ci \iso{60}{Co} source is contained in 2” of steel, with a 1/8” thick steel cap.  
+The detector well is a 4” outer diameter 14” pipe that is ¼” thick, and \SI{7}{\cm} of foam is used to ensure that the detector rests at a \SI{10}{\milli\roetgen\per\hour} field. 
+Figure ~\ref{fig:gammaIrridiator} shows an MCNPX rendering of the gamma irridiator.
 \begin{figure}
 	\centering
-	\includegraphics[width=\figurewidth]{Graph19N}
-	\caption{Simulated Lead and Cadmium Well Spectra. The difference between the two spectra is the thermal neutron response and is what is measured.}
-	\label{fig:SimPbCdSpectra}
+	\includegraphics[width=\figurewidth]{GammairridiatorMCNPXRender.png}
+	\caption{MCNPX Rendering of Gamma Irridiator}
+	\label{fig:gammaIrridiator}
 \end{figure}
+The gamma intrinsic efficiency of the sample is calculated by integrating the mesured spectra, $p(x)$, as a function of a mathmatical lower level channel discrimiantor ($MLLD$) setting and dividing by the incident photon fluence, $\Phi$, as shown in \eqref{eqn:mlld}.
+The incident photon fluence was calculated with MCNPX and confirmed by measurments.
+\begin{align}
+	\label{eqn:mlld}
+	\epsilon_{int,\gamma} \left(MLLD\right) = \frac{\int_{MLLD}^\infty p(x)dx}{\Phi} 
+\end{align}
+The intrisinic effieciency of one in a million, $\epsilon_{int,\gamma} \le \si{1E-6}$, is determined by the $MLLD$ (corresponding to a channel) for which $\epsilon_{int,\gamma} \left(MLLD\right) \le \si{1E-6}$.
+
+A moderated \iso{Cf}{252} source is used to measure the neutron spectra.
+The neutron irradiator is a custom built \SI{0.59}{\ug}\iso[252]{Cf} source encased in 2” blocks of high density polyethylene (HDPE).
+The HDPE box is approximately 20” long, 12” wide, and 14” tall (Figure 6).
+There are two detector 1/16” thick acrylic detectors wells, one surrounded by a 1/16” cadmium to shield out thermal neutrons, and the other surrounded by 1/16” of lead to shield out a similar amount of gammas as the cadmium well.
+The \SI{0.59}{\ug}\iso[252]{Cf} source is surrounded by stainless steel, which in turn is contained within a 2” diameter, ½” thick, 5 ¼” tall lead vessel. 
+Figure ~\ref{fig:neturonIrridiator} is an MCNPX rendering of the neutron irridiator.
+\begin{figure}
+	\centering
+	\includegraphics[width=\figurewidth]{NeutronIrridiator_MCNP.eps}
+	\caption{MCNPX Rendering of Neutron Irridiator}
+	\label{fig:neutronIrridiator}
+\end{figure}
+The lead well measures the response of neutron of all energies, while the cadmium well measures the responses of fast neutrons.
+The two responses are then subtracted to yeild the thermal neutron response.
+
+While this source is not the same configuration as specified by PNNL, neutronic simulations in MCNPX can be used to relate the interactions to a simulated interaction rate for a detector mocked up according the the PNNL specifications encased in the RPM8 footprint.
+
+\subsection{Detector Simulation}
+The energy deposition from neutron and gamma interactions was simulated with the GEANT4 toolkit \cite{agostinelli_geatn4simulation_2003}.
+The detector geometry was represented as a single layer of neutron absorbing material mounted atop of a non-scintillating material (PMMA).
+The initial events for runs where chosen by setting up a particle gun for thermal (0.025 eV) neutrons upon the detector and for both gammas resulting from a \iso{Co}{60} decay.
+The Livermore physics were used as the ionization module, extending the standard electro-magentic physics down to \SI{250}{\eV}, and a micro dose model, G4DNAPysics, was used to transport the electrons down to \SI{10}{\eV}.
+High performance, data driven hadronic modules were used in order to simulate the neutron and the subsquenet reaction product transport.
+
+The simulation was validated by reproducing the single collision energy loss for water as well as comparing spectra shapes and averages of simulated spectra to the measured spectra.
+The single collision energy loss spectra for water that was simulated is shown in Figure ~\ref{fig:SingleCollisionELossWater}.
+In general there was excellent agreement between the simulated energy spectra and a previously published spectra\cite{turner_comparative_1982}.
+The simulated spectra had much better resolution at fine energies (corresponding to discrete states) of which the reference did not.
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=\textwidth]{SingleCollisionEnergyLoss_300bins}
+    \caption{Single Collision Energy Loss of Water}
+	\label{fig:SingleCollsionELossWater}
+\end{figure}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                     RESULTS and ANALYSIS                                %
@@ -153,12 +174,12 @@ With the average energy deposition on the left axis and the average light yield 
 \end{figure}
 \begin{figure*}[h]
 	\centering
-	\begin{subfigure}[b]{\figurewidth}
+	\begin{subfigure}[b]{0.45\figurewidth}
     		\includegraphics[width=\textwidth]{PS_EDepSim_Co60}
 		\caption{Gamma (\iso{Co}{60})}
 	\end{subfigure}%
 	~
-	\begin{subfigure}[b]{\figurewidth}
+	\begin{subfigure}[b]{0.45\figurewidth}
     		\includegraphics[width=\textwidth]{PS_EDepSim_Neutron}
 		\caption{Neutrons}
 	\end{subfigure}%
@@ -167,12 +188,12 @@ With the average energy deposition on the left axis and the average light yield 
 \end{figure*}
 \begin{figure*}[!ht]
 	\centering
-	\begin{subfigure}[b]{\figurewidth}
+	\begin{subfigure}[b]{0.45\figurewidth}
     		\includegraphics[width=\textwidth]{G4EDep_LightYield_Co60}
 		\caption{Gamma (\iso{Co}{60})}
 	\end{subfigure}%
 	~
-	\begin{subfigure}[b]{\figurewidth}
+	\begin{subfigure}[b]{0.45\figurewidth}
     		\includegraphics[width=\textwidth]{G4EDep_LightYield_Neutron}
 		\caption{Neutrons}
 	\end{subfigure}%

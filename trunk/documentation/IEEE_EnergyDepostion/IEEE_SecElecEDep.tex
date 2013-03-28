@@ -109,7 +109,7 @@ The gamma irradiator is a thin steel outer box 14” x 12” x 12” which conta
 The 100 $\mu$Ci \iso{60}{Co} source is contained in 2” of steel, with a 1/8” thick steel cap.  
 The detector well is a 4” outer diameter 14” pipe that is ¼” thick, and \SI{7}{\cm} of foam is used to ensure that the detector rests at a \SI{10}{\milli\roetgen\per\hour} field. 
 Figure ~\ref{fig:gammaIrridiator} shows an MCNPX rendering of the gamma irridiator.
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=\figurewidth]{GammaIrridiatorMCNPXRender.png}
 	\caption{MCNPX Rendering of Gamma Irridiator}
@@ -128,8 +128,8 @@ The neutron irradiator is a custom built \SI{0.59}{\ug}\iso[252]{Cf} source enca
 The HDPE box is approximately 20” long, 12” wide, and 14” tall (Figure 6).
 There are two detector 1/16” thick acrylic detectors wells, one surrounded by a 1/16” cadmium to shield out thermal neutrons, and the other surrounded by 1/16” of lead to shield out a similar amount of gammas as the cadmium well.
 The \SI{0.59}{\ug}\iso[252]{Cf} source is surrounded by stainless steel, which in turn is contained within a 2” diameter, ½” thick, 5 ¼” tall lead vessel. 
-Figure ~\ref{fig:neturonIrridiator} is an MCNPX rendering of the neutron irridiator.
-\begin{figure}
+Figure ~\ref{fig:neutronIrridiator} is an MCNPX rendering of the neutron irridiator.
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=\figurewidth]{NeutronIrridiator_MCNP.eps}
 	\caption{MCNPX Rendering of Neutron Irridiator}
@@ -141,7 +141,7 @@ The two responses are then subtracted to yeild the thermal neutron response.
 While this source is not the same configuration as specified by PNNL, neutronic simulations in MCNPX can be used to relate the interactions to a simulated interaction rate for a detector mocked up according the the PNNL specifications encased in the RPM8 footprint.
 
 \subsection{Detector Simulation}
-The energy deposition from neutron and gamma interactions was simulated with the GEANT4 toolkit \cite{agostinelli_geatn4simulation_2003}.
+The energy deposition from neutron and gamma interactions was simulated with the GEANT4 toolkit \cite{agostinelli_geant4simulation_2003}.
 The detector geometry was represented as a single layer of neutron absorbing material mounted atop of a non-scintillating material (PMMA).
 The initial events for runs where chosen by setting up a particle gun for thermal (0.025 eV) neutrons upon the detector and for both gammas resulting from a \iso{Co}{60} decay.
 The Livermore physics were used as the ionization module, extending the standard electro-magentic physics down to \SI{250}{\eV}, and a micro dose model, G4DNAPysics, was used to transport the electrons down to \SI{10}{\eV}.
@@ -151,18 +151,18 @@ The simulation was validated by reproducing the single collision energy loss for
 The single collision energy loss spectra for water that was simulated is shown in Figure ~\ref{fig:SingleCollisionELossWater}.
 In general there was excellent agreement between the simulated energy spectra and a previously published spectra\cite{turner_comparative_1982}, with the simulated spectra having much better resolution at fine energies (corresponding to discrete states) of which the reference did not.
 It is thought that this is due to the water model in GEANT4 having better cross sections than the previously published spectra.
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=\textwidth]{SingleCollisionEnergyLoss_300bins}
-    \caption{Single Collision Energy Loss of Water}
-	\label{fig:SingleCollsionELossWater}
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=\textwidth]{SingleCollisionEnergyLoss_300bins}
+  \caption{Single Collision Energy Loss of Water}
+	\label{fig:SingleCollisionELossWater}
 \end{figure}
 
 It is well established that the pulse height of a radiation event is proportional to the energy deposition of the event\cite{birks_scintillations_1951}.
 Thus, the validity of the GEANT4 simulation can be determined by comparing the spectra shapes of measured spectra to simulated energy deposition.
 Figure ~\ref{fig:spectraComparisonGamma} shows the comparison between the simulated energy depostion from a \iso[60]{Co} source and the measured pulse height spectra from the \iso[60]{Co} irridiator.
 
-\begin{figure*}[h]
+\begin{figure*}[ht]
 	\centering
 	\begin{subfigure}[b]{0.45\figurewidth}
     		\includegraphics[width=\textwidth]{PS_EDepSim_Co60}
@@ -170,15 +170,15 @@ Figure ~\ref{fig:spectraComparisonGamma} shows the comparison between the simula
 	\end{subfigure}%
 	~
 	\begin{subfigure}[b]{0.45\figurewidth}
-    \includegraphics[width=\textwidth]{PS_EDepSim_Neutron}
+    \includegraphics[width=\textwidth]{PS_GammaCR_20LiF_5PPO}
 		\caption{Measured Pulse Height Spectra}
 	\end{subfigure}%
-	\caption{Comparison of the energy deposition and pulse height spectra for validation. The spectra have the same shape, indicating agreement.}
-	\label{fig:SimEDepGamma}
+	\caption{Comparison of the energy deposition and pulse height spectra for validation. The spectra have the same shape, indicating agreement. The frabricated films greater than \SI{600}{\um} were of poor optical quality and therefore their results are not shown.}
+	\label{fig:spectraComparisonGamma}
 \end{figure*}
 A more quantitative approach was taken for validation by computing the average energy deposition and pulse height, the results of which are shown in Figure ~\ref{fig:EDepLightYield}. 
 With the average energy deposition on the left axis and the average light yield (pulse height) on the right axis, it is possible to compare the measurement and the simulation and agreement is observed.
-\begin{figure*}[!ht]
+\begin{figure*}[ht]
 	\centering
 	\begin{subfigure}[b]{0.45\figurewidth}
     		\includegraphics[width=\textwidth]{G4EDep_LightYield_Co60}
@@ -200,8 +200,8 @@ With the average energy deposition on the left axis and the average light yield 
 \section{Results}
 \label{sec:Results}
 The calculated gamma intrisinic efficiency for six polymeric films along with the neutron response of two of the films in Figure ~\ref{fig:GammaIntrNeutronCounts}. 
-It is observed that if the films are thin enough (less than \iso{150}{\um}) it is possible to have a significant count rate above the the mathmatical lower level discriminator necessary for the pulse height discrimination of one in a million.
-\begin{figure}[h]
+It is observed that if the films are thin enough (less than \SI{150}{\um}) it is possible to have a significant count rate above the the mathmatical lower level discriminator necessary for the pulse height discrimination of one in a million.
+\begin{figure}[ht]
     \centering
     \includegraphics[width=\figurewidth]{PS_IntEff_LiF20_PPO5}
     \caption{Gamma intrinsic efficiency (dashed lines) plotted against neutron counts (solid). The gamma spectra has been normalized by the number of incident photons upon the sample, while the neutron spectra has not.}
@@ -209,22 +209,22 @@ It is observed that if the films are thin enough (less than \iso{150}{\um}) it i
 \end{figure}
 The fraction of neutron counts above the MLLD necessary for a given gamma intrisinic efficinecy is plotted in Figure ~\ref{fig:crVsIntEff}.
 It is observed that films thinner than \SI{150}{\um} have a very much larger fraction of neutron counts above an intrisinic efficiency of 1 in a million.
-\begin{figure}[h]
+\begin{figure}[ht]
     \centering
-    \includegraphics[width=\figurewidth]{PS_IntEff_LiF20_PPO5}
-    \caption{Figure from pg. 7}
+    \includegraphics[width=\figurewidth]{PS_IntFractionNCR_LiF}
+    \caption{Intrisisinic efficiency versus neutron count rate. }
     \label{fig:crVsIntEff}
 \end{figure}
 
 The average energy deposited was computed for each thickness and and normalized by the incident energy for gammas or the Q-value of the reaction for neutrons, and is presented in Table ~\ref{tab:FractionEDep}.
-\begin{table}[!htb]
+\begin{table}[ht]
     \caption{Fractional Energy Deposition for Various Thickness}
 	\centering
 	\begin{tabular}{c | c c}
 	Thickness & Gamma Fraction & Neutron Fraction \\
 	\hline
 	\hline
-	\SI{15{\um} & 0.010 & 0.531 \\
+	\SI{15}{\um} & 0.010 & 0.531 \\
 	\SI{25}{\um} & 0.013 & 0.634 \\
 	\SI{50}{\um} & 0.017 & 0.782 \\
 	\SI{150}{\um} & 0.032 & 0.927 \\
@@ -257,7 +257,7 @@ This works was supported by the Domestic Nuclear Detection Office (DNDO) through
 Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of DNDO.
 
 % Bibliography
-\bibliography{./Zotero}
+\bibliography{../Zotero}
 
 \end{document}
 

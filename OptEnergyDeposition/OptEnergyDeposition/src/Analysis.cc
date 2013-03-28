@@ -125,8 +125,8 @@ G4double Analysis::GetCalorimeterThickness(){
     gapTubs = dynamic_cast< G4Tubs*>(gapLV->GetSolid()); 
   } 
   if ( detTubs && gapTubs) {
-    caloThickness = detTubs->GetZHalfLength();  
-    //caloThickness = gapTubs->GetZHalfLength()*2;  
+    caloThickness = detTubs->GetZHalfLength()*2;  
+    caloThickness += gapTubs->GetZHalfLength()*1;  
   }
   else  {
     G4cerr << "Calorimeter Thickness not found." << G4endl;
@@ -170,10 +170,10 @@ void Analysis::EndOfEvent(const G4Event* event){
       //hit->Print();
       if (hit->GetTrackID() == 2 && hit->GetParentID() == 1){
         // First interaction of the particle
+        zPos = GetCalorimeterThickness(); // Subtracting the thickness
         xPos = hit->GetPosition().x();
         yPos = hit->GetPosition().y();
-        zPos = hit->GetPosition().z();
-        zPos -= GetCalorimeterThickness(); // Subtracting the thickness
+        zPos -= hit->GetPosition().z();
       }
 
       // Adding the energy deposition (in MeV)

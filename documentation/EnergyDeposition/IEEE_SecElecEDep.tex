@@ -1,8 +1,8 @@
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                                              %
-%                                   PREAMBLE                                   %
-%                                                                              %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                          %
+%                                 PREAMBLE                                 %
+%                                                                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\documentclass[confrence]{IEEEtran}
 \documentclass[draftcls,onecolumn]{IEEEtran}
 \input{../Preamble}
@@ -11,11 +11,11 @@
 \DeclareSIUnit\count{count}
 \DeclareSIUnit\cps{\count\per\second}
 \DeclareSIUnit\cpsngcf{\count\per\second\per\nano\gram\iso[252]{Cf}}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-%                                                                              %
-%                               START OF DOCUMENT                              %
-%                                                                              %
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                          %
+%                               START OF DOCUMENT                          %
+%                                                                          %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{document}
 \title{Energy deposition in thin polymeric films}
@@ -37,8 +37,11 @@
 
 \begin{abstract}
 
-
-Let's just copy the abstract over on the mac.
+Alternative neutron detection technologies are required to replace the current \iso[3]{He} based Radiation Portal Monitors (RPMs).
+Pacific Northwest National Lab in conjuncation with the Department of Homeland Security had determined replacement technology criteria; namely a neutron detection criteria and that the perfomance of the detector should not suffer in the the presence of a strong gamma field.
+The difference in the energy deposition mechanics from a charge particle (from the fission products of a neutron interaction) and the Compton scattered electrons from a gamma interaction allows for the effective discrimination between neutrons and gammas based on energy deposition.
+Polymeric films containing \iso{6}{LiF} ranging from \SI{15}{\um} to \SI{1}{\cm} where fabricated and tested for their neutron count rate above a lower level discriminator necessary to meet the gamma intrisinic efficiency set forth by PNNL.
+The energy deposition in the films was also simulated with GEANT4 and compared to the measured pulse height spectra.
 \end{abstract}
 
 \IEEEpeerreviewmaketitle
@@ -81,15 +84,16 @@ As the LLD is increased, the efficiency for detecting neutrons is diminished; ho
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Methods}
 \label{sec:Methods}
-The energy deposition of neutrons and gammas was investigated for polymeric films containing \iso{Li}{6} as \iso{LiF}{6} of thickness ranging from 15 \micron to 1 cm.
+The energy deposition of neutrons and gammas was investigated for polymeric films containing \iso{Li}{6} as \iso{LiF}{6} of thickness ranging from \SI{15}{\um} to \SI{1}{\cm}.
 The pulse height spectra of these samples was measured on site at the University of Tennessee's characterization laboratory from a moderated neutron source as wells as a \iso{Co}{6} source.
 Simulations were completed using GEANT4, a modern toolkit for Monte Carlo transport simulation \cite{agostinelli_geant4simulation_2003,allison_geant4_2006}.
 The measurements were then used to validate and bench marking the simulation.
 
 \subsection{Fabricated Detector Measurements}
-Samples are mounted to a 10 stage PMT with silicone based optical grease which is attached to a Canberra base (also serving as a preamplifier). 
+Samples are mounted to a 10 stage PMT with silicone based optical grease. 
+The PMT is attached to a Canberra base (also serving as a preamplifier). 
 The PMT's voltage is supplied by a high voltage power supply, with the power being supplied to the pre amplifier base by an amplifier.  
-The output signal of the C base feeds into the amplifier for pulse shaping and amplification. 
+The output signal of the base feeds into the amplifier for pulse shaping and amplification. 
 The amplified signal is then inputted to an MCB-ADC, and can then be read using the MAESTRO-32 software. 
 A schematic of the setup is shown in Figure ~\ref{fig:ElectronicsSpectra}.
 \begin{figure}
@@ -101,12 +105,12 @@ A schematic of the setup is shown in Figure ~\ref{fig:ElectronicsSpectra}.
 
  The films where exposed to a 100 $\mu$Ci \iso{60}{Co} source producing a \SI{10}{\milli\roetgen\per\hour} field. 
 The gamma irradiator is a thin steel outer box 14” x 12” x 12” which contains 4” x 8” x 2” lead bricks.  
-The 00 $\mu$Ci \iso{60}{Co} source is contained in 2” of steel, with a 1/8” thick steel cap.  
+The 100 $\mu$Ci \iso{60}{Co} source is contained in 2” of steel, with a 1/8” thick steel cap.  
 The detector well is a 4” outer diameter 14” pipe that is ¼” thick, and \SI{7}{\cm} of foam is used to ensure that the detector rests at a \SI{10}{\milli\roetgen\per\hour} field. 
 Figure ~\ref{fig:gammaIrridiator} shows an MCNPX rendering of the gamma irridiator.
 \begin{figure}
 	\centering
-	\includegraphics[width=\figurewidth]{GammairridiatorMCNPXRender.png}
+	\includegraphics[width=\figurewidth]{GammaIrridiatorMCNPXRender.png}
 	\caption{MCNPX Rendering of Gamma Irridiator}
 	\label{fig:gammaIrridiator}
 \end{figure}
@@ -144,8 +148,8 @@ High performance, data driven hadronic modules were used in order to simulate th
 
 The simulation was validated by reproducing the single collision energy loss for water as well as comparing spectra shapes and averages of simulated spectra to the measured spectra.
 The single collision energy loss spectra for water that was simulated is shown in Figure ~\ref{fig:SingleCollisionELossWater}.
-In general there was excellent agreement between the simulated energy spectra and a previously published spectra\cite{turner_comparative_1982}.
-The simulated spectra had much better resolution at fine energies (corresponding to discrete states) of which the reference did not.
+In general there was excellent agreement between the simulated energy spectra and a previously published spectra\cite{turner_comparative_1982}, with the simulated spectra having much better resolution at fine energies (corresponding to discrete states) of which the reference did not.
+It is thought that this is due to the water model in GEANT4 having better cross sections than the previously published spectra.
 \begin{figure}[h]
     \centering
     \includegraphics[width=\textwidth]{SingleCollisionEnergyLoss_300bins}

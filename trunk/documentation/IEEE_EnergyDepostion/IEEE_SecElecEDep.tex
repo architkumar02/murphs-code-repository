@@ -24,12 +24,12 @@
     \\
     \IEEEauthorblockA{\IEEEauthorrefmark{1}
     University of Tennessee \\
-    Deparment of Nuclear Engineering \\
+    Department of Nuclear Engineering \\
     Knoxville, Tennessee, 37916 \\
     }
     \IEEEauthorblockA{\IEEEauthorrefmark{2}
     University of Tennessee \\
-    Deparment of Chemistry \\
+    Department of Chemistry \\
     Knoxville, Tennessee, 37916 \\
     }
 }
@@ -39,9 +39,9 @@
 \begin{abstract}
 
 Alternative neutron detection technologies are required to replace the current \iso[3]{He} based Radiation Portal Monitors (RPMs).
-Pacific Northwest National Lab in conjuncation with the Department of Homeland Security had determined replacement technology criteria; namely a neutron detection criteria and that the perfomance of the detector should not suffer in the the presence of a strong gamma field.
+Pacific Northwest National Lab in conjunction with the Department of Homeland Security had determined replacement technology criteria; namely a neutron detection criteria and that the performance of the detector should not suffer in the the presence of a strong gamma field.
 The difference in the energy deposition mechanics from a charge particle (from the fission products of a neutron interaction) and the Compton scattered electrons from a gamma interaction allows for the effective discrimination between neutrons and gammas based on energy deposition.
-Polymeric films containing \iso{6}{LiF} ranging from \SI{15}{\um} to \SI{1}{\cm} where fabricated and tested for their neutron count rate above a lower level discriminator necessary to meet the gamma intrisinic efficiency set forth by PNNL.
+Polymeric films containing \iso{6}{LiF} ranging from \SI{15}{\um} to \SI{1}{\cm} where fabricated and tested for their neutron count rate above a lower level discriminator necessary to meet the gamma intrinsic efficiency set forth by PNNL.
 The energy deposition in the films was also simulated with GEANT4 and compared to the measured pulse height spectra.
 \end{abstract}
 
@@ -55,10 +55,10 @@ The energy deposition in the films was also simulated with GEANT4 and compared t
 \section{Introduction}
 \label{sec:Intro}
 The Department of Homeland Security (DHS) continues to fund research (through the Domestic Nuclear Detection Office (DNDO)) to detect radioactive material that could potentially be used to cause significant economic loss and loss or life.  
-The current technology used in Radiation Portal Monitors (RPMs) for detections emitted from special nuclear material uses a rapidly diminishing resource, \iso[3]{He}, that cannot be economically replaced. 
-As a result a number of alternative detection systems continue to be investigated with the most viable including: boron triflouride  filled proportional detectors, boron-lined proportional detectors, lithium-6 (\iso[6]{6}) loaded scintillation glass fiber detectors, and \iso[6]{Li} plus scintillator-coated wavelength-shifting fiber detectors\cite{kouzes_neutron_2010}.  
+The current technology used in Radiation Portal Monitors (RPMs) for detecting neutrons emitted from special nuclear material uses a rapidly diminishing resource, \iso[3]{He}, that cannot be economically replaced. 
+As a result a number of alternative detection systems continue to be investigated with the most viable including: boron Florida  filled proportional detectors, boron-lined proportional detectors, lithium-6 (\iso[6]{6}) loaded scintillation glass fiber detectors, and \iso[6]{Li} plus scintillator-coated wavelength-shifting fiber detectors\cite{kouzes_neutron_2010}.  
 
-Replacement detection technologies must satisify a neutron detection efficiency while being insenstive to a given gamma field.
+Replacement detection technologies must satisfy a neutron detection efficiency while being insensitive to a given gamma field.
 PNNL along with the DNDO have determined a set of specifications that that replacement RPMs must meet \cite{kouzes_neutron_2010, kouzes_neutron_1999}. 
 The specifications consist of an absolute neutron detection efficiency greater than \SI{2.5}{\cps} at \SI{2}{\meter} for a defined moderated source, an intrinsic gamma-neutron detection efficiency of one in a million, and a gamma absolute rejection ratio for neutrons stating that the performance of the detector should not change by more than 10\% in a \SI{10}{\milli\roetgen\per\hour} gamma field.
 
@@ -70,9 +70,9 @@ The specifications consist of an absolute neutron detection efficiency greater t
 \section{Technical Basis}
 The difference in the transfer of kinetic energy from charged particles to electrons and from photon interactions to electrons may be exploited to maximize discrimination between neutron and photon interactions in a detector.  
 In particular, a photon interacts with a single electron and transfers a portion its energy to the electron predominately through Compton scattering. 
-Neutron detectors often utilize a material with a large cross section for absorption, such as \iso[6]{li} or \iso[10]{B}.
+Neutron detectors often utilize a material with a large cross section for absorption, such as \iso[6]{Li} or \iso[10]{B}.
 When these materials absorb a neutron they usually disintegrate to produce ionized reaction products that in turn transfer their kinetic energy to many electrons.
-The electrons from the neturon reation products generally have less energy than those from gamma interactions therefore depositing their energy in a shorter range.
+The electrons from the neutron reaction products generally have less energy than those from gamma interactions therefore depositing their energy in a shorter range.
 
 For a particular material and neutron absorber, one can optimize the detector geometry to maximize the energy deposited in scintillation material by charged particles relative to the energy deposited by photon interactions. 
 This in turn permits one to maximize the recorded neutron interaction rate relative to recorded photon interaction rates by setting a lower level discriminator (LLD) above a threshold associated with energy deposited in the detector by photons.  
@@ -93,50 +93,50 @@ The measurements were then used to validate and bench marking the simulation.
 \subsection{Fabricated Detector Measurements}
 Samples are mounted to a 10 stage PMT with silicone based optical grease. 
 The PMT is attached to a Canberra base (also serving as a preamplifier). 
-The PMT's voltage is supplied by a high voltage power supply, with the power being supplied to the pre amplifier base by an amplifier.  
+The PMT's voltage is supplied by a high voltage power supply, with the power being supplied to the preamplifier base by an amplifier.  
 The output signal of the base feeds into the amplifier for pulse shaping and amplification. 
 The amplified signal is then inputted to an MCB-ADC, and can then be read using the MAESTRO-32 software. 
 A schematic of the setup is shown in Figure ~\ref{fig:ElectronicsSpectra}.
 \begin{figure}
 	\centering
-	\includegraphics[width=\figurewidth]{ElectronicsSpectra}
+	\includegraphics[width=\textwidth]{ElectronicsSpectra}
 	\caption{Pulse height measurement electronics}
 	\label{fig:ElectronicsSpectra}
 \end{figure}
 
  The films where exposed to a 100 $\mu$Ci \iso{60}{Co} source producing a \SI{10}{\milli\roetgen\per\hour} field. 
-The gamma irradiator is a thin steel outer box 14” x 12” x 12” which contains 4” x 8” x 2” lead bricks.  
+The gamma irridiator is a thin steel outer box 14” x 12” x 12” which contains 4” x 8” x 2” lead bricks.  
 The 100 $\mu$Ci \iso{60}{Co} source is contained in 2” of steel, with a 1/8” thick steel cap.  
 The detector well is a 4” outer diameter 14” pipe that is ¼” thick, and \SI{7}{\cm} of foam is used to ensure that the detector rests at a \SI{10}{\milli\roetgen\per\hour} field. 
 Figure ~\ref{fig:gammaIrridiator} shows an MCNPX rendering of the gamma irridiator.
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=\figurewidth]{GammaIrridiatorMCNPXRender.png}
+	\includegraphics[height=4cm]{GammaIrridiatorMCNPXRender.png}
 	\caption{MCNPX Rendering of Gamma Irridiator}
 	\label{fig:gammaIrridiator}
 \end{figure}
-The gamma intrinsic efficiency of the sample is calculated by integrating the mesured spectra, $p(x)$, as a function of a mathmatical lower level channel discrimiantor ($MLLD$) setting and dividing by the incident photon fluence, $\Phi$, as shown in \eqref{eqn:mlld}.
-The incident photon fluence was calculated with MCNPX and confirmed by measurments.
+The gamma intrinsic efficiency of the sample is calculated by integrating the measured spectra, $p(x)$, as a function of a mathematical lower level channel discriminator ($MLLD$) setting and dividing by the incident photon fluence, $\Phi$, as shown in \eqref{eqn:mlld}.
+The incident photon fluence was calculated with MCNPX and confirmed by measurements.
 \begin{align}
 	\label{eqn:mlld}
 	\epsilon_{int,\gamma} \left(MLLD\right) = \frac{\int_{MLLD}^\infty p(x)dx}{\Phi} 
 \end{align}
-The intrisinic effieciency of one in a million, $\epsilon_{int,\gamma} \le \si{1E-6}$, is determined by the $MLLD$ (corresponding to a channel) for which $\epsilon_{int,\gamma} \left(MLLD\right) \le \si{1E-6}$.
+The intrinsic efficiency of one in a million, $\epsilon_{int,\gamma} \le \si{1E-6}$, is determined by the $MLLD$ (corresponding to a channel) for which $\epsilon_{int,\gamma} \left(MLLD\right) \le \si{1E-6}$.
 
 A moderated \iso{Cf}{252} source is used to measure the neutron spectra.
-The neutron irradiator is a custom built \SI{0.59}{\ug}\iso[252]{Cf} source encased in 2” blocks of high density polyethylene (HDPE).
+The neutron irridiator is a custom built \SI{0.59}{\ug}\iso[252]{Cf} source encased in 2” blocks of high density polyethylene (HDPE).
 The HDPE box is approximately 20” long, 12” wide, and 14” tall (Figure 6).
 There are two detector 1/16” thick acrylic detectors wells, one surrounded by a 1/16” cadmium to shield out thermal neutrons, and the other surrounded by 1/16” of lead to shield out a similar amount of gammas as the cadmium well.
 The \SI{0.59}{\ug}\iso[252]{Cf} source is surrounded by stainless steel, which in turn is contained within a 2” diameter, ½” thick, 5 ¼” tall lead vessel. 
 Figure ~\ref{fig:neutronIrridiator} is an MCNPX rendering of the neutron irridiator.
 \begin{figure}[ht]
 	\centering
-	\includegraphics[width=\figurewidth]{NeutronIrridiator_MCNP.eps}
+	\includegraphics[width=\textwidth]{NeutronIrridiator_MCNP.eps}
 	\caption{MCNPX Rendering of Neutron Irridiator}
 	\label{fig:neutronIrridiator}
 \end{figure}
 The lead well measures the response of neutron of all energies, while the cadmium well measures the responses of fast neutrons.
-The two responses are then subtracted to yeild the thermal neutron response.
+The two responses are then subtracted to yield the thermal neutron response.
 
 While this source is not the same configuration as specified by PNNL, neutronic simulations in MCNPX can be used to relate the interactions to a simulated interaction rate for a detector mocked up according the the PNNL specifications encased in the RPM8 footprint.
 
@@ -144,8 +144,8 @@ While this source is not the same configuration as specified by PNNL, neutronic 
 The energy deposition from neutron and gamma interactions was simulated with the GEANT4 toolkit \cite{agostinelli_geant4simulation_2003}.
 The detector geometry was represented as a single layer of neutron absorbing material mounted atop of a non-scintillating material (PMMA).
 The initial events for runs where chosen by setting up a particle gun for thermal (0.025 eV) neutrons upon the detector and for both gammas resulting from a \iso{Co}{60} decay.
-The Livermore physics were used as the ionization module, extending the standard electro-magentic physics down to \SI{250}{\eV}, and a micro dose model, G4DNAPysics, was used to transport the electrons down to \SI{10}{\eV}.
-High performance, data driven hadronic modules were used in order to simulate the neutron and the subsquenet reaction product transport.
+The Livermore physics were used as the ionization module, extending the standard electro-magnetic physics down to \SI{250}{\eV}, and a micro dose model, G4DNAPysics, was used to transport the electrons down to \SI{10}{\eV}.
+High performance, data driven hadronic modules were used in order to simulate the neutron and the subsequent reaction product transport.
 
 The simulation was validated by reproducing the single collision energy loss for water as well as comparing spectra shapes and averages of simulated spectra to the measured spectra.
 The single collision energy loss spectra for water that was simulated is shown in Figure ~\ref{fig:SingleCollisionELossWater}.
@@ -160,32 +160,32 @@ It is thought that this is due to the water model in GEANT4 having better cross 
 
 It is well established that the pulse height of a radiation event is proportional to the energy deposition of the event\cite{birks_scintillations_1951}.
 Thus, the validity of the GEANT4 simulation can be determined by comparing the spectra shapes of measured spectra to simulated energy deposition.
-Figure ~\ref{fig:spectraComparisonGamma} shows the comparison between the simulated energy depostion from a \iso[60]{Co} source and the measured pulse height spectra from the \iso[60]{Co} irridiator.
+Figure ~\ref{fig:spectraComparisonGamma} shows the comparison between the simulated energy deposition from a \iso[60]{Co} source and the measured pulse height spectra from the \iso[60]{Co} irridiator.
 
 \begin{figure*}[ht]
 	\centering
-	\begin{subfigure}[b]{0.45\figurewidth}
+	\begin{subfigure}[b]{0.45\textwidth}
     		\includegraphics[width=\textwidth]{PS_EDepSim_Co60}
-		\caption{Simulated Energy Depositon}
+		\caption{GEANT4 Simulated Energy Deposition}
 	\end{subfigure}%
 	~
-	\begin{subfigure}[b]{0.45\figurewidth}
+	\begin{subfigure}[b]{0.45\textwidth}
     \includegraphics[width=\textwidth]{PS_GammaCR_20LiF_5PPO}
 		\caption{Measured Pulse Height Spectra}
 	\end{subfigure}%
-	\caption{Comparison of the energy deposition and pulse height spectra for validation. The spectra have the same shape, indicating agreement. The frabricated films greater than \SI{600}{\um} were of poor optical quality and therefore their results are not shown.}
+	\caption{Comparison of the energy deposition and pulse height spectra for validation. The spectra have the same shape, indicating agreement. The fabricated films greater than \SI{600}{\um} were of poor optical quality and therefore their results are not shown.}
 	\label{fig:spectraComparisonGamma}
 \end{figure*}
 A more quantitative approach was taken for validation by computing the average energy deposition and pulse height, the results of which are shown in Figure ~\ref{fig:EDepLightYield}. 
 With the average energy deposition on the left axis and the average light yield (pulse height) on the right axis, it is possible to compare the measurement and the simulation and agreement is observed.
 \begin{figure*}[ht]
 	\centering
-	\begin{subfigure}[b]{0.45\figurewidth}
+	\begin{subfigure}[b]{0.45\textwidth}
     		\includegraphics[width=\textwidth]{G4EDep_LightYield_Co60}
 		\caption{Gamma (\iso{Co}{60})}
 	\end{subfigure}%
 	~
-	\begin{subfigure}[b]{0.45\figurewidth}
+	\begin{subfigure}[b]{0.45\textwidth}
     		\includegraphics[width=\textwidth]{G4EDep_LightYield_Neutron}
 		\caption{Neutrons}
 	\end{subfigure}%
@@ -199,24 +199,25 @@ With the average energy deposition on the left axis and the average light yield 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Results}
 \label{sec:Results}
-The calculated gamma intrisinic efficiency for six polymeric films along with the neutron response of two of the films in Figure ~\ref{fig:GammaIntrNeutronCounts}. 
-It is observed that if the films are thin enough (less than \SI{150}{\um}) it is possible to have a significant count rate above the the mathmatical lower level discriminator necessary for the pulse height discrimination of one in a million.
+The calculated gamma intrinsic efficiency for six polymeric films along with the neutron response of two of the films in Figure ~\ref{fig:GammaIntrNeutronCounts}, while the fraction of neutron counts above the MLLD necessary for a given gamma intrinsic efficiency is plotted in Figure ~\ref{fig:crVsIntEff}.
+It is observed that if the films are thin enough (less than \SI{150}{\um}) it is possible to have a significant count rate above the the mathematical lower level discriminator necessary for the pulse height discrimination of one in a million.
+This is seen by the \SI{50}{\um} film and the \SI{150}{\um} film having the tail of their neutron spectra above the pulse height discriminator necessary for an intrinsic efficiency of \si{1E-6},
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\figurewidth]{PS_IntEff_LiF20_PPO5}
+    \includegraphics[width=\textwidth]{PS_IntEff_LiF20_PPO5}
     \caption{Gamma intrinsic efficiency (dashed lines) plotted against neutron counts (solid). The gamma spectra has been normalized by the number of incident photons upon the sample, while the neutron spectra has not.}
     \label{fig:GammaIntrNeutronCounts}
 \end{figure}
-The fraction of neutron counts above the MLLD necessary for a given gamma intrisinic efficinecy is plotted in Figure ~\ref{fig:crVsIntEff}.
-It is observed that films thinner than \SI{150}{\um} have a very much larger fraction of neutron counts above an intrisinic efficiency of 1 in a million.
 \begin{figure}[ht]
     \centering
-    \includegraphics[width=\figurewidth]{PS_IntFractionNCR_LiF}
-    \caption{Intrisisinic efficiency versus neutron count rate. }
+    \includegraphics[width=\textwidth]{PS_IntFractionNCR_LiF}
+    \caption{Intrinsic efficiency versus neutron count rate. }
     \label{fig:crVsIntEff}
 \end{figure}
 
+In addition it is observed in Figure ~\ref{fig:GammaIntrNeutronCounts} that thicker films only enhance the resolution of the film and do little to increase the light yield, as most of energy from a neutron event is capture in the film.
 The average energy deposited was computed for each thickness and and normalized by the incident energy for gammas or the Q-value of the reaction for neutrons, and is presented in Table ~\ref{tab:FractionEDep}.
+For thickness greater than \SI{150}{\um} there is little benefit in increasing the thickness of the film in terms of energy deposition; already over 90\% of the energy is being deposited in the film.
 \begin{table}[ht]
     \caption{Fractional Energy Deposition for Various Thickness}
 	\centering
@@ -232,11 +233,9 @@ The average energy deposited was computed for each thickness and and normalized 
 	\SI{600}{\um} & 0.087 & 0.982 \\
 	\SI{1}{\mm} & 0.130 & 0.989 \\
 	\SI{1}{\cm} & 0.425 & 0.998 \\
-	\hline
 	\end{tabular}
-    \label{tab:FractionEDep}
+  \label{tab:FractionEDep}
 \end{table}
-For thickness greater than \SI{150}{\um} there is little benifit in increasing the thickness of the film in terms of energy deposition; already over 90\% of the energy is being deposited in the film.
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
@@ -246,7 +245,8 @@ For thickness greater than \SI{150}{\um} there is little benifit in increasing t
 \section{Conclusions and Future Work}
 \label{sec:Conclusions}
 
-The question is how much energy deposition is required to make a photon?
+The difference in energy deposition between a gamma event in a thin film and a neutron event allows for a pulse height discriminator to be for the discrimination between neutrons and gammas.
+GEANT4 Monte Carlo simulations of the energy deposition show that for a \SI{150}{\um} film has over 90\% of the reaction product energies from a $\iso[6]{Li}\left(n,t\right)\alpha$ deposition in the film, but only 3.2\% of the gamma energies from a \iso[60]{Co} decay do.
 
 The low interaction rate of the thins films suggest a layered detector detector design in order to increase the neutron interaction rate, provided that the layers are spaced by non-scintillating material of thickness greater than the maximum electron from a Compton scattering from \iso[60]{Co} (around \SI{5}{\mm}).
 Future work will focus on the optimization of such a layered detector RPM.

@@ -38,10 +38,11 @@ class CaloHit : public G4VHit {
 		G4int trackID;				        /* Track ID */
 		G4int parentID;                     /* Parent ID */
     G4ParticleDefinition* particle;     /* Particle Definition */
-		G4int particleRank;                 /* Primary, Secondary, etc */
 		G4VPhysicalVolume* volume;			/* Physical Volume */
-
-	public:
+    G4String creatorName;          /* Process that created this track */
+    G4String postProcessName;       /* Post process name */ 
+    bool firstStep;                 /* First step in the volume */
+public:
 		void SetTrackID(G4int track)				{trackID = track;};
 		void SetParentID(G4int id)				    {parentID = id;};
 		void SetEdep(G4double de)					{edep = de;};
@@ -49,10 +50,11 @@ class CaloHit : public G4VHit {
 		void SetStepLength(G4double dl)				{stepLength = dl;};
 		void SetMomentum(G4ThreeVector p)			{momentum = p;};
 		void SetKineticEnergy(G4double E)           {kEnergy = E;};
-		void SetParticle(G4ParticleDefinition* pdef)
-		{particle = pdef;};
-		void SetParticleRank(G4int rank)            {particleRank = rank;};
+		void SetParticle(G4ParticleDefinition* pdef){particle = pdef;};
 		void SetVolume(G4VPhysicalVolume* v)	    {volume = v;};
+    void SetCreatorProcess(G4String p) {creatorName = p;};
+    void SetPostProcess(G4String p)    {postProcessName = p;};
+    void SetFirstStep(bool f)          {firstStep = f;};
 
 		G4int GetTrackID()					{return trackID;};
     G4int GetParentID()                 {return parentID;};
@@ -62,8 +64,10 @@ class CaloHit : public G4VHit {
 		G4double GetEdep()					{return edep;};
 		G4double GetStepLength()			{return stepLength;};
 		G4ParticleDefinition* GetParticle() {return particle;};
-		G4int GetParticleRank()             {return particleRank;};
 		G4VPhysicalVolume* GetVolume()      {return volume;};
+    G4String GetCreatorProcess() {return creatorName;};
+    G4String GetPostProcessName() {return postProcessName;};
+    bool GetFirstStep() {return firstStep;};
 };
 
 

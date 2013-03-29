@@ -15,41 +15,47 @@
 
 class Analysis {
 
-    public:
-        // Singleton Class
-        static Analysis* GetInstance(){
-            if(Analysis::singleton == NULL)
-                Analysis::singleton = new Analysis();
-            return Analysis::singleton;
-        }
+  public:
+    // Singleton Class
+    static Analysis* GetInstance(){
+      if(Analysis::singleton == NULL)
+        Analysis::singleton = new Analysis();
+      return Analysis::singleton;
+    }
 
-        virtual ~Analysis();
-        
-        // Accumulation Methods
-        void PrepareNewEvent(const G4Event* anEvent);
-        void PrepareNewRun(const G4Run* aRun);
-        void EndOfEvent(const G4Event* anEvent);
-        void EndOfRun(const G4Run* aRun);
-  
-        void SetIncidentParticleName(G4String pName);
-        void SetHistEMax(G4double emax);
-   private:
+    virtual ~Analysis();
 
-        // Singleton Analysis
-        Analysis();
-        static Analysis *singleton;
-        G4double GetDetectorThickness();
-        G4String GetDetectorMaterial();
-        G4String incidentParticleName;
-        G4double maxHistEnergy;
+    // Accumulation Methods
+    void PrepareNewEvent(const G4Event* anEvent);
+    void PrepareNewRun(const G4Run* aRun);
+    void EndOfEvent(const G4Event* anEvent);
+    void EndOfRun(const G4Run* aRun);
+    // Detector Messenger  
+    void SetIncidentParticleName(G4String pName);
+  private:
 
-        // ROOT Output variables
-        TFile* outfile;
-        TH1F* eDepHist;
-        TNtuple* posEDepTuple;
+    // Singleton Analysis
+    Analysis();
+    static Analysis *singleton;
 
-        // Accumulation Variables
-        G4double eDepEvent;
+    // Class interanls
+    G4double GetDetectorThickness();
+    G4String GetDetectorMaterial();
+    G4String incidentParticleName;
+    bool neutron;
 
+    // ROOT Output variables
+    TFile* outfile;
+    TNtuple* kinETuple; 
+    TH1F* kinEHist;
+    TH1F* numSecHist;
+    TH1F* kEAlphaHist;  // Only for neturons
+    TH1F* kETritonHist;
+    TH1F* nSAlphaHist;
+    TH1F* nSTritonHist;
+
+    G4int numSec;
+    G4int numSecAlpha;
+    G4int numSecTriton;
 };
 #endif

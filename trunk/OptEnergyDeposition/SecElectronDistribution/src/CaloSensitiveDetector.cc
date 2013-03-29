@@ -6,6 +6,7 @@
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 #include "G4TouchableHistory.hh"
+#include "G4VProcess.hh"
 
 CaloSensitiveDetector::CaloSensitiveDetector(const G4String& name,
         const G4String& HCname) :
@@ -33,30 +34,29 @@ void CaloSensitiveDetector::Initialize(G4HCofThisEvent* HCE){
  */
 G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
 
-    G4double edep = aStep->GetTotalEnergyDeposit();
-    G4double stepLength = aStep->GetStepLength();
-
-    // Only saving a hit if there was energy depostion
-    G4double minEDep = 0.*eV;
-    if ( edep <= minEDep || stepLength == 0.) return false;
-
-    // Only saving hits for the first particles (zero step)
-    //if ( aStep->GetStepLength() != 0.0) return false;
-    // Getting the copy number
-    G4TouchableHistory* touchable = (G4TouchableHistory*)
-        (aStep->GetPreStepPoint()->GetTouchable());
-
-
     CaloHit* newHit = new CaloHit();
-    newHit->SetTrackID	(aStep->GetTrack()->GetTrackID());
-    newHit->SetParentID    (aStep->GetTrack()->GetParentID());
-    newHit->SetEdep		(edep);
-    newHit->SetStepLength	(stepLength);
-    newHit->SetPosition	(aStep->GetPreStepPoint()->GetPosition());
-    newHit->SetMomentum	(aStep->GetPreStepPoint()->GetMomentum());
+    //G4cout<<"First step?: "<<aStep->IsFirstStepInVolume()<<G4endl;
+    const G4VProcess *p = aStep->GetTrack()->GetCreatorProcess();
+    G4String pName = "FirstStep";
+    if (p != NULL)
+      pName = p->GetProcessName();
+    newHit->SetCreatorProcess(pName);
+    pName = "";
+    p = aStep->GetPostStepPoint()->GetProcessDefinedStep();
+    if (p != NULL)
+      pName = p->GetProcessName();
+    newHit->SetFirstStep(aStep->GetPreStepPoint()->GetStepStatus() == fGeomBoundary);
+    
+    newHit->SetPostProcess(pName);
+    newHit->SetTrackID    (aStep->GetTrack()->GetTrackID());
+    newHit->SetParentID   (aStep->GetTrack()->GetParentID());
+    newHit->SetEdep		    (aStep->GetTotalEnergyDeposit());
+    newHit->SetStepLength	(aStep->GetStepLength());
+    newHit->SetPosition	  (aStep->GetPreStepPoint()->GetPosition());
+    newHit->SetMomentum	  (aStep->GetPreStepPoint()->GetMomentum());
     newHit->SetKineticEnergy (aStep->GetPreStepPoint()->GetKineticEnergy());
     newHit->SetParticle   (aStep->GetTrack()->GetDefinition());
-    newHit->SetVolume		(aStep->GetTrack()->GetVolume());
+    newHit->SetVolume		  (aStep->GetTrack()->GetVolume());
     hitCollection->insert( newHit );
 
     return true;

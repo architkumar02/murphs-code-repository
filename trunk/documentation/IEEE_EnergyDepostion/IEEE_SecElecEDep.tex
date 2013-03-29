@@ -21,26 +21,26 @@
 \title{\papertitle}
 \author{Laurence~F.~Miller,~Matthew~J.~Urffer,~and~Andrew~Mabe%
 	\thanks{L. F. Miller and M. Urffer is with the Department of Nuclear Engineering, University of Tennessee, Knoxville, TN 37916 USA email: (lfmiller@utk.edu, murffer@utk.edu).}%
-	\thanks{A. Mabe is with the Deparment of Chemistry, University of Tennessee, Knoxville, TN 37916 USA email: amabe1@utk.edu}%
+	\thanks{A. Mabe is with the Department of Chemistry, University of Tennessee, Knoxville, TN 37916 USA email: amabe1@utk.edu}%
 	\thanks{Manuscript received \textbf{DATE}; revised \textbf{DATE}}%
 	\thanks{This works was supported by the Domestic Nuclear Detection Office (DNDO) through award 003387891.
 Any opinions, findings, and conclusions or recommendations expressed in this material are those of the authors and do not necessarily reflect the views of DNDO.}}
 
-\markboth{IEEE TRANSACTIONS ON NCUCLEAR SCIENCE,~VOL.~00,~NO.~0,~\textbf{DATE}}%
+\markboth{IEEE TRANSACTIONS ON NUCLEAR SCIENCE,~VOL.~00,~NO.~0,~\textbf{DATE}}%
 {Miller \MakeLowercase{\textit{et al.}}: \papertitle}
 
 \maketitle
 %\IEEpubid{IEEE TRANSACTIONS ON NCUCLEAR SCIENCE, VOL. ##, NOO. #, DATE}
 \begin{abstract}
 Alternative neutron detection technologies are required to replace the current \iso[3]{He} based Radiation Portal Monitors.
-Replacement technologies must fulfill two basic criteria; 1) a neutron detection efficeincy, and 2) the performance of the detector should not suffer in the the presence of a strong gamma field.
+Replacement technologies must fulfill two basic criteria; 1) a neutron detection efficiency, and 2) the performance of the detector should not suffer in the the presence of a strong gamma field.
 The difference in the energy deposition mechanics from a charge particle (originating from the fission products of a neutron interaction) and the Compton scattered electrons from a gamma interaction allows for the effective discrimination between neutrons and gammas based on energy deposition.
 Polymeric films containing \iso[6]{LiF} ranging from \SI{15}{\um} to \SI{1}{\cm} where fabricated and tested for their neutron count rate above a lower level discriminator necessary to meet the gamma intrinsic efficiency set forth by PNNL.
 The energy deposition in the films was also simulated with GEANT4 and compared to the measured pulse height spectra.
 \end{abstract}
 
 \begin{IEEEkeywords}
-Energy Depostion, Detectors, Monte-Carlo Simualtion, GEANT4
+Energy Deposition, Detectors, Monte-Carlo Simulation, GEANT4
 \end{IEEEkeywords}
 
 \IEEEpeerreviewmaketitle
@@ -57,7 +57,7 @@ The current technology used in Radiation Portal Monitors (RPMs) for detecting ne
 As a result a number of alternative detection systems continue to be investigated with the most viable including: boron Florida  filled proportional detectors, boron-lined proportional detectors, lithium-6 (\iso[6]{Li}) loaded scintillation glass fiber detectors, and \iso[6]{Li} plus scintillator-coated wavelength-shifting fiber detectors\cite{pnnl_18471,kouzes_neutron_2010}.  
 
 PNNL along with the DNDO have determined a set of specifications that that replacement RPMs must meet \cite{kouzes_neutron_2010, kouzes_neutron_1999}. 
-These requirements are outline in Table \ref{tab:DHSCritera}, and are parapharased below.
+These requirements are outline in Table \ref{tab:DHSCritera}, and are paraphrased below.
 The specifications consist of an absolute neutron detection efficiency greater than \SI{2.5}{\cps} at \SI{2}{\meter} for a defined moderated source, an intrinsic gamma-neutron detection efficiency of one in a million, and a gamma absolute rejection ratio for neutrons stating that the performance of the detector should not change by more than 10\% in a \SI{10}{\milli\roetgen\per\hour} gamma field.
 
 The absolute neutron detection efficiency $\left (\epsilon_{abs,n} \right )$ is defined as the number of neutron pulses recorded divided by the number of neutrons emitted by the source (with only a neutron source present) as shown in \eqref{eqn:absn}.
@@ -71,8 +71,8 @@ where:
  \item[] $N_{ns}$ is the neutron emission rate from the source.
 \end{itemize}
 DNDO guidelines state that a \iso[252]{Cf} source is to be used for the determination of the absolute neutron detection efficiency \cite{pnnl_18471}.
-While \iso[252]{Cf} also emits photons, the photon flux incident upon a candidate detector is negligible in the specified source configuration of at least \SI{0.5}{\cm} of lead sheilding arroudning the souce with \SI{2.5}{\cm} of polyethylene modering the source.
-The source is then placted \SI{2}{\meter} from the midpoint of the detector.
+While \iso[252]{Cf} also emits photons, the photon flux incident upon a candidate detector is negligible in the specified source configuration of at least \SI{0.5}{\cm} of lead shielding encasing the source with \SI{2.5}{\cm} of polyethylene moderating the source.
+The source is then placed \SI{2}{\meter} from the midpoint of the detector.
 The intrinsic gamma-neutron detection efficiency $\left(\epsilon_{int,\gamma n}\right)$  is defined as the number of neutron pulses detected divided by the number of photons striking the detector, thus measuring the response of a neutron detector to the presence of a gamma ray field when no neutron source is present .
 This is shown in \eqref{eqn:intGN}
 \begin{align}
@@ -93,7 +93,7 @@ The GARRn is defined as the absolute neutron detection efficiency in the presenc
 \end{align}
 \begin{table}
   \centering
-	\caption{Replacment Portal Monitor Critera}
+	\caption{Replacement Portal Monitor Criteria}
 	\begin{tabular}{m{2.5cm} m{2.5cm} }
 	Parameter & Specification \\
 	\hline
@@ -121,14 +121,14 @@ The difference in the transfer of kinetic energy from charged particles to elect
 In particular, a photon interacts with a single electron and transfers a portion its energy to the electron predominately through Compton scattering. 
 Neutron detectors often utilize a material with a large cross section for absorption, such as \iso[6]{Li} or \iso[10]{B}.
 When these materials absorb a neutron they usually disintegrate to produce ionized reaction products that in turn transfer their kinetic energy to many electrons.
-In the case of $\iso[6]{Li}\left(n,\iso[3]{H}\right)\alpha$ the fission energy is distrbuted between a triton of energy \SI{2.73}{\mega\eV} and an alpha of energy \SI{2.05}{\mega\eV}.
+In the case of $\iso[6]{Li}\left(n,\iso[3]{H}\right)\alpha$ the fission energy is distributed between a triton of energy \SI{2.73}{\mega\eV} and an alpha of energy \SI{2.05}{\mega\eV}.
 The electrons from the neutron reaction products generally have less energy than those from gamma interactions therefore depositing their energy in a shorter range.
 
 For a particular material and neutron absorber, one can optimize the detector geometry to maximize the energy deposited in scintillation material by charged particles relative to the energy deposited by photon interactions. 
 This in turn permits one to maximize the recorded neutron interaction rate relative to recorded photon interaction rates by setting a lower level discriminator (LLD) above a threshold associated with energy deposited in the detector by photons.  
 As the LLD is increased, the efficiency for detecting neutrons is diminished; however, the intrinsic efficiency for detecting neutrons relative to photons is dramatically increased. 
 
-The maximium kinetic energy of an electron from a Compton scattering event with an impingent \iso[60]{Co} source is \SI{1.117}{\mega\eV}, with a countinious slowing down approximation (CSDA) range greater than \SI{4.5E-1}{\gram\per\cm\squared} in polystyrene \cite{berger_estar_2005}.
+The maximum kinetic energy of an electron from a Compton scattering event with an impingement \iso[60]{Co} source is \SI{1.117}{\mega\eV}, with a continuous slowing down approximation (CSDA) range greater than \SI{4.5E-1}{\gram\per\cm\squared} in polystyrene \cite{berger_estar_2005}.
 If elastic scattering between the alpha, triton and electrons is assumed the maximum kinetic energy of an electron is  \SI{1.097}{\kilo\eV} for the alpha particle and \SI{1.986}{\kilo\eV} for the triton.
 Since the range of the electron from a gamma interaction is more than \num{1E3} times greater than the range of electrons from the alpha and triton (Table \ref{tab:BasicEDepOutline}) it is much more likely that the electrons the alpha and the triton generate will deposit all of their energy in a thin film than the electron from a gamma.
 This is also reflected in the stopping power, where the reaction product secondary electrons have a stopping power 40 times that of the secondary electrons from a gamma \cite{berger_estar_2005}.
@@ -213,7 +213,7 @@ While this source is not the same configuration as specified by PNNL, neutronic 
 The energy deposition from neutron and gamma interactions was simulated with the GEANT4 toolkit \cite{agostinelli_geant4simulation_2003}.
 The detector geometry was represented as a single layer of neutron absorbing material mounted atop of a non-scintillating material (PMMA).
 The initial events for runs where chosen by setting up a particle gun for thermal (\SI{0.025}{\eV}) neutrons upon the detector and for both gammas resulting from a \iso[60]{Co} decay.
-The Livermore physics were used as the ionization module, extending the standard electro-magnetic physics down to \SI{250}{\eV}, and a micro dose model, G4DNAPysics, was used to transport the electrons down to \SI{10}{\eV}.
+The Livermore physics were used as the ionization module, extending the standard electro-magnetic physics down to \SI{250}{\eV}, and a micro dose model, G4DNAPhysics, was used to transport the electrons down to \SI{10}{\eV}.
 High performance, data driven hadronic modules were used in order to simulate the neutron and the subsequent reaction product transport.
 
 The simulation was validated by reproducing the single collision energy loss for water as well as comparing spectra shapes and averages of simulated spectra to the measured spectra.

@@ -40,6 +40,8 @@ G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
     G4double minEDep = 0.*eV;
     if ( edep <= minEDep || stepLength == 0.) return false;
 
+    // Only saving hits for the first particles (zero step)
+    //if ( aStep->GetStepLength() != 0.0) return false;
     // Getting the copy number
     G4TouchableHistory* touchable = (G4TouchableHistory*)
         (aStep->GetPreStepPoint()->GetTouchable());

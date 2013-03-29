@@ -33,18 +33,15 @@ class Analysis {
   
         void SetIncidentParticleName(G4String pName);
         void SetHistEMax(G4double emax);
-        void SetBinWidth(G4double binWidth);
    private:
 
         // Singleton Analysis
         Analysis();
         static Analysis *singleton;
         G4double GetDetectorThickness();
-        G4double GetCalorimeterThickness();
         G4String GetDetectorMaterial();
         G4String incidentParticleName;
         G4double maxHistEnergy;
-        G4double posHistBinWidth;
 
         // ROOT Output variables
         TFile* outfile;

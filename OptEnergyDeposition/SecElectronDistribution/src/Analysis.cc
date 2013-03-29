@@ -33,7 +33,6 @@ Analysis* Analysis::singleton = 0;
 Analysis::Analysis(){
   // Empty Constructor, assingment done in constuctor list
   maxHistEnergy = 5*MeV;
-  posHistBinWidth = 5*um;
   incidentParticleName = "";
 }
 Analysis::~Analysis(){
@@ -108,32 +107,6 @@ G4double Analysis::GetDetectorThickness(){
   } 
   return detThickness;
 }
-/**
- * GetCalorimeterThickness
- * @return the thickness of the calorimeter
- */
-G4double Analysis::GetCalorimeterThickness(){
-  G4double caloThickness = 0;
-  G4LogicalVolume* detLV
-    = G4LogicalVolumeStore::GetInstance()->GetVolume("Absorber");
-  G4LogicalVolume* gapLV
-    = G4LogicalVolumeStore::GetInstance()->GetVolume("Gap");
-  G4Tubs* detTubs = 0;
-  G4Tubs* gapTubs = 0;
-  if ( detLV && gapLV) {
-    detTubs = dynamic_cast< G4Tubs*>(detLV->GetSolid()); 
-    gapTubs = dynamic_cast< G4Tubs*>(gapLV->GetSolid()); 
-  } 
-  if ( detTubs && gapTubs) {
-    caloThickness = detTubs->GetZHalfLength()*2;  
-    caloThickness += gapTubs->GetZHalfLength()*1;  
-  }
-  else  {
-    G4cerr << "Calorimeter Thickness not found." << G4endl;
-  } 
-  return caloThickness;
-
-}
 
 /**
  * PrepareNewEvent
@@ -167,13 +140,19 @@ void Analysis::EndOfEvent(const G4Event* event){
     hc = event->GetHCofThisEvent()->GetHC(hitItter);
     for(G4int i = 0; i < hc->GetSize(); i++){
       hit = (CaloHit*) hc->GetHit(i);
-      //hit->Print();
-      if (hit->GetTrackID() == 2 && hit->GetParentID() == 1){
-        // First interaction of the particle
-        zPos = GetCalorimeterThickness(); // Subtracting the thickness
-        xPos = hit->GetPosition().x();
-        yPos = hit->GetPosition().y();
-        zPos -= hit->GetPosition().z();
+      hit->Print();
+      G4int parentID = hit->GetParentID();
+      if (incidentParticleName == "neutron" && 
+         (parentID == 2 || parentID == 3)){
+         // The secondary electrons from a charged particle  
+          
+      }
+      else if (incidentParticleName == "Co60"
+        && parentID == 1){
+        // The secondary electron from a Gamma Event
+      }
+      else{
+        G4cerr<<incidentParticleName<<" is unrecongizned for analysis"<<G4endl;
       }
 
       // Adding the energy deposition (in MeV)
@@ -221,12 +200,4 @@ void Analysis::SetIncidentParticleName(G4String pName){
  */
 void Analysis::SetHistEMax(G4double emax){
   maxHistEnergy = emax;
-}
-/**
- * SetBinWidth
- *
- * Sets the width of the position 
- */
-void Analysis::SetBinWidth(G4double binWidth){
-  posHistBinWidth = binWidth;
 }

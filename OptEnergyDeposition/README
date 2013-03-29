@@ -1,0 +1,12 @@
+Folder of GEANT4 Simulations
+  Document Projects:
+    OptEnergyDeposition
+    SecElectronDistribution
+
+OptEnergyDeposition
+  Finds the Energy Depsotion in films
+  Geometry is a single film layer with a single spaer layer
+
+SecElectronDistribution
+  Calculates the electron energy distribution of films
+  Geometry is a single film layer with a single spaer layer

@@ -23,13 +23,18 @@ CaloHit::~CaloHit() {}
  * Print's out information about the hit
  */
 void CaloHit::Print(){
-	G4cout << "  trackID: " << trackID <<" particle: "
-         <<particle->GetParticleName()<<" rank: "<<particleRank
-		     <<"\nvolume: "<<volume->GetName()
-         <<" position[mm]: " << pos/mm
-         <<"\n Momentum "<<momentum<<" Kinetic Energy[keV]"<<kEnergy/keV
-		     <<"\nenergy deposit[keV]: " << edep/keV<<" step length [mm]: "
-         << stepLength/mm
+	G4cout <<"Hit: "<<this
+         <<"\n\ttrackID: "<<trackID
+         <<"\n\tparentID: "<<parentID
+         <<"\n\tparticle: "<<particle->GetParticleName()
+		     <<"\n\tcreator process: "<<creatorName
+         <<"\n\tpost process name: "<<postProcessName
+         <<"\n\tfirst step in volume: "<<firstStep
+//       <<"\n\tvolume: "<<volume->GetName()
+//         <<"\n\tposition: " << G4BestUnit(pos,"Length")
+         <<"\n\tKinetic Energy: "<<G4BestUnit(kEnergy,"Energy")
+		     <<"\n\tenergy deposit: "<<G4BestUnit(edep,"Energy")
+//         <<"\n\tstep length: "<< G4BestUnit(stepLength,"Length")
          <<G4endl;
 }
 

@@ -32,7 +32,6 @@ Analysis* Analysis::singleton = 0;
  */
 Analysis::Analysis(){
   // Empty Constructor, assingment done in constuctor list
-  maxHistEnergy = 5*MeV;
   incidentParticleName = "";
 }
 Analysis::~Analysis(){
@@ -53,23 +52,22 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
   G4String detMat = GetDetectorMaterial();
 
   std::ostringstream oss;
-#ifdef G4MPIUSE
-  char hostName[64];
-  gethostname(hostName,64);
-  oss <<incidentParticleName<<"run_"<<aRun->GetRunID()<<"_"
-      <<hostName<<"_rank_"<<G4MPImanager::GetManager()-> GetRank()
-      <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
-#else
   oss <<incidentParticleName<<"_"
-      <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
-#endif
+    <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
   std::string fname = oss.str();
   fname.erase(remove(fname.begin(), fname.end(),' '),fname.end());
-  
+
   // Creating ROOT analysis objects (histogram)
   outfile = new TFile(fname.data(),"RECREATE");
-  posEDepTuple = new TNtuple("posEDepTuple","Initial Position and Energy Deposition","x:y:z:EnergyDep");
-  eDepHist = new TH1F("eDepHist","Total Energy Deposition",500,0*eV,maxHistEnergy);
+  kinEHist = new TH1F("kinEHist","Secondary Electron Kinetic Energy",500,0*eV,1.2*MeV);
+  kinETuple = new TNtuple("kinETuple","Kinetic Energy Tuple","kinE");
+  numSecHist = new TH1F("numSecHist","Number of Secondary Electrons",150,0,150); 
+  if (neutron){
+    kEAlphaHist = new TH1F("kEAlphaHist","Secondary Electron Kinetic Energy",500,0*eV,2E-3*MeV);
+    kETritonHist = new TH1F("kETirtonHist","Secondary Electron Kinetic Energy",500,0*eV,2E-3*MeV);
+    nSAlphaHist = new TH1F("nSAlphaHist","Number of Secondary Electrons",25,0,25); 
+    nSTritonHist = new TH1F("nSTritonHist","Number of Secondary Electrons",150,0,150); 
+  }
   G4cout<<"Prepared run "<<aRun->GetRunID()<<G4endl;
 }
 /**
@@ -87,6 +85,7 @@ G4String Analysis::GetDetectorMaterial(){
   else
     return G4String("UNKOWN");
 }
+
 /**
  * GetDetectorThickness
  * @return the thickness of the detector, from the G4LogicalVolumeStore
@@ -112,11 +111,11 @@ G4double Analysis::GetDetectorThickness(){
  * PrepareNewEvent
  *
  * @brief - Called before each event
- * The energy deposition per slice is initialzed per event
  */
-void Analysis::PrepareNewEvent(const G4Event* anEvent){
-  // Initialize energy deposition to zero
-  eDepEvent = 0.0;
+void Analysis::PrepareNewEvent(const G4Event* event){
+  numSec = 0;
+  numSecTriton = 0;
+  numSecAlpha = 0;
 }
 
 
@@ -128,40 +127,52 @@ void Analysis::PrepareNewEvent(const G4Event* anEvent){
 void Analysis::EndOfEvent(const G4Event* event){
 
   G4VHitsCollection *hc;
-  G4double xPos = 0.0; 
-  G4double yPos = 0.0;
-  G4double zPos = 0.0; 
   CaloHit *hit;
 
   // Iterating through the hit collection to accumulate the energy deposition 
   G4int numHitColl = event->GetHCofThisEvent()->GetNumberOfCollections();
+  G4double kinE = 0.0;
   for(G4int hitItter = 0; hitItter < numHitColl; hitItter++){
     // Itterating through the hit collection
     hc = event->GetHCofThisEvent()->GetHC(hitItter);
     for(G4int i = 0; i < hc->GetSize(); i++){
       hit = (CaloHit*) hc->GetHit(i);
-      hit->Print();
       G4int parentID = hit->GetParentID();
-      if (incidentParticleName == "neutron" && 
-         (parentID == 2 || parentID == 3)){
-         // The secondary electrons from a charged particle  
-          
-      }
-      else if (incidentParticleName == "Co60"
-        && parentID == 1){
-        // The secondary electron from a Gamma Event
-      }
-      else{
-        G4cerr<<incidentParticleName<<" is unrecongizned for analysis"<<G4endl;
-      }
 
-      // Adding the energy deposition (in MeV)
-      eDepEvent += hit->GetEdep()/MeV;
+      // The secondary electrons from a charged particle  
+      if (neutron && (parentID == 2 || parentID == 3)){
+        kinE = hit->GetKineticEnergy();
+        numSec += 1;
+        kinEHist->Fill(kinE);
+        kinETuple->Fill(kinE);
+        if (parentID == 2){ // triton
+          numSecTriton += 1;
+          kETritonHist->Fill(kinE);
+        }
+        else{ // alpha
+          numSecAlpha += 1;
+          kEAlphaHist->Fill(kinE);
+        }
+      }
+      // The secondary electron from a Gamma Event
+      else if (!neutron && parentID == 1){
+        if (hit->GetKineticEnergy() > kinE)
+          kinE = hit->GetKineticEnergy();
+        numSec = 1;
+      }
     }
   }
-  // Adding to the run accumulation
-  eDepHist->Fill(eDepEvent);
-  posEDepTuple->Fill(xPos,yPos,zPos,eDepEvent);
+  // End of Itterating through hit collection
+  if (neutron){
+    nSAlphaHist->Fill(numSecAlpha);
+    nSTritonHist->Fill(numSecTriton);
+  }
+  else{
+    // Gamma Filling with first energy
+    kinEHist->Fill(kinE);
+    kinETuple->Fill(kinE);
+  }
+  numSecHist->Fill(numSec);
 }
 
 /**
@@ -174,12 +185,23 @@ void Analysis::EndOfRun(const G4Run* aRun){
   // Lets get the number of events simulated
   G4int numEvents = aRun->GetNumberOfEventToBeProcessed();
   G4double detThickness = GetDetectorThickness();
-  
+  G4cout.precision(5);
   G4cout<<"End Of Run "<<aRun->GetRunID()
-        <<"\n\tRan "<<numEvents<<" events"
-        <<"\n\tThickness [mm]: "<<detThickness/mm
-        <<"\n\tAverage Energy Deposition per event (MeV): "<<eDepHist->GetMean()
-        <<" +/- "<<eDepHist->GetMeanError()<<G4endl;
+    <<"\n\tRan "<<numEvents<<" events"
+    <<"\n\tThickness: "<<G4BestUnit(detThickness,"Length")
+    <<"\n\tAverage Kinetic Energy of Secondaries: "<<std::setw(6)<<G4BestUnit(kinEHist->GetMean(),"Energy")
+    <<" +/- "<<std::setw(6)<<G4BestUnit(kinEHist->GetMeanError(),"Energy")
+    <<"\n\tAverage number of Secondaries: "<<std::setprecision(5)<<numSecHist->GetMean()
+    <<" +/- "<<std::setprecision(5)<<numSecHist->GetMeanError()<<G4endl;
+  if(neutron){
+    G4cout<<"\t         Average Secondary Energy [keV]      Average Number of Secondaries"
+      <<"\n\tAlpha "<<std::setw(10)<<G4BestUnit(kEAlphaHist->GetMean(),"Energy")<<" +/- "<<std::setw(6)<<G4BestUnit(kEAlphaHist->GetMeanError(),"Energy")
+      <<"      "<<std::setw(6)<<nSAlphaHist->GetMean()<<" +/- "<<std::setw(10)<<nSAlphaHist->GetMeanError()
+      <<"\n\tTriton"<<std::setw(10)<<G4BestUnit(kETritonHist->GetMean(),"Energy")<<" +/- "<<std::setw(6)<<G4BestUnit(kETritonHist->GetMeanError(),"Energy")
+      <<"      "<<std::setw(6)<<nSTritonHist->GetMean()<<" +/- "<<std::setw(10)<<nSTritonHist->GetMeanError()
+      <<G4endl;
+  }
+  G4cout.precision(5);
   outfile->Write();
   outfile->Close();
   delete outfile;
@@ -191,13 +213,10 @@ void Analysis::EndOfRun(const G4Run* aRun){
  */
 void Analysis::SetIncidentParticleName(G4String pName){
   incidentParticleName = pName;
+
+  if (incidentParticleName == "neutron" )
+    neutron = true;
+  else
+    neutron = false;
 }
 
-/**
- * SetHistEMax
- *
- * Sets the maximum energy of the Analysis histogram 
- */
-void Analysis::SetHistEMax(G4double emax){
-  maxHistEnergy = emax;
-}

@@ -5,10 +5,9 @@
 
 #include "G4RunManager.hh"
 #include "G4UImanager.hh"
+
 #include "AnalysisMessenger.hh"
-
 #include "PhysicsList.hh"
-
 #include "Randomize.hh"
 
 #ifdef G4VIS_USE

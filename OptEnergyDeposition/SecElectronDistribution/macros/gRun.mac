@@ -5,7 +5,6 @@
 # Setting up the analysis
 #
 /Analysis/setParticleName Co60
-/Analysis/setHistogramMax 1.5 MeV
 # 
 # Running the co60 beam source
 #
@@ -19,26 +18,7 @@
 /PolymerTransport/det/setRadius 10 cm
 #
 # Running through absorber thickness
-/PolymerTransport/det/setAbsThick 2.5 cm
+/PolymerTransport/det/setAbsThick 2 cm
 /PolymerTransport/det/update
-/run/beamOn 10000
+/run/beamOn 10000000
 #
-/PolymerTransport/det/setAbsThick 2.5 mm
-/PolymerTransport/det/update
-/run/beamOn 10000
-#
-/PolymerTransport/det/setAbsThick 0.25 mm
-/PolymerTransport/det/update
-/run/beamOn 10000
-#
-/PolymerTransport/det/setAbsThick 0.1 mm
-/PolymerTransport/det/update
-/run/beamOn 10000
-#
-/PolymerTransport/det/setAbsThick 25 um
-/PolymerTransport/det/update
-/run/beamOn 10000
-#
-/PolymerTransport/det/setAbsThick 2.5 um
-/PolymerTransport/det/update
-/run/beamOn 10000

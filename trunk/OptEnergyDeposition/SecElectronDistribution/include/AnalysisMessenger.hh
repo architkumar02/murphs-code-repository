@@ -21,7 +21,6 @@ class AnalysisMessenger: public G4UImessenger
     G4UIdirectory*             AnalysisDir;
     G4UIcmdWithAString*        ParticleNameCmd;
     G4UIcmdWithADoubleAndUnit* HistEMaxCmd;
-    G4UIcmdWithADoubleAndUnit* HistBinWidthCmd;
 };
 
 #endif

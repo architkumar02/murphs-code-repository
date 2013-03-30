@@ -61,18 +61,18 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 
   // Creating ROOT analysis objects (histogram)
   outfile = new TFile(fname.data(),"RECREATE");
-  kinEHist = TH1FLog("kinEHist","Secondary Electron Kinetic Energy",500,0*eV,5*MeV);
+  kinEHist = TH1FLog("kinEHist","Secondary Electron Kinetic Energy",100,0*eV,5*MeV);
   kinETuple = new TNtuple("kinETuple","Kinetic Energy Tuple","kinE");
   numSecHist = new TH1F("numSecHist","Number of Secondary Electrons",150,0,150); 
   if (neutron){
     aKinETuple = new TNtuple("aKinETuple","Alpha Kinetic Energy Tuple","kinE");
     tKinETuple = new TNtuple("tKinETuple","Triton Kinetic Energy Tuple","kinE");
-    kEAlphaHist = new TH1F("kEAlphaHist","Secondary Electron Kinetic Energy",500,0*eV,5*keV);
-    kETritonHist = new TH1F("kETritonHist","Secondary Electron Kinetic Energy",500,0*eV,5*keV);
+    kEAlphaHist = new TH1F("kEAlphaHist","Secondary Electron Kinetic Energy",100,0*eV,5*keV);
+    kETritonHist = new TH1F("kETritonHist","Secondary Electron Kinetic Energy",100,0*eV,5*keV);
     nSAlphaHist = new TH1F("nSAlphaHist","Number of Secondary Electrons",25,0,25); 
     nSTritonHist = new TH1F("nSTritonHist","Number of Secondary Electrons",150,0,150); 
-    kEAlphaHistLog = TH1FLog("kEAlphaHistLog","Secondary Electron Kinetic Energy",500,0*eV,5*MeV);
-    kETritonHistLog = TH1FLog("kETritonHistLog","Secondary Electron Kinetic Energy",500,0*eV,5*MeV);
+    kEAlphaHistLog = TH1FLog("kEAlphaHistLog","Secondary Electron Kinetic Energy",100,0*eV,5*MeV);
+    kETritonHistLog = TH1FLog("kETritonHistLog","Secondary Electron Kinetic Energy",100,0*eV,5*MeV);
   }
   G4cout<<"Prepared run "<<aRun->GetRunID()<<G4endl;
 }
@@ -153,7 +153,6 @@ G4double Analysis::GetDetectorThickness(){
  * @brief - Called before each event
  */
 void Analysis::PrepareNewEvent(const G4Event* event){
-  numSec = 0;
   numSecTriton = 0;
   numSecAlpha = 0;
 }
@@ -185,16 +184,15 @@ void Analysis::EndOfEvent(const G4Event* event){
         kinE = hit->GetKineticEnergy();
         kinETuple->Fill(kinE);
         MyFill(kinEHist,kinE);
-        numSec += 1;
         if (parentID == 2){ // triton
           tKinETuple->Fill(kinE);
-          kETritonHist->Fill(kinE);
+          kETritonHist->Fill(kinE/keV);
           MyFill(kETritonHistLog,kinE);
           numSecTriton += 1;
         }
         else{ // alpha
           numSecAlpha += 1;
-          kEAlphaHist->Fill(kinE);
+          kEAlphaHist->Fill(kinE)/keV;
           MyFill(kEAlphaHistLog,kinE);
           aKinETuple->Fill(kinE);
         }
@@ -203,7 +201,6 @@ void Analysis::EndOfEvent(const G4Event* event){
       else if (!neutron && parentID == 1){
         if (hit->GetKineticEnergy() > kinE)
           kinE = hit->GetKineticEnergy();
-        numSec = 1;
       }
     }
   }
@@ -211,13 +208,14 @@ void Analysis::EndOfEvent(const G4Event* event){
   if (neutron){
     nSAlphaHist->Fill(numSecAlpha);
     nSTritonHist->Fill(numSecTriton);
+    numSecHist->Fill(numSecTriton+numSecAlpha);
   }
   else{
     // Gamma Filling with first energy
     MyFill(kinEHist,kinE);
     kinETuple->Fill(kinE);
+    numSecHist->Fill(1);
   }
-  numSecHist->Fill(numSec);
 }
 
 /**

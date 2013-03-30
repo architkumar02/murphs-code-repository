@@ -39,27 +39,59 @@ void ExportData(TFile* f,const char* tupleKey,const char* outputfile){
   out.close();
 }
 
+void DrawNeutronGammaKinESecondary(TFile* fG, TFile* fN){
+    cout<<"Plotting Neutron and Gamma Secondary Kinetic Energy"<<endl;
+    TObjArray *hist = new TObjArray();
+    hist->Add(fG->Get("kinEHist"));
+    hist->Add(fN->Get("kinEHist"));
+    TObjArray *names = new TObjArray();
+    names->Add(new TObjString("{}^{60}Co"));
+    names->Add(new TObjString("Neutron"));
+    bool logX = true;
+    bool logY = true;
+    PlotHistogram(hist,names,1,1E7,"","Kinetic Energy (MeV)","NeutronGammaSecondaryElectronKineticEnergyDistribution.pdf",logX,logY);
+}
+
+void DrawAlphaTritonKinESecondary(TFile* fN){
+    cout<<"Plotting Alpha and Triton Secondary Kinetic Energy"<<endl;
+    TObjArray *hist = new TObjArray();
+    hist->Add(fN->Get("kEAlphaHist"));
+    hist->Add(fN->Get("kETritonHist"));
+    TObjArray *names = new TObjArray();
+    names->Add(new TObjString("Alpha"));
+    names->Add(new TObjString("Triton"));
+    bool logX = false;
+    bool logY = false;
+    PlotHistogram(hist,names,90,200,"","Kinetic Energy (MeV)","AlphaTritonSecondaryElectronKineticEnergyDistribution.pdf",logX,logY);
+}
+void DrawNeutronNumSecondary(TFile* fN){
+    cout<<"Plotting Alpha and Triton Number of Secondaries"<<endl;
+    TObjArray *hist = new TObjArray();
+    hist->Add(fN->Get("numSecHist"));
+    hist->Add(fN->Get("nSAlphaHist"));
+    hist->Add(fN->Get("nSTritonHist"));
+    TObjArray *names = new TObjArray();
+    names->Add(new TObjString("Total"));
+    names->Add(new TObjString("Alpha"));
+    names->Add(new TObjString("Triton"));
+    bool logX = false;
+    bool logY = false;
+    PlotHistogram(hist,names,0,120,"","Number of Secondary Electrons","NeutronNumSecondaryElectrons.pdf",logX,logY);
+}
+
 /**
  * Main
  *  root[#] .L SecElectrons.C+g
  */
 # ifndef __CINT__
 int main(){
-    TFile* fG = new TFile("Co60_PS_Detector_2cm.root","r");
-    TFile* fN = new TFile("neutron_PS_Detector_2cm.root","r");
-    TObjArray *hist = new TObjArray();
-    hist->Add(fG->Get("kinEHist"));
-    hist->Add(fN->Get("kinEHist"));
-  //  hist->Add(fN->Get("kEAlphaHist"));
-   // hist->Add(fN->Get("kETritonHist"));
-    TObjArray *names = new TObjArray();
-    names->Add(new TObjString("{}^{60}Co"));
-    names->Add(new TObjString("Neutron"));
-   // names->Add(new TObjString("Alpha"));
-   // names->Add(new TObjString("Triton"));
-    std::cout<<"Calling plot histograms"<<std::endl;
-    bool logX = true;
-    PlotHistogram(hist,names,"","Kinetic Energy (MeV)","SecondaryElectronKineticEnergyDistribution.pdf",logX);
+    TFile* fG = new TFile("Co60_PS_Detector_5cm.root","r");
+    TFile* fN = new TFile("neutron_PS_Detector_5cm.root","r");
+    
+    DrawNeutronGammaKinESecondary(fG,fN);
+    DrawAlphaTritonKinESecondary(fN);
+    DrawNeutronNumSecondary(fN);
+
     std::cout<<"Output data"<<std::endl;
    // ExportData(fG,"kinETuple","Co60.dat");
    // ExportData(fN,"kinETuple","Neutron.dat");

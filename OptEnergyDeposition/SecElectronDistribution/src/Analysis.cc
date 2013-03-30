@@ -7,6 +7,7 @@
 #include "G4LogicalVolume.hh"
 #include "G4Tubs.hh"
 #include "G4Material.hh"
+#include "G4ParticleDefinition.hh"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -138,7 +139,8 @@ void Analysis::EndOfEvent(const G4Event* event){
     for(G4int i = 0; i < hc->GetSize(); i++){
       hit = (CaloHit*) hc->GetHit(i);
       G4int parentID = hit->GetParentID();
-
+      if (hit->GetParticle()->GetParticleName() != "e-")
+        continue;
       // The secondary electrons from a charged particle  
       if (neutron && (parentID == 2 || parentID == 3)){
         kinE = hit->GetKineticEnergy();

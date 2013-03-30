@@ -32,7 +32,7 @@ class Analysis {
     void EndOfRun(const G4Run* aRun);
     
     void SetIncidentParticleName(G4String pName);
-    TH1F* TH1FLog(char *name, char* title, int numBins, double xMin,double xMax);
+    TH1F* TH1FLog(const char *name,const char* title, int numBins, double xMin,double xMax);
     void MyFill(TH1F* h, double value);
 
   private:
@@ -54,6 +54,8 @@ class Analysis {
     TH1F* numSecHist;
     TH1F* kEAlphaHist;  // Only for neturons
     TH1F* kETritonHist;
+    TH1F* kEAlphaHistLog;
+    TH1F* kETritonHistLog;
     TH1F* nSAlphaHist;
     TH1F* nSTritonHist;
     TNtuple* aKinETuple; 

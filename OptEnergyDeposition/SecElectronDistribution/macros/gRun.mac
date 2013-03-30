@@ -18,7 +18,7 @@
 /PolymerTransport/det/setRadius 10 cm
 #
 # Running through absorber thickness
-/PolymerTransport/det/setAbsThick 2 cm
+/PolymerTransport/det/setAbsThick 5 cm
 /PolymerTransport/det/update
-/run/beamOn 10000000
+/run/beamOn 1000000
 #

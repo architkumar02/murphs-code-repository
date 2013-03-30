@@ -61,16 +61,18 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 
   // Creating ROOT analysis objects (histogram)
   outfile = new TFile(fname.data(),"RECREATE");
-  kinEHist = TH1FLog("kinEHist","Secondary Electron Kinetic Energy",1000,0*eV,5*MeV);
+  kinEHist = TH1FLog("kinEHist","Secondary Electron Kinetic Energy",500,0*eV,5*MeV);
   kinETuple = new TNtuple("kinETuple","Kinetic Energy Tuple","kinE");
   numSecHist = new TH1F("numSecHist","Number of Secondary Electrons",150,0,150); 
   if (neutron){
-    aKinETuple = new TNtuple("aKinETuple","Alpha Kinetic Energy Tuple","aKinE");
-    tKinETuple = new TNtuple("tKinETuple","Triton Kinetic Energy Tuple","tKinE");
+    aKinETuple = new TNtuple("aKinETuple","Alpha Kinetic Energy Tuple","kinE");
+    tKinETuple = new TNtuple("tKinETuple","Triton Kinetic Energy Tuple","kinE");
     kEAlphaHist = new TH1F("kEAlphaHist","Secondary Electron Kinetic Energy",500,0*eV,5*keV);
     kETritonHist = new TH1F("kETritonHist","Secondary Electron Kinetic Energy",500,0*eV,5*keV);
     nSAlphaHist = new TH1F("nSAlphaHist","Number of Secondary Electrons",25,0,25); 
     nSTritonHist = new TH1F("nSTritonHist","Number of Secondary Electrons",150,0,150); 
+    kEAlphaHistLog = TH1FLog("kEAlphaHistLog","Secondary Electron Kinetic Energy",500,0*eV,5*MeV);
+    kETritonHistLog = TH1FLog("kETritonHistLog","Secondary Electron Kinetic Energy",500,0*eV,5*MeV);
   }
   G4cout<<"Prepared run "<<aRun->GetRunID()<<G4endl;
 }
@@ -84,7 +86,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
  * @double xMin - minimum for x
  * @double xMax - maximum for x
  */
-TH1F* Analysis::TH1FLog(char *name, char* title, int numBins, double xMin,double xMax){
+TH1F* Analysis::TH1FLog(const char *name,const char* title, int numBins, double xMin,double xMax){
   
   // Setting up the log axis
   if (xMin ==0.0)
@@ -186,12 +188,14 @@ void Analysis::EndOfEvent(const G4Event* event){
         numSec += 1;
         if (parentID == 2){ // triton
           tKinETuple->Fill(kinE);
-          MyFill(kETritonHist,kinE);
+          kETritonHist->Fill(kinE);
+          MyFill(kETritonHistLog,kinE);
           numSecTriton += 1;
         }
         else{ // alpha
           numSecAlpha += 1;
-          MyFill(kEAlphaHist,kinE);
+          kEAlphaHist->Fill(kinE);
+          MyFill(kEAlphaHistLog,kinE);
           aKinETuple->Fill(kinE);
         }
       }

@@ -63,8 +63,8 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
   kinETuple = new TNtuple("kinETuple","Kinetic Energy Tuple","kinE");
   numSecHist = new TH1F("numSecHist","Number of Secondary Electrons",150,0,150); 
   if (neutron){
-    kEAlphaHist = new TH1F("kEAlphaHist","Secondary Electron Kinetic Energy",500,0*eV,2E-3*MeV);
-    kETritonHist = new TH1F("kETirtonHist","Secondary Electron Kinetic Energy",500,0*eV,2E-3*MeV);
+    kEAlphaHist = new TH1F("kEAlphaHist","Secondary Electron Kinetic Energy",500,0*eV,2.5E-3*MeV);
+    kETritonHist = new TH1F("kETritonHist","Secondary Electron Kinetic Energy",500,0*eV,2.5E-3*MeV);
     nSAlphaHist = new TH1F("nSAlphaHist","Number of Secondary Electrons",25,0,25); 
     nSTritonHist = new TH1F("nSTritonHist","Number of Secondary Electrons",150,0,150); 
   }
@@ -143,13 +143,15 @@ void Analysis::EndOfEvent(const G4Event* event){
       if (neutron && (parentID == 2 || parentID == 3)){
         kinE = hit->GetKineticEnergy();
         numSec += 1;
-        kinEHist->Fill(kinE);
-        kinETuple->Fill(kinE);
         if (parentID == 2){ // triton
+          kinEHist->Fill(kinE);
+          kinETuple->Fill(kinE);
           numSecTriton += 1;
           kETritonHist->Fill(kinE);
         }
         else{ // alpha
+          kinEHist->Fill(kinE);
+          kinETuple->Fill(kinE);
           numSecAlpha += 1;
           kEAlphaHist->Fill(kinE);
         }

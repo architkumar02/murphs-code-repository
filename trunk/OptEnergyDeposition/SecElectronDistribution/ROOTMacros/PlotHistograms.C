@@ -14,34 +14,13 @@
 #include <TMath.h>
 
 /**
- * @brief Logarithmic Binning
- * Setting the histogram to logarithmic binning (rebin)
- * @param hist
- */
-void LogarithmicBinning(TH1F* h){
-   TAxis *axis = h->GetXaxis(); 
-   int bins = axis->GetNbins();
-
-   Axis_t from = axis->GetXmin();
-   Axis_t to = axis->GetXmax();
-   Axis_t width = (to - from) / bins;
-   Axis_t *new_bins = new Axis_t[bins + 1];
-
-   for (int i = 0; i <= bins; i++) {
-     new_bins[i] = TMath::Power(10, from + i * width);
-   } 
-   axis->Set(bins, new_bins); 
-   delete new_bins; 
-}
-
-/**
  * @brief Plots an array of histogram
  * @param hist  - TObjArray of histograms
  * @param names - TObjArray of histgram names (thickness)
  * @param title - title of the histogram
  * @param xLabel- x axis label 
  */
-void PlotHistogram(TObjArray *hist, TObjArray *names, char *title,char *xLabel, char* histFileName){
+void PlotHistogram(TObjArray *hist, TObjArray *names,const char *title,const char *xLabel, const char* histFileName, bool drawLogX){
     TH1F* h = NULL;
     TObjString *s = NULL;
     gStyle->SetOptStat(0);
@@ -58,7 +37,6 @@ void PlotHistogram(TObjArray *hist, TObjArray *names, char *title,char *xLabel, 
         if (i == 0){
             h->Sumw2();
             h->Scale(1.0/h->Integral());
-            //LogarithmicBinning(h);
             h->Draw();
             TAxis *xaxis = h->GetXaxis();
             xaxis->SetRangeUser(5E-4,5.0);
@@ -69,7 +47,6 @@ void PlotHistogram(TObjArray *hist, TObjArray *names, char *title,char *xLabel, 
         else{
             h->Sumw2();
             h->Scale(1.0/h->Integral());
-            //LogarithmicBinning(h);
             h->Draw("same");
         }
         h->SetLineColor(i+1);
@@ -77,7 +54,8 @@ void PlotHistogram(TObjArray *hist, TObjArray *names, char *title,char *xLabel, 
 
     // Histogram Prettying
     gPad->SetLogy();
-    gPad->SetLogx();
+    if (drawLogX)
+      gPad->SetLogx();
     leg->Draw("same");
     c1->Update();
     c1->SaveAs(histFileName);

@@ -30,8 +30,11 @@ class Analysis {
     void PrepareNewRun(const G4Run* aRun);
     void EndOfEvent(const G4Event* anEvent);
     void EndOfRun(const G4Run* aRun);
-    // Detector Messenger  
+    
     void SetIncidentParticleName(G4String pName);
+    TH1F* TH1FLog(char *name, char* title, int numBins, double xMin,double xMax);
+    void MyFill(TH1F* h, double value);
+
   private:
 
     // Singleton Analysis
@@ -53,6 +56,8 @@ class Analysis {
     TH1F* kETritonHist;
     TH1F* nSAlphaHist;
     TH1F* nSTritonHist;
+    TNtuple* aKinETuple; 
+    TNtuple* tKinETuple; 
 
     G4int numSec;
     G4int numSecAlpha;

@@ -8,6 +8,7 @@
 #include "G4Tubs.hh"
 #include "G4Material.hh"
 #include "G4ParticleDefinition.hh"
+#include "TMath.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -60,16 +61,52 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 
   // Creating ROOT analysis objects (histogram)
   outfile = new TFile(fname.data(),"RECREATE");
-  kinEHist = new TH1F("kinEHist","Secondary Electron Kinetic Energy",500,0*eV,1.2*MeV);
+  kinEHist = TH1FLog("kinEHist","Secondary Electron Kinetic Energy",1000,0*eV,5*MeV);
   kinETuple = new TNtuple("kinETuple","Kinetic Energy Tuple","kinE");
   numSecHist = new TH1F("numSecHist","Number of Secondary Electrons",150,0,150); 
   if (neutron){
-    kEAlphaHist = new TH1F("kEAlphaHist","Secondary Electron Kinetic Energy",500,0*eV,2.5E-3*MeV);
-    kETritonHist = new TH1F("kETritonHist","Secondary Electron Kinetic Energy",500,0*eV,2.5E-3*MeV);
+    aKinETuple = new TNtuple("aKinETuple","Alpha Kinetic Energy Tuple","aKinE");
+    tKinETuple = new TNtuple("tKinETuple","Triton Kinetic Energy Tuple","tKinE");
+    kEAlphaHist = new TH1F("kEAlphaHist","Secondary Electron Kinetic Energy",500,0*eV,5*keV);
+    kETritonHist = new TH1F("kETritonHist","Secondary Electron Kinetic Energy",500,0*eV,5*keV);
     nSAlphaHist = new TH1F("nSAlphaHist","Number of Secondary Electrons",25,0,25); 
     nSTritonHist = new TH1F("nSTritonHist","Number of Secondary Electrons",150,0,150); 
   }
   G4cout<<"Prepared run "<<aRun->GetRunID()<<G4endl;
+}
+/**
+ * TH1FLog
+ *
+ * @brief Setting up logarithimic binning - Wrapper for TH1F
+ * @brief name - root key name
+ * @brief title - title of the histogram
+ * @brief numBins - number of bins
+ * @double xMin - minimum for x
+ * @double xMax - maximum for x
+ */
+TH1F* Analysis::TH1FLog(char *name, char* title, int numBins, double xMin,double xMax){
+  
+  // Setting up the log axis
+  if (xMin ==0.0)
+    xMin = 100*eV;
+  double logxmin = TMath::Log10(xMin);
+  double logxmax = TMath::Log10(xMax);
+  double binwidth = (logxmax-logxmin)/numBins;
+  double* xbins = new double[numBins+1];
+  //malloc(sizeof(double)*(numBins+1));
+
+  xbins[0] = xMin;
+  for(int i = 0; i <= numBins; i++){
+    xbins[i] = xMin + TMath::Power(10,logxmin+i*binwidth);
+  }
+  return new TH1F(name,title,numBins,xbins);
+}
+/**
+ * MyFill
+ */
+void Analysis::MyFill(TH1F* h, double val){
+  if (val > 0.0)
+    h->Fill(val);
 }
 /**
  * GetDetectorMaterial
@@ -144,18 +181,18 @@ void Analysis::EndOfEvent(const G4Event* event){
       // The secondary electrons from a charged particle  
       if (neutron && (parentID == 2 || parentID == 3)){
         kinE = hit->GetKineticEnergy();
+        kinETuple->Fill(kinE);
+        MyFill(kinEHist,kinE);
         numSec += 1;
         if (parentID == 2){ // triton
-          kinEHist->Fill(kinE);
-          kinETuple->Fill(kinE);
+          tKinETuple->Fill(kinE);
+          MyFill(kETritonHist,kinE);
           numSecTriton += 1;
-          kETritonHist->Fill(kinE);
         }
         else{ // alpha
-          kinEHist->Fill(kinE);
-          kinETuple->Fill(kinE);
           numSecAlpha += 1;
-          kEAlphaHist->Fill(kinE);
+          MyFill(kEAlphaHist,kinE);
+          aKinETuple->Fill(kinE);
         }
       }
       // The secondary electron from a Gamma Event
@@ -173,7 +210,7 @@ void Analysis::EndOfEvent(const G4Event* event){
   }
   else{
     // Gamma Filling with first energy
-    kinEHist->Fill(kinE);
+    MyFill(kinEHist,kinE);
     kinETuple->Fill(kinE);
   }
   numSecHist->Fill(numSec);

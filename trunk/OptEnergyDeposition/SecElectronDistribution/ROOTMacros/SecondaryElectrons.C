@@ -33,7 +33,7 @@ int main(){
     hist->Add(fN->Get("kEAlphaHist"));
     hist->Add(fN->Get("kETritonHist"));
     TObjArray *names = new TObjArray();
-    names->Add(new TObjString("{}^{60}"));
+    names->Add(new TObjString("{}^{60}Co"));
     names->Add(new TObjString("Neutron"));
     names->Add(new TObjString("Alpha"));
     names->Add(new TObjString("Triton"));

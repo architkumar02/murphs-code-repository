@@ -12,6 +12,9 @@
 #include <TCanvas.h>
 #include <TObjArray.h>
 #include <TMath.h>
+#include <TROOT.h>
+#include <TStyle.h>
+#include <THStack.h>
 
 /**
  * @brief Plots an array of histogram
@@ -29,37 +32,31 @@ void PlotHistogram(TObjArray *hist, TObjArray *names,double xMin, double xMax,co
     TCanvas* c1 = new TCanvas();
     TLegend* leg = new TLegend(0.8,0.8,0.95,0.95);
     leg->SetFillColor(0);
+    double yMax = 0.0;
+    double yMin = 0.0;
+    THStack *hs = new THStack("hs",title);
     for (int i = 0; i < hist->GetEntriesFast(); i ++){
         h = (TH1F*) hist->At(i);
         if (!h)
           std::cerr<<"Histogram pointer is NULL"<<std::endl;
         s = (TObjString*) names->At(i);
         leg->AddEntry(h,s->String().Data(),"l");
-        if (i == 0){
             h->Sumw2();
             //h->Scale(1.0/h->Integral());
             h->Scale(1.0/h->GetEntries());
-            h->Draw("HIST,E");
-            TAxis *axis = h->GetXaxis();
-            axis->SetRange(xMin,xMax);
-            h->GetXaxis()->SetTitle(xLabel);
-            h->GetYaxis()->SetTitle("Frequency");
-            h->SetTitle(title);
-        }
-        else{
-            h->Sumw2();
-            //h->Scale(1.0/h->Integral());
-            h->Scale(1.0/h->GetEntries());
-            h->Draw("HIST,E,same");
-        }
         h->SetLineColor(i+1);
+        hs->Add(h);
     }
-
+    hs->Draw("HIST,E");
+    hs->GetHistogram()->GetXaxis()->SetTitle(xLabel);
+    hs->GetHistogram()->GetYaxis()->SetTitle("Frequency");
+    hs->GetHistogram()->GetXaxis()->SetRange(xMin,xMax);
     // Histogram Prettying
     if (drawLogY)
       gPad->SetLogy();
     if (drawLogX)
       gPad->SetLogx();
+    gROOT->SetStyle("Plain");
     leg->Draw();
     c1->Update();
     c1->SaveAs(histFileName);

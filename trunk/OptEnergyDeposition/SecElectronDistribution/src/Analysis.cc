@@ -9,6 +9,7 @@
 #include "G4Material.hh"
 #include "G4ParticleDefinition.hh"
 #include "TMath.h"
+#include "TAxis.h"
 
 #include <unistd.h>
 #include <stdio.h>
@@ -61,18 +62,21 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
 
   // Creating ROOT analysis objects (histogram)
   outfile = new TFile(fname.data(),"RECREATE");
-  kinEHist = TH1FLog("kinEHist","Secondary Electron Kinetic Energy",100,0*eV,5*MeV);
+  G4double histMax = 1.25*MeV;
+  kinEHist = TH1FLog("kinEHist","Secondary Electron Kinetic Energy",100,0*eV,histMax);
   kinETuple = new TNtuple("kinETuple","Kinetic Energy Tuple","kinE");
   numSecHist = new TH1F("numSecHist","Number of Secondary Electrons",150,0,150); 
   if (neutron){
     aKinETuple = new TNtuple("aKinETuple","Alpha Kinetic Energy Tuple","kinE");
     tKinETuple = new TNtuple("tKinETuple","Triton Kinetic Energy Tuple","kinE");
-    kEAlphaHist = new TH1F("kEAlphaHist","Secondary Electron Kinetic Energy",100,0*eV,5*keV);
-    kETritonHist = new TH1F("kETritonHist","Secondary Electron Kinetic Energy",100,0*eV,5*keV);
+    kEAlphaHist = new TH1F("kEAlphaHist","Secondary Electron Kinetic Energy",100,0.9,2.0);
+    kEAlphaHist->GetXaxis()->SetTitle("Kinetic Energy (keV)");
+    kETritonHist = new TH1F("kETritonHist","Secondary Electron Kinetic Energy",100,0.9,2.0);
+    kETritonHist->GetXaxis()->SetTitle("Kinetic Energy (keV)");
     nSAlphaHist = new TH1F("nSAlphaHist","Number of Secondary Electrons",25,0,25); 
     nSTritonHist = new TH1F("nSTritonHist","Number of Secondary Electrons",150,0,150); 
-    kEAlphaHistLog = TH1FLog("kEAlphaHistLog","Secondary Electron Kinetic Energy",100,0*eV,5*MeV);
-    kETritonHistLog = TH1FLog("kETritonHistLog","Secondary Electron Kinetic Energy",100,0*eV,5*MeV);
+    kEAlphaHistLog = TH1FLog("kEAlphaHistLog","Secondary Electron Kinetic Energy",100,0*eV,histMax);
+    kETritonHistLog = TH1FLog("kETritonHistLog","Secondary Electron Kinetic Energy",100,0*eV,histMax);
   }
   G4cout<<"Prepared run "<<aRun->GetRunID()<<G4endl;
 }
@@ -95,7 +99,6 @@ TH1F* Analysis::TH1FLog(const char *name,const char* title, int numBins, double 
   double logxmax = TMath::Log10(xMax);
   double binwidth = (logxmax-logxmin)/numBins;
   double* xbins = new double[numBins+1];
-  //malloc(sizeof(double)*(numBins+1));
 
   xbins[0] = xMin;
   for(int i = 0; i <= numBins; i++){
@@ -192,7 +195,7 @@ void Analysis::EndOfEvent(const G4Event* event){
         }
         else{ // alpha
           numSecAlpha += 1;
-          kEAlphaHist->Fill(kinE)/keV;
+          kEAlphaHist->Fill(kinE/keV);
           MyFill(kEAlphaHistLog,kinE);
           aKinETuple->Fill(kinE);
         }

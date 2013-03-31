@@ -49,7 +49,7 @@ void DrawNeutronGammaKinESecondary(TFile* fG, TFile* fN){
     names->Add(new TObjString("Neutron"));
     bool logX = true;
     bool logY = true;
-    PlotHistogram(hist,names,1,1E7,"","Kinetic Energy (MeV)","NeutronGammaSecondaryElectronKineticEnergyDistribution.pdf",logX,logY);
+    PlotHistogram(hist,names,1E-3,1.5E3,"","Kinetic Energy (MeV)","NGSecElecKinEDist.pdf",logX,logY);
 }
 
 void DrawAlphaTritonKinESecondary(TFile* fN){
@@ -62,7 +62,7 @@ void DrawAlphaTritonKinESecondary(TFile* fN){
     names->Add(new TObjString("Triton"));
     bool logX = false;
     bool logY = false;
-    PlotHistogram(hist,names,90,200,"","Kinetic Energy (MeV)","AlphaTritonSecondaryElectronKineticEnergyDistribution.pdf",logX,logY);
+    PlotHistogram(hist,names,0.9*1E3,2*1E3,"","Kinetic Energy (keV)","AlphaTritonSecElecKinEDist.pdf",logX,logY);
 }
 void DrawNeutronNumSecondary(TFile* fN){
     cout<<"Plotting Alpha and Triton Number of Secondaries"<<endl;
@@ -76,7 +76,7 @@ void DrawNeutronNumSecondary(TFile* fN){
     names->Add(new TObjString("Triton"));
     bool logX = false;
     bool logY = false;
-    PlotHistogram(hist,names,0,120,"","Number of Secondary Electrons","NeutronNumSecondaryElectrons.pdf",logX,logY);
+    PlotHistogram(hist,names,0,120,"","Number of Secondary Electrons","NeutronNumSecElec.pdf",logX,logY);
 }
 
 /**

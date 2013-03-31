@@ -13,7 +13,7 @@
 /PolymerTransport/det/setGapMat G4_PLEXIGLASS
 /PolymerTransport/det/setGapThick 2.5 cm
 /PolymerTransport/det/setRadius 5 cm
-/PolymerTransport/det/setAbsThick 5 cm
+/PolymerTransport/det/setAbsThick 1 cm
 /PolymerTransport/det/update
 
 # 

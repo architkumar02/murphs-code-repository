@@ -46,7 +46,6 @@ secondaryElectrons: SecondaryElectrons.C
 	@echo "Building $@"
 	$(CC) $(CPPFLAGS) $(INC) -o secondaryElectrons SecondaryElectrons.C $(LDFLAGS) $(LIBS) 
 	@echo "$@ done"
-	@echo
 
 
 .PHONY: clean all install
@@ -55,7 +54,6 @@ install: all
 	@echo "Copy files to install directory:" $(INSTALLDIR)
 	@mv secondaryElectrons $(INSTALLDIR)
 	@echo "$@ done"
-	@echo
 
 clean:
 	@echo "Cleaning up files and executables ..."

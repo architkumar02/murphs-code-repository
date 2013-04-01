@@ -5,12 +5,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %\documentclass[confrence]{IEEEtran}
 \documentclass[draftcls,onecolumn]{IEEEtran}
+
 \input{../Preamble}
+\usepackage{svn-multi}
+\svnid{$Id$}
+\usepackage{prelim2e}
+\renewcommand{\PrelimWords}{\svnkw{Id} revision: \svnrev}
+
 \DeclareSIUnit\roetgen{R}
 \DeclareSIUnit\eV{\electronVolt}
 \DeclareSIUnit\count{count}
 \DeclareSIUnit\cps{\count\per\second}
 \DeclareSIUnit\cpsngcf{\count\per\second\per\nano\gram\iso[252]{Cf}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                          %
 %                               START OF DOCUMENT                          %

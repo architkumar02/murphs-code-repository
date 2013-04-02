@@ -36,7 +36,7 @@
 \begin{document}
 \title{\papertitle}
 \author{Laurence~F.~Miller,~Matthew~J.~Urffer,~and~Andrew~Mabe%
-	\thanks{L. F. Miller and M. Urffer is with the Department of Nuclear Engineering, University of Tennessee, Knoxville, TN 37916 USA email: (lfmiller@utk.edu, murffer@utk.edu).}%
+	\thanks{L. F. Miller and M. Urffer are with the Department of Nuclear Engineering, University of Tennessee, Knoxville, TN 37916 USA email: (lfmiller@utk.edu, murffer@utk.edu).}%
 	\thanks{A. Mabe is with the Department of Chemistry, University of Tennessee, Knoxville, TN 37916 USA email: amabe1@utk.edu}%
 	\thanks{Manuscript received \textbf{DATE}; revised \textbf{DATE}}%
 	\thanks{This works was supported by the Domestic Nuclear Detection Office (DNDO) through award 003387891.
@@ -48,9 +48,9 @@ Any opinions, findings, and conclusions or recommendations expressed in this mat
 \maketitle
 \begin{abstract}
 Alternative neutron detection technologies are required to replace the current \iso[3]{He} based Radiation Portal Monitors.
-Replacement technologies must fulfill two basic criteria; 1) a neutron detection efficiency, and 2) the performance of the detector should not suffer in the the presence of a strong gamma field.
+Replacement technologies must fulfill two basic criteria: 1) a neutron detection efficiency, and 2) the performance of the detector should not suffer in the the presence of a strong gamma field.
 The difference in the energy deposition mechanics from a charge particle (originating from the fission products of a neutron interaction) and the Compton scattered electrons from a gamma interaction allows for the effective discrimination between neutrons and gammas based on energy deposition.
-Polymeric films containing \iso[6]{LiF} ranging from \SI{15}{\um} to \SI{1}{\cm} where fabricated and tested for their neutron count rate above a lower level discriminator necessary to meet the gamma intrinsic efficiency set forth by PNNL.
+Polymeric films containing \iso[6]{LiF} ranging from \SI{15}{\um} to \SI{1}{\cm} were fabricated and tested for their neutron count rate above a lower level discriminator necessary to meet the gamma intrinsic efficiency set forth by PNNL.
 The energy deposition in the films was also simulated with GEANT4 and compared to the measured pulse height spectra.
 \end{abstract}
 
@@ -67,7 +67,7 @@ Energy Deposition, Detectors, Monte-Carlo Simulation, GEANT4
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 \label{sec:Intro}
-The Department of Homeland Security (DHS) continues to fund research (through the Domestic Nuclear Detection Office (DNDO)) to detect radioactive material that could potentially be used to cause significant economic loss and loss or life.  
+The Department of Homeland Security (DHS) continues to fund research (through the Domestic Nuclear Detection Office (DNDO)) to detect radioactive material that could potentially be used to cause significant economic loss and loss of life.  
 The current technology used in Radiation Portal Monitors (RPMs) for detecting neutrons emitted from special nuclear material uses a rapidly diminishing resource, \iso[3]{He}, that cannot be economically replaced. 
 As a result a number of alternative detection systems continue to be investigated with the most viable including: boron trifluoride filled proportional detectors, boron-lined proportional detectors, \iso[6]{Li} loaded scintillation glass fiber detectors, and \iso[6]{Li} plus scintillator-coated wavelength-shifting fiber detectors\cite{pnnl_18471,kouzes_neutron_2010}.  
 
@@ -103,7 +103,7 @@ where:
  \item[] $N_{ns}$ is the neutron emission rate from the source.
 \end{itemize}
 DNDO guidelines state that a \iso[252]{Cf} source is to be used for the determination of the absolute neutron detection efficiency \cite{pnnl_18471}.
-To reduce the gamma ray flux of \iso[252]{Cf} upon a candidate detector the source is sheilded by at least \SI{0.5}{\cm} of lead\cite{pnnl_18471}.
+To reduce the gamma ray flux of \iso[252]{Cf} upon a candidate detector the source is shielded by at least \SI{0.5}{\cm} of lead\cite{pnnl_18471}.
 The neutron spectrum is then moderated by \SI{2.5}{\cm} of polyethylene\cite{pnnl_18471}.
 The source is then placed \SI{2}{\meter} from the midpoint of the detector.
 The intrinsic gamma-neutron detection efficiency $\left(\epsilon_{int,\gamma n}\right)$  is defined as the number of neutron pulses detected divided by the number of photons striking the detector, thus measuring the response of a neutron detector to the presence of a gamma ray field when no neutron source is present .
@@ -121,9 +121,9 @@ The intrinsic gamma-neutron detection efficiency is to be measured using either 
 The gamma absolute rejection ratio for neutrons (GARRn) is a parameter that characterizes the detector response in the presence of both a large gamma ray source (\SI{10}{\milli\roetgen\per\hour}) and a \iso[252]{Cf} neutron source (configured as it would be for an absolute neutron detection efficiency measurement).
 The GARRn is defined as the absolute neutron detection efficiency in the presence of both sources, divided by the absolute neutron detection efficiency of the neutron detector in the presence of only the neutron source as shown in \eqref{eqn:garrn}\cite{kouzes_neutron_1999}.
 
-You may note from the PNNL summary report \cite{pnnl_18471}  that satisfying intrinsic gamma efficiency is problematic for some of the technologies evaluated.
+It may be noted from PNNL summary report \cite{pnnl_18471}  that satisfying intrinsic gamma efficiency is problematic for some of the technologies evaluated.
 It is shown in this paper that this problem can be solved for thin films that contain a neutron absorber.
-In particular, differences in properties between secondary electrons produced by photon interactions and by charged particles slowing down in layered thin-film neutron detectors can be used to obtain neutron-photon discrimination that is sufficient to satisfy Department of Homeland Security (DHS) criteria for portal monitors.  
+In particular, differences in the kinetic energy between secondary electrons produced by photon interactions and by charged particles slowing down in thin film neutron detectors can be used to obtain neutron-photon discrimination that is sufficient to satisfy Department of Homeland Security (DHS) criteria for portal monitors.  
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -137,12 +137,12 @@ When these materials absorb a neutron they usually disintegrate to produce ioniz
 In the case of $\iso[6]{Li}\left(n,\iso[3]{H}\right)\alpha$ the fission energy is distributed between a triton of energy \SI{2.73}{\mega\eV} and an alpha of energy \SI{2.05}{\mega\eV}.
 Compton scattering is the predominant interaction mechanism for the \SI{1.173}{\mega\eV} and \SI{1.332}{\mega\eV} from \iso[60]{Co} in which a photon interacts with a single electron and has the ability to transfer a majority of the photons energy \cite{turner_atoms_2008}.
 %The difference in the transfer of kinetic energy from charged particles to electrons and from photon interactions to electrons may be exploited to maximize the discrimination between neutron and photon interactions in a detector.  
-For a particular material and neutron absorber, one can optimize the detector geometry to maximize the energy deposited in scintillation material by charged particles relative to the energy deposited by photon interactions. 
+For a particular material and neutron absorber, the detector geometry can be optimized to maximize the energy deposited in scintillation material by charged particles relative to the energy deposited by photon interactions. 
 This in turn permits one to maximize the recorded neutron interaction rate relative to recorded photon interaction rates by setting a lower level discriminator (LLD) above a threshold associated with energy deposited in the detector by photons.  
 As the LLD is increased, the efficiency for detecting neutrons is diminished; however, the intrinsic efficiency for detecting neutrons relative to photons is dramatically increased. 
 
 The maximum kinetic energy of an electron from a Compton scattering event with an impingement \iso[60]{Co} source is \SI{1.117}{\mega\eV} (for the \SI{1.332}{\mega\eV} gamma). 
-In polystyrene with a denisty of \SI{1}{\gram\per\cm\cubed}, the range of the maximum electron from Compton scattering is around \SI{4.5E3}{\um}\cite{berger_estar_2005}.
+In polystyrene with a density of \SI{1}{\gram\per\cm\cubed}, the range of the maximum electron from Compton scattering is around \SI{4.5E3}{\um}\cite{berger_estar_2005}.
 If elastic scattering between the alpha, triton and electrons is assumed the maximum kinetic energy of an electron is \SI{1.097}{\kilo\eV} for the alpha particle and \SI{1.986}{\kilo\eV} for the triton\cite{turner_atoms_2008}.
 The range of the electron from a gamma interaction is more than \num{1E3} times greater than the range of electrons from an alpha or triton (Table \ref{tab:BasicEDepOutline}).
 Therefore, it is more likely that the electrons generated by the alpha and the triton deposit significantly more of their energy in a thin film than the electron from a gamma.
@@ -179,7 +179,7 @@ Samples are mounted to a 10 stage photo multiplier tube (PMT) with silicone base
 The PMT is attached to a Canberra base (also serving as a preamplifier). 
 The PMT's voltage is supplied by a high voltage power supply, with the power being supplied to the preamplifier base by an amplifier.  
 The output signal of the base feeds into the amplifier for pulse shaping and amplification. 
-The amplified signal is then inputted to an multi-channel analyzer and analog to digitical converter (MCB-ADC), and can then be read using the MAESTRO-32 software. 
+The amplified signal is then inputted to a multi-channel analyzer and analog to digital converter (MCB-ADC), and can then be read using the MAESTRO-32 software. 
 A schematic of the setup is shown in Figure \ref{fig:ElectronicsSpectra}.
 \begin{figure}
 	\centering
@@ -188,10 +188,10 @@ A schematic of the setup is shown in Figure \ref{fig:ElectronicsSpectra}.
 	\label{fig:ElectronicsSpectra}
 \end{figure}
 
-The gamma irridiator fabircated for our research is shown in Fiugre Figure \ref{fig:gammaIrridiator}.
+The gamma irridiator fabricated for our research is shown in Figure \ref{fig:gammaIrridiator}.
 A 100 $\mu$Ci \iso[60]{Co} source is contained in \SI{2}{\in} of steel, with a \SI[fraction-function = \sfrac]{1/8}{\in} thick steel cap.
 The detector well is a \SI{4}{\in} outer diameter \SI{14}{\in} pipe that is \SI{1/4}{\in} thick, and \SI{7}{\cm} of foam is used to ensure that the detector rests at a \SI{10}{\milli\roetgen\per\hour} field.
-The detector well is surounded by \SI{4}{\in} x \SI{8}{\in} x \SI{2}{\in} lead bricks, which are contained in a an outer steel outer box \SI{14}{\in} x \SI{12}{\in} x \SI{12}{\in}.
+The detector well is surrounded by \SI{4}{\in} x \SI{8}{\in} x \SI{2}{\in} lead bricks, which are contained in a an outer steel outer box \SI{14}{\in} x \SI{12}{\in} x \SI{12}{\in}.
 \begin{figure}[ht]
 	\centering
 	\includegraphics[height=4cm]{GammaIrridiatorMCNPXRender.png}
@@ -208,7 +208,7 @@ The intrinsic efficiency necessary to meet the criteria is determined by the $ML
 	\epsilon_{int,\gamma} \left(MLLD\right) = \frac{\int_{MLLD}^\infty p(x)dx}{\Phi} 
 \end{align}
 
-The neutron irridiator is a custom built facility that contains a \SI{0.59}{\ug}\iso[252]{Cf}  source encased in 2” blocks of high density polyethylene (HDPE), to moderate the \iso[252]{Cf} spectrum.
+The neutron irridiator is a custom built facility that contains a \SI{0.59}{\ug}\iso[252]{Cf} source encased in high density polyethylene (HDPE) for moderating the \iso[252]{Cf} spectrum.
 The HDPE box is approximately \SI{20}{\in}  long, \SI{12}{\in} wide, and \SI{14}{\in} tall.
 There are two detector \SI{1/16}{\in} thick acrylic detectors wells, one surrounded by a \SI{1/16}{\in} cadmium to shield out thermal neutrons, and the other surrounded by \SI{1/16}{\in} of lead to shield out a similar amount of gammas as the cadmium well.
 The \iso[252]{Cf} source is surrounded by stainless steel, which in turn is contained within a \SI{2}{\in} diameter, \SI{1/2}{\in} thick, \SI{5}{\in} tall lead vessel. 
@@ -222,9 +222,9 @@ Figure \ref{fig:neutronIrridiator} is an MCNPX rendering of the neutron irridiat
 The lead well measures the response of neutron of all energies, while the cadmium well measures the responses of fast neutrons.
 The two responses are then subtracted to yield the thermal neutron response.
 
-MCNPX modeling of the neutron irridiator caluclate an interaction rate for a 1" diameter \SI{2}{\mm} thick \iso[6]{Li} glass (GS20) of 423 interactions per second as of December 1st, 2012.
+MCNPX modeling of the neutron irridiator calculate an interaction rate for a 1" diameter \SI{2}{\mm} thick \iso[6]{Li} glass (GS20) of 423 interactions per second as of December 1st, 2012.
 The observed count rate of GS20 measured on December 1st, 2012 was \SI{428}{\cps}. 
-Polymeric films had a simulated neturon interaction rate within 15\% of the observed count rate.
+Polymeric films had a simulated neutron interaction rate within 15\% of the observed count rate.
 Therefore, even though this source is not the same configuration as specified by PNNL, neutronic simulations in MCNPX can be used to relate the interactions to a simulated interaction rate for a detector mocked up according the the PNNL specifications encased in the RPM8 footprint.
 
 \subsection{Detector Simulation}
@@ -247,7 +247,7 @@ It is thought that this is due to the water model in GEANT4 having better cross 
 
 The validity of the GEANT4 simulation is determined by comparing the spectra shapes of measured spectra to simulated energy deposition.
 Figure \ref{fig:spectraComparisonGamma} shows the comparison between the simulated energy deposition per incident photon from a \iso[60]{Co} source and the measured pulse height spectra from the \iso[60]{Co} irridiator per incident photon.
-The energy calibration on the upper axis of the measured spectran was completed by finding the channel number at a given intrisinic efficiency and the corresponding energy at that intrisinic efficiency.
+The energy calibration on the upper axis of the measured spectra was completed by finding the channel number at a given intrinsic efficiency and the corresponding energy at that intrinsic efficiency.
 The energy of this feature on the measured spectra was then compared to the energy on the simulated spectra, with all of the values being within 10\%.
 \begin{figure*}[ht]
 	\centering
@@ -276,7 +276,7 @@ With the average energy deposition on the left axis and the average light yield 
     		\includegraphics[width=\textwidth]{G4EDep_LightYield_Neutron}
 		\caption{Neutrons}
 	\end{subfigure}%
-	\caption{Average Energy Deposition and Measured Light Yield. The solid lines are calculated values and the red dots are measurments.}
+	\caption{Average Energy Deposition and Measured Light Yield. The solid lines are calculated values and the red dots are measurements.}
 	\label{fig:EDepLightYield}
 \end{figure*}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -287,7 +287,7 @@ With the average energy deposition on the left axis and the average light yield 
 \section{Results}
 \label{sec:Results}
 The calculated gamma intrinsic efficiency for six polymeric films along with the neutron response of two of the films in Figure \ref{fig:GammaIntrNeutronCounts}, and the fraction of neutron counts above the MLLD necessary for a given gamma intrinsic efficiency is plotted in Figure \ref{fig:crVsIntEff}.
-It is observed that if the films are thin enough (less than \SI{150}{\um}) it is possible to have a significant count rate above the the mathematical lower level discriminator necessary for the pulse height discrimination of one in a million.
+It is observed that if the films are thin enough (less than \SI{150}{\um}) it is possible to have a significant count rate above the mathematical lower level discriminator necessary for the pulse height discrimination of one in a million.
 This is seen by the \SI{50}{\um} film and the \SI{150}{\um} film having the tail of their neutron spectra above the pulse height discriminator necessary for an intrinsic efficiency of \num{1E-6}.
 Table \ref{tab:FractionCRGamma} shows the fraction of neutron count rate that is above the MLLD necessary for $\epsilon_{int,\gamma n} \le \si{1E-6}$.
 Films less than \SI{50}{\um} have over 2\% of the counts above the necessary discriminator setting, while thicker films have have a factor of 10 less.
@@ -342,9 +342,9 @@ For thickness greater than \SI{150}{\um} there is little benefit in increasing t
 \end{table}
 
 Figure \ref{fig:simKinE} illustrates the simulated kinetic energy of secondary electrons from Compton scattering and from alpha and triton interactions.
-It is observed that kinetic energy of the secondary electrons from the neturon reaction products have prediomantely energies in the kilo-volt range, while the Compton scattering electrons have energies in hundreds of kilovolts range. 
+It is observed that kinetic energy of the secondary electrons from the neutron reaction products have predominately energies in the kilo-volt range, while the Compton scattering electrons have energies in hundreds of kilo-volts range. 
 However, it should be noted that there is only one secondary electron from a Compton scattering and multiple secondary electrons from the reaction products.
-Figure \ref{fig:ReacProdDist} shows the distrubtion of the number of secondary electrons from the alpha and triton and their kinetic energy.
+Figure \ref{fig:ReacProdDist} shows the distribution of the number of secondary electrons from the alpha and triton and their kinetic energy.
 \begin{figure}[ht]
     \centering
     \includegraphics[width=\textwidth]{NGSecElecKinEDist}

@@ -1,14 +1,20 @@
-\documentclass{combine}
+% Calculations - All of the calculations
+\documentclass{article}
+\usepackage{standalone}
+%% INCLUDING THE PREAMBLE
 \input{../Preamble}
-
+\input{./CalcPreamble}
 \begin{document}
 
+\printnomenclature
+\printindex
 % Adding the papers
-\begin{papers}
-	\coltoctitle{Title}
-	\coltocauthor{author}
-	\label{lbl}
-	\import{NeutronIntrisinicEfficiency}
-	\import{LightYield}
-\end{papers}
+\section{Introduction}
+This document is intended to be a collection of various example calculations.
+As such it is a working document, and may contain errors.
+
+\section{Intrisinic Efficiency}
+\input{IntrinsicEfficiency}
+\section{Light Yield}
+\input{LightYield}
 \end{document}

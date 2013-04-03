@@ -1,0 +1,10 @@
+% index generation
+\usepackage{makeidx}
+\makeindex
+ 
+% 'list of notations' generation
+\usepackage[refpage]{nomencl}  % refer to the page where notation appears
+\renewcommand{\nomname}{List of Notations}
+\renewcommand*{\pagedeclaration}[1]{\unskip\dotfill\hyperpage{#1}}
+\makenomenclature
+ 

@@ -4,6 +4,9 @@
 %% INCLUDING THE PREAMBLE
 \input{../Preamble}
 \input{./CalcPreamble}
+\DeclareSIUnit\neutron{neutron}
+
+%% Start of the document
 \begin{document}
 \title{Intrinsic Efficiency Calculations}
 \author{Matthew J. Urffer}
@@ -20,20 +23,31 @@
 \listoffigures
 \listoftables
 \lstlistoflistings
+
 The intrisinis efficiency is defined as \eqref{eqn:intEffDef} \cite{knoll_radiation_2009}.
 \begin{align}
   \epsilon_{int} = \frac{N_c}{N_i}
 \end{align}
 where:
 \begin{itemize}
-  \item[] \nomenclature{$\epsilon_{int}$}{intrisinic efficinecy},
-  \item[] \nomenclature{$N_c$}{number of counts recorded by the detector}, and
-  \item[] \nomenclature{$N_i$}{quanta of radiation incident upon the detector}.
+  \item[] \definevar{$\epsilon_{int}$}{intrisinic efficinecy},
+  \item[] \definevar{$N_c$}{number of counts recorded by the detector}, and
+  \item[] \definevar{$N_i$}{quanta of radiation incident upon the detector}.
 \end{itemize}
+
+
 \subsection{Neutron Intrinsic Efficiency}
+The number of counts upon a detector is measured using the neutron irridiator facility.
+The quanta of radiation incident upon the detector is found from MCNPX calculations.
+This consits of two parts: 1) determining the number of neutrons crossing the detector surface in the lead and cadmium wells and, 2) determining the sourse strength.
+
+The \iso[252]{Cf} source was \SI{0.59}{\ug} on July 2, 2009.
+%Given that the half-life of \iso[252]{Cf} is 2.65 years and \iso[252]{Cf} has a spontanous neutron emission rate of \SI{2.3E6}{\neutron\per\second} the source strength at any given time can be calucalted as \eqref{eqn:cf252SourceStrength}.
+
 
 \subsection{Gamma Intrinsic Efficiency}
 
 % Bibliography
 \bibliography{../Zotero}
 \end{document}
+

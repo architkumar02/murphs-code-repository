@@ -4,6 +4,7 @@
  
 % 'list of notations' generation
 \usepackage[refpage]{nomencl}  % refer to the page where notation appears
+\newcommand{\definevar}[2]{#1 #2\nomenclature{#1}{#2}}
 \renewcommand{\nomname}{List of Notations}
 \renewcommand*{\pagedeclaration}[1]{\unskip\dotfill\hyperpage{#1}}
 \makenomenclature

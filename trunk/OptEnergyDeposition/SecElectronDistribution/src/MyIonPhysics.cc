@@ -59,7 +59,7 @@ void MyIonPhysics::ConstructProcess()
   fAlphaModel = new G4LEAlphaInelastic();
   fAlphaProcess = new G4AlphaInelasticProcess();
   fAlphaProcess->RegisterMe(fAlphaModel);
-  pManager->AddProcess(new G4alphaIonisation());
+  //pManager->AddProcess(new G4alphaIonisation());
   pManager->AddDiscreteProcess(fAlphaProcess);
   wasActivated = true;
 }

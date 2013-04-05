@@ -12,17 +12,15 @@
 #include "G4ParticleDefinition.hh"
 #include "G4ParticleTable.hh"
 #include "G4ProcessManager.hh"
-
+#include "G4alphaIonisation.hh"
 // Nuclei
 #include "G4IonConstructor.hh"
 
-MyIonPhysics::MyIonPhysics(G4int verbose)
-                  :  G4VPhysicsConstructor(), wasActivated(false)
-{
-}
+MyIonPhysics::MyIonPhysics(G4int verbose):
+  G4VPhysicsConstructor(), wasActivated(false)
+{ /* nothing to be done here */}
 
-MyIonPhysics::~MyIonPhysics()
-{
+MyIonPhysics::~MyIonPhysics(){
   if(wasActivated) {
 
     delete fDeuteronProcess;
@@ -61,8 +59,8 @@ void MyIonPhysics::ConstructProcess()
   fAlphaModel = new G4LEAlphaInelastic();
   fAlphaProcess = new G4AlphaInelasticProcess();
   fAlphaProcess->RegisterMe(fAlphaModel);
+  pManager->AddProcess(new G4alphaIonisation());
   pManager->AddDiscreteProcess(fAlphaProcess);
-
   wasActivated = true;
 }
 
@@ -73,6 +71,3 @@ void MyIonPhysics::ConstructProcess()
    pConstructor.ConstructParticle();  
  }
 
-
-
- // 2002 by J.P. Wellisch

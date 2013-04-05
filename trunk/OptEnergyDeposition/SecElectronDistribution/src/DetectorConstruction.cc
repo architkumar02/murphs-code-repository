@@ -290,13 +290,13 @@ void DetectorConstruction::SetVisAttributes(){
 
     // Setting the Layers to be white and invisiable
     {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
-    atb->SetForceWireframe(true);
+   // atb->SetForceWireframe(true);
     atb->SetVisibility(false);
     worldLV->SetVisAttributes(atb);}
     
     // Setting the World to be white and invisiable
     {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
-    atb->SetForceWireframe(true);
+    //atb->SetForceWireframe(true);
     atb->SetVisibility(false);
     worldPV->GetLogicalVolume()->SetVisAttributes(atb);}
 

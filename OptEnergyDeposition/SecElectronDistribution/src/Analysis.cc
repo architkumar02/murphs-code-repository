@@ -73,7 +73,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
     kEAlphaHist->GetXaxis()->SetTitle("Kinetic Energy (keV)");
     kETritonHist = new TH1F("kETritonHist","Secondary Electron Kinetic Energy",100,0.9,2.0);
     kETritonHist->GetXaxis()->SetTitle("Kinetic Energy (keV)");
-    nSAlphaHist = new TH1F("nSAlphaHist","Number of Secondary Electrons",25,0,25); 
+    nSAlphaHist = new TH1F("nSAlphaHist","Number of Secondary Electrons",150,0,150); 
     nSTritonHist = new TH1F("nSTritonHist","Number of Secondary Electrons",150,0,150); 
     kEAlphaHistLog = TH1FLog("kEAlphaHistLog","Secondary Electron Kinetic Energy",100,0*eV,histMax);
     kETritonHistLog = TH1FLog("kETritonHistLog","Secondary Electron Kinetic Energy",100,0*eV,histMax);

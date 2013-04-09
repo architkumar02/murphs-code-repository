@@ -4,7 +4,6 @@
 %% INCLUDING THE PREAMBLE
 \input{../Preamble}
 \input{./CalcPreamble}
-\DeclareSIUnit\neutron{neutron}
 
 %% Start of the document
 \begin{document}
@@ -34,7 +33,28 @@ where:
   \item[] \definevar{$N_c$}{number of counts recorded by the detector}, and
   \item[] \definevar{$N_i$}{quanta of radiation incident upon the detector}.
 \end{itemize}
+The quanta of radation incident upon the detector can be subdived into two components: the source strength and the solid angle.
+The composition of $N_i$ is shown in \eqref{eqn:QuantaIncidentDef}
+\begin{align}
+  \label{eqn:QuantaIncidentDef}
+  N_i = \Omega S_0
+\end{align}
+where:
+\begin{itemize}
+  \item[] \definevar{$S$}{source strength}, and 
+  \item[] \definevar{$\Omega$}{solid angle}.
+\end{itemize}
+In general the source strength according the half-life of the source \eqref{eqn:HalfLife}, where \definevar{$S_0$}{initial source strength}, \definevar{$t_{1/2}$}{half life} and \definevar{$t$}{age of source}.
+\begin{align}
+  \label{eqn:HalfLife}
+  S = S_0 e^{-\frac{\ln{2}}{t_{1/2}} t}
+\end{align}
 
+The solid angle factor is computed using MCNPX. 
+A F1 tally is used over the detector surface with two cosine bins, $-1<\cos\theta<0$ and $0<\cos\theta<1$.
+As macrobodies are used for the surfaces of the detector, $-1<\cos\theta<0$ represents the particles that cross into the surface and $0<\cos\theta<1$ the particles that leave the surface.
+The MCNPX simulation was benched marked against GS20 and against polymer films.
+Tables are provided for common geometries, other geometries can be found by interpolatation.
 
 \subsection{Neutron Intrinsic Efficiency}
 The number of counts upon a detector is measured using the neutron irridiator facility.
@@ -42,15 +62,46 @@ The quanta of radiation incident upon the detector is found from MCNPX calculati
 This consits of two parts: 1) determining the number of neutrons crossing the detector surface in the lead and cadmium wells and, 2) determining the sourse strength.
 
 The \iso[252]{Cf} source was \SI{0.59}{\ug} on July 2, 2009.
-%Given that the half-life of \iso[252]{Cf} is 2.65 years and \iso[252]{Cf} has a spontanous neutron emission rate of \SI{2.3E6}{\neutron\per\second} the source strength at any given time can be calucalted as \eqref{eqn:cf252SourceStrength}.
+Given that the half-life of \iso[252]{Cf} is 2.65 years and \iso[252]{Cf} has a spontanous neutron emission rate of \SI{2.3E6}{neutron\per\second} the source strength at any given time can be calucalted as \eqref{eqn:Cf252SourceStrength}.
+\begin{align}
+  \label{eqn:Cf252SourceStrength}
+  S &= S_0 e^{-\frac{\ln{2}}{t_{1/2}} t} \\ \notag 
+    &= \SI{0.59}{\ug} \iso[252]{Cf} \frac{\SI{2.3E6}{neutron\per\second}}{\si{\ug} \iso[252]{Cf}} e^{-\frac{ \ln{2}}{\SI{2.54}{year} }}  \\ \notag
+    &= \SI{1.357E6}{neutron\per\second} e^{-\frac{ \ln{2}}{\SI{2.54}{year} }} 
+\end{align}
 
-The gamma intrisinic efficiency was calculated that the sample was a cylinder of radius 1.27 cm, 2 mm thick in which the MCNPX calculations show 0.00909 photons cross the surface (the majority of them actually being from Co60 and not scattered photon - see attached)*. Scaling linear for the ratio of the areas yields 0.00909*(1.3 cm * 2.2 cm)/(pi*1.27cm^2) = 0.00527 photons per incident particle.  The source strength is 97 uCi on Jan 1st, but as it has a 30 year half life the half life correction was neglected, and the number of photons crossing the surface was calculated as 0.00527*97E-6Ci*3.7E10Bq/Ci = 18,867 photons per second.
+The following table sumerizes the incident flux for a number of differnet detector sizes and heights.
+
+
+It should be noted that there is considerable variation in the neutron flux in the detector wells, as shown in \ref{fig:NeutronFluxProfiles}.
+Thus, even though the calculations are accurate to less than a precent, the real error on the intrisinic efficinecy will be much higher due to undertainity in where the detector was placed in the well.
+\begin{figure}
+  \label{fig:NeutronFluxProfiles}
+
+  \caption{Neutron Flux Profiles of the Lead and Cadimum Wells}
+\end{figure}
+\subsection{Gamma Intrinsic Efficiency}
+
+The gamma intrinisic efficiency is calculated by a combination of simulation to determine the solid angle that the detector subtends and radioactive decay.
+The gamma irridator consits of a \SI{97}{\micro Ci} \iso[60]{Co} on January 1st, 2012.
+If the incident flux is calcualted according to \eqref{eqn:Co60SourceStrength}.
+\begin{align}
+  \label{eqn:Co60SourceStrength}
+  S &= S_0 e^{-\frac{\ln{2}}{t_{1/2}} t} \\ \notag 
+    &= \SI{97}{\micro Ci} \iso[60]{Co} \frac{\SI{1.3E10}{decay\per\second}}{\si{Ci}} \frac{2\text{photon}}{decay}e^{-\frac{ \ln{2}}{\SI{5.27}{year} }}  \\ \notag
+    &= \SI{7.178E6}{photon\per\second} e^{-\frac{ \ln{2}}{\SI{5.27}{year} }} 
+\end{align}
+
+The gamma irridiator detector well is encased in a 1/2 inch steel pipe which is surrounded by lead, providing a beam like geometry while also introducing lower energy photons. 
+The contribution of these lower energy photons is shown if Figure \ref{fig:PhotonFluxAllEnergies}.
+\begin{figure}
+  \label{fig:PhotonFluxAllEnergies}
+  \caption{Photon Flux into Detector}
+\end{figure}
+%The gamma intrisinic efficiency was calculated that the sample was a cylinder of radius 1.27 cm, 2 mm thick in which the MCNPX calculations show 0.00909 photons cross the surface (the majority of them actually being from Co60 and not scattered photon - see attached)*. Scaling linear for the ratio of the areas yields 0.00909*(1.3 cm * 2.2 cm)/(pi*1.27cm^2) = 0.00527 photons per incident particle.  The source strength is 97 uCi on Jan 1st, but as it has a 30 year half life the half life correction was neglected, and the number of photons crossing the surface was calculated as 0.00527*97E-6Ci*3.7E10Bq/Ci = 18,867 photons per second.
 
 The incident neutron quanta was calculated for also calculated for a 2 mm
 Cheers,
-
-
-\subsection{Gamma Intrinsic Efficiency}
 
 % Bibliography
 \bibliography{../Zotero}

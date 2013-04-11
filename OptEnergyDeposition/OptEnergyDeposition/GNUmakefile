@@ -4,16 +4,9 @@
 # Matthew J. Urffer (matthew.urffer@gmail.com)
 #  10/8/2012
 # --------------------------------------------------------------
-ifdef G4MPIUSE
-  name := mpiPolymerFilm
-  G4TARGET := $(name)
-  G4EXLIB := true
-  CPPFLAGS += -I$(MPI_INCLUDE)  -DG4MPIUSE=1
-else
-  name := polymerFilm
-  G4TARGET := $(name)
-  G4EXLIB := true
-endif
+name := polymerFilm
+G4TARGET := $(name)
+G4EXLIB := true
 
 CPPFLAGS += -g
 

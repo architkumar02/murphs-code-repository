@@ -49,21 +49,16 @@ Analysis::~Analysis(){
  */
 void Analysis::PrepareNewRun(const G4Run* aRun){
 
-  // Getting the detector thickness
+  // Setting up the file name
+  G4double detThickness = GetDetectorThickness();
+  G4String detMat = GetDetectorMaterial();
+
   G4double detThickness = GetDetectorThickness();
   G4String detMat = GetDetectorMaterial();
 
   std::ostringstream oss;
-#ifdef G4MPIUSE
-  char hostName[64];
-  gethostname(hostName,64);
-  oss <<incidentParticleName<<"run_"<<aRun->GetRunID()<<"_"
-      <<hostName<<"_rank_"<<G4MPImanager::GetManager()-> GetRank()
-      <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
-#else
   oss <<incidentParticleName<<"_"
-      <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
-#endif
+    <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
   std::string fname = oss.str();
   fname.erase(remove(fname.begin(), fname.end(),' '),fname.end());
   

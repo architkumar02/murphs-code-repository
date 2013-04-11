@@ -41,7 +41,7 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
         worldSizeZ  = 25*cm;      // Fixed World Size; 
         
         // Geometry parameters
-        absThickness = 5*cm;	        // Thickness of Absorber
+        absThickness = 1*mm;	        // Thickness of Absorber
         gapThickness = 1*cm;            // Thickness of Gap 
         oRadius  = 2.54*cm;		        // Outer Radius of Detector
         iRadius = 0.*cm;				// Inner radious of  Detector
@@ -279,13 +279,13 @@ void DetectorConstruction::SetVisAttributes(){
     // Setting the Visualization attributes for the Abs
     {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Cyan());
     //atb->SetForceWireframe(true);
-    //atb->SetForceSolid(true);
+    atb->SetForceSolid(true);
     absLV->SetVisAttributes(atb);}
 
     // Setting the Visualization attributes for the Calorimeter 
     {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Gray());
     //atb->SetForceWireframe(true);
-    //atb->SetForceSolid(true);
+    atb->SetForceSolid(true);
     gapLV->SetVisAttributes(atb);}
 
     // Setting the Layers to be white and invisiable

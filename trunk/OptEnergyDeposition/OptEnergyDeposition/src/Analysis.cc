@@ -53,9 +53,6 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
   G4double detThickness = GetDetectorThickness();
   G4String detMat = GetDetectorMaterial();
 
-  G4double detThickness = GetDetectorThickness();
-  G4String detMat = GetDetectorMaterial();
-
   std::ostringstream oss;
   oss <<incidentParticleName<<"_"
     <<detMat<<"_"<<G4BestUnit(detThickness,"Length")<<".root";
@@ -64,8 +61,15 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
   
   // Creating ROOT analysis objects (histogram)
   outfile = new TFile(fname.data(),"RECREATE");
-  posEDepTuple = new TNtuple("posEDepTuple","Initial Position and Energy Deposition","x:y:z:EnergyDep");
-  eDepHist = new TH1F("eDepHist","Total Energy Deposition",500,0*eV,maxHistEnergy);
+  eDepHist = new TH1F("eDepHist","Total Energy Deposition",100,0*eV,maxHistEnergy);
+  eDepHist->GetXaxis()->SetTitle("Deposited Energy (MeV)");
+  if (EDepPosAnalysis){
+    posEDepTuple = new TNtuple("posEDepTuple","Initial Position and Energy Deposition","x:y:z:EnergyDep");
+    posEDepHist = new TH2F("eDepPosHist","Positional Energy Dependance",100,0*eV,maxHistEnergy,100,0,detThickness);
+    posEDepHist->GetXaxis()->SetTitle("Deposited Energy (MeV)");
+    posEDepHist->GetYaxis()->SetTitle("First Interaction Position");
+
+  }
   G4cout<<"Prepared run "<<aRun->GetRunID()<<G4endl;
 }
 /**
@@ -153,18 +157,20 @@ void Analysis::EndOfEvent(const G4Event* event){
   G4double xPos = 0.0; 
   G4double yPos = 0.0;
   G4double zPos = 0.0; 
+  bool isFirst = true;
   CaloHit *hit;
-
+ 
   // Iterating through the hit collection to accumulate the energy deposition 
   G4int numHitColl = event->GetHCofThisEvent()->GetNumberOfCollections();
   for(G4int hitItter = 0; hitItter < numHitColl; hitItter++){
     // Itterating through the hit collection
+   
     hc = event->GetHCofThisEvent()->GetHC(hitItter);
     for(G4int i = 0; i < hc->GetSize(); i++){
       hit = (CaloHit*) hc->GetHit(i);
-      //hit->Print();
-      if (hit->GetTrackID() == 2 && hit->GetParentID() == 1){
+      if (hit->GetTrackID() == 2 && hit->GetParentID() == 1 && isFirst){
         // First interaction of the particle
+        isFirst = false;
         zPos = GetCalorimeterThickness(); // Subtracting the thickness
         xPos = hit->GetPosition().x();
         yPos = hit->GetPosition().y();
@@ -177,7 +183,10 @@ void Analysis::EndOfEvent(const G4Event* event){
   }
   // Adding to the run accumulation
   eDepHist->Fill(eDepEvent);
-  posEDepTuple->Fill(xPos,yPos,zPos,eDepEvent);
+  if (EDepPosAnalysis){
+    posEDepTuple->Fill(xPos,yPos,zPos,eDepEvent);
+    posEDepHist->Fill(eDepEvent,zPos);    
+  }
 }
 
 /**
@@ -224,4 +233,13 @@ void Analysis::SetHistEMax(G4double emax){
  */
 void Analysis::SetBinWidth(G4double binWidth){
   posHistBinWidth = binWidth;
+}
+
+/**
+ * SetEDepPosAnalysis
+ *
+ * Sets a boolean flag to positional energy depencance
+ */
+void Analysis::SetEDepPosAnalysis(G4bool value){
+  EDepPosAnalysis = value;
 }

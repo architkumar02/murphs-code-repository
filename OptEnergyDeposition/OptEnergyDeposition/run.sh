@@ -11,7 +11,7 @@ function JobSetup()
 function runGamma()
 {
   JobSetup
-  echo ".$G4WORKDIR/bin/Linux-g++/polymerFilm $G4WORKDIR/macros/gRun.mac > GammaOutput.txt" >> job
+  echo "exec $G4WORKDIR/bin/Linux-g++/polymerFilm $G4WORKDIR/macros/gRun.mac > GammaOutput.txt" >> job
   mv job gSub.qsub
   qsub gSub.qsub
   rm gSub.qsub

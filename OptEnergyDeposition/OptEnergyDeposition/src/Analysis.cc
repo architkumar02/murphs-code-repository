@@ -182,7 +182,9 @@ void Analysis::EndOfEvent(const G4Event* event){
     }
   }
   // Adding to the run accumulation
-  eDepHist->Fill(eDepEvent);
+  if (eDepEvent > 0.0){
+    eDepHist->Fill(eDepEvent);
+  }
   if (EDepPosAnalysis){
     posEDepTuple->Fill(xPos,yPos,zPos,eDepEvent);
     posEDepHist->Fill(eDepEvent,zPos);    

@@ -14,6 +14,7 @@ function runGamma()
   echo ".$G4WORKDIR/bin/Linux-g++/polymerFilm $G4WORKDIR/macros/gRun.mac > GammaOutput.txt" >> job
   mv job gSub.qsub
   qsub gSub.qsub
+  rm gSub.qsub
 }
 function runNeutron()
 {
@@ -21,6 +22,7 @@ function runNeutron()
   echo "exec $G4WORKDIR/bin/Linux-g++/polymerFilm $G4WORKDIR/macros/nRun.mac > NeutronOutput.txt" >> job
   mv job nSub.qsub
   qsub nSub.qsub
+  rm nSub.qsub
 }
 
 # Running the jobs

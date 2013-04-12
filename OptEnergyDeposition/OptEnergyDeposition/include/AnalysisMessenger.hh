@@ -8,6 +8,7 @@ class Analysis;
 class G4UIdirectory;
 class G4UIcmdWithAString;
 class G4UIcmdWithADoubleAndUnit;
+class G4UIcmdWithABool;
 
 class AnalysisMessenger: public G4UImessenger
 {
@@ -22,6 +23,7 @@ class AnalysisMessenger: public G4UImessenger
     G4UIcmdWithAString*        ParticleNameCmd;
     G4UIcmdWithADoubleAndUnit* HistEMaxCmd;
     G4UIcmdWithADoubleAndUnit* HistBinWidthCmd;
+    G4UIcmdWithABool*          EDepPosCmd;
 };
 
 #endif

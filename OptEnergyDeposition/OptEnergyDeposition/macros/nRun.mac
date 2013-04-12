@@ -20,14 +20,22 @@
 #
 # Running through absorber thickness
 /PolymerTransport/det/setAbsThick 2.5 cm
+/Analysis/setEDepPosAnalysis 1
+/PolymerTransport/det/update
+/run/beamOn 10000
+#
+/PolymerTransport/det/setAbsThick 1.0 cm
+/Analysis/setEDepPosAnalysis 1
 /PolymerTransport/det/update
 /run/beamOn 10000
 #
 /PolymerTransport/det/setAbsThick 2.5 mm
+/Analysis/setEDepPosAnalysis 1
 /PolymerTransport/det/update
 /run/beamOn 10000
 #
 /PolymerTransport/det/setAbsThick 0.25 mm
+/Analysis/setEDepPosAnalysis 0
 /PolymerTransport/det/update
 /run/beamOn 10000
 #

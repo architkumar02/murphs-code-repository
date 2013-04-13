@@ -56,16 +56,16 @@
 /run/beamOn 1000000
 #
 /PolymerTransport/det/setAbsThick 50 um
-/Analysis/setEDepPosAnalysis 0
+/Analysis/setEDepPosAnalysis 1
 /PolymerTransport/det/update
 /run/beamOn 1000000
 #
 /PolymerTransport/det/setAbsThick 25 um
-/Analysis/setEDepPosAnalysis 0
+/Analysis/setEDepPosAnalysis 1
 /PolymerTransport/det/update
 /run/beamOn 1000000
 #
 /PolymerTransport/det/setAbsThick 10 um
-/Analysis/setEDepPosAnalysis 0
+/Analysis/setEDepPosAnalysis 1
 /PolymerTransport/det/update
 /run/beamOn 1000000

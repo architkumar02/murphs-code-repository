@@ -1,10 +1,9 @@
 # coding: utf-8
-from ROOT import TFile, TH1F, TCanvas, TNtuple
+#!/usr/bin/env python
+from ROOT import TFile, TH1F, TCanvas, TNtuple,TH2F
 import os
-from openpyxl import Workbook
-import csv
 import re
-#import matplotlib.pyplot as plt
+import matplotlib.pyplot as plt
 import numpy as np
 
 def GetRootFiles(path=os.getcwd(),gammaKey='Co60',neutronKey='neutron'):
@@ -52,105 +51,25 @@ def GetThickness(filename):
     print tokens[2]," is not a reconized prefix"
     raise Exception()
 
-def PrintFiles(filelist,filename="EnergyDeposition.csv",
-    tParse=GetThickness,histKey='eDepHist'):
-  """ PlotFiles
-  Prints the files files contained in filelist
+def WriteHistograms(files,histKey='eDepPosHist',ext='.eps',tParse=GetThickness):
+  """
+  Write Histograms - Writes the histogram specified by histKey out to a file
+
   Keywords:
+  files - list of files in which the histogram is in
+  histKey - root key string of the histogram
+  ext - file extension of the output image
+  tParse - thickness parser for filename string
   """
-  ws = wb.create_sheet()
-  ws.title = sheetTitle
-  row = 0
-  col = 0
-  longName = ['Energy','Frequency','Error']
-  units =['MeV','Particles per Event','Particles per Event']
-  for fname in filelist:
-    f = TFile(fname,'r')
-    print '\tSaving data from file: ',str(fname)
-    hist = f.Get(histKey)
-    # Writing the header
-    i = 0
-    for l,u in zip(longName,units):
-      ws.cell(row=0,column=col+i).value = l
-      ws.cell(row=1,column=col+i).value = u
-      i += 1
-    # Writing the Comments
-    ws.cell(row=2,column=col+1).value = tParse(fname)
-    # writing the data
-    row = 3
-    entries = hist.GetEntries()
-    hist.Scale(1.0/entries)
-    for i in range(int(entries)):
-      ws.cell(row=row,column=col).value = hist.GetBinCenter(i)
-      ws.cell(row=row,column=col+1).value = hist.GetBinContent(i)
-      ws.cell(row=row,column=col+2).value = hist.GetBinError(i)
-      row += 1
-    col += 3
-
-def PrintEDepSummary(gFiles,nFiles,wb=Workbook(),tParse=GetThickness,
-  histKey='eDepHist'):
-  """ PrintEDepSummary
-  Prints the energy deposition summary
-  """
-  ws = wb.create_sheet()
-  ws.title = 'EDepSummary'
-  # Extrating the average values
-  row = 0
-  col = 0
-  # Writing the headers
-  longname = ['thickness','Average Energy Deposition','Avg. EDep Error']
-  units =['mm','MeV','MeV']
-  for l,u in zip(longname,units):
-    ws.cell(row=0,column=col).value = l
-    ws.cell(row=1,column=col).value = u
-    ws.cell(row=0,column=col+3).value = l
-    ws.cell(row=1,column=col+3).value = u
-    col += 1
-  ws.cell(row=2,column=1).value = 'Co-60'
-  ws.cell(row=2,column=4).value = 'Cf-252'
-  # Writing the data
-  row = 3
-  for fname in gFiles:
-    f = TFile(fname,'r')
-    hist = f.Get(histKey)
-    ws.cell(row=row,column=0).value = GetThickness(fname)
-    ws.cell(row=row,column=1).value = hist.GetMean()
-    ws.cell(row=row,column=2).value = hist.GetMeanError()
-    row += 1
-  row = 3
-  for fname in nFiles:
-    f = TFile(fname,'r')
-    hist = f.Get(histKey)
-    ws.cell(row=row,column=3).value = GetThickness(fname)
-    ws.cell(row=row,column=4).value = hist.GetMean()
-    ws.cell(row=row,column=5).value = hist.GetMeanError()
-    row += 1
-
-def GetPosEDep(files,tParse=GetThickness,key='posEDepTuple'):
-  """
-  Returns a dictionary contaiting the mapping between the thickness (in mm)
-  and an z, energy d
-  """
-  d = dict()
-  # Looping through the files
+  c = TCanvas()
   for fname in files:
     f = TFile(fname,'r')
-    t = f.Get(key)
-    entries = t.GetEntriesFast()
-    data = np.zeros((2,entries))
-    for entry in xrange(entries):
-      # Loading entries into memory, addng to numpy array
-      nb = t.GetEntry(entry)
-      data[0][entry] += t.z
-      data[1][entry] += t.EnergyDep
-    d[tParse(fname)] = d
-    print 'File: ',fname,' min z ',np.amin(data[0,:]),' max z ',np.amax(data[0,:])
-  # Returning the dictonary
-  return d
+    hist = f.Get(histKey)
+    hist.Draw()
+    outName = fname.rsplit('_',1)[0]
+    outName = outName.rsplit('/',1)[-1]+'{}'.format(tParse(fname))+ext
+    c.SaveAs(histKey+outName)
 
-def EDepPosDist(d,csvFilename='EnergyDepDist.csv'):
-  longname = ['Z position','Energy Depostion']
-  units = ['mm','MeV']
 
 def PlotEDepSummary(gFiles,nFiles,figureName='EDepSummary.png',tParse=GetThickness,
   histKey='eDepHist'):
@@ -194,16 +113,9 @@ def main():
   print "Gamma Files: ",str(g)
   print "Neutron Files: ",str(n)
   print "Starting Data Analysis"
-  GetPosEDep(g)
-  GetPosEDep(n)
-
-  wb = Workbook()
-  #PrintEDepSummary(g,n,wb)
-  #PlotEDepSummary(g,n)
-  #print "Print Data"
-  #PrintFiles(g,wb,"GammaEnergyDepostion")
-  #PrintFiles(n,wb,"NeutronEnergyDepostion")
-  #wb.save('EnergyDepAnalysis.xlsx')
+  PlotEDepSummary(g,n)
+  WriteHistograms(g,histKey='eDepPosHist',ext='.eps',tParse=GetThickness)
+  WriteHistograms(n,histKey='eDepPosHist',ext='.eps',tParse=GetThickness)
 
 if __name__ == "__main__":
   main()

@@ -1,0 +1,52 @@
+\documentclass[draftcls,onecolumn]{IEEEtran}
+
+%% INCLUDING THE PREAMBLE
+\input{../Preamble}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                                Start of Document                        %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\title{Layered Detectors}
+\author{Matthew J. Urffer}
+\date{\today}
+\maketitle
+
+
+% Tables of Contents, Figures, Tables
+\listoftodos
+\tableofcontents
+\listoffigures
+\listoftables
+\lstlistoflistings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                              Start of Content                           %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Introduction}
+A central tenet to the fullfillment of the criteria set forth by the DHS for the neutron intrisinic efficinecy is that the ability to meet the neutron iefficinecy will be satified by a layered detector assembly.
+Previous work has shown that the neutron efficiency can be increased by layering detectors with a slight decrease in light output (observed by a shift in the peak location) while a dramatic increase in the count rate, as shown in Figure \ref{fig:SmallLayeredEJ426}\footnote{More details on this expermient can be found in Matthew Urffer's Masters Thesis, starting on page 42}.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.5\textwidth]{MissingFigure}
+  \label{fig:SmallLayeredEJ426}
+  \caption[Neutron Response of EJ426 HD2 Films oriented vertically and horzitonaly]{Comparison of the neutron response of three EJ-426 Films. The light collection is diminished by a vertically oriented film, but the neutron count rate can be improved and a layering geometry is then possible}
+\end{figure}
+However, the tested films where only squares \SI{3.56}{\cm} on a side and a larger assembly was desired to be tested.
+This would also allow for the simulation work to continue until films ordered for Eljen technologies arrived.
+
+\section{Methods}
+\todo[inline]{I want to do two descriptions: 1) the description of the measurements, and 2) the description of the simulation. There will need to be a paragraph to introduce both.}
+\subsection{Experiment Design}
+Two EJ-426 HD2-PE films (\SI{7.62}{\cm} by \SI{7.62}{\cm}) were provided by Dr. Jeff Preston of Flir Technologies.
+In addition Andrew Mabe fabricated two polystyrene based films\todo{Get film composition} of the same dimension, mounted on aluminum foil for structural integratity.
+These films were sandwhiched between three Eljen UVT PMMA \SI{7.62}{\cm} by \SI{7.62}{\cm} by \SI{1.9}{\cm} blocks (from Flir).
+Optical grease was used to couple the polystrene films to the blocks, but not for the \iso[6]{LiF:ZnS} films as the manufactur recommends against it.
+The blocks were wrapped in teflon tape, and the PMT was mounted on the layered face using a minimal amount of optical grease.
+The entire assemly was then wrapped in black gaffer tape to make the assembly light tight.
+The samples were then irridiated by a \iso[252]{Cf} source.
+\end{document}
+

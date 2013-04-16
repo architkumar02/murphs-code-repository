@@ -1,6 +1,6 @@
 # coding: utf-8
 #!/usr/bin/env python
-from ROOT import TFile, TH1F, TCanvas, TNtuple,TH2F
+from ROOT import TFile, TH1F, gStyle, TCanvas, TNtuple,TH2F
 import os
 import re
 import matplotlib.pyplot as plt
@@ -61,13 +61,16 @@ def WriteHistograms(files,histKey='eDepPosHist',ext='.eps',tParse=GetThickness):
   ext - file extension of the output image
   tParse - thickness parser for filename string
   """
+  gStyle.SetOptStat(0)
   c = TCanvas()
   for fname in files:
     f = TFile(fname,'r')
     hist = f.Get(histKey)
-    hist.Draw()
+    hist.Draw("lego2 0")
+    #hist.Draw("contz")
     outName = fname.rsplit('_',1)[0]
     outName = outName.rsplit('/',1)[-1]+'{}'.format(tParse(fname))+ext
+    c.SetLogz(1)
     c.SaveAs(histKey+outName)
 
 
@@ -114,8 +117,8 @@ def main():
   print "Neutron Files: ",str(n)
   print "Starting Data Analysis"
   PlotEDepSummary(g,n)
-  WriteHistograms(g,histKey='eDepPosHist',ext='.eps',tParse=GetThickness)
-  WriteHistograms(n,histKey='eDepPosHist',ext='.eps',tParse=GetThickness)
+  WriteHistograms(g,histKey='eDepPosHist',ext='.png',tParse=GetThickness)
+  WriteHistograms(n,histKey='eDepPosHist',ext='.png',tParse=GetThickness)
 
 if __name__ == "__main__":
   main()

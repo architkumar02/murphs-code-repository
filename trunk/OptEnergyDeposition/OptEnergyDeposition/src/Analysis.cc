@@ -181,13 +181,13 @@ void Analysis::EndOfEvent(const G4Event* event){
       eDepEvent += hit->GetEdep()/MeV;
     }
   }
-  // Adding to the run accumulation
+  // Adding to the run accumulation only events with deposit energy
   if (eDepEvent > 0.0){
     eDepHist->Fill(eDepEvent);
-  }
-  if (EDepPosAnalysis){
-    posEDepTuple->Fill(xPos,yPos,zPos,eDepEvent);
-    posEDepHist->Fill(eDepEvent,zPos/um);    
+    if (EDepPosAnalysis){
+      posEDepTuple->Fill(xPos,yPos,zPos,eDepEvent);
+      posEDepHist->Fill(eDepEvent,zPos/um);    
+    }
   }
 }
 

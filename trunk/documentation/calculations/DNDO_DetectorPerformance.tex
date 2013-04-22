@@ -28,17 +28,54 @@ The performance of films is simulated with in MCNPX, a monte carlo transport cod
 The geometry is as in the PNNL reports, namely a nano-gram of \iso[252]{Cf}  encased in \SI{0.5}{\cm} of lead and \SI{2.5}{\cm} of HDPE. 
 The size of the RPM8 is \SI{12.7}{\cm} deep, by \SI{30}{\cm} wide and \SI{2}{\m} tall.
 
-An F4 tally (an track length of the cell flux) is modified with a tally muliplier card, an of which is supplied in Listing \ref{lst:InteractionTallyExample}.
-A SD card is used to normalize the tally by the volume.
-\begin{listing}
-  \label{lst:InteractionTallyExample}
-\end{listing}
 \section{Count Rate Calculation}
-The count rate is calculated by computing the total number of itneractions in the detector (multiplying the interaction rate by the source strenth) along with the fraction of counts that are above the gamma pulse height discriminator as found by measurment.
-This is shown in equation \eqref{eqn:CountRate} where $S_0$ is the source strength, \nom{$S_0$}{Source strength}, $\Re$ is the MCNPX calculated interaction rate \nom{$\Re$}{Reaction rate}, and $\eta$ is the fraction of counts aboe the gamma LLD \nom{$\eta$}{Fraction of counts above gamma lld}.
+The interaction rate is caclauted using the a cell flux tally in MCNPX and a tally muliplier card.
+The tally muliplier card (FMn) is used to calcualted any quanitity of the form \eqref{eqn:FMCardForm} \cite{pelowitz_mcnpx_????}.
+\begin{align}
+  \label{eqn:FMCardForm}
+  C\int\phi(E)\Re_m(E)dE
+\end{align}
+\nom{$\phi(E)$}{Energy dependent fluence}
+\nom{$\Re_m(E)$}{Response function operator}
+where
+\begin{itemize}
+  \item [] $\phi(E)$ is the energy-dependent fluence (particles per cm squared) 
+  \item [] $\Re_m (E)$ is an linear operator of response functions, including cross section libaries, and
+  \item [] $C$ is an arbitary scalar for normalization.
+\end{itemize}
+An general example of the use of the FM card is shown in Listing \ref{lst:GeneralFMExample}, which is taken from the MCNP manual \cite{pelowitz_mcnpx_????}.
+% See pg. 4-41 of the MCNP manual
+\begin{lstlisting}[caption={[Example usage of the FM card]Example usage of the FM card to caclulate the number of reactions per \si{\cm\cubed} of type R in cell 8 of material M. The normalization is by atomic denisty, signified by the -1},label{lst:GeneralFMExample}]
+F104: N 8
+FM104 -1 M R
+\end{lstlisting}
+
+\subsection{Neutron count rate calcuation}
+The reaction rate $\iso[7]{Li}\left(\text{n},\text{t}\right)\alpha$ can be calcualted by then applying the appropriate input for the FMn card and using an F4 card to calculate $\phi(E)$.
+This is shown in Listing \ref{lst:InteractionTallyExample}, where the reaction number is 105 and the material number of the detector is 3.
+The cell volume is question is 601 inside universe 610 for the lead well, and cell 601 inside universe 620 for the cadmium well.
+\begin{lstlisting}[caption={[Lead and Cadmium Well ${}^{6}\text{Li}\left(\text{n},\text{t}\right)\alpha$ Reaction Rate]Lead and Cadmium Well ${}^{6}\text{Li}\left(\text{n},\text{t}\right)\alpha$ Reaction Rates. The lead well is 154, and the cadmium well is 254},label={lst:InteractionTallyExample}]
+  FC154 (n,t) Reactions in Detector in Pb Well
+  F154:n (601<610)
+  FM154 -1 3 105
+  FC254 (n,t) Reactions in Detector in Cd Well
+  F254:n (601<620)
+  FM254 -1 3 105
+\end{lstlisting}
+
+
+\begin{lstlisting}[caption={[RPM8 ${}^{6}\text{Li}\left(\text{n},\text{t}\right)\alpha$ Reaction Rate]RPM8 ${}^{6}\text{Li}\left(\text{n},\text{t}\right)\alpha$ Reaction Rate. The detector is all of the layers of cell 500 inside universe 610. This tally is multiplied by an SD card to normalize by the volume},label={lst:InteractionRateRMP}]
+FC4 (n,t) Reactions in Thin Film (Neutron Detector)
+F4:n (500<610)
+SD4 1
+FM4 -1 3 105
+\end{lstlisting}
+
+The count rate is calculated by computing the total number of interactions in the detector (multiplying the interaction rate by the source strenth) and then scalalong with the fraction of counts that are above the gamma pulse height discriminator as found by measurment.
+This is shown in equation \eqref{eqn:CountRate} where $S_0$ is the source strength, \nom{$S_0$}{Source strength}, $R$ is the MCNPX calculated interaction rate, and $\eta$ is the fraction of counts aboe the gamma LLD \nom{$\eta$}{Fraction of counts above gamma lld}.
 \begin{align}
  \label{eqn:CountRate}
- \text{Count Rate} &= S_0 \Re \eta
+ \text{Count Rate} &= S_0 R \eta
 \end{align}
 
 \pagebreak
@@ -48,24 +85,24 @@ This is shown in equation \eqref{eqn:CountRate} where $S_0$ is the source streng
 A PEN film was simulated in the geometry of a simple layered detector design.
 The validation of the simulation was completed by also simulating the two films in the neutron irridiator and comparing those values to the observed count rate.
 The film's count rate was calculated in each well by the product of the source strength, interaction rate and cell volume (as in this simulation the tally wasn't normalzied by the volume) as shown in Table \ref{tab:PENADSMiller} and \eqref{eqn:MillerCountRate}.
-The total number of interactions in the lead well was then subtracted from
+The total number of interactions in the lead well was then subtracted from the cadmium well in order to get the net number of interactions.
 \begin{table}
-  \caption
+  \centering
+  \caption{PEN with ADS Simulated Interaction Rate and Count Rate}
   \label{tab:PENADPerformace}
-  \begin{tabular}{c | c c}\\
-    & Interaction Rate & Count Rate
+  \begin{tabular}{c | c c}
+    & Cell Interaction Rate & Count Rate \\
     \hline
     \hline
-   \SI{40}{\um}  DHS & 1.16244E-03 0.0107 & \\
-   \SI{150}{\um} DHS & 2.55661E-03 0.0106 & \\
+   \SI{40}{\um}  RPM8 & \num{1.16244E-03} $\pm$ 1.07\% & \\
+   \SI{150}{\um} RPM8 & \num{2.55661E-03} $\pm$ 0.0106\% & \\
    \hline
-   \SI{40}{\um} 
-                         8.10732E-02
-                 3.62054E-04 0.0142
+   \SI{40}{\um}  Irridiator & \num{2.88E-5} & 29.6 \\
+   \SI{150}{\um} Irridiator & \num{1.05E-4} & 108 \\
+  \end{tabular}
 \end{table}
 
 Two differet
-
 
 The neutron intrinsic efficiency is calculated according to \eqref{eqn:intEffDef} with the source strength as supplied in \eqref{eqn:Cf252SourceStrength}, with the source aging $t = 3.76 \text{yr}$ to the measurement.
 \begin{align}

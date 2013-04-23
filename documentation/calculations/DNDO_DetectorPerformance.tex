@@ -33,13 +33,15 @@ The interaction rate is calculated using the a cell flux tally in MCNPX and a ta
 The tally multiplier card (FMn) is used to calculated any quantity of the form \eqref{eqn:FMCardForm} \cite{pelowitz_mcnpx_????}.
 \begin{align}
   \label{eqn:FMCardForm}
-  C\int\phi(E)\Re_m(E)dE
+  I &= C\int\phi(E)\Re_m(E)dE
 \end{align}
+\nom{$I$}{Interaction rate}
 \nom{$\phi(E)$}{Energy dependent fluence}
 \nom{$\Re_m(E)$}{Response function operator}
 where
 \begin{itemize}
-  \item [] $\phi(E)$ is the energy-dependent fluence (particles per cm squared) 
+  \item [] $I$ is the interaction rate,
+  \item [] $\phi(E)$ is the energy-dependent fluence (particles per cm squared) ,
   \item [] $\Re_m (E)$ is an linear operator of response functions, including cross section libraries, and
   \item [] $C$ is an arbitrary scalar for normalization.
 \end{itemize}
@@ -52,6 +54,11 @@ FM104 -1 M R
 
 \subsection{Neutron count rate calculation}
 The reaction rate $\iso[7]{Li}\left(\text{n},\text{t}\right)\alpha$ can be calculated by then applying the appropriate input for the FMn card and using an F4 card to calculate $\phi(E)$.
+It should be noted that depending on the form of the cell flux card it may be necessary to normalize by the volume of the cell, $\forall$.
+\nom{$\forall$}{Volume of the cell}
+
+\subsubsection{Neutron Irridiator}
+\label{sec:NeutronIrridiatorInteractionRate}
 This is shown in Listing \ref{lst:InteractionTallyExample}, where the reaction number is 105 and the material number of the detector is 3.
 The cell volume is question is 601 inside universe 610 for the lead well, and cell 601 inside universe 620 for the cadmium well.
 \begin{lstlisting}[caption={[Lead and Cadmium Well ${}^{6}\text{Li}\left(\text{n},\text{t}\right)\alpha$ Reaction Rate]Lead and Cadmium Well ${}^{6}\text{Li}\left(\text{n},\text{t}\right)\alpha$ Reaction Rates. The lead well is 154, and the cadmium well is 254},label={lst:InteractionTallyExample}]
@@ -62,31 +69,55 @@ The cell volume is question is 601 inside universe 610 for the lead well, and ce
   F254:n (601<620)
   FM254 -1 3 105
 \end{lstlisting}
+The film's thermal interaction rate (the analog of the spectra subtraction of the lead and cadmium wells) is simply then the difference in the interaction rate of each well, normalize by the volume (if necessary) and the source strength on the date of measurment \eqref{eqn:MillerInteractionRate}.
+\begin{align}
+  I_{\text{sim}} &= S(t) \forall \left( C\int\phi_{\text{Pb}}(E)\Re_m(E)dE - C\int\phi_{\text{Cd}}(E)\Re_m(E)dE \right ) \notag \\
+   &= S(t) \forall \left( I_{\text{Pb}} - I_{\text{Cd}}\right)
+\end{align}
+In \eqref{eqn:MillerInteractionRate} $S(t)$ is the time dependant source strength, and $I_{\text{Pb}}$ and $I_{\text{Cd}}$ are the MCNPX tallies as computed in Listing \ref{lst:InteractionTallyExample}.
+The normalization of the volume is necessary in this calculation as an \verb+SD+ card was not used in both flux tallies.
 
+\subsubsection{RPM DHS-DNDO Replacment Detector}
 
-\begin{lstlisting}[caption={[RPM8 ${}^{6}\text{Li}\left(\text{n},\text{t}\right)\alpha$ Reaction Rate]RPM8 ${}^{6}\text{Li}\left(\text{n},\text{t}\right)\alpha$ Reaction Rate. The detector is all of the layers of cell 500 inside universe 610. This tally is multiplied by an SD card to normalize by the volume},label={lst:InteractionRateRMP}]
+The interaction rate in a simulated RPM8 replacement detector is calculated in a similar manner as Section \ref{sec:NeutronIrridiatorInteractionRate}; the interaction rate as computed by the \verb+FMn+ is multiplied by the source strength and volume if necessary.
+An example of the MCNPX input cards is shown in Listing \ref{lst:InteractionRateRPM}.
+Given that there the thermal response is not desired, there is no need to subtract out the differneces between the spectra, and the interaction rate is simply \eqref{eqn:RPM8InteractionRate}.
+Note that in this calculation the source strength is set to be \SI{1}{\nano\gram} \iso[252]{Cf}, which has a neutron emission rate of \SI{2.3E3}{neutron\per\second}.
+This is in accordance with the direct evaluation of the PNNL critera, which require a absolute neutron count rate of \SI{2.5}{count\per\second\per\nano\gram\iso[252]{Cf}}.
+\begin{lstlisting}[caption={[RPM8 ${}^{6}\text{Li}\left(\text{n},\text{t}\right)\alpha$ Reaction Rate]RPM8 ${}^{6}\text{Li}\left(\text{n},\text{t}\right)\alpha$ Reaction Rate. The detector is all of the layers of cell 500 inside universe 610. This tally is multiplied by an SD card to normalize by the volume},label={lst:InteractionRateRPM}]
 FC4 (n,t) Reactions in Thin Film (Neutron Detector)
 F4:n (500<610)
 SD4 1
 FM4 -1 3 105
 \end{lstlisting}
-
-The count rate is calculated by computing the total number of interactions in the detector (multiplying the interaction rate by the source strength) and then scaling with the fraction of counts that are above the gamma pulse height discriminator as found by measurement.
-This is shown in equation \eqref{eqn:CountRate} where $S_0$ is the source strength, \nom{$S_0$}{Source strength}, $R$ is the MCNPX calculated interaction rate, and $\eta$ is the fraction of counts above the gamma LLD \nom{$\eta$}{Fraction of counts above gamma LLD}.
 \begin{align}
- \label{eqn:CountRate}
- \text{Count Rate} &= S_0 R \eta
+  \label{eqn:RPM8InteractionRate}
+  I_{\text{sim}} &= S_0 I \\
+  &= \SI{2.3E3}{neutron\per\second} I
+\end{align}
+
+$I_{\text{sim}}$ provides the total number of simulated neutron interactions in the detector.
+However, not all of these interactions will lead to counts above the pulse height discriminator setting necessary for meeting the gamma intrisinic efficinecy.
+This is corrected for by scaling $I_{\text{sim}}$ by the fraction of counts, $\eta$, that occur above the gamma LLD \eqref{eqn:FractionOfCountsDefination}, \eqref{eqn:RPMCountRate}.
+\todo[inline]{An alternative formulation might be to find the count rate per mass \iso[252]{Cf} above the gamma LLD.  This would avoid the low energy noise counts found by only using the lead irridiator spectra, which will dramatically decrease the fraction of counts above the gamma LLD}
+\begin{align}
+  \label{eqn:FractionOfCountsDefination}
+  \eta \equiv \frac{\int_{MLLD}^\infty p(x)dx}{\int_0^\infty p(x)dx}
+\end{align}
+\nom{$p(x)$}{Measured spectra, as a function of channel number}
+\begin{align}
+ \label{eqn:RPMCountRate}
+ \text{Count Rate} &= I_{\text{sim}} \eta
 \end{align}
 
 \pagebreak
-\subsection{Examples}
-\begin{Exercise*}[label={PEN LiF with ADS},title={PEN LiF film with ADS},name={Example}]
+\section{Examples}
+\begin{Exercise*}[label={PEN LiF with ADS},title={PEN LiF film with ADS},name={}]
 
-A PEN film was simulated in the geometry of a simple layered detector design.
-The validation of the simulation was completed by also simulating the two films in the neutron irridiator and comparing those values to the observed count rate.
-The film's count rate was calculated in each well by the product of the source strength, interaction rate and cell volume (as in this simulation the tally wasn't normalized by the volume) as shown in Table \ref{tab:PENADSMiller} and \eqref{eqn:MillerCountRate}.
-The total number of interactions in the lead well was then subtracted from the cadmium well in order to get the net number of interactions.
-\begin{table}
+Two PEN films of \todo{Composition from Rohit} (\SI{40}{\um} and \SI{150}{\um}) were simulated in the geometry of a simple layered detector design.
+This designs consits of alternating layers of film spaced by \SI{1}{\mm} of arylic PMMA spacer\footnote{It has been shown by optimization that this is not a very efficient geometry}.
+Confidence in the simulation is provided by also simulating the two films in the neutron irridiator and comparing those values to the observed count rate.
+\begin{table}[h]
   \centering
   \caption{PEN with ADS Simulated Interaction Rate and Count Rate}
   \label{tab:PENADPerformace}
@@ -102,70 +133,14 @@ The total number of interactions in the lead well was then subtracted from the c
   \end{tabular}
 \end{table}
 
-Two different
+by the product of the source strength, interaction rate and cell volume (as in this simulation the tally wasn't normalized by the volume) as shown in Table \ref{tab:PENADSMiller} and \eqref{eqn:MillerCountRate}.
+The total number of interactions in the lead well was then subtracted from the cadmium well in order to get the net number of interactions.
 
-The neutron intrinsic efficiency is calculated according to \eqref{eqn:intEffDef} with the source strength as supplied in \eqref{eqn:Cf252SourceStrength}, with the source aging $t = 3.76 \text{yr}$ to the measurement.
-\begin{align}
-    S &= \SI{1.357E6}{neutron\per\second} e^{-\frac{ \ln{2}}{\SI{2.54}{year}}\SI{3.76}{year}} \\ \notag
-      &= \SI{4.86E5}{neutron\per\second}
-\end{align}
-Approximating the sample as a cylinder (maintaining the area of the faces) yields a radius of \SI{0.95}{\cm}.
-\begin{align}
-	r &= \sqrt{\frac{\SI{1.3}{\cm} \times \SI{2.2}{\cm}}{\pi}} \\ \notag
-	& = \SI{0.95}{\cm}
-\end{align}
-From Table \ref{tab:NeutronSolidAngle} the closest radius is \SI{1}{\cm}.
-Linear interpolation is used to calculate the expected solid angle at a thickness of \SI{0.27}{\cm}, and then a ratio of the areas is used to calculate the solid angle at a radius of \SI{0.95}{\cm}.
-\begin{align*}
-	\frac{A_1}{A_2} &= \frac{\Omega_1}{\Omega_2} \\ \notag
-	\Omega_2 &= \frac{r_2^2 \Omega_2}{r_1^2} \\
-	 &= \frac{\SI{0.95}{\cm}^2 \num{6.73E-4}}{\SI{1}{\cm}^2}
-	 &= \num{6.07E-4}
-\end{align*}
-This is then multiplied by the source strength on the date of the measurement, \SI{4.86E5}{neutron\per\second}, to determine the flux.
-\begin{align*}
- 	N_i &= \Omega S \\
-	 &= \num{6.07E-4} \; \SI{4.86E5}{neutron\per\second} \\
-   &= \SI{284}{neutron\per\second}
-\end{align*}
-
-The \iso[60]{Co} source has aged 459 days (1.26 years) since the measurement.
-The source strength is then:
-\begin{align}
-  S &= \SI{7.178E6}{photon\per\second}\;e^{-\frac{ \ln{2}}{\SI{5.27}{year}}\SI{1.26}{year}} \\ \notag
-    &= \SI{6.08E6}{photon\per\second}
-\end{align}
-Once again interpolation is used to calculated the solid angle.
-\begin{align*}
-	\frac{A_1}{A_2} &= \frac{\Omega_1}{\Omega_2} \\ \notag
-	\Omega_2 &= \frac{r_2^2 \Omega_2}{r_1^2} \\
-	 &= \frac{\SI{0.95}{\cm}^2 \num{6.17E-3}}{\SI{1}{\cm}^2}
-	 &= \num{5.57E-3}
-\end{align*}
-This is then multiplied by the source strength on the date of the measurement, \SI{6.08E6}{photon\per\second}, to determine the flux.
-\begin{align*}
- 	N_i &= \Omega S \\
-	 &= \num{5.57E-3} \; \SI{6.08E6}{photon\per\second} \\
-      &= \SI{33.9E4}{neutron\per\second}
-\end{align*}
-It is then possible to plot the intrinsic efficiency in your favorite computational package.
-
-\end{Exercise*}
-\begin{Exercise*}[label={LiquidSample},title={Liquid Sample},name={Example}]
-The neutron fluence over a \SI{5}{\milli\liter} vial is desired in order to compute the intrinsic efficiency of neutron samples fabricated and measured by members of SCSU.
-MCNPX calculations for the solid angle, $\Omega$ show that \SI{4.477E-3}{neuron\per source particle} cross the sample in the lead well, and \SI{1.475E-3}{neuton\per source particle} cross the sample in the cadmium well.
-Thus the net particles crossing the detector is $\Omega_{\text{net}} =\SI{4.477E-3}{neuron\per source particle} - \SI{1.475E-3}{neutron\per source particle} =\SI{3.002E-3}{neutron\per source particle} $.
-Depending on when the sample was measured the number of neutrons crossing the sample can be calculated by multiply \eqref{eqn:Cf252SourceStrength} by the solid angle calculated above.
-
-The SCSU samples where not measured in the \iso[60]{Co} irridiator but rather by placing a source on the outside of the sample.
 
 \end{Exercise*}
 
 % Bibliography
 \bibliography{../Zotero}
 
-\section{Appendix}
-The generated MCNPX tables was based upon a script input deck for gamma and neutrons in \verb+MCNP/IncidentFlux+.
-An analysis script was written in python in order to extract the necessary lines from the output decks.
 \end{document}
 

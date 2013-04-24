@@ -88,9 +88,61 @@ def PlotData(log=False):
     else:
       pylab.savefig('ComptonScatteringXS.png')
 
+def ComptonScattering(theta):
+  if np.random.rand(1) < 0.5:
+    E = 1.117
+  else:
+    E = 1.332
+  dSdE = diffXSElectrons(E,theta)
+  return dSdE
+
+def SampleRejection(piMax,piFunc):
+  # Warning! Here be infinate loop dragons!
+  while True:
+    x = np.random.rand(1)*np.pi
+    y = np.random.rand(1)*piMax
+    if y < piFunc(x):
+      return x
+
+def Validation():
+  numSamples = 1000000
+  
+  theta = np.random.rand(numSamples)*np.pi
+  ECo60 = np.array([1.117,1.332])
+  Ef0,Ee0 = Compton(ECo60[0],theta)
+  Ef1,Ee1 = Compton(ECo60[1],theta)
+  dSdE0 = diffXSElectrons(ECo60[0],theta)
+  dSdE1 = diffXSElectrons(ECo60[1],theta)
+
+  # Sampling Values
+  values = list()
+  piMax = np.max([dSdE0,dSdE1])
+  while (len(values) < numSamples):
+    values.append(SampleRejection(piMax,ComptonScattering))
+  # Binning the data
+  bins = np.logspace(-3,0.2,100)
+  counts = np.histogram(values,bins)
+  counts = counts[0]/float(len(values))
+  binCenters = 0.5*(bins[1:]+bins[:-1])
+  
+  # Plotting
+  pylab.figure()
+  pylab.plot(binCenters,counts,ls='steps')
+  #pylab.bar(binCenters,counts,align='center')
+  pylab.grid(True)
+  pylab.xlim((1E-3,1.4))
+  pylab.xlabel('Electron Energy (MeV)')
+  pylab.ylabel('Frequency per Photon')
+  pylab.yscale('log')
+  pylab.xscale('log')
+  pylab.savefig('ValComptonScatteringXS.png')
+  
+
 def main():
-  PlotData(log=False)
-  PlotData(log=True)
+  #PlotData(log=False)
+  #PlotData(log=True)
+  Validation()
+
 if __name__ == '__main__':
     main()
 #plot(theta,Ee)

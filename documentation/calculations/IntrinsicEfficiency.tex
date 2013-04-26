@@ -34,8 +34,7 @@ where:
   \item[] \definevar{$N_c$}{number of counts recorded by the detector}, and
   \item[] \definevar{$N_i$}{quanta of radiation incident upon the detector}.
 \end{itemize}
-The quanta of radiation incident upon the detector can be subdivided into two components: the source strength and the solid angle.
-The composition of $N_i$ is shown in \eqref{eqn:QuantaIncidentDef}
+The quanta of radiation incident upon the detector can be expressed as two components: the source strength and the solid angle as shown in \eqref{eqn:QuantaIncidentDef}
 \begin{align}
   \label{eqn:QuantaIncidentDef}
   N_i = \Omega S_0
@@ -45,25 +44,26 @@ where:
   \item[] \definevar{$S$}{source strength}, and 
   \item[] \definevar{$\Omega$}{solid angle}.
 \end{itemize}
-In general the source strength according the half-life of the source \eqref{eqn:HalfLife}, where \definevar{$S_0$}{initial source strength}, \definevar{$t_{1/2}$}{half life} and \definevar{$t$}{age of source}.
+In general the source strength depends on the half-life of the source \eqref{eqn:HalfLife}, where \definevar{$S_0$}{initial source strength}, \definevar{$t_{1/2}$}{half life} and \definevar{$t$}{age of source}.
 \begin{align}
   \label{eqn:HalfLife}
   S = S_0 e^{-\frac{\ln{2}}{t_{1/2}} t}
 \end{align}
 
-The solid angle factor is computed using MCNPX. 
+The fraction of the source solid angle the detector subtends, $\Omgea$, is computed using MCNPX. 
 A F1 tally is used over the detector surface with two cosine bins, $-1<\cos\theta<0$ and $0<\cos\theta<1$.
 As macro-bodies are used for the surfaces of the detector, $-1<\cos\theta<0$ represents the particles that cross into the surface and $0<\cos\theta<1$ the particles that leave the surface.
 The MCNPX simulation was benched marked against GS20 and against polymer films.
 Tables are provided for common geometries; other geometries can be found by interpolation.
 
-It is often desirable to express the intrinsic efficiency for a given channel number or Mathematical Lower Level Discriminator (MLLD)\footnote{The MLLD behaves essentially as a physical lower level discriminator in that all counts below this value are discarded}.
+It is possible to express the intrisinic efficiency as a fucntion of a mathmatical lower level discriminator (MLLD) of the measured spectra\footnote{The MLLD behaves essentially as a physical lower level discriminator in that all counts below this value are discarded}.
 The intrinsic efficiency can then be expressed as a function of this MLLD \eqref{eqn:MLLDDef}.
 The number of counts recorded by the detector can be expressed as the integral of \definevar{$p(x)$}{spectra function} from some lower bound (the MLLD) to an upper bound, the end of the spectra.
 \begin{align}
 	\label{eqn:MLLDDef}
 	\epsilon_{int} &= \frac{\int_{MLLD}^\infty p(x)dx}{N_i}
 \end{align}
+
 
 \subsection{Neutron Intrinsic Efficiency}
 The number of counts upon a detector is measured using the neutron irridiator facility.

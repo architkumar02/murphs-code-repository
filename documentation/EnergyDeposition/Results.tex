@@ -30,7 +30,25 @@ Even for the 15 \micron the average energy depostion was above 50\% of the total
 	\caption{Simulated Energy Depositon for a Single Film (neutrons)}
     \label{fig:SimEDepNeutron}
 \end{figure}
+A comparision between the energy deposition of neutrons and gamma's is shown for various film thickness in Figure \ref{fig:SimEDepNGComparison}.
+\begin{figure}
+  \includegraphics[width=\figurewidth]{EDepSummary}
+  \caption[Comparison of Neutron and Gamma Energy Depostion]{GEANT4 simulated energy deposition for neutrons and gamma's as a function of film thickness.  It is observed in both cases that energy deposition exponentially approaches it's maximum value}
+  \label{fig:SimEDepNGComparison}
+\end{figure}
 
+\subsection{Positional Dependance of Energy Deposition}
+A neutron or gamma event that takes place near the surface of the film has a higher probability of depsoiting less than the maximum amount of energy due to the possibility of the escape of secondary particles through the surface of the film compared to the volume of the film, which goes as $\frac{1}{r}$\footnote{%%
+The surface area to volume ratio of the films is $\frac{SA_\text{cyl}}{\forall_\text{cyl}} = \frac{2\pi r^2+2\pi rh}{\pi r^2 h}$, which reduces to $\frac{2(r +h)}{rh}$. 
+If it is assumed that the radius is much smaller than the height of the cylinder, than $\frac{SA_\text{cyl}}{\forall_\text{cyl}} = \frac{2}{r}$.
+}
+Thefore, the probability of depositing energy as a function of thickness through the film was investigated by creating a histogram on the first interaction position and the corresponding amount of energy that was deposited.
+
+It is observed for gamma interactions that for films thinner than \SI{1}{\cm} the energy deposited decrease rapidly as the interaction takes placer deeper in the film.
+However, this effect is diminished for films that are thick enough to have a high probability of a gamma interaction occuring in the middle of the film where there is enough material to still collect the energy.
+\todo{Need to switch around the gamma's maybe a contour plot?}
+\todo[inline]{Do we see the effects of electrons being back-scattered from the arcylic disk in the gamma?}
+% The 0.1 cm neturon has a nice horseshoe shape indicative of the features of intrest.
 \subsection{Secondary Electron Energy Distribuion}
 
 The distribution of secondary electrons from photon interactions are plotted in Figure \ref{fig:SecElecKinEDist}.
@@ -50,3 +68,5 @@ The distribution of the next generation of electrons was also calculated, and th
     \caption{Simulated kinetic energies of electrons from \iso{Co}{60} interactions}
     \label{fig:SecElecKinEDist}
 \end{figure}
+
+A simulation \verb+SecElecKinEDist+ was used to 

@@ -30,7 +30,27 @@ Even for the 15 \micron the average energy depostion was above 50\% of the total
 	\caption{Simulated Energy Depositon for a Single Film (neutrons)}
     \label{fig:SimEDepNeutron}
 \end{figure}
+The average energy deposited was computed for each thickness and normalized by the incident energy for gammas by the Q-value of the reaction for neutrons, and is presented in Table ~\ref{tab:FractionEDep}.
+For thickness greater than \SI{150}{\um} there is little benefit in increasing the thickness of the film in terms of energy deposition by neutrons, since over 90\% of the energy is being deposited in the film.
 A comparision between the energy deposition of neutrons and gamma's is shown for various film thickness in Figure \ref{fig:SimEDepNGComparison}.
+\begin{table}[ht]
+    \caption{Fractional Energy Deposition for Various Thickness}
+	\centering
+	\begin{tabular}{c | c c}
+	Thickness & Gamma Fraction & Neutron Fraction \\
+	\hline
+	\hline
+	\SI{15}{\um} & 0.010 & 0.531 \\
+	\SI{25}{\um} & 0.013 & 0.634 \\
+	\SI{50}{\um} & 0.017 & 0.782 \\
+	\SI{150}{\um} & 0.032 & 0.927 \\
+	\SI{300}{\um} & 0.052 & 0.964 \\
+	\SI{600}{\um} & 0.087 & 0.982 \\
+	\SI{1}{\mm} & 0.130 & 0.989 \\
+	\SI{1}{\cm} & 0.425 & 0.998 \\
+	\end{tabular}
+  \label{tab:FractionEDep}
+\end{table}
 \begin{figure}
   \includegraphics[width=\figurewidth]{EDepSummary}
   \caption[Comparison of Neutron and Gamma Energy Depostion]{GEANT4 simulated energy deposition for neutrons and gamma's as a function of film thickness.  It is observed in both cases that energy deposition exponentially approaches it's maximum value}
@@ -50,6 +70,30 @@ However, this effect is diminished for films that are thick enough to have a hig
 \todo[inline]{Do we see the effects of electrons being back-scattered from the arcylic disk in the gamma?}
 % The 0.1 cm neturon has a nice horseshoe shape indicative of the features of intrest.
 \subsection{Secondary Electron Energy Distribuion}
+Figure \ref{fig:simKinE} illustrates the simulated kinetic energy of secondary electrons from Compton scattering and from alpha and triton interactions.
+It is observed that kinetic energy of the secondary electrons from the neutron reaction products have predominately energies in the kilo-volt range, while the Compton scattering electrons have energies in hundreds of kilo-volts range. 
+However, it should be noted that there is only one secondary electron from a Compton scattering and multiple secondary electrons from the reaction products.
+Figure \ref{fig:ReacProdDist} shows the distribution of the number of secondary electrons from the alpha and triton and their kinetic energy.
+\begin{figure}[ht]
+    \centering
+    \includegraphics[width=\textwidth]{NGSecElecKinEDist}
+    \caption{Simulated Kinetic Energy of Secondary Electrons from Compton Scattering and from \iso[6]{Li} reaction products}
+    \label{fig:simKinE}
+\end{figure}
+\begin{figure*}[ht]
+	\centering
+	\begin{subfigure}[b]{0.45\textwidth}
+    		\includegraphics[width=\textwidth]{AlphaTritonSecElecKinEDist}
+		\caption{Alpha and Triton Secondary Electron Kinetic Energy Distribution}
+	\end{subfigure}%
+	~
+	\begin{subfigure}[b]{0.45\textwidth}
+    		\includegraphics[width=\textwidth]{NeutronNumSecElec}
+		\caption{Number of Secondary Electrons Produced Per Neutron Interaction}
+	\end{subfigure}%
+	\caption{Neutron Reaction Products Secondary Electrons Energies}
+	\label{fig:ReacProdDist}
+\end{figure*}
 
 The distribution of secondary electrons from photon interactions are plotted in Figure \ref{fig:SecElecKinEDist}.
 From these results it can be concluded that the it is unlikely (around 1 in 10,000) that an electron will be scattered with the maximum Compton scattering kinetic energy, but rather have an energy somewhat lower than that.
@@ -68,5 +112,4 @@ The distribution of the next generation of electrons was also calculated, and th
     \caption{Simulated kinetic energies of electrons from \iso{Co}{60} interactions}
     \label{fig:SecElecKinEDist}
 \end{figure}
-
-A simulation \verb+SecElecKinEDist+ was used to 
+\todo[inline]{A verification of sorts was completed by looking at the compton scatted spectra.  I think that I would like to put it as an appendix to my thesis}

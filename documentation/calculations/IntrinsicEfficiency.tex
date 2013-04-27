@@ -50,11 +50,20 @@ In general the source strength depends on the half-life of the source \eqref{eqn
   S = S_0 e^{-\frac{\ln{2}}{t_{1/2}} t}
 \end{align}
 
-The fraction of the source solid angle the detector subtends, $\Omgea$, is computed using MCNPX. 
-A F1 tally is used over the detector surface with two cosine bins, $-1<\cos\theta<0$ and $0<\cos\theta<1$.
+The fraction of the source solid angle the detector subtends, $\Omega$, is computed using MCNPX. 
+A F1 tally, define in \eqnref{eqn:F1Def}, is employed over the detector surface with two cosine bins, $-1<\cos\theta<0$ and $0<\cos\theta<1$, which divivide the tally into particles that enter the surface and particles that leave the sruface, respectively.
+\begin{align}
+  \label{eqn:F4Def}
+  F1 &= \int_A dA \int_E dE \int_{4\pi} d\Omega \vec{n}\cdot\vec{J}(\vec{r},E,\vec{\Omega}) \\
+   &= \int_A dA \int_E dE \int_{4\pi} d\Omega \vec{n}\cdot\vec{\Omega}\vec{\Omega}(\vec{r},E,\vec{\Omega}) \notag
+\end{align}
+
 As macro-bodies are used for the surfaces of the detector, $-1<\cos\theta<0$ represents the particles that cross into the surface and $0<\cos\theta<1$ the particles that leave the surface.
-The MCNPX simulation was benched marked against GS20 and against polymer films.
-Tables are provided for common geometries; other geometries can be found by interpolation.
+In the case where macrobodies are not used to create the cell, the reader is refered to the MCNPX manual for more details.
+
+MCNPX simulations were benched marked against GS20 and against polymer films, having 4\% and 15\% agreement to measured count rate, respectively.
+The results of these simulations are tabulated in Table \ref{tab:NeturonSolidAngle} and \ref{tab:GammaSolidAngle}. 
+The fraction of solid angle subtended by other geometries can be computed by interpolation on the values of this table, as shown in the examples calculations.
 
 It is possible to express the intrisinic efficiency as a fucntion of a mathmatical lower level discriminator (MLLD) of the measured spectra\footnote{The MLLD behaves essentially as a physical lower level discriminator in that all counts below this value are discarded}.
 The intrinsic efficiency can then be expressed as a function of this MLLD \eqref{eqn:MLLDDef}.
@@ -80,6 +89,8 @@ Given that the half-life of \iso[252]{Cf} is 2.64 years and \iso[252]{Cf} has a 
 \end{align}
 
 Table \ref{tab:NeutronSolidAngle} summarizes the incident flux for a number of different detector sizes and heights.
+It should be noted that there is considerable variation in the neutron flux in the detector wells, as shown in \ref{fig:NeutronFluxProfiles}.
+Thus, even though the calculations are accurate to less than a precent, the physical error on the intrinsic efficiency will be much higher due to uncertainty in where the detector was placed in the well.
 
 \begin{table}
 	\centering
@@ -99,9 +110,6 @@ Thickness (\si{\cm})	&	\SI{1}{\cm}	&	\SI{1.27}{\cm}	&	\SI{1.905}{\cm}	&	\SI{2}{\
 2	&	0.00170	&	0.00233	&	0.00389	&	0.00412	&	0.00544	&	0.00555	\\
 	\end{tabular}
 \end{table}
-
-It should be noted that there is considerable variation in the neutron flux in the detector wells, as shown in \ref{fig:NeutronFluxProfiles}.
-Thus, even though the calculations are accurate to less than a present, the real error on the intrinsic efficiency will be much higher due to uncertainty in where the detector was placed in the well.
 \begin{figure}
 	\includegraphics[width=\textwidth]{SpatialNeutronFlux}
   \caption{Neutron Flux Profiles of the Lead and Cadmium Wells}
@@ -109,9 +117,13 @@ Thus, even though the calculations are accurate to less than a present, the real
 \end{figure}
 
 \subsection{Gamma Intrinsic Efficiency}
-The gamma intrinsic efficiency is calculated by a combination of simulation to determine the solid angle that the detector subtends and radioactive decay.
 The gamma irridiator consists of a \SI{97}{\micro Ci} \iso[60]{Co} (January 1st, 2012).
-The incident flux is calculated according to \eqref{eqn:Co60SourceStrength}, and the solid angle is tabulated in Table \ref{tab:GammaSolidAngle}.
+The gamma intrinsic efficiency is calculated by simulating the fraction of solid angle the detector subtends and then using radioacitve decay to model the \iso[60]{Co} source.
+First the general form the gamma source strength will be presented, and then the modeling of the geometry in MCNPX will be discussed.i
+The \iso[60]{Co} source strength is calcualted according to \eqref{eqn:Co60SourceStrength}. 
+As there are two photons emitted from each \iso[60]{60} decay, in order to normalize the MCNPX source strength it is necessary to multiply the single photon activity by two.
+Tabluated solid angle fractions are inTable \ref{tab:GammaSolidAngle}.
+These values were extracted from an MCNPX simulation using an F1 tally as described above.
 \begin{align}
   \label{eqn:Co60SourceStrength}
   S &= S_0 e^{-\frac{\ln{2}}{t_{1/2}} t} \\ \notag 
@@ -138,11 +150,11 @@ Thickness (\si{\cm})	&	\SI{1}{\cm}	&	\SI{1.27}{\cm}	&	\SI{1.905}{\cm}	&	\SI{2}{\
 4	&	0.0079	&	0.0119	&	0.0240	&	0.0262	&	0.0390	&	0.0401\\
 	\end{tabular}
 \end{table}
-The gamma irridiator detector well is encased in a 1/2 inch steel pipe which is surrounded by lead, providing a beam like geometry while also introducing lower energy photons. 
-The contribution of these lower energy photons is shown if Figure \ref{fig:PhotonFluxAllEnergies}.
+It should be noted that the gamma irridiator detector well is encased in a 1/2 inch steel pipe which is surrounded by lead, providing a beam like geometry while also introducing lower energy photons. 
+The contribution of these lower energy photons is shown if Figure \ref{fig:PhotonFluxAllEnergies}, and it is evident that these contributions are a magnitude less than the contributions from the primary photons of the \iso[60]{Co} decay.
 \begin{figure}
   \includegraphics[width=\textwidth]{PhotonEnergyDist}
-	\caption{Photon Flux into Detector}
+	\caption[Photons Incident upon Detector]{Photons incident upon a detector from an \iso[60]{C0} source.  The two \iso[60]{Co} photons (\SI{1.17}{\MeV} and \SI{1.33}{\MeV}) make up the majority of the incident photons.}
   \label{fig:PhotonFluxAllEnergies}
 \end{figure}
 Table \ref{tab:GammaSolidAngle} considers the contributions from all sides, but it is evident that the contributions from the side scattering is not large as 100 times increase in the thickness (\SI{50}{\um} to \SI{5}{\mm}) results in only a 4\% increase in the number of particles crossing the detector.
@@ -153,8 +165,6 @@ Table \ref{tab:GammaSolidAngle} considers the contributions from all sides, but 
 A sample measured on April 4, 2013 \SI{1.327}{\g} sample of $\iso[6]{Li}\text{B}_4\text{O}_7$ glass was fabricated by John Auxier.
 This sample was roughly rectangular in shape (\SI{1.3}{\cm} by \SI{2.2}{\cm}) with a thickness of \SI{2.7}{\mm}.
 The sample was measured April 4, 2013.
-
-
 
 The neutron intrinsic efficiency is calculated according to \eqref{eqn:intEffDef} with the source strength as supplied in \eqref{eqn:Cf252SourceStrength}, with the source aging $t = 3.76 \text{yr}$ to the measurement.
 \begin{align}

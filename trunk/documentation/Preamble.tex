@@ -4,9 +4,13 @@
 %                                                                         %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+%% LANGUAGE and ENDCODING
+\usepackage[english]{babel}
+\usepackage{lipsum}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+
 %% PACKAGES
-\usepackage[]{lineno}
-%\linenumbers
 \usepackage[usenames,dvipsnames]{xcolor}
 \usepackage{microtype}
 \usepackage[obeyDraft]{todonotes}
@@ -25,7 +29,6 @@
 \usepackage{caption}
 \usepackage{subcaption}
 \captionsetup{belowskip=12pt,aboveskip=4pt}
-
 
 %% BIBLIOGRAPHY
 \bibliographystyle{ieeetr}
@@ -77,14 +80,9 @@
 \DeclareCaptionFont{white}{\color{white}}
 \DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35, 0.01}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{#1#2#3}}}
 \captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white,singlelinecheck=false,margin=0pt,font={bf,footnotesize}}
-%\lstnewenvironment{code}[1][]%
-%{ \noindent\minipage{\linewidth}
-%	\lstset{#1}
-%}
-%{\endminipage}
+
 %% USER COMMANDS
 \usepackage{isotope}
 \newcommand{\iso}{\isotope}
 \newcommand{\figurewidth}{\textwidth}
-\newcommand{\micron}{$\mu$m}
 

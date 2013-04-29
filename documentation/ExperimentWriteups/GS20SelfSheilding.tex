@@ -1,0 +1,44 @@
+\documentclass[draftcls,onecolumn]{IEEEtran}
+
+%% INCLUDING THE PREAMBLE
+\input{../Preamble}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                                Start of Document                        %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{document}
+\title{Layered Detectors}
+\author{Matthew J. Urffer}
+\date{\today}
+\maketitle
+
+
+% Tables of Contents, Figures, Tables
+\listoftodos
+\tableofcontents
+\listoffigures
+\listoftables
+\lstlistoflistings
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                         %
+%                              Start of Content                           %
+%                                                                         %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section{Introduction}
+It has been observed that GS20 has a signficantly lower count rate per mass \iso[6]{Li} than other detectors measured at the Department of Nuclear Engineering Radiation Charaterization Labratories Neutron Irridiator.
+It has been proposed by A. Mabe that the decrease in the count rate per mass \iso[6]{Li} could be explained by self-sheilding in the GS20 glass in which the large absorbtion cross section of the GS20 causes a depression of the flux within the detector volume.
+The depression of flux within the detector volume then creates few neturon interactions and counts, which results in a lower count rate per mass absorber.
+In order to determine if self-sheilding is responsible for this reducation a series of MCNPX calcuations are proposed in which the mass of the aborber is increased, as well as measuring the neutron flux in each cell.
+
+
+\section{Methods}
+
+The composition of GS20 was found to vary signficantly from source to source.
+\todo[inline]{Why does this vary so much?  Which one is correct?}
+
+The neutron flux in each cell was measured by taking slices of the cylinderical GS20 detector.
+Thus, the each simulated flux has a surface contribution to it\footnote{assuming an isotropic impingnet neutron source, which after moderation is not unreasonable}, and is not a purecenter of material flux measurment.
+\end{document}

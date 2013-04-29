@@ -4,20 +4,98 @@
 %                                                                             %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%\documentclass[paper=a4,twoside,hyperref]{labbook}
-\documentclass[paper=a4,twoside,hyperref]{report}
+%----------------------------------------------------------------------------------------
+%	PACKAGES AND OTHER DOCUMENT CONFIGURATIONS
+%----------------------------------------------------------------------------------------
+\documentclass[paper=a4,twoside,captions=tableheading,index=totoc,hyperref]{labbook}
 
-%% INCLUDING THE PREAMBLE
-\input{../Preamble}
+\usepackage[english]{babel}   % English language
+\usepackage{lipsum}           % Used for inserting dummy 'Lorem ipsum' text into the template
+\usepackage[utf8]{inputenc}   % Uses the utf8 input encoding
+\usepackage[T1]{fontenc}      % Use 8-bit encoding that has 256 glyphs
 
+\usepackage{caption}
+\usepackage{booktabs,array}   % Packages for tables
+\bibliographystyle{ieeetr}
+\usepackage{etoolbox}
+\usepackage{lastpage}
 
-% These lines make it so every figure and equation in the document is numbered consecutively rather than restarting at 1 for each lab day - comment them out to remove this behavior
+%% GRAPHICS and IMAGES
+\usepackage{graphicx}
+\usepackage[usenames,dvipsnames]{xcolor}
+\usepackage[outdir=./tmp/]{epstopdf}
+\graphicspath{{../images/}{./}{./tmp/}}
+\DeclareGraphicsExtensions{.eps, .pdf, .jpeg, .png,}
+
+% Lab book setup
+\usepackage[nouppercase,headsepline]{scrpage2}
+\pagestyle{scrheadings}
+\clearscrheadfoot
+\automark[chapter]{chapter}
+\ohead{\headmark}
+\ofoot[\normalfont\normalcolor{\thepage\ |\  \pageref{LastPage}}]{\normalfont\normalcolor{\thepage\ |\  \pageref{LastPage}}}
+\makeatletter
+\patchcmd{\addchap}{\if@openright\cleardoublepage\else\clearpage\fi}{\par}{}{}
+\makeatother
+\renewcommand*{\chapterpagestyle}{scrheadings}
 \usepackage{chngcntr}
 \counterwithout{figure}{labday}
 \counterwithout{equation}{labday}
 
-%\setlength\parindent{0pt} % Uncomment to remove all indentation from paragraphs
 
+%% NOMENCLATURE
+\usepackage[refpage]{nomencl}  % refer to the page where notation appears
+\newcommand{\definevar}[2]{#1 is the #2\nomenclature{#1}{#2}}
+\newcommand{\nom}[2]{#1 #2\nomenclature{#1}{#2}}
+\renewcommand{\nomname}{List of Notations}
+\renewcommand*{\pagedeclaration}[1]{\unskip\dotfill\hyperpage{#1}}
+\makenomenclature
+\usepackage{listings}
+\lstset{ %
+    language=C++,
+    basicstyle=\footnotesize\ttfamily,
+    numbers=left,
+    numberstyle=\tiny\color{gray},
+    stepnumber=2,
+    numbersep=5pt,
+    backgroundcolor=\color{white},
+    showspaces=false,
+    showstringspaces=false,
+    showtabs=false,
+    frame=single,
+    rulecolor=\color{black},
+    tabsize=2,
+    breaklines=true,
+    breakatwhitespace=false,
+    title=\lstname,
+    keywordstyle=\color{blue},
+    commentstyle=\color{OliveGreen},
+    stringstyle=\color{orange}
+}
+\DeclareCaptionFont{white}{\color{white}}
+\DeclareCaptionFormat{listing}{\colorbox[cmyk]{0.43, 0.35, 0.35, 0.01}{\parbox{\dimexpr\textwidth-2\fboxsep\relax}{#1#2#3}}}
+\captionsetup[lstlisting]{format=listing,labelfont=white,textfont=white,singlelinecheck=false,margin=0pt,font={bf,footnotesize}}
+
+%% MATH / SCIENCE Packages
+\usepackage{algorithmic}
+\usepackage{siunitx}
+\usepackage{amsmath}
+\usepackage{isotope}
+\newcommand{\iso}{\isotope}
+\usepackage{todonotes}
+
+% Hyperlink configuration
+\usepackage[
+    pdfauthor={Matthew J. Urffer},
+    pdftitle={Laboratory Journal},
+    pdfsubject={},
+    bookmarksopen=true,
+    linktocpage=true,
+    backref=page,
+    pdfpagelabels=true,
+    plainpages=false,
+    colorlinks=true,
+    bookmarks=true]{hyperref}
 %----------------------------------------------------------------------------------------
 %	DEFINITION OF EXPERIMENTS
 %----------------------------------------------------------------------------------------
@@ -25,13 +103,13 @@
 % Template: \newexperiment{<abbrev>}[<short form>]{<long form>}
 % <abbrev> is the reference to use later in the .tex file in \experiment{}, the <short form> is only used in the table of contents and running title - it is optional, <long form> is what is printed in the lab book itself
 
-\newexperiment{example}[Example experiment]{This is an example experiment}
-\newexperiment{example2}[Example experiment 2]{This is another example experiment}
-\newexperiment{example3}[Example experiment 3]{This is yet another example experiment}
+\newexperiment{selfsheild}[GS20 Self Sheilding]{Self Sheilding in GS20}
+\newexperiment{uvtpmma}[UVT Arcylic and PMMA Aryclic]{Effects of UVT Arcylic and PMMA Discs}
+\newexperiment{characterization}[Detector Characterization]{Detector Characterization}
+\newexperiment{simulation}[MCNPX Simulations]{Monte Carlo Detector Simulations}
 
-\newsubexperiment{subexpexample}[Example sub-experiment]{This is an example sub-experiment}
-\newsubexperiment{subexpexample2}[Example sub-experiment 2]{This is another example sub-experiment}
-\newsubexperiment{subexpexample3}[Example sub-experiment 3]{This is yet another example sub-experiment}
+\newsubexperiment{psrepeatibilty}[PS Film Repeatiblity]{Polystyrene Based Film Repetibliyt}
+\newsubexperiment{detectorcomp}[Detector Comparison]{Comparison of Characterized Detectors}
 
 %----------------------------------------------------------------------------------------
 
@@ -40,19 +118,20 @@
 %----------------------------------------------------------------------------------------
 %	TITLE PAGE
 %----------------------------------------------------------------------------------------
-
 \title{Weekly Reports}
-
 \author{Matthew J. Urffer}
 \date{\today}
+\maketitle
 
-\maketitle % Title page
-
+\listoftodos
+\printnomenclature
 \printindex
-\tableofcontents % Table of contents
-\newpage % Start lab look on a new page
+\tableofcontents
+\listoffigures
+\listoftables
+\lstlistoflistings
 
-%\begin{addmargin}[4cm]{0cm} % Makes the text width much shorter for a compact look
+\newpage % Start lab look on a new page
 
 \pagestyle{scrheadings} % Begin using headers
 
@@ -60,7 +139,8 @@
 %	LAB BOOK CONTENTS
 %----------------------------------------------------------------------------------------
 
-\labday{Friday, 1 June 2012}
+\labday{Week of 4/16/2013}
+Weekly progress:
 
 \lipsum[1]
 

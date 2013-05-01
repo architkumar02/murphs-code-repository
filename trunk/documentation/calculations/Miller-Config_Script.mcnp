@@ -1,0 +1,185 @@
+Miller's Poly Box with 0.59 ug (5.9E-7 gram) Cf-252 source
+c ************************* Cell Cards ************************                 
+c ------- Combined all of Martin's HDPE Cells into one --------                 
+  100     456 -0.93         -1 :-2 :-3 :-4 :-5 :-6 :-6 :-7 :-8 :-9 $ HDPE Sheilding
+             :-10 :-11 :-12 :-13 :-14 :-15 :-16 :-17 :-18
+c ------- Creating a source universe --------------------------                 
+  200     0              -200  fill=3
+  201     1   -15.1      -210  u=3              $ Cf252 Spherical Source
+  202     488 -7.92      (-206 :-205 )210  u=3  $ Stainless Steel 316 Around Source
+  203     406 -11.35     -204 205  u=3          $ Lead Pig
+  204     456 -0.93      (-202 :-203 ) 204  u=3  $ HDPE around source
+  205     204 -0.001225  (210 202 203 204 ) u=3 $ Air until universe boundary
+c ----------- Lead Detector Well ---------------------------                
+  300     0                -302  #610 trcl=1 fill=1
+  302     204  -0.001225   -300         u=1     $ air
+  303     2    -1.18       -301 300     u=1     $ Plastic
+  304     406  -11.35      301          u=1     $ Lead
+c ------------ Cadimium Detector Well ----------------------
+  400     0                -402 #620 trcl=2 fill=2
+  402     204  -0.001225   -400        u=2      $ air
+  403     2    -1.18       -401 400    u=2      $ Plastic
+  404     318  -8.65       401         u=2      $ cd
+c ------------ Lead Well  PMT -----------------------------------
+  610   0    -602        trcl=61  fill=6       
+c ------------ Cd Well PMT --------------------------------------
+  620   0    -602        trcl=62  fill=6  
+c ------------ PMT Subcells -------------------------------------
+  601   3    -0.77   -500              u=6     $ Detector cell  
+  602   388  -2.23   -601              u=6     $ PMT Glass
+  603   468  -1.406  603               u=6     $ Plastic
+  604   4    -8.74   -604 605          u=6     $ Metal
+  605   204  -0.001225 #602 #601 #603 #604  u=6  $Air
+c ------ outside world ----------------------------------------                 
+ 1000     204 -0.001225    -1000 #100 #200 #300 #400  $ Air inside the world
+                                 #610 #620
+ 1001     0                1000                       $ Outside world
+
+c ********************* Surface Cards ***************************               
+c --------------------- Outer HDPE Box --------------------------               
+    1       rpp 5.3975 45.72 0 30.48 0 5.3975  $ Bottom Cente
+    2       rpp 45.72 51.1175 0 30.48 0 35.56  $ Right Side
+    3       rpp 0 5.3975 0 30.48 0 35.56  $ Left Side
+    4       rpp 5.3975 45.72 0 5.3975 5.3975 35.56  $ Front
+    5       rpp 5.3975 45.72 25.0825 30.48 5.3975 35.56  $ Back
+    6       rpp 5.3975 25.7175 5.3975 10.795 10.795 35.56  $ Source Cover
+    7       rpp 5.3975 25.7175 19.685 25.0825 10.795 35.56  $ Source Cover
+    8       rpp 5.3975 25.7175 10.795 19.685 30.1625 35.56  $ Source Cover
+    9       rpp 5.3975 25.7175 5.3975 25.0825 5.3975 10.795  $ Source Cover
+   10       rpp 5.3975 10.795 10.795 19.685 10.795 30.1625  $ Source Cover
+   11       rpp 20.32 25.7175 10.795 19.685 10.795 30.1625  $ Source Cover
+   12       rpp 25.7175 36.5125 5.3975 25.0825 5.3975 10.795  $ Detector/Cha
+   13       rpp 36.5125 39.0525 5.3975 25.0825 5.3975 35.56  $ Wall behind
+   14       rpp 5.08 22.2251 0 30.48 35.56 40.64  $ Block on top
+   15       rpp 34.1 51.1175 0 30.48 35.56 38.1  $ Block on top
+   16       rpp 22.2251 33.9727 0 5.08 35.56 38.1  $ Block on top
+   17       rpp 22.2251 33.9727 13.97 16.51 35.56 38.1  $ Block on top
+   18       rpp 22.2251 33.9727 25.4 30.48 35.56 38.1  $ Block on top
+c ------------------ Universe for Inner Source Holder and Source                
+  200       rpp 10.795 20.32 10.795 19.685 10.795 30.1625 
+c ------------------ Inner Source Holder HDPE -------------------               
+  202       rpp 10.795 20.32 10.795 19.685 10.795 15.875  $ Block holdi
+  203       rpp 10.795 20.32 10.795 19.685 24.13 30.1625  $ Block above
+c ----------------- Source Sheilding (Lead) ---------------------               
+  204       rcc 15.5575 15.24 10.795 0 0 13.335 2.54  $ Lead Pig ou
+  205       rcc 15.5575 15.24 13.305 0 0 9.525 1.27  $ Lead Pig in
+  206       rcc 15.5575 15.24 13.305 0 0 3.81 0.3175  $ SS 316 Sour
+  210         s 15.5575 15.24 15.21 2.5914E-04 $ Spherical Point Source
+c --------------- Lead Well -------------------------------------               
+  300       rcc 0 0 0.439 0 0 27.726 3.564  $ Inner Well (ID Plastic)
+  301       rcc 0 0 0.439 0 0 27.726 3.7885  $ Plastic OD / Pb ID
+  302       rcc 0 0 0 0 0 27.94 4.0025  $ Pb OD
+c --------------- Cadimium Well ----------------------------------              
+  400       rcc 0 0 0.418 0 0 27.731 3.7765  $ Inner Well (ID Plastic)
+  401       rcc 0 0 0.418 0 0 27.731 3.933  $ Plastic OD / cd ID
+  402       rcc 0 0 0 0 0 27.94 4.142  $ Cd OD
+c --------------- Detector --------------------------------------
+  500       rcc 0 0 1E-6 0 0 TDETECTOR RDETECTOR    $ 340 micron thick,2" Dimeter
+c --------------- PMT --------------------------------------------
+  601    602 rcc 0 0 0 0 0 0.3178  2.54    $ 2" Diamter, 1/8" Thick (Glass)
+  602    601 rcc 0 0 0 0 0 5.284 2.8030        $ Plastic Cap Outer
+  603    601 rcc 0 0 0.189 0 0 5.2651 2.6335   $ Plastic Cap Inner
+  604    602 rcc 0 0 0.3178 0 0 5 2.54     $ Mu Metal Outer
+  605    602 rcc 0 0 0.3178 0 0 5 2.535    $ Mu Metal Inner
+c --------------- World Boundary ---------------------------------
+ 1000       rpp -10 60 -10 60 -10 60  $ An oversized box
+
+c *********************** Data Cards ***************************
+MODE N P A D E #    $ Type of particles to transport: neutrons, photons, alphas, tritons, & electrons 
+IMP:N,P,A,D,E,# 1 22r 0
+PHYS:N 100 4j -1 2               $ Turned on fission multiplicity "FISM" (-1) and light ion recoil "NCIA" (2)
+PHYS:P 3j -1
+CUT:P,A,E,# j 0
+CUT:N  2j 0 0                    $ Analog Capture for Neutrons - 4th entry
+c ------------------- Transformations --------------------------                
+*tr1 29.9 9.68375 10.795    $ Transformations for Wells
+*tr2 29.86 20.79625 10.795
+*tr601 0 0 -0.189           $ PMT Cap (thickness of cap)
+*tr602 0 0 TMAXDETECTOR   $ PMT Glass / Body (thickness of detector)
+*tr61 29.9 9.68375 12.56    $ PMT Locations
+*tr62 29.86 20.79625 12.56 
+c --------------- Source Defination -----------------------------
+c Simulates the source as emitting spontanous fission particles of a Watt 
+c Fission Energy Spectrum, parameters from Appendix H, pg. 3 of the MCNP
+c manual.   
+sdef cel=d1 pos=15.5575 15.24  15.21 rad=d2 par=SF vec=1 0 0 dir=d3
+si1 L (201<200)  $ Source is bounded by cell 201, inside universe cell 200
+sp1 v
+si2  0 2.5914E-04           $ Starting Position
+sp2 -21 1
+sb3 -31 2.0                 $ Source bias in the +x direction
+c -------------- Number of Particles to Simulate ----------------
+nps 5E6
+c -------------- Interaction Rate Tallies -----------------------
+c Third bin is thermal to 10 eV.  Fouth bin is 10 eV to 100 ev.  Fifth bin is 100eV
+c to 1keV.  Sixth bin is 1keV to 1 MeV. Last Bin is 1 MeV to 10 MeV.
+C E0 0 0.5E-6 3E-6 10E-6 100E-6 1E-3 1 10 
+E0 0 1E-6 10
+c ------------- Neutron Interaction Rates --------------------------
+FC104 Neutron Flux over Detector in Pb Well (Second is Volume Normalzied)
+F104:n (601<610) (601<610)
+SD104 j 1
+FC114 Total Neutrons Reactions in Dectector in Pb Well
+F114:n (601<610)
+FM114 -1 3 1
+FC154 (n,t) Reactions in Detector in Pb Well
+F154:n (601<610)
+FM154 -1 3 105
+FC204 Neutron Flux over Detector in Cd Well (Second is Volume Normalized)
+F204:n (601<620) (601<620)
+SD204 j 1
+FC214 Total Neutron Reactions in Detector in Cd Well
+F214:n (601<620)
+FM214 -1 3 1
+FC254 (n,t) Reactions in Detector in Cd Well
+F254:n (601<620)
+FM254 -1 3 105
+c ------------- Particle Tallies -------------------------------
+FC11 Neutron Particle Tallies (Pb Well)
+F11:n (500.1<610) (500.2<610) (500.3<610)  T
+C11 0 1
+FC21 Neutron Particle Tallies (Cd Well)
+F21:n (500.1<620) (500.2<620) (500.3<620)  T
+C21 0 1
+c -------------- Output -----------------------------------------
+PRDMP j j 1      $ Write a MCTAL File
+c -------------- Material Definations ---------------------------
+m1    98252  1              $ Cf-252 - rho = 15.1 g/cc - Wiki
+c 67.5% PEN, 30% 6LiF, 2.5% ADS156FS
+m3    1001    -0.0301    3006    -0.0684    3007    -0.0036
+      6000    -0.4903    8016    -0.1789    9017    -0.2280
+      16000   -0.0005
+m2    6000   3.549E-02      $ Plexiglas - C5H8O2 - rho=1.18 - MCNP Primer
+      1001   5.678E-02
+      8016   1.420E-02
+m4    6000.70c      -0.0002  $Mu Meta
+      25055.70c     -0.005    14000.60c     -0.0035   28000.50c     -0.8 
+      42000.66c      -0.42    26000.55c     -0.1913 
+m204  7014.70c      -0.755636  $air (US S. Atm at sea level) rho = 0.001225
+      8016.70c      -0.231475 18036.70c     -3.9e-005 18038.70c       -8e-006 
+      18040.70c     -0.012842  
+m318  48106.70c     -0.011777  $Cadmium rho = 8.65 g/cc,
+      48108.70c     -0.008543 48110.70c     -0.122116 48111.70c     -0.126284 
+      48112.70c      -0.24021 48113.70c     -0.122734 48114.70c      -0.29111 
+      48116.70c     -0.077225 
+m406  82204.70c     -0.013781  $Lead - rho = 11.32 g/cc
+      82206.70c     -0.239557 82207.70c     -0.220743 82208.70c     -0.525919 
+m456  1001.70c      -0.143716  $Polyethylene - rho = 0.93 g/cc
+      6000.70c      -0.856284 
+m488  14028.70c     -0.009187  $Steel, Stainless 316 rho = 7.92
+      14029.70c     -0.000482 14030.70c     -0.000331 24050.70c     -0.007095 
+      24052.70c     -0.142291 24053.70c     -0.016443 24054.70c     -0.004171 
+      25055.70c         -0.02 26054.70c     -0.037326 26056.70c     -0.601748 
+      26057.70c     -0.014024 26058.70c     -0.001903 28058.70c     -0.080873 
+      28060.70c     -0.031984 28061.70c     -0.001408 28062.70c     -0.004546 
+      28064.70c     -0.001189 42092.70c     -0.003554 42094.70c     -0.002264 
+      42095.70c     -0.003937 42096.70c     -0.004169 42097.70c     -0.002412 
+      42098.70c     -0.006157 42100.70c     -0.002507
+C    $Glass, Borosilicate (Pyrex),
+m388  5011.70c      -0.040066 8016.70c      -0.539559 11023.70c     -0.028191 
+      13027.70c     -0.011644 14028.70c     -0.346565 14029.70c     -0.018175 
+      14030.70c     -0.012481 19039.70c     -0.003086 19041.70c     -0.000234 
+m468  1001.70c      -0.048382  $Polyvinyl Chloride,
+      6000.70c      -0.384361 17035.70c     -0.423941 17037.70c     -0.143316 
+      
+      

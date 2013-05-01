@@ -64,18 +64,18 @@ A F1 tally, defined in \eqref{eqn:F1Def}, is employed over the detector surface 
 \end{align}
 In \eqref{eqn:F1Def} the position $\vec{r}$\nom{$\vec{r}$}{position}, direction $\vec{\Omega}$\nom{$\vec{\Omega}$}{direction} and energy $E$ \nom{$E$}{energy} dependent particle current $\vec{J}$ \nom{$\vec{J}$}{particle current} is integrated over the entire area, energy and direction normal to the surface of the area.
 As macro-bodies are used for the surfaces of the detector, $-1<\cos\theta<0$ represents the particles that cross into the surface and $0<\cos\theta<1$ the particles that leave the surface.
-In the case where macrobodies are not used to create the cell, the reader is refered to the MCNPX manual for more details.
+In the case where macrobodies are not used to create the cell, the reader is referred to the MCNPX manual for more details.
 
 The count rate of a detector is found by integrating the measured spectra, $p(x)$, \nom{$p(x)$}{measured spectra as a function of channel number $x$} over some bounds of integration.
-It is then possible to express the intrisinic efficiency as a function of a mathmatical lower level discriminator (MLLD) of the measured spectra \footnote{The MLLD behaves essentially as a physical lower level discriminator in that all counts below this value are discarded.} in order to determine at what MLLD the intrisinic efficiency is less then a value.
-Equation \eqref{eqn:MLLDDef} shows such a formulation of the intrisinic efficiency as a function of a MLLD, where the upper bond is assumed to be the end of the spectra or highest recorded channel of the analog to digital converter.
+It is then possible to express the intrinsic efficiency as a function of a mathematical lower level discriminator (MLLD) of the measured spectra \footnote{The MLLD behaves essentially as a physical lower level discriminator in that all counts below this value are discarded.} in order to determine at what MLLD the intrinsic efficiency is less then a value.
+Equation \eqref{eqn:MLLDDef} shows such a formulation of the intrinsic efficiency as a function of a MLLD, where the upper bond is assumed to be the end of the spectra or highest recorded channel of the analog to digital converter.
 \begin{align}
 	\label{eqn:MLLDDef}
 	\epsilon_{int}(MLLD) &= \frac{\int_{MLLD}^\infty p(x)dx}{N_i}
 \end{align}
 
 \subsection{Neutron Intrinsic Efficiency}
-The number of counts upon a detector is measured by irridiating the detector in a lead and cadium well of the neutron irridiator to determine $N_i$, and then simulating that geometry in benchmarked MCNPX in order to determine the number of neutrons incident on the detector\footnote{MCNPX simulations were benchedmarked against GS20 and against polymer films, having 4\% and 15\% agreement to measured count rate, respectively.}.
+The number of counts upon a detector is measured by irradiating the detector in a lead and cadmium well of the neutron irridiator to determine $N_i$, and then simulating that geometry in bench-marked MCNPX in order to determine the number of neutrons incident on the detector\footnote{MCNPX simulations were benched-marked against GS20 and against polymer films, having 4\% and 15\% agreement to measured count rate, respectively.}.
 The determination of $N_i$ consists of two parts: 1) determining the number of neutrons crossing the detector surface in the lead and cadmium wells and, 2) determining the source strength.
 The \iso[252]{Cf} source was \SI{0.59}{\ug} on July 2, 2009.
 Given that the half-life of \iso[252]{Cf} is 2.64 years and \iso[252]{Cf} has a spontaneous neutron emission rate of \SI{2.3E6}{neutron\per\second\per\micro\gram} the time dependent source strength can be calculated as \eqref{eqn:Cf252SourceStrength}.
@@ -89,11 +89,11 @@ Given that the half-life of \iso[252]{Cf} is 2.64 years and \iso[252]{Cf} has a 
 Table \ref{tab:NeutronSolidAngle} summarizes the incident flux for a number of different detector sizes and heights.
 The fraction of solid angle subtended by other geometries can be computed by interpolation on the values of this table, as shown in the examples calculations.
 It should be noted that there is considerable variation in the neutron flux in the detector wells, as shown in Figure \ref{fig:NeutronFluxProfiles}.
-Thus, even though the calculations are accurate to less than a precent, the physical error on the intrinsic efficiency will be much higher due to uncertainty in where the detector was placed in the well.
+Thus, even though the calculations are accurate to less than a percent, the physical error on the intrinsic efficiency will be much higher due to uncertainty in where the detector was placed in the well.
 
 \begin{table}
 	\centering
-	\caption[Simulated Thermal Neutron Solid Angle for Various Film Radii]{Simulated Neutron Solid Angle for Various Film Radii in the net spectra. The film radii are shown in sperate columns, with the thickness in rows. The thermal spectra (shown) is the subraction of the lead and cadium wells.}
+	\caption[Simulated Thermal Neutron Solid Angle for Various Film Radii]{Simulated Neutron Solid Angle for Various Film Radii in the net spectra. The film radii are shown in seperate columns, with the thickness in rows. The thermal spectra (shown) is the subtraction of the lead and cadmium wells.}
 	\label{tab:NeutronSolidAngle}
 	\begin{tabular}{c | c c c c c c}
 Thickness (\si{\cm})	&	\SI{1}{\cm}	&	\SI{1.27}{\cm}	&	\SI{1.905}{\cm}	&	\SI{2}{\cm}	&	\SI{2.5}{\cm}	&	\SI{2.54}{\cm} \\ \hline
@@ -117,10 +117,10 @@ Thickness (\si{\cm})	&	\SI{1}{\cm}	&	\SI{1.27}{\cm}	&	\SI{1.905}{\cm}	&	\SI{2}{\
 
 \subsection{Gamma Intrinsic Efficiency}
 The gamma irridiator consists of a \SI{97}{\micro Ci} \iso[60]{Co} (January 1st, 2012) inside of a steel pipe encased in lead bricks.
-The gamma intrinsic efficiency is calculated by simulating the fraction of solid angle the detector subtends and then using radioacitve decay to model the \iso[60]{Co} source.
-The \iso[60]{Co} source strength is calcualted according to \eqref{eqn:Co60SourceStrength}. 
+The gamma intrinsic efficiency is calculated by simulating the fraction of solid angle the detector subtends and then using radioactive decay to model the \iso[60]{Co} source.
+The \iso[60]{Co} source strength is calculated according to \eqref{eqn:Co60SourceStrength}. 
 As there are two photons emitted from each \iso[60]{60} decay, in order to normalize the MCNPX source strength it is necessary to multiply the single photon activity by two.
-Tabluated solid angle fractions are in Table \ref{tab:GammaSolidAngle}, and once again interpolation can be used for geometries not enumerated.
+Tabulated solid angle fractions are in Table \ref{tab:GammaSolidAngle}, and once again interpolation can be used for geometries not enumerated.
 These values were extracted from an MCNPX simulation using an F1 tally as described above.
 \begin{align}
   \label{eqn:Co60SourceStrength}
@@ -180,7 +180,7 @@ Linear interpolation is used to calculate the expected solid angle at a thicknes
 	 &= \frac{\SI{0.95}{\cm}^2 \num{6.73E-4}}{\SI{1}{\cm}^2}\\
 	 &= \num{6.07E-4}
 \end{align*}
-This is then multiplied by the source strength on the date of the measurement, \SI{5.06E5}{neutron\per\second}, to determine the number of neutrons incident upon the detector in the thermal neturon measurement.
+This is then multiplied by the source strength on the date of the measurement, \SI{5.06E5}{neutron\per\second}, to determine the number of neutrons incident upon the detector in the thermal neutron measurement.
 \begin{align*}
  	N_i &= \Omega S \\
 	 &= \left (\num{6.07E-4}\right) \;\left( \SI{5.06E5}{neutron\per\second}\right) \\
@@ -210,17 +210,17 @@ It is then possible to plot the intrinsic efficiency in your favorite computatio
 
 \end{Exercise*}
 \begin{Exercise*}[label={LiquidSample},title={Liquid Sample},name={Example}]
-The neutron fluence over a \SI{5}{\milli\liter} vial is desired in order to compute the intrisinic efficiency of neutron samples fabricated and measured by members of SCSU.
-MCNPX calculations for the solid angle, $\Omega$ show that \SI{4.477E-3}{neuron\per source particle} cross the sample in the lead well, and \SI{1.475E-3}{neuton\per source particle} cross the sample in the cadium well.
+The neutron fluence over a \SI{5}{\milli\liter} vial is desired in order to compute the intrinsic efficiency of neutron samples fabricated and measured by members of SCSU.
+MCNPX calculations for the solid angle, $\Omega$ show that \SI{4.477E-3}{neuron\per source particle} cross the sample in the lead well, and \SI{1.475E-3}{neutron\per source particle} cross the sample in the cadmium well.
 Thus the net particles crossing the detector is $\Omega_{\text{net}} =\SI{4.477E-3}{neuron\per source particle} - \SI{1.475E-3}{neuton\per source particle} =\SI{3.002E-3}{neuton\per source particle} $.
-Depending on when the sample was measured the number of neutrons crossing the sample can be calculated by multipy \eqref{eqn:Cf252SourceStrength} by the solid angle calculated above.
+Depending on when the sample was measured the number of neutrons crossing the sample can be calculated by multiply \eqref{eqn:Cf252SourceStrength} by the solid angle calculated above.
 
 Thus, for a sample measured August 8, 2012 the net neutron fluence over the vial is  \SI{1.80E3}{neutron\per\second}.
 This was compared to the fluence calculated by assuming a neutron flux of \SI{530}{neutron\per\second\per\cm\squared} on July 2, 2009, with the area of the vial being \SI{45}{\cm\squared}.
 This yield a fluence of \SI{5.98E3}{neutron\per\second}, which is 3.3 times higher than the fluence as calculated by an F1 tally.
-However, depending on how the flux was calculated it probably including contributions from particles leaving and entering the detector volume, while the cacluation based on the solid angle only considers particles entering the detector.
-In addition, the flux is not isotropic over the entire detector, which the above calcuation in which it is multiplied by the surface area assumes.
-Thus, it is is determined that the two methods are roughly equivilant.
+However, depending on how the flux was calculated it probably including contributions from particles leaving and entering the detector volume, while the calculation based on the solid angle only considers particles entering the detector.
+In addition, the flux is not isotropic over the entire detector, which the above calculation in which it is multiplied by the surface area assumes.
+Thus, it is is determined that the two methods are roughly equivalent.
 
 
 The SCSU samples where not measured in the \iso[60]{Co} irridiator but rather by placing a source on the outside of the sample.
@@ -232,8 +232,8 @@ The SCSU samples where not measured in the \iso[60]{Co} irridiator but rather by
 
 \section{Appendix}
 The generated MCNPX tables was based upon a script input deck for gamma and neutrons in \verb+MCNP/IncidentFlux+.
-The bash shell script necessary to run the differnet simulations is shown in Listing \ref{lst:RUNDATA}. 
-The accompying Torque/MAUI submission scripts are shown in Listings \ref{lst:nSub} and \ref{lst:gSub}.
+The bash shell script necessary to run the different simulations is shown in Listing \ref{lst:RUNDATA}. 
+The accompanying Torque/MAUI submission scripts are shown in Listings \ref{lst:nSub} and \ref{lst:gSub}.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[language=bash,caption=Main Run Script,label=lst:RUNDATA]{RUNDATA.sh}
 \lstinputlisting[language=bash,caption=Neutron Submission Script,label=lst:nSub]{nRunScript.sh}
@@ -241,9 +241,9 @@ The accompying Torque/MAUI submission scripts are shown in Listings \ref{lst:nSu
 An analysis script was written in python in order to extract the necessary lines from the output decks, and is shown in Listing \ref{lst:Analysis}.
 The output of the this script is two excel files (one for the gamma irridiator and the other for the neutron irridiator) which contain the fraction of the solid angle that the detector subtends.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
-\lstinputlisting[caption=Python Analysis Script,label=lst:Analysis]{~/MCNP/IncidentFlux/analysis.py}
+\lstinputlisting[caption=Python Analysis Script,label=lst:Analysis]{analysis.py}
 
-Listing \ref{lst:MillerConfg} is the MCNPX input deck for the neutron irridiator, while Listing \ref{lst:GammaConfig} is the input deck for the gamma irridiator.
+Listing \ref{lst:MillerConfig} is the MCNPX input deck for the neutron irridiator, while Listing \ref{lst:GammaConfig} is the input deck for the gamma irridiator.
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%
 \lstinputlisting[caption=MCNP Input Deck of Neutron Irridiator,label=lst:MillerConfig]{Miller-Config_Script.mcnp}
 %%%%%%%%%%%%%%%%%%%%%%%%% LISTING CODE %%%%%%%%%%%%%%%%%%%%%%%%%%

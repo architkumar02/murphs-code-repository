@@ -1,4 +1,4 @@
-\documentclass[draftcls,onecolumn]{IEEEtran}
+\documentclass[onecolumn]{IEEEtran}
 
 %% INCLUDING THE PREAMBLE
 \input{../Preamble}
@@ -25,10 +25,10 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \section{Introduction}
 
-The potential application  of a material for use in a Radiation Portal Monitor (RPM) can be indicated by measurements of the detector's sensitivity to gammas and the detector's response to neutrons.
+The potential application  of a material for use in a Radiation Portal Monitor (RPM) can be evaluated by measurements of the detector's sensitivity to gammas and the detector's response to neutrons.
 A detector material might be a possible replacement if the there exists a neutron response that can be differentiated from photons for given sensitivity of gammas, namely \num{1E-6}.
 A simple way to discriminate between gammas and neutrons is to use a pulse height discriminator, above which the detector detector will only record one photon out a million as a neutron.
-Under this framework it is then possible to develop a mathematical lower level discriminator (MLLD) to function as this pulse height discriminator, and to then formulate the sensitivity requirement as the gamma intrinsic efficiency as a function of MLLD.
+Under this framework it is then possible to develop a mathematical lower level discriminator (MLLD) of the pulse height spectrum to function as this pulse height discriminator, and to then formulate the sensitivity requirement as the gamma intrinsic efficiency as a function of MLLD.
 Six detectors (three boron loaded plastic scintillators, one LiF:ZnS(Ag) doped screen, GS20, and an annealed composite PEN film\footnote{Sample was 12-Apr-2013, 25\% LiF, 70\% PEN, 5\% PPO-POPOP Annealed}) were then evaluated for their ability to perform in a RPM. 
 The thickness of these detectors and mass of the absorber are shown in \autoref{tab:PhysicalProperties}.
 \begin{table}[h]
@@ -57,11 +57,12 @@ In addition, the thickness of GS20 reported by Guerard is \SI{0.5}{\mm} while th
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{Guerard_LightYieldMeasurement}
-  \caption[Measured Light Yield (Guerard)]{Light yield as measured by Guerard. The GS20 measurement has a lower gamma performance than as measured, and the LiF:ZnS \iso[60]{Co} spectra does not have the same shape as we measured}
+  \caption[Measured Light Yield (Guerard)]{Light yield as measured by Guerard. The GS20 measurement has a lower gamma performance than as measured (in addition to lacking a Compton edge), and the LiF:ZnS \iso[60]{Co} spectra does not have the same shape as we measured}
 	\label{fig:GuerardLightYield}
 \end{figure}
 \autoref{fig:GuerardIntEff} shows the neutron detection efficiency and sensitivity to \iso[60]{Co} photons.
 For a sensitivity of \num{1E-6} the LiF:ZnS film is reported to have a neutron detection efficiency of 60\%, while the \SI{1}{\mm} GS20 has a reported neutron detection efficiency of 55\%.
+Detection efficiency in this case is equatable to the probability of absorption.
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{Guerard_IntEff_NCr}
@@ -72,36 +73,37 @@ For a sensitivity of \num{1E-6} the LiF:ZnS film is reported to have a neutron d
 \section{Methods}
 The detectors were measured between April 28, 2013 and May 2, 2013 in the radiation characterization laboratory.
 The neutron performance was determined by the \iso[252]{Cf} irridiator previously described, and the gamma source was the \iso[60]{Co} irridiator.
-Due to the wide range of light output of these films it was necessary to use a two voltages (\SI{1000}{\volt} and \SI{1180}{\volt}) in order to capture the entire spectra.
+Due to the wide range of light output of these films it was necessary to use a two voltages (\SI{1000}{\volt} and \SI{1180}{\volt}) in order to capture the entire spectra on an ADC with a zero to \SI{10}{\volt} range with repeatable resolution.
 However, a measurement of the GS20 peak in the lead well was always recorded which then allowed the spectra to be tied together based on this feature, as shown in \autoref{eqn:SettingScale}.
 \begin{align}
   \label{eqn:SettingScale}
-  \text{Channel Feature at Setting A} = \frac{\text{Channel GS20 Peak at Setting A}}{\text{Channel S20 Peak at Setting B}} \;\; \left( \text{Channel Feature at Setting B}\right)
+  \text{Channel Feature at Setting A} = \frac{\text{Channel GS20 Peak at Setting A}}{\text{Channel GS20 Peak at Setting B}} \;\; \left( \text{Channel Feature at Setting B}\right)
 \end{align}
 The count rates are not scaled for gain and voltage settings as they should remain constant as long as counts are not pushed below the lower level discriminator or cause roll-off.
 \subsection{Neutron Performance above Gamma Discriminator}
 An accurate measure of the neutron performance above the pulse height discriminator is essential for the comparison between detector materials.
-In \autoref{fig:GammaMLLDIntEff} it is shown that the location of the MLLD is a pretty stable measurement.
+In \autoref{fig:GammaMLLDIntEff} it is shown that the location of the MLLD is a pretty stable measurement for PS films of a different thickness.
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{PS_IntEffMLLD_LiF}
   \caption[Stability of Lower Level Discriminator]{The mathematical lower level discriminator (MLLD) as a function of intrinsic effigies for 10\% PS films of various thickness. The linear nature suggest that the determination of the MLLD is repeatable.}
   \label{fig:GammaMLLDIntEff}
 \end{figure}
-However, in previous work which focused on using the fraction of neutron counts above the MLLD it was observed that the fraction (as it is normalized by the entire count rate) is very susceptible to noise in the low energy channels.
+However, in previous work which focused on using the fraction of neutron counts above the MLLD it was observed that the fraction (as it is normalized by the entire count rate) is very susceptible to sample to sample variations in the low energy channels.
 Therefore, after extensive studies using the polystyrene matrix a more stable measure was found by simply integrating the counts in the neutron spectra above the MLLD and then normalizing by the mass of neutron absorber in the samples (\autoref{eqn:CountRateAbovePerMass}).
 While this method does not have the errors associated with summing over the low channels, it does require an accurate measure of the mass of \iso[6]{Li} in the sample.
+Alternative methods would also probably be stable, but they are not discussed here.
 \begin{align}
 \label{eqn:CountRateAbovePerMass}
 \eta = \frac{\int_{\text{MLLD}}^\infty p(x)dx}{\text{Neutron Absorber Mass}}
 \end{align}
 
 \section{Results}
-The following figures, \autoref{fig:Co60Spectra} and \autoref{fig:PbWellSpectra}, show the measured spectra of the detectors to neutrons and gammas.
-It is clear that the EJ-254 films will have poor performance because of their large gamma response.
-The EJ-426 has the lowest response, and it is not clear if the tail of the spectra is actually counts or background.
+The following figures, \autoref{fig:Co60Spectra} and \autoref{fig:PbWellSpectra}, show the measured spectra of the detectors for neutrons and gammas.
+It is clear that the EJ-254 (boron loaded plastic) detectors will have poor performance because of their large gamma response.
+The EJ-426 (LiF:ZnS(Ag)) has the lowest response, and it is not clear if the tail of the spectra is due to actual counts or background.
 In the neutron spectra it was decided to only plot the performance of the best EJ-254 (though \autoref{fig:EJ254Perf} display the performance of all EJ-254 films).
-It is observed that the LiF:ZnS(Ag) is much brighter than the other films, and it is noted that the annealed composite PEN has a high light output than the commercial EJ-254 based on the peak location.
+It is observed that the LiF:ZnS(Ag) is much brighter than the other films, and it is noted that the annealed composite PEN has a higher light output than the commercial EJ-254 (based on the peak location).
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{SampleComparions_Co60Spectra}
@@ -117,6 +119,8 @@ It is observed that the LiF:ZnS(Ag) is much brighter than the other films, and i
 The average channel number of the neutron and gamma spectra of each detector was calculated and are presented in \autoref{tab:AvgChNG}.
 The average was computed for the neutrons in the thermal well to avoid the low energy channels from shifting the spectra away from any peak location.
 It should be noted that for EJ-254 the low channel number average is correct; this feature was identified as the neutron peak.
+Eljen publishes the light yield for the 1\% boron as 9,200 photons per MeVee, 8,600 photons per MeVee for the 2.5\% boron, and 7,500 photons per MeVee for the 5\% boron, and \autoref{tab:AvgChNG} shows agreement to these values.
+C.W.E van Eijk has published the light yield of LiF:ZnS as 75,000 photons per MeVee, which is close to our measured value of 72,000 photons per MeVee.
 \begin{table}
   \centering
   \caption[Average Channel Number of Gamma and Neutron Spectra]{Average channel number of gamma and the thermal neutron spectra.  The channel averages are scaled to 1,000V, 10G. The light yields are scaled to GS20 having 3,800 photons per MeV, and 6,250 photons per Neutron.}
@@ -124,21 +128,21 @@ It should be noted that for EJ-254 the low channel number average is correct; th
   \begin{tabular}{c| c c |c c}
     \toprule
         &\multicolumn{2}{|c|}{Gamma}&\multicolumn{2}{|c}{Neutron}\\
-        & Average Channel& Photons per MeV & Average Neutron Channel & Photons per Neutron\\
+        & Average Channel& Photons per MeVee & Average Neutron Channel & Photons per Neutron\\
     \midrule
-    EJ 254 2.5\%, 1/4"&	183.41	&	4034.25	&	54.06	&	644.68	\\
-    EJ 254 1\%, 1/4"&	216.25	&	4756.47	&	65.04	&	775.59	\\
-    EJ 254 5\%, 3/4"&	176.49	&	3881.87	&	39.56	&	471.80	\\
-    EJ 426 HD2&	1636.53	&	35995.87	&	2018.46	&	24070.77	\\
-    GS20 &	172.76	&	3800.00	&	524.10	&	6250.00	\\
-    Annealed Composite PEN&	87.63	&	1927.48	&	160.07	&	1908.87	\\
+    EJ 254 2.5\%, 1/4"&	183.41	&	8,100	&	54.06	&	640	\\
+    EJ 254 1\%, 1/4"&	216.25	&	9,500	&	65.04	&	780	\\
+    EJ 254 5\%, 3/4"&	176.49	&	7,800	&	39.56	&	479	\\
+    EJ 426 HD2&	1636.53	&	72,000	&	2018.46	&	24,000	\\
+    GS20 &	172.76	&	3800.00	&	524.10	&	6,250	\\
+    Annealed Composite PEN&	87.63	&	1,900	&	160.07	&	1,900	\\
     \bottomrule
   \end{tabular}
 \end{table}
 The count rates of the detectors are presented in \autoref{tab:CountRate} for both the thermal component as well as only in the lead well spectra.
 \begin{table}
 \centering
-  \caption[Detector Count Rate]{Count rate of the detectors in the thermal spectra as well as the lead well spectra.  The final two columns are normalize by the mass of the absorber in the material.}
+  \caption[Detector Count Rate]{Count rate of the detectors in the thermal spectra as well as the lead well spectra.  The final two columns are normalize by the mass of the absorber in the material. Significant self-shielding may exists in the the 5\% boron, 3/4" EJ-254.}
   \label{tab:CountRate}
   \begin{tabular}{c | c c| c c}
   \toprule
@@ -157,11 +161,11 @@ The count rates of the detectors are presented in \autoref{tab:CountRate} for bo
 \autoref{tab:DiscrimPreformance} shows the discrimination performance of the tested detectors, while \autoref{fig:DiscrimPerformance} plots the intrinsic efficiency (sensitivity) along with the neutron count rate, normalized by the absorber mass.
 \begin{table}
   \centering
-  \caption[Discrimination Performance]{Discrimination performance of the measured films}
+  \caption[Discrimination Performance]{Discriminator setting and count rate above the gamma intrinsic efficiency of \num{1E-6} for various detectors.}
   \label{tab:DiscrimPreformance}
-  \begin{tabular}{c | c c}
+  \begin{tabular}{m{4cm} | m{2cm} m{4cm}}
     \toprule
-    &	MLLD Location	&	Count Rate above per Absorber Mass (cps per mg)	\\
+    &	MLLD Location	&	Count Rate above the intrinsic discriminator setting of \num{1E-6} per Absorber Mass (cps per mg)	\\
     \midrule
     EJ 254, 2.5\% B, 1/4"	&	1280	&	0.20	\\
     EJ 254, 1\% B, 1/4"	&	1300	&	0.05	\\
@@ -180,7 +184,7 @@ The count rates of the detectors are presented in \autoref{tab:CountRate} for bo
 \end{figure}
 
 \subsection{Individual Detector Performance}
-After determining the general detector the performance of an individual detector is shown such that features are more visible.
+The performance of the individual detectors are shown in the separate figures to clearly illustrate important features.
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{SC_ACPEN_IntEff_CR}
@@ -196,27 +200,26 @@ After determining the general detector the performance of an individual detector
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{SC_EJ426_IntEff_CR}
-  \caption[EJ 426 Preformance]{Preformance of EJ-426 HD2 (LiF:ZnS(Ag)) sheet.  This is the brightest scintillator tested, with the lowest gamma sensitivity.}
+  \caption[EJ 426 Performance]{Performance of EJ-426 HD2 (LiF:ZnS(Ag)) sheet.  This is the brightest scintillator tested, with the lowest gamma sensitivity.}
   \label{fig:EJ254Perf}
 \end{figure}
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{SC_EJ254_IntEff_CR}
-  \caption[EJ 254 Preformance]{Preformance of EJ-254}
+  \caption[EJ 254 Performance]{Performance of EJ-254}
   \label{fig:EJ254Preformance}
 \end{figure}
 It is apparent that the EJ-254 is not a suitable candidate for replacement detector material in an RPM using a pulse height discriminator.
 The reasons for this are twofold: 1) the detector is very thick which increases the probability of a gamma interaction as well as the probability that the interaction will deposit a majority of its energy and 2) \iso[10]{B} has a much lower Q-value (\SI{2.78}{\MeV} compared to \SI{4.78}{\MeV}) and a large pulse height deficit.
 However, the material is optically transparent and due to \iso[10]{B}'s large thermal perhaps a thin sheet of EJ-254 might make a suitable detector material.
 \subsection{Agreement to Previous Results}
-It is observed from \autoref{fig:GuerardIntEff} that the neutron spectra has the same endpoint while the gamma sensitivity increases with thickness.
-Assuming a linear increase in the gamma sensitivity with thickness and apply a linear extrapolation, a \SI{2}{\mm} would then be expected to have a discrimination threshold for \num{1E-6} at 350 channels, at which point the neutron detection efficiency is less than a few percent.
+It is observed from \autoref{fig:GuerardIntEff} (and supported by experience of the polystyrene films of different thickness) that the GS20 neutron spectra have the same endpoints while the gamma sensitivity increases with thickness.
+If one assumes that the gamma sensitivity increases linearly with thickness (i.e. the first term in a exponential expansion), and then extrapolates it appears a \SI{2}{\mm} would then be expected to have a discrimination threshold for \num{1E-6} at 350 channels, at which point the neutron detection efficiency is less than a few percent.
 This agrees with previous measurements of the fraction of counts above the MLLD for GS20, which tend to be about 4\%.
 
 \section{Conclusions}
-Six detectors were tested for their ability to serve as possible replacement detectors in the RPM8.
-Of the six tested, all but the EJ-254 (a boron loaded plastic scintillator at least 1/4" thick) could serve as possible replacements based on having neutron counts above a gamma rejection of one in a million.
-The EJ-254 might be a possible replacement if it was made thinner to limit the gamma interactions and energy deposition when an interaction occurs.
+The annealed PEN and EJ-426 (LiF:ZnS(Ag)) detectors appear to be feasible detector materials for RPMs.
+However, thin films of lithiated glass or boron loaded plastic may also be feasible replacement materials.
 \section{Appendix}
 The EJ-254, EJ-426, GS20, and annealed composite PEN spectra data contained in this report may be found at \verb+Dropbox/SpectraFiles/(0)_2013_Data/SampleComparison_28Apr2013+.
 These files were measured from April 28, 2013 to May 2, 2013, with the voltage, gains and count times recorded in the lab notebook. 

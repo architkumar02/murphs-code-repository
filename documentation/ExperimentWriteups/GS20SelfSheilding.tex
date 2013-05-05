@@ -33,10 +33,22 @@ It has been proposed by A. Mabe that the decrease in the count rate per mass \is
 The depression of flux within the detector volume then creates few neturon interactions and counts, which results in a lower count rate per mass absorber.
 In order to determine if self-sheilding is responsible for this reducation a series of MCNPX calcuations are proposed in which the mass of the aborber is increased, as well as measuring the neutron flux in each cell.
 
-
 \section{Methods}
 
-The composition of GS20 was found to vary signficantly from source to source.
+\begin{table}
+  \centering
+  \caption[GS20 Composition]{Comparison of GS20 Mass Fraction Compositions }
+  \label{tab:GS20Comp}
+  \begin{tabular}{c|c c c c c}
+  \toprule
+  & \ce{SiO2} & \ce{MgO} & \ce{Al2O3} & \ce{Li2O} \\
+  \midrule
+  Spowart (1976) & 57 & 4 & 18 & 4.0 & 17.1 \\
+  AST & 56 & 4 & 18 & 4 & 18 \\
+  \bottomrule
+  \end{tabular}
+\end{table}
+
 \todo[inline]{Why does this vary so much?  Which one is correct?}
 
 The neutron flux in each cell was measured by taking \SI{0.2}{\mm} slices of the cylinderical \SI{2}{\mm} GS20 detector.

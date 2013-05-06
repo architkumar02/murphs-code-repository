@@ -34,7 +34,10 @@ The depression of flux within the detector volume then creates few neturon inter
 In order to determine if self-sheilding is responsible for this reducation a series of MCNPX calcuations are proposed in which the mass of the aborber is increased, as well as measuring the neutron flux in each cell.
 
 \section{Methods}
-
+MCNPX was used to simulate the neutron interactions for various mass fractions of \iso[6]{Li} in GS20 glass.
+The cylindrical \SI{2}{\mm} thick detector was divided into 10 equal slices, each \SI{0.2}{\mm} thick.
+In each cell the total number of $\iso[6]{Li}\left(\text{n},\text{t}\right)\alpha$ interactions was tallied by the use of a flux tally multiplied by the cross section, as well as tally the neutron flux.
+This allows for the flux and reaction rate to plotted through the 
 \begin{table}
   \centering
   \caption[GS20 Composition]{Comparison of GS20 Mass Fraction Compositions }
@@ -49,8 +52,23 @@ In order to determine if self-sheilding is responsible for this reducation a ser
   \end{tabular}
 \end{table}
 
-\todo[inline]{Why does this vary so much?  Which one is correct?}
-
 The neutron flux in each cell was measured by taking \SI{0.2}{\mm} slices of the cylinderical \SI{2}{\mm} GS20 detector.
 Thus, the each simulated flux has a surface contribution to it\footnote{assuming an isotropic impingnet neutron source, which after moderation is not unreasonable}, and is not a purecenter of material flux measurment.
+
+\section{Results}
+\begin{figure}
+	\includegraphics[width=\textwidth]{GS20SelfSheildFlux}
+	\caption[Flux Profile through GS20]{}
+	\labeli{fig:Flux}
+\end{figure}
+\begin{figure}
+	\includegraphics[width=\textwidth]{GS20SelfSheildRXNRate}
+	\caption[Reaction Rate through GS20]{}
+	\label{fig:RxnRate}
+\end{figure}
+\begin{figure}
+	\includegraphics[width=\textwidth]{GS20SelfSheildTotal}
+	\caption[Total Reaction Rate]{}
+	\label{fig:TotalRxn}
+\end{figure}
 \end{document}

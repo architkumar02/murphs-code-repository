@@ -2,7 +2,13 @@
 
 %% INCLUDING THE PREAMBLE
 \input{../Preamble}
-
+%% SUBVERSION INFORMATION
+\usepackage{svn-multi}
+\svnidlong
+{$LastChangedBy$}
+{$LastChangedRevision$}
+{$LastChangedDate$}
+{$HeadURL$}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                                Start of Document                        %
@@ -39,23 +45,23 @@ The effectiveness of the UV absorbers are shown in \autoref{fig:EJTransArcylic}.
 	\label{fig:EJTransArcylic}
 \end{figure}	
 It was observed in repeating the neturon fraction above the gamma LLD that there was signficant disgrepancy between a film mounted on a thin PMMA disc and a film mounted on a thick UVT (ultra-violet tranpsarent) aryclic disc, as shown in \autoref{tab:PSFractionRepeatMeas}.
-This was observed for two differnet films thickness (\SI{25}{\um} and \SI{50}{\um}) with each film being 10\% LiF in a polystyrene matrix.
+This effect was observed for two differnet film thickness (\SI{25}{\um} and \SI{50}{\um}) with each film being 10\% LiF in a polystyrene matrix.
 \begin{table}
 	\centering
 	\caption[PS Film Neutron Fraction Measurments]{Neutron Response Measurments of Polystyrene Films.  Note that the \SI{150}{\um} Film has repeatable measurments, while the \SI{25}{\um} and \SI{50}{\um} do not.}
 	\label{tab:PSFractionRepeatMeas}
-\begin{tabular}{m{2cm} | m{1cm} m{1.5cm} m{1.5cm} m{2cm} m{2cm}}
+\begin{tabular}{p{4cm} | m{1cm} m{1.5cm} m{1.5cm} m{2cm} m{2cm}}
+\toprule
 Name&Thickness&Gamma LLD \num{1E-6} (channel) & Neutron Count Rate (cps) & Neutron Count Rate Above Gamma LLD & Neutron Fraction\\
+\midrule
+PS\_LiF(10.3)\_PPO(4.90)-Annealed\_25um\_29MayFeb2012 & 25 & 772&6.336&0.207&0.0327 \\
+PS\_LiF(9.66)\_PPO(4.58)-Annealed\_26um\_19Jan2012    & 26&1100&9.742&5.073&0.5207 \\
 \hline
+PS\_LiF(9.95)\_PPO(5.11)\_50um\_24Jan2012             &50&1352&20.686&6.453&0.3120 \\
+PS\_LiF(10)\_PPO(5)\_50um\_28Feb2013		  &50&1365&12.489&0.245&0.0196 \\
 \hline
-\verb+PS_LiF(10.3)_PPO(4.90)-Annealed_25um_29MayFeb2012+ & 25 & 772&6.336&0.207&0.0327 \\
-\verb+PS_LiF(9.66)_PPO(4.58)-Annealed_26um_19Jan2012+    & 26&1100&9.742&5.073&0.5207 \\
-\hline
-\verb+PS_LiF(9.95)_PPO(5.11)_50um_24Jan2012+             &50&1352&20.686&6.453&0.3120 \\
-\verb+PS_LiF(10)_PPO(5)_50um_28Feb2013+		  &50&1365&12.489&0.245&0.0196 \\
-\hline
-\verb+PS_LiF(9.88)_PPO(5)_151um_20Aug2011+	          &151&2386&53.872&0.195&0.0036 \\
-\verb+PS_LiF(10)_PPO(4.94)_151um_25July2011+	          &151&2385&60.615&0.189&0.0031 \\
+PS\_LiF(9.88)\_PPO(5)\_151um\_20Aug2011	          &151&2386&53.872&0.195&0.0036 \\
+PS\_LiF(10)\_PPO(4.94)\_151um\_25July2011	          &151&2385&60.615&0.189&0.0031 \\
 \end{tabular}
 \end{table}
 It is observed from \autoref{tab:PSFractionRepeatMeas} that the gamma measurments as indicated by the MLLD are stable while the neutron count rate is not. 
@@ -143,5 +149,8 @@ It was shown by measurments in a non-reflective geometry by coupling the thin or
 
 It might be best to get away from using the fraction of counts above the discriminator setting, as the denominator is highly dependent on the physical LLD.
 
-
+\pagebreak
+\section{Appendix}
+The spectra files for this report may be found in \texttt{Path\textbackslash To\textbackslash Directory}, and the plots were generated with the OriginPro project \texttt{ProjectName} saved as \texttt{OriginFileName.opj}.
+This document is may be found in \LaTeX format at \svnkw{HeadURL}.  The latest revision for this file was \svnrev on \svndate.
 \end{document}

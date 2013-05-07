@@ -3,6 +3,14 @@
 %% INCLUDING THE PREAMBLE
 \input{../Preamble}
 
+%% SUBVERSION INFORMATION
+\usepackage{svn-multi}
+\svnidlong
+{$LastChangedBy$}
+{$LastChangedRevision$}
+{$LastChangedDate$}
+{$HeadURL$}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                                Start of Document                        %
@@ -58,17 +66,21 @@ Thus, the each simulated flux has a surface contribution to it\footnote{assuming
 \section{Results}
 \begin{figure}
 	\includegraphics[width=\textwidth]{GS20SelfSheildFlux}
-	\caption[Flux Profile through GS20]{}
+	\caption[Flux Profile through GS20]{Neutron flux profiles in GS20 glass for various mass fractions of \iso[6]{Li} in lithiated glass. Lower mass fractions have a much lower flux due to the absorborbition of neutrons in the material.}
 	\label{fig:Flux}
 \end{figure}
 \begin{figure}
 	\includegraphics[width=\textwidth]{GS20SelfSheildRXNRate}
-	\caption[Reaction Rate through GS20]{}
+	\caption[Reaction Rate through GS20]{Reaction rate profile in GS20 for various mass fractions of \iso[6]{Li} in lithiated glass samples. It is observed that the highest interaction rates occur near the surface of the detector.}
 	\label{fig:RxnRate}
 \end{figure}
 \begin{figure}
 	\includegraphics[width=\textwidth]{GS20SelfSheildTotal}
-	\caption[Total Reaction Rate]{}
+	\caption[Total Reaction Rate]{Total reaction rate in GS20 for various mass fractions of \iso[6]{Li} in lithiated glass samples}
 	\label{fig:TotalRxn}
 \end{figure}
+
+\section{Appendix}
+This document is may be found in \LaTeX format at \url{\svnkw{HeadURL}}.  
+The latest revision for this file is \svnrev, and was on \svndate, committed by \svnauthor.
 \end{document}

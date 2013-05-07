@@ -37,7 +37,7 @@ The potential application  of a material for use in a Radiation Portal Monitor (
 A detector material might be a possible replacement if the there exists a neutron response that can be differentiated from photons for given sensitivity of gammas, namely \num{1E-6}.
 A simple way to discriminate between gammas and neutrons is to use a pulse height discriminator, above which the detector detector will only record one photon out a million as a neutron.
 Under this framework it is then possible to develop a mathematical lower level discriminator (MLLD) of the pulse height spectrum to function as this pulse height discriminator, and to then formulate the sensitivity requirement as the gamma intrinsic efficiency as a function of MLLD.
-Six detectors (three boron loaded plastic scintillators, one LiF:ZnS(Ag) doped screen, GS20, and an annealed composite PEN film\footnote{Sample was 12-Apr-2013, 25\% LiF, 70\% PEN, 5\% PPO-POPOP Annealed}) were then evaluated for their ability to perform in a RPM. 
+Six detectors (three boron loaded plastic scintillators, one LiF:ZnS(Ag) doped screen, GS20, a post processed composite PEN film\footnote{Sample was 22-March-2013, 25\% LiF, 70\% PEN, 5\% PPO-POPOP post processed}, and a polystyrene\footnote{Sample was cast 24 Jan 2012 at \SI{50}{\um} with 10\% LiF, 5\% PPO-POPOP, and 85\% PS}) were then evaluated for their ability to perform in a RPM. 
 The thickness of these detectors and mass of the absorber are shown in \autoref{tab:PhysicalProperties}.
 \begin{table}[h]
 \centering
@@ -52,7 +52,8 @@ The thickness of these detectors and mass of the absorber are shown in \autoref{
     EJ 254 5\% & \iso[10]{B} & 3/4 & 356.1 \\
     EJ 425 HD2-PE & \iso[6]{Li} & \SI{0.1}{\mm} & 17.5 \\
     GS20 & \iso[6]{LI} & \SI{2}{\mm} & 155 \\
-    Annealed Composite PEN Film & \iso[6]{Li} & $\approx$ \SI{250}{\um} & 28.1 \\
+    Post processed Composite PEN Film & \iso[6]{Li} & $\approx$ \SI{212}{\um} & 42.42 \\
+    PS Film & \iso[6]{Li} & \SI{50}{\um} & 2.71 \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -79,7 +80,6 @@ Detection efficiency in this case is equatable to the probability of absorption.
 \end{figure}
 
 \section{Methods}
-The detectors were measured between April 28, 2013 and May 2, 2013 in the radiation characterization laboratory.
 The neutron performance was determined by the \iso[252]{Cf} irridiator previously described, and the gamma source was the \iso[60]{Co} irridiator.
 Due to the wide range of light output of these films it was necessary to use a two voltages (\SI{1000}{\volt} and \SI{1180}{\volt}) in order to capture the entire spectra on an ADC with a zero to \SI{10}{\volt} range with repeatable resolution.
 However, a measurement of the GS20 peak in the lead well was always recorded which then allowed the spectra to be tied together based on this feature, as shown in \autoref{eqn:SettingScale}.
@@ -111,7 +111,7 @@ The following figures, \autoref{fig:Co60Spectra} and \autoref{fig:PbWellSpectra}
 It is clear that the EJ-254 (boron loaded plastic) detectors will have poor performance because of their large gamma response.
 The EJ-426 (LiF:ZnS(Ag)) has the lowest response, and it is not clear if the tail of the spectra is due to actual counts or background.
 In the neutron spectra it was decided to only plot the performance of the best EJ-254 (though \autoref{fig:EJ254Perf} display the performance of all EJ-254 films).
-It is observed that the LiF:ZnS(Ag) is much brighter than the other films, and it is noted that the annealed composite PEN has a higher light output than the commercial EJ-254 (based on the peak location).
+It is observed that the LiF:ZnS(Ag) is much brighter than the other films, and it is noted that the post processed composite PEN has a higher light output than the commercial EJ-254 (based on the peak location).
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{SampleComparions_Co60Spectra}
@@ -143,7 +143,8 @@ C.W.E van Eijk has published the light yield of LiF:ZnS as 75,000 photons per Me
     EJ 254 5\%, 3/4"&	176.49	&	7,800	&	39.56	&	479	\\
     EJ 426 HD2&	1636.53	&	72,000	&	2018.46	&	24,000	\\
     GS20 &	172.76	&	3800.00	&	524.10	&	6,250	\\
-    Annealed Composite PEN&	87.63	&	1,900	&	160.07	&	1,900	\\
+    Post processed Composite PEN&	&		&		&		\\
+    PS Film & & & & \\
     \bottomrule
   \end{tabular}
 \end{table}
@@ -152,7 +153,7 @@ The count rates of the detectors are presented in \autoref{tab:CountRate} for bo
 \centering
   \caption[Detector Count Rate]{Count rate of the detectors in the thermal spectra as well as the lead well spectra.  The final two columns are normalize by the mass of the absorber in the material. Significant self-shielding may exists in the the 5\% boron, 3/4" EJ-254.}
   \label{tab:CountRate}
-  \begin{tabular}{c | c c| c c}
+  \begin{tabular}{p{2cm} | c c| c c}
   \toprule
     &\multicolumn{2}{|c|}{Count Rate (cps)}&\multicolumn{2}{|c}{Count Rate per Mass Absorber (cps per mg)} \\
     & Thermal Neutrons &Lead Well & Thermal Neutrons & Lead Well\\
@@ -162,7 +163,8 @@ The count rates of the detectors are presented in \autoref{tab:CountRate} for bo
   EJ 254 5\%, 3/4"&	1417	&	3415	&	3.98	&	9.59	\\
   EJ 42 6 HD2 \SI{0.1}{\mm}&	224	&	234	&	12.8	&	13.4	\\
   GS20 \SI{2}{\mm}&	328	&	412	&	2.12	&	2.66	\\
-  Annealed Composite PEN $\approx$ \SI{250}{\um}&	176	&	195	&	6.26	&	6.93	\\
+  Post processed Composite PEN $\approx$ \SI{212}{\um}&	322	&	227	&	7.60	&	5.35	\\
+  PS, \SI{50}{\um}, 10\% LiF & 90.6 & 20.7 & 33.4 & 7.63 \\
   \bottomrule
   \end{tabular}
 \end{table}
@@ -180,7 +182,8 @@ The count rates of the detectors are presented in \autoref{tab:CountRate} for bo
     EJ 254, 5\% B, 3/4"	&	1290		&	0.03	\\
     EJ 426 HD2, \SI{0.1}{\mm}&	3308		&	1.97	\\
     GS20, \SI{2}{\mm}	&	557		&	0.56	\\
-    Annealed Composite PEN, $\approx$ \SI{250}{\um}	&	209	&	1.96	\\
+    Post processed Composite PEN, $\approx$ \SI{212}{\um}, 25\% LiF	&	284	&	0.73	\\
+    PS, \SI{50}{\um}, 10\% LiF & 223 & 2.15\\
     \bottomrule
 \end{tabular}
 \end{table}
@@ -190,14 +193,27 @@ The count rates of the detectors are presented in \autoref{tab:CountRate} for bo
   \caption[Gamma Sensitivity and Neutron Response of Measured Detectors]{Gamma sensitivity (left axis, dashed lines) and neutron performance (right axis, solid lines) of measured detectors.  The neutron count rate above the gamma pulse height discriminator may be found by noting where the intrinsic efficiency crosses \num{1E-6} and then integrating the neutron spectra above it. The neutron spectra are from the lead well, and are normalized by the mass of absorber.}
   \label{fig:DiscrimPerformance}
 \end{figure}
+\autoref{fig:UTDetectorPerformance} demonstrates the performance of two detectors fabricated at UT (the PEN by Rohit Uppal and the PS by Andrew Mabe).
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{SC_UTDetectors_IntEff_CR}
+  \caption[UT Fabricated Detector Performance]{Performance of a polystyrene and PEN film fabricated at UT compared to GS20.}
+  \label{fig:UTDetectorPreformance}
+\end{figure}
 
 \subsection{Individual Detector Performance}
 The performance of the individual detectors are shown in the separate figures to clearly illustrate important features.
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{SC_ACPEN_IntEff_CR}
-  \caption[Annealed Composite PEN Performance]{Performance of an Annealed Composite PEN Film (12 April Sample).}
+  \caption[Post processed Composite PEN Performance]{Performance of an Post processed Composite PEN Film (22 March Sample).}
   \label{fig:ACPENPreformance}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{SC_PS_IntEff_CR}
+  \caption[Cast Polystyrene Performance]{Performance of an \SI{50}{\um}, 10\% \iso[6]{LiF} PS Film (24 Jan 2012 Sample).}
+  \label{fig:PSPreformance}
 \end{figure}
 \begin{figure}
   \centering
@@ -226,13 +242,16 @@ If one assumes that the gamma sensitivity increases linearly with thickness (i.e
 This agrees with previous measurements of the fraction of counts above the MLLD for GS20, which tend to be about 4\%.
 
 \section{Conclusions}
-The annealed PEN and EJ-426 (LiF:ZnS(Ag)) detectors appear to be feasible detector materials for RPMs.
+The post processed PEN and EJ-426 (LiF:ZnS(Ag)) detectors appear to be feasible detector materials for RPMs.
 However, thin films of lithiated glass or boron loaded plastic may also be feasible replacement materials.
 \section{Appendix}
-The EJ-254, EJ-426, GS20, and annealed composite PEN spectra data contained in this report may be found at \verb+Dropbox/SpectraFiles/(0)_2013_Data/SampleComparison_28Apr2013+.
-These files were measured from April 28, 2013 to May 2, 2013, with the voltage, gains and count times recorded in the lab notebook. 
+The EJ-254, EJ-426, GS20, and post processed composite PEN spectra data contained in this report may be found at \verb+Dropbox/SpectraFiles/(0)_2013_Data/SampleComparison_28Apr2013+.
+These files were measured from April 28, 2013 to May 2, 2013, with the voltage, gains and count times recorded in the lab notebook.
+The 12 April 2013 PEN film as measured was replaced in this analysis with a PEN film of the sample compostion fabricated on 22 March 2013 as the 22 March 2013 had a higher total count rate, but a correspondingly lower count rate above the necessary discirmination threshold due to it's additional thickness.
+In addition, the polystryene film was measured on the 12 April, 2013 and was then scaled by the ratio of the GS20 peak feature to 1,000V and 10G.
 Of the spectra recorded, it was decided to go with Trial 1 when duplicate trials were made.
 Corresponding hand calculations can be found on pages 104-106 of Matthew Urffer's 2nd lab book.
 The script for scaling the spectra can be found in the following MATLAB code, where the data file is in the same location as the spectra.
-This document is may be found in \LaTeX format at \url{\svnkw{HeadURL}}.  The latest revision for this file was \svnrev on \svndate committed by \svnauthor.
+This document is may be found in \LaTeX format at \url{\svnkw{HeadURL}}.  
+The latest revision for this file is \svnrev, and was on \svndate, committed by \svnauthor.
 \end{document}

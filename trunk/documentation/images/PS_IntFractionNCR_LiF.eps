@@ -2,8 +2,8 @@
 %%BoundingBox: 0 0 762 583
 %%LanguageLevel: 2
 %%Creator: OriginLab Corporation
-%%Title: (C:\Users\LabUser\Desktop\PS_IntFractionNCR_LiF.eps)
-%%CreationDate: Thu Mar 28 10:08:02 2013
+%%Title: (\\tshome.utk.tennessee.edu\murffer\Values\PS_IntFractionNCR_LiF.eps)
+%%CreationDate: Fri May 03 18:56:41 2013
 %%EndComments
 
 /OriginLab::PSL1 128 dict dup begin def
@@ -30,6 +30,7 @@
 /s/show ld/xs/xshow ld/gls/glyphshow ld/xgls{cpt 3 1 roll add exch 3 -1 roll gls m}bd
 /cd/currentdict ld/i/index ld
 /DrawBox{4 2 roll m 1 index 0 rl 0 exch rl neg 0 rl cp}bd
+/plus.re { 6 { 3 index } repeat moveto 0 exch rlineto 0 rlineto pop pop neg 0 exch rlineto pop lineto closepath } def
 /DrawBcc{4 2 roll m 2 copy 0 lt exch 0 lt xor{dup 0 exch rl exch 0 rl neg 0 exch rl}{exch dup 0 rl exch 0 exch rl neg 0 rl}ifelse cp}bd
 /rectline{dup type/arraytype eq{dup length 0 exch 4 exch 4 sub{0 1 3{3 copy add get 4 1 roll pop}for pop 5 1 roll DrawBox}for pop}{DrawBox}ifelse}bd
 /rectpath{dup type/arraytype eq{dup length 0 exch 4 exch 4 sub{0 1 3{3 copy add get 4 1 roll pop}for pop 5 1 roll DrawBcc}for pop}{DrawBcc}ifelse}bd
@@ -57,11 +58,75 @@
  {cd/DataSource get dup type/filetype eq {mystring readstring pop}{exec}ifelse
  }L1imgmask end}if}{L1imgmask}ifelse
  }bd
+% Gradient function
+/GradientStep 1 150 div def
+/GradientStartRGB { /R1 exch def /G1 exch def /B1 exch def } def
+/GradientEndRGB { /R2 exch def /G2 exch def /B2 exch def
+/GradientSteps GradientLength GradientStep div def
+/GradientRStep R2 R1 sub GradientSteps div def
+/GradientGStep G2 G1 sub GradientSteps div def
+/GradientBStep B2 B1 sub GradientSteps div def
+} def
+/GradientStepRGB { /R1 R1 GradientRStep add def
+/G1 G1 GradientGStep add def
+/B1 B1 GradientBStep add def
+R1 G1 B1 setrgbcolor
+} def
 %%EndResource
 /rectclip{np rectpath clip np}wd
 /rectfill{gs np rectpath fi gr}wd
 /rectstroke{gs np dup type/arraytype eq{dup length 6 eq}{false}ifelse{1 index type/arraytype eq{exch}{5 1 roll}ifelse rectline concat st}{rectline st}ifelse gr}wd
-%%BeginFont: /MC12_Arial
+%%BeginResource: procset OriginLab::Image
+/OriginLab::Image 32 dict dup begin
+/BinProc{[currentfile mystring /readstring cvx /pop cvx] cvx bind}bd
+/HexProc{[currentfile mystring /readhexstring cvx /pop cvx] cvx bind}bd
+/Ascii85Proc{currentfile /ASCII85Decode filter}bd
+/LZWA85{currentfile /ASCII85Decode filter /LZWDecode filter}bd
+/ImgProcArray[/BinProc /HexProc /Ascii85Proc /LZWA85]def
+/ImgDict{/ImgDict 16 dict def ImgDict dup begin /ImageType 1 def /MultipleDataSource false def end}bd
+/L2Dec{{[1 0]}{[0 1]}ifelse}bd
+/BegImg{ /Img_sv save def
+ /ImgDir ed ImgProcArray exch get /ImgProc exch ld
+ dup /polarityflag ed L2Dec /polarity ed /smoothflag ed
+ tr /dx 2 index def /dy 1 index abs def sc
+ string /mystring ed /bpc ed /ih ed /iw ed
+ }bd
+/EndImg {Img_sv restore}bd
+/DoXImg{ /rgb_lookup ed /hival ed ImgDict dup begin
+ [/Indexed /DeviceRGB hival rgb_lookup] /L1img where{pop/ImgCS ed}{setcolorspace}ifelse
+ /rgb_string iw 3 mul string def
+ /Width iw def
+ /Height ih def
+ /Decode [0 1 bpc{2 mul}repeat 1 sub] def
+ /ImageMatrix
+  ImgDir 0 eq{[iw 0 0 ih 0 0]}if
+  ImgDir 1 eq{[iw neg 0 0 ih iw 0]}if
+  ImgDir 2 eq{[iw 0 0 ih neg 0 ih]}if
+  ImgDir 3 eq{[iw neg 0 0 ih neg iw ih]}if
+  def
+ /DataSource ImgProc def
+ /BitsPerComponent bpc def
+ /Interpolate smoothflag def
+ end image}bd
+/DoImg{ ImgDict dup begin
+ [/DeviceRGB] /L1img where{pop/ImgCS ed}{setcolorspace}ifelse
+ /rgb_string iw 3 mul string def
+ /Width iw def
+ /Height ih def
+ /Decode [0 1 0 1 0 1] def
+ /ImageMatrix
+  ImgDir 0 eq{[iw 0 0 ih 0 0]}if
+  ImgDir 1 eq{[iw neg 0 0 ih iw 0]}if
+  ImgDir 2 eq{[iw 0 0 ih neg 0 ih]}if
+  ImgDir 3 eq{[iw neg 0 0 ih neg iw ih]}if
+  def
+ /DataSource ImgProc def
+ /BitsPerComponent 8 def
+ /Interpolate smoothflag def
+ end image}bd
+end def
+%%EndResource
+%%BeginFont: /MC1_Arial
 12 dict begin
 /FontInfo 8 dict dup begin
 /ItalicAngle 0 def
@@ -71,7 +136,7 @@
 /StrikeoutThickness 102.00 def
 /isFixedPitch false def
 end readonly def
-/FontName /MC12_Arial def
+/FontName /MC1_Arial def
 /FontType 3 def
 /FontMatrix [1 2048 div 0 0 1 2048 div 0 0] def
 /FontBBox [-1361 -665 4096 2060] def
@@ -354,9 +419,9 @@ end
 1 index /Encoding get exch get
 1 index /BuildGlyph get exec
 } bind def
-currentdict end /MC12_Arial exch definefont pop
+currentdict end /MC1_Arial exch definefont pop
 %%EndFont
-%%BeginFont: /MC13_Arial
+%%BeginFont: /MC2_Arial
 12 dict begin
 /FontInfo 8 dict dup begin
 /ItalicAngle 0 def
@@ -366,7 +431,7 @@ currentdict end /MC12_Arial exch definefont pop
 /StrikeoutThickness 102.00 def
 /isFixedPitch false def
 end readonly def
-/FontName /MC13_Arial def
+/FontName /MC2_Arial def
 /FontType 3 def
 /FontMatrix [1 2048 div 0 0 1 2048 div 0 0] def
 /FontBBox [-1361 -665 4096 2060] def
@@ -849,9 +914,9 @@ end
 1 index /Encoding get exch get
 1 index /BuildGlyph get exec
 } bind def
-currentdict end /MC13_Arial exch definefont pop
+currentdict end /MC2_Arial exch definefont pop
 %%EndFont
-%%BeginFont: /MC14_Arial
+%%BeginFont: /MC3_Arial
 12 dict begin
 /FontInfo 8 dict dup begin
 /ItalicAngle 0 def
@@ -861,7 +926,7 @@ currentdict end /MC13_Arial exch definefont pop
 /StrikeoutThickness 102.00 def
 /isFixedPitch false def
 end readonly def
-/FontName /MC14_Arial def
+/FontName /MC3_Arial def
 /FontType 3 def
 /FontMatrix [1 2048 div 0 0 1 2048 div 0 0] def
 /FontBBox [-1361 -665 4096 2060] def
@@ -1420,9 +1485,8 @@ end
 1 index /Encoding get exch get
 1 index /BuildGlyph get exec
 } bind def
-currentdict end /MC14_Arial exch definefont pop
+currentdict end /MC3_Arial exch definefont pop
 %%EndFont
-0 0 761.75 582.01 rectpath cl np
 /clipproc{clippath{[{/m cvx}{/l cvx}{/c cvx}{/cp cvx}pathforall}stopped
 {cleartomark[pathbbox exch 3 i sub exch 2 i sub/rectpath cvx}if]np}bd
 /iclmtx mtx cmtx def/iclpath clipproc xd/clinit{pathproc initclip np iclpath cl np exec}bd
@@ -1437,11 +1501,11 @@ currentdict end /MC14_Arial exch definefont pop
  1 -1 roll clrect 3 get 2 copy lt{exch}if pop 1 1 roll
  exch 3 i sub exch 2 i sub rectpath cvx exec}cloper}bd
 /icl{{clinit}cloper}bd
-0.239764 0.240168 sc
+0.254099 0.254194 sc
 
 /initmtx mtx cmtx def
+[0.944513 -0 0 -0.944181 0 2289.63] concat
 gs
-[1.00098 0 0 -0.999323 0 2423.34] concat
 839 2022 m
 839 2010 l
 3 sw
@@ -3864,91 +3928,91 @@ st
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 495 -2133 m
+/MC1_Arial 69 self 495 -2133 m
 (1E-8)[38 46 23 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 766 -2133 m
+/MC1_Arial 69 self 766 -2133 m
 (1E-7)[38 46 23 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 1036 -2133 m
+/MC1_Arial 69 self 1036 -2133 m
 (1E-6)[38 46 23 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 1307 -2133 m
+/MC1_Arial 69 self 1307 -2133 m
 (1E-5)[38 46 23 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 1578 -2133 m
+/MC1_Arial 69 self 1578 -2133 m
 (1E-4)[38 46 23 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 1848 -2133 m
+/MC1_Arial 69 self 1848 -2133 m
 (1E-3)[38 46 23 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 2125 -2133 m
+/MC1_Arial 69 self 2125 -2133 m
 (0.01)[38 19 38 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 2414 -2133 m
+/MC1_Arial 69 self 2414 -2133 m
 (0.1)[38 19 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 2714 -2133 m
+/MC1_Arial 69 self 2714 -2133 m
 (1)[38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 366 -1648 m
+/MC1_Arial 69 self 366 -1648 m
 (1E-3)[38 46 23 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 378 -1213 m
+/MC1_Arial 69 self 378 -1213 m
 (0.01)[38 19 38 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 416 -778 m
+/MC1_Arial 69 self 416 -778 m
 (0.1)[38 19 38 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC12_Arial 69 self 473 -343 m
+/MC1_Arial 69 self 473 -343 m
 (1)[38 ] xs
 1 -1 sc
 gr
@@ -4736,24 +4800,22 @@ gs
 1 -1 sc
 306 -1963 tr
 90 ro
-/MC13_Arial 84 self 0 0 m
+/MC2_Arial 84 self 0 0 m
 (Fraction of Neutron Counts above MLLD)[ 51 28 47 42 23 19 47 47 23 47 23 23 61 47 47 23 28 47 47 23 61 47 47 47 23 42 23 47 47 47 42 47 23 
 70 47 47 61 ] xs
 1 -1 sc
 gr
 gr
 gs
-gs
 1 -1 sc
-/MC14_Arial 84 self 1142 -2266 m
+/MC3_Arial 84 self 1142 -2266 m
 (Gamma Intrisinic Efficiency)[65 47 71 71 47 23 23 47 23 28 19 42 19 47 19 42 23 56 24 24 19 42 19 47 47 42 41 ] xs
 1 -1 sc
 gr
-gr
-2595 90 m
-3022 90 l
-3022 817 l
-2595 817 l
+2595 84 m
+3022 84 l
+3022 811 l
+2595 811 l
 cp
 gs
 1 1 1 rgb
@@ -4764,33 +4826,31 @@ st
 gs
 gs
 gs
-2636 221 m
-2834 221 l
+2636 215 m
+2834 215 l
 st
 gr
-2717 204 36 36 rectfill
-2595 817 m
-2717 204 36 36 rectstroke
+2717 198 36 36 rectfill
+2595 811 m
+2717 198 36 36 rectstroke
 gr
 1 -1 sc
-/MC14_Arial 88 self 2834 -251 m
+/MC3_Arial 88 self 2834 -245 m
 ( )[24 ] xs
 1 -1 sc
-gs
 1 -1 sc
-2858 -251 m
+2858 -245 m
 (15)[49 49 ] xs
 1 -1 sc
-gr
 gs
 gs
-2636 330 m
-2834 330 l
+2636 324 m
+2834 324 l
 1 0 0 rgb
 st
 gr
 np
-2735 331 20 0 360  a
+2735 325 20 0 360  a
 cp
 gs
 1 0 0 rgb
@@ -4800,25 +4860,23 @@ gr
 st
 gr
 1 -1 sc
-2834 -360 m
+2834 -354 m
 ( )[24 ] xs
 1 -1 sc
-gs
 1 -1 sc
-2858 -360 m
+2858 -354 m
 (25)[49 49 ] xs
 1 -1 sc
-gr
 gs
 gs
-2636 439 m
-2834 439 l
+2636 433 m
+2834 433 l
 0 0 1 rgb
 st
 gr
-2735 412 m
-2759 454 l
-2710 454 l
+2735 406 m
+2759 448 l
+2710 448 l
 cp
 gs
 0 0 1 rgb
@@ -4828,25 +4886,23 @@ gr
 st
 gr
 1 -1 sc
-2834 -469 m
+2834 -463 m
 ( )[24 ] xs
 1 -1 sc
-gs
 1 -1 sc
-2858 -469 m
+2858 -463 m
 (50)[49 49 ] xs
 1 -1 sc
-gr
 gs
 gs
-2636 548 m
-2834 548 l
+2636 542 m
+2834 542 l
 1 0 1 rgb
 st
 gr
-2759 535 m
-2735 577 l
-2710 535 l
+2759 529 m
+2735 571 l
+2710 529 l
 cp
 gs
 1 0 1 rgb
@@ -4856,26 +4912,24 @@ gr
 st
 gr
 1 -1 sc
-2834 -578 m
+2834 -572 m
 ( )[24 ] xs
 1 -1 sc
-gs
 1 -1 sc
-2858 -578 m
+2858 -572 m
 (150)[49 49 49 ] xs
 1 -1 sc
-gr
 gs
 gs
-2636 657 m
-2834 657 l
+2636 651 m
+2834 651 l
 0 0.502 0 rgb
 st
 gr
-2709 658 m
-2735 632 l
-2761 658 l
-2735 684 l
+2709 652 m
+2735 626 l
+2761 652 l
+2735 678 l
 cp
 gs
 0 0.502 0 rgb
@@ -4885,25 +4939,23 @@ gr
 st
 gr
 1 -1 sc
-2834 -687 m
+2834 -681 m
 ( )[24 ] xs
 1 -1 sc
-gs
 1 -1 sc
-2858 -687 m
+2858 -681 m
 (300)[49 49 49 ] xs
 1 -1 sc
-gr
 gs
 gs
-2636 766 m
-2834 766 l
+2636 760 m
+2834 760 l
 0 0 0.502 rgb
 st
 gr
-2707 767 m
-2749 791 l
-2749 742 l
+2707 761 m
+2749 785 l
+2749 736 l
 cp
 gs
 0 0 0.502 rgb
@@ -4913,15 +4965,13 @@ gr
 st
 gr
 1 -1 sc
-2834 -796 m
+2834 -790 m
 ( )[24 ] xs
 1 -1 sc
-gs
 1 -1 sc
-2858 -796 m
+2858 -790 m
 (600)[49 49 49 ] xs
 1 -1 sc
-gr
 gr
 gr
 Save0 restore end

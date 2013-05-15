@@ -130,7 +130,21 @@ The experiment shown in \autoref{fig:ExpD} is expected to have a higher light ou
   \label{fig:LightAttenExp}
 \end{figure}
 \subsection{Film Fabrication Experiment}
-
+In order to eliminate the possiblity that poor performance of a film mounted on PMMA was due to an anomalous fabrication five additional films (85\% PS, 10\% LiF, 5\% PPO-POPOP) were fabricated from the same batch.
+The light yeild of these films was then measured, as well as the determination of the neutron preformance.
+One of five \SI{50}{\um} films was mounted on a \SI{1}{\mm} PMMA, three were mounted on \SI{3}{\mm} UVT Acyrlic PMMA, and the fifth was mounted on \SI{6}{\mm} UVT Acrylic PMMA.
+The composition and sample number of the films are tabulated in \autoref{tab:FabFilmComposition}.
+\begin{table}
+	\centering
+	\caption[Fabricated PS Films]{Composition and Mounting Properties of Fabricated Films. All films are 85\% PS, 10\% \iso[6]{LiF}, and 5\% PPO-POPOP cast to \SI{50}{\um}}
+	\label{tab:FabFilmComposition}
+  \begin{tabular}{p{5.5cm} | m{1cm} m{2.5cm} m{3cm}}
+  \toprule
+  Name&Sample Number&Mounting Material& Mounting Material Thickness\\
+  \midrule
+  \bottomrule
+  \end{tabular}
+\end{table}
 \section{Results}
 
 It was shown by measurements in a non-reflective geometry by coupling the PMMA or UVT acrylic discs to the film a significant loss in performance (above the loss due to additional layer of optical coupling) is not evident.
@@ -141,9 +155,36 @@ It was shown by measurements in a non-reflective geometry by coupling the PMMA o
   \label{fig:RadMeasuredExper}
 \end{figure}
 
+The measured spectra of the five fabricated films are shown in \autoref{fig:CompAm241} and \autoref{fig:CompCl36} for the alpha and beta responses.
+It is observed that there is very little difference in the spectra between the films.
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{50umTrials_Am241}
+  \caption[Fabricated Film Comparison (Alpha)]{Comparison of the \iso[241]{Am} response of the fabricated films}
+  \label{fig:CompAm241}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{50umTrials_Cl36}
+  \caption[Fabricated Film Comparison (Beta)]{Comparison of the \iso[36]{Cl} response of the fabricated films}
+  \label{fig:CompCl36}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{50umTrials_Co60}
+  \caption[Fabricated Film Comparison (Gamma)]{Comparison of the \iso[60]C{Co}response of the fabricated films}
+  \label{fig:CompCo60}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=\textwidth]{50umTrials_CfNet}
+  \caption[Fabricated Film Comparison (Neutron)]{Comparison of the \iso[252]{Cf} response of the fabricated films. It is evident that the PMMA film (Sample 4) has a much lower neutron response in addition to a differnet spectral shape than the other samples.}
+  \label{fig:CompCf252}
+\end{figure}
 \section{Conclusions}
 
 It might be best to get away from using the fraction of counts above the discriminator setting, as the denominator is highly dependent on the physical LLD.
+It has been shown that the PMMA disc has a much lower neutron performance than the UVT acrylic.
 
 \pagebreak
 \section{Appendix}

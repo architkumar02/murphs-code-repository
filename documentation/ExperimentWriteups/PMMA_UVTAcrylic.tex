@@ -36,12 +36,22 @@ Developed detector materials are often brittle and thus for repeatable character
 Acrylic plastic (polymethylmetharylate, PMMA) is a commonly used in fabricating light guides for plastic scintillators due to it's optical clarity and good mechanical properties and thus is a natural choice of a mounting material.
 Generally the PMMA is available in two types, with or without ultra-violet (UV) absorbing materials added to the cast PMMA.
 The UV absorbers are added for general purpose commercial applications and are the standard, and thus when the absorbers are omitted the material is know as UVT (ultraviolet transparent) Acrylic.
-The effectiveness of the UV absorbers are shown in \autoref{fig:EJTransArcylic}.
+The effectiveness of the UV absorbers are shown in \autoref{fig:TransArcylic}.
 \begin{figure}
   \centering
-  \includegraphics[width=0.5\textwidth]{EJ_ArcylicTransmission}
-	\caption[Light Transmission of Eljen Acrylics (Eljen)]{Light transmission of Eljen acrylics.  The effect of the UV absorbers is shown in by the very low transmission of the commercial stock below a wavelength of \SI{375}{\nm}.}
-	\label{fig:EJTransArcylic}
+ \begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{EJ_ArcylicTransmission}
+    \caption{Eljen Data Sheet Transmission}
+  \end{subfigure}%
+  ~
+  \begin{subfigure}[b]{0.45\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{PMMA_UVT-Transmission}
+    \caption{Experiment B}
+  \end{subfigure}
+  \caption[Light Transmission of Eljen Acrylics]{Light transmission of Eljen acrylics.  The effect of the UV absorbers is shown in by the very low transmission of the commercial stock below a wavelength of \SI{375}{\nm}.}
+	\label{fig:TransArcylic}
 \end{figure}	
 It was observed in repeating the neutron fraction above the gamma LLD that there was significant discrepancy between a film mounted on a thin PMMA disc and a film mounted on a thick UVT (ultra-violet transparent) acrylic disc, as shown in \autoref{tab:PSFractionRepeatMeas}.
 This effect was observed for two different film thickness (\SI{25}{\um} and \SI{50}{\um}) with each film being 10\% LiF in a polystyrene matrix.
@@ -91,7 +101,7 @@ The second (after the first failure to provide a conclusive answer) was to fabri
 The premise of these experiments is to try and replicate the same light collection geometry with the existing films.
 If the back of the film is mounted in a non light reflecting geometry, the light entering the PMT must pass through the disc upon which the mounting is being tested and thus the performance of that disc can be determined.
 Two different sets of experiments were preformed in order to determine if light attenuation in the film caused the degradation in performance.
-The first experiment was to try and reconstruct the measurement of a PMMA disc as if it was mounted on a UVT disc, and the second was to reverse the setup and try to replicate a PMMA film as if it was cast on a UVT arcylic disc.
+The first experiment was to try and reconstruct the measurement of a PMMA disc as if it was mounted on a UVT disc, and the second was to reverse the setup and try to replicate a PMMA film as if it was cast on a UVT acrylic disc.
 The geometry of the four experiments is shown in \autoref{fig:LightAttenExp}.
 
 The experiments shown in \autoref{fig:ExpA} and \autoref{fig:ExpC} are designed to provide the performance of the film without the effects of the PMMA or UVT disc, respectively.
@@ -130,9 +140,9 @@ The experiment shown in \autoref{fig:ExpD} is expected to have a higher light ou
   \label{fig:LightAttenExp}
 \end{figure}
 \subsection{Film Fabrication Experiment}
-In order to eliminate the possiblity that poor performance of a film mounted on PMMA was due to an anomalous fabrication five additional films (85\% PS, 10\% LiF, 5\% PPO-POPOP) were fabricated from the same batch.
-The light yeild of these films was then measured, as well as the determination of the neutron preformance.
-One of five \SI{50}{\um} films was mounted on a \SI{1}{\mm} PMMA, three were mounted on \SI{3}{\mm} UVT Acyrlic PMMA, and the fifth was mounted on \SI{6}{\mm} UVT Acrylic PMMA.
+In order to eliminate the possibility that poor performance of a film mounted on PMMA was due to an anomalous fabrication five additional films (85\% PS, 10\% LiF, 5\% PPO-POPOP) were fabricated from the same batch.
+The light yield of these films was then measured, as well as the determination of the neutron performance.
+One of five \SI{50}{\um} films was mounted on a \SI{1}{\mm} PMMA, three were mounted on \SI{3}{\mm} UVT Acrylic PMMA, and the fifth was mounted on \SI{6}{\mm} UVT Acrylic PMMA.
 The composition and sample number of the films are tabulated in \autoref{tab:FabFilmComposition}.
 \begin{table}
 	\centering
@@ -150,7 +160,7 @@ The composition and sample number of the films are tabulated in \autoref{tab:Fab
   \bottomrule
   \end{tabular}
 \end{table}
-It was observed that the films cast upon the UVT acryolic have a smoother surface than the \SI{1}{\mm} film cast upon PMMA.
+It was observed that the films cast upon the UVT acrylic have a smoother surface than the \SI{1}{\mm} film cast upon PMMA.
 \section{Results}
 
 It was shown by measurements in a non-reflective geometry by coupling the PMMA or UVT acrylic discs to the film a significant loss in performance (above the loss due to additional layer of optical coupling) is not evident.
@@ -162,7 +172,7 @@ It was shown by measurements in a non-reflective geometry by coupling the PMMA o
 \end{figure}
 The measured spectra of the five fabricated films are shown in \autoref{fig:CompAm241} and \autoref{fig:CompCl36} for the alpha and beta responses.
 It is observed that the \SI{6}{\mm} UVT PMMA has the lowest alpha response, while the \SI{1}{\mm} PMMA is also slightly lower than the \SI{3}{\mm} samples.
-The reponse to a \iso{36}[Cl] source shows a slightly differnet trend, with the \SI{1}{\mm} PMMA film having the lowest light output, followed by the \SI{6}{\mm} UVT acryclic and finally the three \SI{3}{\mm} UVT acrylic.
+The response to a \iso{36}[Cl] source shows a slightly different trend, with the \SI{1}{\mm} PMMA film having the lowest light output, followed by the \SI{6}{\mm} UVT acrylic and finally the three \SI{3}{\mm} UVT acrylic.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{50umTrials_Am241}
@@ -176,11 +186,11 @@ The reponse to a \iso{36}[Cl] source shows a slightly differnet trend, with the 
   \label{fig:CompCl36}
 \end{figure}
 The gamma response of the five measured PS films is shown in \autoref{fig:CompCo60}.
-It is observed that all of the films have a very similar response\footnote{It is the opinion of the author is that the gamma spectra is not an accurate assement of the performance of a film due to the lower probability of energy deposition in the film.}
+It is observed that all of the films have a very similar response\footnote{It is the opinion of the author is that the gamma spectra is not an accurate assessment of the performance of a film due to the lower probability of energy deposition in the film.}
 The neutron spectra, \autoref{fig:CompCf252}, shows the the \SI{1}{\mm} PMMA has a dramatically different neutron response than the other films in the series.
-This measurment is repeatable (\autoref{sec:MeasRepeat}) while only one is shown.
+This measurement is repeatable (\autoref{sec:MeasRepeat}) while only one is shown.
 The \SI{3}{\mm} UVT PMMA films all follow the same trends; their spectra look almost identical.
-Finally, the \SI{6}{\mm} UVT PMMA also has a noticable two peak spectra shape with the first peak around 250 channels and the second around 1000 channels.
+Finally, the \SI{6}{\mm} UVT PMMA also has a noticeable two peak spectra shape with the first peak around 250 channels and the second around 1000 channels.
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{50umTrials_Co60}
@@ -190,22 +200,54 @@ Finally, the \SI{6}{\mm} UVT PMMA also has a noticable two peak spectra shape wi
 \begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{50umTrials_CfNet}
-  \caption[Fabricated Film Comparison (Neutron)]{Comparison of the \iso[252]{Cf} response of the fabricated films. It is evident that the PMMA film (Sample 4) has a much lower neutron response in addition to a differnet spectral shape than the other samples.}
+  \caption[Fabricated Film Comparison (Neutron)]{Comparison of the \iso[252]{Cf} response of the fabricated films. It is evident that the PMMA film (Sample 4) has a much lower neutron response in addition to a different spectral shape than the other samples.}
   \label{fig:CompCf252}
 \end{figure}
+\begin{table}
+\centering
+\caption[Summary of Film Light Yield]{Light Yield Summary of Films. At these voltage and gain settings the Compton edge of GS20 from an \iso[60]{Co} source was 2,500 channels, and the neutron peak was at 3,450 channels. All films are 85\% PS, 10\% LiF, 5\% PPO-POPOP cast to \SI{50}{\um}}
+  \begin{tabular}{m{2cm} m{2cm} m{2cm} m{2cm} m{2cm} m{2cm}}
+  \toprule
+  Mounting Material	&	Sample Number	&	Alpha Peak	&	Beta Average	&	Gamma Average	&	Neutron Average	\\
+  \midrule
+  PMMA	&	4	&	2040	&	227	&	212	&	235	\\
+  UVT Acrylic	&	4	&	1,910	&	211	&	215	&	289	\\
+  UVT Acrylic	&	1	&	2,220	&	262	&	222	&	1,000	\\
+  UVT Acrylic	&	2	&	2,220	&	250	&	224	&	1,055	\\
+  UVT Acrylic	&	3	&	2,220	&	256	&	218	&	1,023	\\
+  UVT Acrylic	&	5	&	1,940	&	252	&	226	&	777	\\
+  \bottomrule
+  \end{tabular}
+\end{table}
+\begin{table}
+  \centering
+  \begin{tabular}{m{2cm} m{2cm} m{2cm} m{2cm} m{2cm}}
+  \toprule
+  Mounting Material	&	Sample Number	&	Neutron Count Rate	&	Gamma LLD			&	Fraction Above LLD	\\
+  \midrule
+  PMMA	&	4	&	7.3	&	4300	$\pm$	170	&	0.0048	\\
+  UVT Acrylic	&	4	&	6	&	1,660	$\pm$	70	&	0.0115	\\
+  UVT Acrylic	&	1	&	25.2	&	1,700	$\pm$	70	&	0.0203	\\
+  UVT Acrylic	&	2	&	25.7	&	2,100	$\pm$	130	&	0.0422	\\
+  UVT Acrylic	&	3	&	24.7	&	2,070	$\pm$	120	&	0.0563	\\
+  UVT Acrylic	&	5	&	18.2	&	1,900	$\pm$	80	&	0.0763	\\
+  \bottomrule
+  \end{tabular}
+\end{table}
 \section{Conclusions}
-It is evident that the neutron performance of the \SI{1}{\mm} PMMA film has a much lower light output than the films mounted on UVT PMMA, while the light yeild (as determined by an \iso{241}[Am] and \iso{36}[Cl]) of the \SI{1}{\mm} PMMA is only slightly lower than the UVT acrylic films.
-An intresting feature that is evident in the UVT acrylic films is a peak, slight trough, and then another shallow peak.
+It is evident that the neutron performance of the \SI{1}{\mm} PMMA film has a much lower light output than the films mounted on UVT PMMA, while the light yield (as determined by an \iso{241}[Am] and \iso{36}[Cl]) of the \SI{1}{\mm} PMMA is only slightly lower than the UVT acrylic films.
+An interesting feature that is evident in the UVT acrylic films is a peak, slight trough, and then another shallow peak.
 It is thought that the first peak is due to the energy deposition of the alpha (range \SI{10}{\um} in PS, \SI{2.05}{\MeV}) while the full energy deposition (adding in the triton of range \SI{62}{\um} and \SI{2.78}{\MeV}) occurs at the higher peak.
 As the films are only \SI{50}{\um} thick it is highly probable that the alpha does not deposit all of it's energy in the film.
 
-It is unclear why the \SI{1}{\mm} PMMA has a completly differnet neutron spectral shape.
+It is unclear why the \SI{1}{\mm} PMMA has a completely different neutron spectral shape.
 Attenuation of light in the disc would be expected to impact all of the light yields equally, and a dramatic decrease is the light yield is not observed.
-The repeatable low energy neutron peak suggests that complete energy deposition from the alpha is occuring, while the triton is not depositing any of its energy.
-A possibe cause of this might be the disc chemically interacting with the cast film, causing the film to be effectively thinner than designed.
+The repeatable low energy neutron peak suggests that complete energy deposition from the alpha is occurring, while the triton is not depositing any of its energy.
+A possible cause of this might be the disc chemically interacting with the cast film, causing the film to be effectively thinner than designed.
 
-The following films, \autoref{tab:1MMPMMAFilms}, are cast upon a \SI{1}{\mm} PMMA disc, and as shown above their neutron performance measurment is suspect.
-\ctable[cap={\SI{1}{\mm} PMMA Films},caption={Film cast on \SI{1}{\mm} PMMA Disc. The neutron performance of these films should be revied.},label={tab:1MMPMMAFilms},]{l | l}{\tnote[$\dagger$]{Supporting spectra not found}}{%
+The following films, \autoref{tab:1MMPMMAFilms}, are cast upon a \SI{1}{\mm} PMMA disc, and as shown above their neutron performance measurement is suspect.
+The neturon spectra of some of these films are plotted in \autoref{fig:1MMFilmsNetCf252}
+\ctable[cap={\SI{1}{\mm} PMMA Films},caption={Film cast on \SI{1}{\mm} PMMA Disc. The neutron performance of these films should be revisited.},label={tab:1MMPMMAFilms},]{l | l}{\tnote[$\dagger$]{Supporting spectra not found}}{%
 \FL
 Film Name & Date Manufactured \\
 \midrule
@@ -215,28 +257,46 @@ Film Name & Date Manufactured \\
 \path{PS_LiF(20.1)_POP(5.12)_50um_29May12} & \printdate{29/5/2012} \tmark[$\dagger$] \\
 \path{PS_LiF(10)_POP(5)_50um_28Feb13} & \printdate{28/2/2013} \tmark[$\dagger$] \\
 \path{PS_LiF-n(10)_POP(5)_50um_28Feb13} & \printdate{28/2/2013} \tmark[$\dagger$] \\
+\path{PVT_PoP(0)_6LiF(38.99)_layered(PF,LiF,PF)_f.19-Apr-12} & \printdate{19/3/2012} \\
+\path{PS-co-PMMA-co-PVPPO#1} & \\
+\path{PS_LiF(10)_POP(5)_1mmPMMA#4_50um_1May13} & \printdate{1/5/2013} \\
+\path{PS-co-PMMA-co-PVPPO#2} & \\
+\path{PS_LiF(10.3)_POP(4.90)_25um_29May2012} & \printdate{29/5/2012} \\
+\path{PVT_POP(0)_6LiF(41.2)_layered(PVT-LiF-PVT)} & \\
+\path{PVT_LiF(22.9)_POP(5.02)_51um_20Feb2012} & \printdate{20/2/2012} \\
+\path{PS_PoP(10)_LiF(9.9)_Li-6(37.4)_Li-7(62.6)_F.23-Apr-12} & \printdate{23/4/2012} \\
+\path{PS-co-PLiMMAn-co-PVPPO2} & \\
+\path{PS-co-PMMA-co-PVPPO#1} & \\
+\path{PS_LiF(30.0)_POP(4.64)_25um_29May2012} & \printdate{29/5/2012} \\
+\path{Ps_PoP(9.9)_LiF(10)_Li-6(67.4)_Li-7(32.6)_F.23-Apr-12} & \printdate{23/4/2012} \\
 \LL}
-It is recomended not to use the \SI{1}{\mm} PMMA disc for neutron performance measruments.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.7\textwidth]{1mmFilms_NetCf252}
+  \caption[Spectra Shapes of PMMA Cast Films]{Spectra shapes of PMMA cast films.  Note that the spectra are not scaled to a common gain or voltage, and therefore information about the relative performance should not be inferred. In addition, a UVT acrylic mounted film is not shown for comparison purposes.  However, one can observe that most of the spectra have a lower energy skewed peak.}
+  \label{fig:1MMFilmsNetCf252}
+\end{figure}
+It is recommended not to use the \SI{1}{\mm} PMMA disc for neutron performance measurements.
 \pagebreak
 \appendices
-\section{Measurment Repeatiblity}
+\section{Measurement Repeatability}
 \label{sec:MeasRepeat}
-The conlusion that PMMA disc has a signifantly lower neutron performance is supported by two measurments of the single prepared film.
-The order of the measurments was Trial 1, then Sample 3, and then returning to Trial 1 once it was noticed that it deviated largely from Sample 3.
+The conclusion that PMMA disc has a significantly lower neutron performance is supported by two measurements of the single prepared film.
+The order of the measurements was Trial 1, then Sample 3, and then returning to Trial 1 once it was noticed that it deviated largely from Sample 3.
 It is observed in \autoref{fig:MeasRepeatLY} that Trial 2 samples tend to have a higher light yield. 
-This may be due to a slight temperate based changed in the electronic gains, or simply due to better coupling and light collection in Trial 2 comapred to Trial 1.
+This may be due to a slight temperate based changed in the electronic gains, or simply due to better coupling and light collection in Trial 2 compared to Trial 1.
 However, the increase in light output is not observed in the gamma spectra, so if better coupling is the cause of the increased light output it would be expected that all of the Trial 2 data would be higher by the same amount.
-The neutron spectra (\autoref{fig:MeasRepeatNeutron}) show excellent repeatibility, and both spectra have the skewed shape.
+The neutron spectra (\autoref{fig:MeasRepeatNeutron}) show excellent repeatability, and both spectra have the skewed shape.
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{50umTrials_PMMARepeat}
-  \caption[PMMA Light Yield Repeatiblity]{Repeatiblity of the light yield measurments of the \SI{1}{\mm} PMMA disc. It is observed that the alpha and beta light yield in Trial 2 is higher than Trial 1, while the gammas are essentially overlapping.}
+  \caption[PMMA Light Yield Repeatability]{Repeatability of the light yield measurements of the \SI{1}{\mm} PMMA disc. It is observed that the alpha and beta light yield in Trial 2 is higher than Trial 1, while the gammas are essentially overlapping.}
   \label{fig:MeasRepeatLY}
 \end{figure}
 \begin{figure}
   \centering
   \includegraphics[width=0.7\textwidth]{50umTrials_PMMARepeat_Cf252}
-  \caption[PMMA Neutron Repeatiblity]{Repeatiblity of the neutron measurments of the \SI{1}{\mm} PMMA disc. It is observed that both of the measured spectra have the strange shape.}
+  \caption[PMMA Neutron Repeatability]{Repeatability of the neutron measurements of the \SI{1}{\mm} PMMA disc. It is observed that both of the measured spectra have the strange shape.}
   \label{fig:MeasRepeatNeutron}
 \end{figure}
 

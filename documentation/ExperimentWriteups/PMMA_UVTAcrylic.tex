@@ -154,22 +154,28 @@ It was shown by measurements in a non-reflective geometry by coupling the PMMA o
   \caption[Measured Effect of UVT acrylic and PMMA]{Measured Neutron Spectra of UVT Acrylic and PMMA Films. It is observed that the performance of the PMMA film is not enhanced by placing it atop of a UVT acrylic disc, and the performance of a film cast on a UVT acrylic is not significantly degraded up the placing it on PMMA disc. It is noted that some performance degradation is observed, but it not clear that this is below the effects of adding a additional layer of optical coupling.}
   \label{fig:RadMeasuredExper}
 \end{figure}
-
 The measured spectra of the five fabricated films are shown in \autoref{fig:CompAm241} and \autoref{fig:CompCl36} for the alpha and beta responses.
-It is observed that there is very little difference in the spectra between the films.
-\begin{figure}
+It is observed that the \SI{6}{\mm} UVT PMMA has the lowest alpha response, while the \SI{1}{\mm} PMMA is also slightly lower than the \SI{3}{\mm} samples.
+The reponse to a \iso{36}[Cl] source shows a slightly differnet trend, with the \SI{1}{\mm} PMMA film having the lowest light output, followed by the \SI{6}{\mm} UVT acryclic and finally the three \SI{3}{\mm} UVT acrylic.
+\begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{50umTrials_Am241}
   \caption[Fabricated Film Comparison (Alpha)]{Comparison of the \iso[241]{Am} response of the fabricated films}
   \label{fig:CompAm241}
 \end{figure}
-\begin{figure}
+\begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{50umTrials_Cl36}
   \caption[Fabricated Film Comparison (Beta)]{Comparison of the \iso[36]{Cl} response of the fabricated films}
   \label{fig:CompCl36}
 \end{figure}
-\begin{figure}
+The gamma response of the five measured PS films is shown in \autref{fig:CompCo60}.
+It is observed that all of the films have a very similar response\footnote{It is the opinion of the author is that the gamma spectra is not an accurate assement of the performance of a film due to the lower probability of energy deposition in the film.}
+The neutron spectra, \autoref{fig:CompCf252}, shows the the \SI{1}{\mm} PMMA has a dramatically different neutron response than the other films in the series.
+This measurment is repeatable (\autoref{sec:MeasRepeat}) while only one is shown.
+The \SI{3}{\mm} UVT PMMA films all follow the same trends; their spectra look almost identical.
+Finally, the \SI{6}{\mm} UVT PMMA also has a noticable two peak spectra shape with the first peak around 250 channels and the second around 1000 channels.
+\begin{figure}[h]
   \centering
   \includegraphics[width=\textwidth]{50umTrials_Co60}
   \caption[Fabricated Film Comparison (Gamma)]{Comparison of the \iso[60]C{Co}response of the fabricated films}
@@ -182,15 +188,27 @@ It is observed that there is very little difference in the spectra between the f
   \label{fig:CompCf252}
 \end{figure}
 \section{Conclusions}
+It is evident that the neutron performance of the \SI{1}{\mm} PMMA film has a much lower light output than the films mounted on UVT PMMA, while the light yeild (as determined by an \iso{241}[Am] and \iso{36}[Cl]) of the \SI{1}{\mm} PMMA is only slightly lower than the UVT acrylic films.
+An intresting feature that is evident in the UVT acrylic films is a peak, slight trough, and then another shallow peak.
+It is thought that the first peak is due to the energy deposition of the alpha (range \SI{10}{\um} in PS, \SI{2.05}{\MeV}) while the full energy deposition (adding in the triton of range \SI{62}{\um} and \SI{2.78}{\MeV}) occurs at the higher peak.
+As the films are only \SI{50}{\um} thick it is highly probable that the alpha does not deposit all of it's energy in the film.
 
-It might be best to get away from using the fraction of counts above the discriminator setting, as the denominator is highly dependent on the physical LLD.
-It has been shown that the PMMA disc has a much lower neutron performance than the UVT acrylic.
+It is unclear why the \SI{1}{\mm} PMMA has a completly differnet neutron spectral shape.
+Attenuation of light in the disc would be expected to impact all of the light yields equally, and a dramatic decrease is the light yield is not observed.
+The repeatable low energy neutron peak suggests that complete energy deposition from the alpha is occuring, while the triton is not depositing any of its energy.
+A possibe cause of this might be the disc chemically interacting with the cast film, causing the film to be effectively thinner than designed.
 
+It is recomended not to use the \SI{1}{\mm} PMMA disc for neutron performance measruments.
 \pagebreak
-\appendix
+\appendices
 \section{Measurment Repeatiblity}
+\label{sec:MeasRepeat}
 The conlusion that PMMA disc has a signifantly lower neutron performance is supported by two measurments of the single prepared film.
 The order of the measurments was Trial 1, then Sample 3, and then returning to Trial 1 once it was noticed that it deviated largely from Sample 3.
+It is observed in \autoref{fig:MeasRepeatLY} that Trial 2 samples tend to have a higher light yield. 
+This may be due to a slight temperate based changed in the electronic gains, or simply due to better coupling and light collection in Trial 2 comapred to Trial 1.
+However, the increase in light output is not observed in the gamma spectra, so if better coupling is the cause of the increased light output it would be expected that all of the Trial 2 data would be higher by the same amount.
+The neutron spectra (\autoref{fig:MeasRepeatNeutron}) show excellent repeatibility, and both spectra have the skewed shape.
 \begin{figure}
   \centering
   \includegraphics[width=\textwidth]{50umTrials_PMMARepeat}
@@ -205,7 +223,8 @@ The order of the measurments was Trial 1, then Sample 3, and then returning to T
 \end{figure}
 
 \section{File Locations and Report Status}
-The spectra files for this report may be found in \texttt{SpectraFiles\textbackslash(0)\_2013\_Data\textbackslash PSArcylicUVT\_vs\_PMMA}, and the plots were generated with the OriginPro project \texttt{AcrylicUVT.opj}.
+The spectra files for this report may be found in \path{SpectraFiles/(0)_2013_Data/PSArcylicUVT_vs_PMMA}, and the plots were generated with the OriginPro project \path{AcrylicUVT.opj}.
 This document is may be found in \LaTeX format at \url{\svnkw{HeadURL}}.  
 The latest revision for this file is \svnrev, and was on \svndate, committed by \svnauthor.
+The films were fabricated by Andrew Mabe.
 \end{document}

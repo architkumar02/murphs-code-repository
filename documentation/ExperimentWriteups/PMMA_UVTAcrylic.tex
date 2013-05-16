@@ -2,6 +2,8 @@
 
 %% INCLUDING THE PREAMBLE
 \input{../Preamble}
+\usepackage[iso,american]{isodate}
+\usepackage{ctable}
 %% SUBVERSION INFORMATION
 \usepackage{svn-multi}
 \svnidlong
@@ -139,10 +141,16 @@ The composition and sample number of the films are tabulated in \autoref{tab:Fab
   \begin{tabular}{p{5.5cm} | m{1cm} m{2.5cm} m{3cm}}
   \toprule
   Name&Sample Number&Mounting Material& Mounting Material Thickness\\
+  \path{PS_LiF(10)_POP(5)_1mmPMMA#1_50um_1May2013} & 1 & PMMA & \SI{1}{\mm}\\
+  \path{PS_LiF(10)_POP(5)_3mmPMMA#2_50um_1May2013} & 2 & PMMA & \SI{3}{\mm}\\
+  \path{PS_LiF(10)_POP(5)_3mmPMMA#3_50um_1May2013} & 3 & PMMA & \SI{3}{\mm}\\
+  \path{PS_LiF(10)_POP(5)_3mmPMMA#4_50um_1May2013} & 4 & PMMA & \SI{3}{\mm}\\
+  \path{PS_LiF(10)_POP(5)_6mmPMMA#5_50um_1May2013} & 5 & PMMA & \SI{6}{\mm}\\
   \midrule
   \bottomrule
   \end{tabular}
 \end{table}
+It was observed that the films cast upon the UVT acryolic have a smoother surface than the \SI{1}{\mm} film cast upon PMMA.
 \section{Results}
 
 It was shown by measurements in a non-reflective geometry by coupling the PMMA or UVT acrylic discs to the film a significant loss in performance (above the loss due to additional layer of optical coupling) is not evident.
@@ -196,6 +204,18 @@ Attenuation of light in the disc would be expected to impact all of the light yi
 The repeatable low energy neutron peak suggests that complete energy deposition from the alpha is occuring, while the triton is not depositing any of its energy.
 A possibe cause of this might be the disc chemically interacting with the cast film, causing the film to be effectively thinner than designed.
 
+The following films, \autoref{tab:1MMPMMAFilms}, are cast upon a \SI{1}{\mm} PMMA disc, and as shown above their neutron performance measurment is suspect.
+\ctable[cap={\SI{1}{\mm} PMMA Films},caption={Film cast on \SI{1}{\mm} PMMA Disc. The neutron performance of these films should be revied.},label={tab:1MMPMMAFilms},]{l | l}{\tnote[$\dagger$]{Supporting spectra not found}}{%
+\FL
+Film Name & Date Manufactured \\
+\midrule
+\path{PS_LiF(20.0)_POP(5.29)_25um_7Jun12} & \printdate{7/6/2012} \tmark[$\dagger$] \\
+\path{PS_LiF(20.3)_POP(4.62)_25um_29May12 Annealed} & \printdate{29/5/2012}  \\
+\path{PS_LiF(30.0)_POP(4.64)_25um_29May12 Annealed} & \printdate{29/5/2012}  \\
+\path{PS_LiF(20.1)_POP(5.12)_50um_29May12} & \printdate{29/5/2012} \tmark[$\dagger$] \\
+\path{PS_LiF(10)_POP(5)_50um_28Feb13} & \printdate{28/2/2013} \tmark[$\dagger$] \\
+\path{PS_LiF-n(10)_POP(5)_50um_28Feb13} & \printdate{28/2/2013} \tmark[$\dagger$] \\
+\LL}
 It is recomended not to use the \SI{1}{\mm} PMMA disc for neutron performance measruments.
 \pagebreak
 \appendices

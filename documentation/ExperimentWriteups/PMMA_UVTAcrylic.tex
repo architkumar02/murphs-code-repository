@@ -21,11 +21,9 @@
 \maketitle
 
 % Tables of Contents, Figures, Tables
-\listoftodos
 \tableofcontents
 \listoffigures
 \listoftables
-\lstlistoflistings
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                         %
 %                              Start of Content                           %
@@ -53,14 +51,14 @@ This effect was observed for two different film thickness (\SI{25}{\um} and \SI{
 \toprule
 Name&Thickness&Gamma LLD \num{1E-6} (channel) & Neutron Count Rate (cps) & Neutron Count Rate Above Gamma LLD & Neutron Fraction\\
 \midrule
-PS\_LiF(10.3)\_PPO(4.90)-Annealed\_25um\_29MayFeb2012 & 25 & 772&6.336&0.207&0.0327 \\
-PS\_LiF(9.66)\_PPO(4.58)-Annealed\_26um\_19Jan2012    & 26&1100&9.742&5.073&0.5207 \\
+\path{PS_LiF(10.3)_PPO(4.90)-Annealed_25um_29MayFeb2012} & 25 & 772&6.336&0.207&0.0327 \\
+\path{PS_LiF(9.66)_PPO(4.58)-Annealed_26um_19Jan2012}    & 26&1100&9.742&5.073&0.5207 \\
 \hline
-PS\_LiF(9.95)\_PPO(5.11)\_50um\_24Jan2012             &50&1352&20.686&6.453&0.3120 \\
-PS\_LiF(10)\_PPO(5)\_50um\_28Feb2013		  &50&1365&12.489&0.245&0.0196 \\
+\path{PS_LiF(9.95)_PPO(5.11)_50um_24Jan2012} &50&1352&20.686&6.453&0.3120 \\
+\path{PS_LiF(10)_PPO(5)_50um_28Feb2013}		  &50&1365&12.489&0.245&0.0196 \\
 \hline
-PS\_LiF(9.88)\_PPO(5)\_151um\_20Aug2011	          &151&2386&53.872&0.195&0.0036 \\
-PS\_LiF(10)\_PPO(4.94)\_151um\_25July2011	          &151&2385&60.615&0.189&0.0031 \\
+\path{PS_LiF(9.88)_PPO(5)_151um_20Aug2011}	          &151&2386&53.872&0.195&0.0036 \\
+\path{PS_LiF(10)_PPO(4.94)_151um_25July2011}	          &151&2385&60.615&0.189&0.0031 \\
 \end{tabular}
 \end{table}
 It is observed from \autoref{tab:PSFractionRepeatMeas} that the gamma measurements as indicated by the MLLD are stable while the neutron count rate is not. 
@@ -68,7 +66,7 @@ It is shown in \autoref{fig:NeutronCountRateRepeat} that there is a distinct dif
 
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{UVTPMMA_CountRate}
+  \includegraphics[width=0.7\textwidth]{UVTPMMA_CountRate}
   \caption[Neutron Spectra of UVT mounted and PMMA mounted films]{Neutron spectra of UVT mounted and PMMA mounted films.  It is evident that both UVT mounted films have the same endpoint (around 2,250 channels) while the PMMA films have a much lower neutron endpoint and a different spectra shape.}
   \label{fig:NeutronCountRateRepeat}
 \end{figure}
@@ -150,40 +148,40 @@ The composition and sample number of the films are tabulated in \autoref{tab:Fab
 It was shown by measurements in a non-reflective geometry by coupling the PMMA or UVT acrylic discs to the film a significant loss in performance (above the loss due to additional layer of optical coupling) is not evident.
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{UVTPMMA_LightYield}
+  \includegraphics[width=0.7\textwidth]{UVTPMMA_LightYield}
   \caption[Measured Effect of UVT acrylic and PMMA]{Measured Neutron Spectra of UVT Acrylic and PMMA Films. It is observed that the performance of the PMMA film is not enhanced by placing it atop of a UVT acrylic disc, and the performance of a film cast on a UVT acrylic is not significantly degraded up the placing it on PMMA disc. It is noted that some performance degradation is observed, but it not clear that this is below the effects of adding a additional layer of optical coupling.}
   \label{fig:RadMeasuredExper}
 \end{figure}
 The measured spectra of the five fabricated films are shown in \autoref{fig:CompAm241} and \autoref{fig:CompCl36} for the alpha and beta responses.
 It is observed that the \SI{6}{\mm} UVT PMMA has the lowest alpha response, while the \SI{1}{\mm} PMMA is also slightly lower than the \SI{3}{\mm} samples.
 The reponse to a \iso{36}[Cl] source shows a slightly differnet trend, with the \SI{1}{\mm} PMMA film having the lowest light output, followed by the \SI{6}{\mm} UVT acryclic and finally the three \SI{3}{\mm} UVT acrylic.
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=\textwidth]{50umTrials_Am241}
+  \includegraphics[width=0.7\textwidth]{50umTrials_Am241}
   \caption[Fabricated Film Comparison (Alpha)]{Comparison of the \iso[241]{Am} response of the fabricated films}
   \label{fig:CompAm241}
 \end{figure}
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=\textwidth]{50umTrials_Cl36}
+  \includegraphics[width=0.7\textwidth]{50umTrials_Cl36}
   \caption[Fabricated Film Comparison (Beta)]{Comparison of the \iso[36]{Cl} response of the fabricated films}
   \label{fig:CompCl36}
 \end{figure}
-The gamma response of the five measured PS films is shown in \autref{fig:CompCo60}.
+The gamma response of the five measured PS films is shown in \autoref{fig:CompCo60}.
 It is observed that all of the films have a very similar response\footnote{It is the opinion of the author is that the gamma spectra is not an accurate assement of the performance of a film due to the lower probability of energy deposition in the film.}
 The neutron spectra, \autoref{fig:CompCf252}, shows the the \SI{1}{\mm} PMMA has a dramatically different neutron response than the other films in the series.
 This measurment is repeatable (\autoref{sec:MeasRepeat}) while only one is shown.
 The \SI{3}{\mm} UVT PMMA films all follow the same trends; their spectra look almost identical.
 Finally, the \SI{6}{\mm} UVT PMMA also has a noticable two peak spectra shape with the first peak around 250 channels and the second around 1000 channels.
-\begin{figure}[h]
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=\textwidth]{50umTrials_Co60}
+  \includegraphics[width=0.7\textwidth]{50umTrials_Co60}
   \caption[Fabricated Film Comparison (Gamma)]{Comparison of the \iso[60]C{Co}response of the fabricated films}
   \label{fig:CompCo60}
 \end{figure}
-\begin{figure}
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=\textwidth]{50umTrials_CfNet}
+  \includegraphics[width=0.7\textwidth]{50umTrials_CfNet}
   \caption[Fabricated Film Comparison (Neutron)]{Comparison of the \iso[252]{Cf} response of the fabricated films. It is evident that the PMMA film (Sample 4) has a much lower neutron response in addition to a differnet spectral shape than the other samples.}
   \label{fig:CompCf252}
 \end{figure}
@@ -211,13 +209,13 @@ However, the increase in light output is not observed in the gamma spectra, so i
 The neutron spectra (\autoref{fig:MeasRepeatNeutron}) show excellent repeatibility, and both spectra have the skewed shape.
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{50umTrials_PMMARepeat}
+  \includegraphics[width=0.7\textwidth]{50umTrials_PMMARepeat}
   \caption[PMMA Light Yield Repeatiblity]{Repeatiblity of the light yield measurments of the \SI{1}{\mm} PMMA disc. It is observed that the alpha and beta light yield in Trial 2 is higher than Trial 1, while the gammas are essentially overlapping.}
   \label{fig:MeasRepeatLY}
 \end{figure}
 \begin{figure}
   \centering
-  \includegraphics[width=\textwidth]{50umTrials_PMMARepeat_Cf252}
+  \includegraphics[width=0.7\textwidth]{50umTrials_PMMARepeat_Cf252}
   \caption[PMMA Neutron Repeatiblity]{Repeatiblity of the neutron measurments of the \SI{1}{\mm} PMMA disc. It is observed that both of the measured spectra have the strange shape.}
   \label{fig:MeasRepeatNeutron}
 \end{figure}

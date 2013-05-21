@@ -102,23 +102,6 @@ The design parameters were then:
 \end{itemize}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\subsection{Previous Work}
-\begin{frame}{Previous Work}
-\begin{itemize}
-	\small
-	\item Have a working MCNPX model of the geometry
-	\item Previous focused on a linear spacing of the films (simple)
-	\item Have an idea on what thickness of moderator is necessary
-		\begin{figure}
-			\centering
-			\includegraphics[width=0.75\textheight]{HDPEModThermalFraction}
-		\end{figure}
-	\item Don't know where the films go in the center
-\end{itemize}
-\centering
-Optimization Problem!
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %																							                           %
 %% Genatic Algorthims introduction
 %																							                           %
@@ -202,35 +185,6 @@ Mutations are designed to avoid local minima
 \end{figure}
 \end{column}
 \end{columns}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}[fragile]{Choices, choices}
-\centering
-\tiny
-\begin{Verbatim}[frame=single]
-    ----------------------------------------------------------
-                                                        F FN  
-                                             F 5       F U  55
-                                   F     F 5F  F     FFqBBMG05
-                         F       FF1     N05 BBM F   F U8BBBMO
-                      FF1       5 ZE     NN NBBB FF    1GMBB0 
-                     F50Z5 F   1FMBBOF   F 5M20G  FF  5NBEOM 2
-                    FFEBBB    5 M NM      5NBOO 8Bq   U8BBBBF5
-                   1qZN MBZF F5OBME2F    F5Z8EB OZ   5 BBBBB 2
-           5 F   F5MG M125   2BGMNF5     2MMM8MMF5   FBBBBBO 5
-         UFF0 55  FEBMZGGF F  5BOGGN F   F5ZBNqB 5   1FBBZ GGG
-    BNF5FGBN5BBNF FBBBBB 8E   5BMZO8q     2BBG 02     5BBB 1uq
-    B 5q0BBBZqOq F1BBM5 51OZ 5 BB 5UE0     UBZN2     2ZBBBBEUU
-    B OBBBBBG12 F 1BBO5 2F5   UEBBG2EBF   51BBBNU     JBBBBBG2
-    BBBOG0BBB1 F  5 B qBB0 F 1uMB8B0FF   F2 BBBB F F U BB2 BBM
-    B0MBB 0BB1F FFUUGBuNBM1 F ZB0j0OF   1 OBM 80    U8BBE5jNB8
-    BUZBMZEFMNFF NMBBGFGB2  18BZ1UOB 5   OBq2UBEFF 1 BBq21 UBB
-    BOG 5B 56BF 1BB0  UMB 5  BNUF FBM51 B8UFF5NBUF5FBB5UF 52MB
-    BB 2 MZNZB 5 EqU 5 qM EFZGMq F5EBNZ  0 F 5 BMEZ BBB    2EB 
-    ----------------------------------------------------------
-    Symbolic Regression with Genetic Programing
-    Matthew J. Urffer (matthew.urffer@gmail.com)
-\end{Verbatim}
 \end{frame}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %                                                                        %
@@ -541,27 +495,6 @@ Can significantly reduce the amount of \iso[6]{Li} needed
 %	\tiny
 %  \bibliography{../Zotero}
 %\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% APPENDIX
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\begin{frame}{Geometry for HDPE Moderation}
-\begin{figure}
-  \begin{subfigure}[b]{0.45\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{HDPEModeration_PointSrcGeo}
-    \caption{Geometry of mono energetic point source}
-  \end{subfigure}%
-  ~
-  \begin{subfigure}[b]{0.45\textwidth}
-    \centering
-    \includegraphics[width=\textwidth]{HDPEModeration_Cf252SrcGeo}
-    \caption{Geometry of \isotope[252]{Cf} source}
-  \end{subfigure}
-  \caption{Simulated Geometry}
-\end{figure}
-\end{frame}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \end{document}
 

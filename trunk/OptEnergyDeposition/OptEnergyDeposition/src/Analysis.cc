@@ -65,7 +65,7 @@ void Analysis::PrepareNewRun(const G4Run* aRun){
   eDepHist->GetXaxis()->SetTitle("Deposited Energy (MeV)");
   if (EDepPosAnalysis){
     posEDepTuple = new TNtuple("posEDepTuple","Initial Position and Energy Deposition","x:y:z:EnergyDep");
-    posEDepHist = new TH2F("eDepPosHist","Positional Energy Dependance",100,0*eV,maxHistEnergy,100,0,detThickness/um);
+    posEDepHist = new TH2F("eDepPosHist","Positional Energy Dependance",25,0*eV,maxHistEnergy,25,0,detThickness/um);
     posEDepHist->GetXaxis()->SetTitle("Deposited Energy (MeV)");
     posEDepHist->GetYaxis()->SetTitle("First Interaction Position (um)");
 

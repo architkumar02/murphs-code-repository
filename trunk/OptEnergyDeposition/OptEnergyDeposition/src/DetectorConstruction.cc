@@ -28,6 +28,9 @@
 #include "G4TransportationManager.hh"
 #include "G4UserLimits.hh"
 
+#include <iostream>
+#include <string>
+#include <sstream>
 #include "Analysis.hh"
 
 /**
@@ -98,6 +101,7 @@ void DetectorConstruction::DefineMaterials()
 
     // Getting Elements
     G4Element* eH = nistManager->FindOrBuildElement("H",fromIsotopes);
+    G4Element* eB = nistManager->FindOrBuildElement("B",fromIsotopes);
     G4Element* eC = nistManager->FindOrBuildElement("C",fromIsotopes);
     G4Element* eO = nistManager->FindOrBuildElement("O",fromIsotopes);
     G4Element* eN = nistManager->FindOrBuildElement("N",fromIsotopes);
@@ -159,6 +163,24 @@ void DetectorConstruction::DefineMaterials()
     EJ426HD2->AddElement(eF,massFraction=0.253);
     EJ426HD2->AddElement(eZn,massFraction=0.447);
     EJ426HD2->AddElement(eS,massFraction=0.219);
+
+    // Defining Boron Loaded Plastic
+    G4Material* BoronScint;
+    G4Material* pvt = nistManager->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE",fromIsotopes);
+    G4Material* carborane = new G4Material("Carborane",density=1.0*g/cm3,nComponents=3,kStateSolid);
+    carborane->AddElement(eC,nAtoms=2);
+    carborane->AddElement(eB,nAtoms=10);
+    carborane->AddElement(eH,nAtoms=12);
+    G4double MassFracCarborane = 0.00;
+    for (int i = 0; i < 6; i++){
+        std::ostringstream oss;
+        oss << "MS"<<i;
+        BoronScint = new Material(oss.str(),density=1.1*g/cm3,nComponents=2,kStateSolid);
+        BoronScint->AddMaterial(pvt,1.00-massFracCarborane);
+        BoronScint->AddMaterial(carborane,massFracCarborane);
+        massFracCarborane += 0.01;
+    }
+
 
     // Vacuum
     new G4Material("Galactic", z=1., a=1.01*g/mole,density= universe_mean_density,kStateGas, 2.73*kelvin, 3.e-18*pascal);

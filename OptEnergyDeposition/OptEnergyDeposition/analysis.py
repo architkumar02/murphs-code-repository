@@ -1,6 +1,6 @@
 # coding: utf-8
 #!/usr/bin/env python
-from ROOT import TFile, TH1F, gStyle, TCanvas, TNtuple,TH2F
+from ROOT import TFile, TH1F, gStyle, TCanvas, TNtuple,TH2F, TAxis
 import os
 import re
 import matplotlib.pyplot as plt
@@ -62,10 +62,13 @@ def WriteHistograms(files,histKey='eDepPosHist',ext='.eps',tParse=GetThickness):
   tParse - thickness parser for filename string
   """
   gStyle.SetOptStat(0)
+  gStyle.SetPalette(1)
   c = TCanvas()
   for fname in files:
     f = TFile(fname,'r')
     hist = f.Get(histKey)
+    #hist.GetYaxis().SetTileOffset(1.2)
+    #hist.GetXaxis().SetTileOffset(1.2)
     hist.Draw("lego2 0")
     #hist.Draw("contz")
     outName = fname.rsplit('_',1)[0]
@@ -99,12 +102,12 @@ def PlotEDepSummary(gFiles,nFiles,figureName='EDepSummary.png',tParse=GetThickne
     nDep.append(hist.GetMean())
     nDepError.append(hist.GetMeanError())
   # Plotting
-  plt.errorbar(gT,gDep,yerr=gDepError,fmt='ro')
+  plt.errorbar(gT,gDep,yerr=gDepError,fmt='r+')
   plt.hold(True)
   plt.errorbar(nT,nDep,yerr=nDepError,fmt='go')
   plt.xlabel("Thickness (mm)")
   plt.ylabel("Average Energy Deposition (MeV)")
-  #plt.legend(["Co-60","Cf-252"])
+  plt.legend(["Co-60","Cf-252"])
   plt.xscale("log")
   plt.yscale("log")
   plt.grid(True)

@@ -11,7 +11,7 @@ function JobSetup()
 function runGamma()
 {
   JobSetup
-  echo "exec $G4WORKDIR/bin/Linux-g++/polymerFilm $G4WORKDIR/macros/gRun.mac > GammaOutput.txt" >> job
+  echo "exec $G4WORKDIR/bin/Linux-g++/polymerFilm $G4WORKDIR/macros/gRunIEEE.mac > GammaOutputIEEE.txt" >> job
   mv job gSub.qsub
   qsub gSub.qsub
   rm gSub.qsub
@@ -19,7 +19,7 @@ function runGamma()
 function runNeutron()
 {
   JobSetup
-  echo "exec $G4WORKDIR/bin/Linux-g++/polymerFilm $G4WORKDIR/macros/nRun.mac > NeutronOutput.txt" >> job
+  echo "exec $G4WORKDIR/bin/Linux-g++/polymerFilm $G4WORKDIR/macros/nRunIEEE.mac > NeutronOutputIEEE.txt" >> job
   mv job nSub.qsub
   qsub nSub.qsub
   rm nSub.qsub
@@ -29,7 +29,7 @@ function runNeutron()
 if [[ $G4WORKDIR && ${G4WORKDIR-_} ]]
 then
   runGamma
-  runNeutron
+  #runNeutron
 else
   echo "G4WORKDIR is not defined"
   exit

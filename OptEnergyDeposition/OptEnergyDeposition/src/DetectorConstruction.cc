@@ -171,11 +171,11 @@ void DetectorConstruction::DefineMaterials()
     carborane->AddElement(eC,nAtoms=2);
     carborane->AddElement(eB,nAtoms=10);
     carborane->AddElement(eH,nAtoms=12);
-    G4double MassFracCarborane = 0.00;
+    G4double massFracCarborane = 0.00;
     for (int i = 0; i < 6; i++){
         std::ostringstream oss;
         oss << "MS"<<i;
-        BoronScint = new Material(oss.str(),density=1.1*g/cm3,nComponents=2,kStateSolid);
+        BoronScint = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=2,kStateSolid);
         BoronScint->AddMaterial(pvt,1.00-massFracCarborane);
         BoronScint->AddMaterial(carborane,massFracCarborane);
         massFracCarborane += 0.01;
@@ -191,7 +191,7 @@ void DetectorConstruction::DefineMaterials()
     nistManager->FindOrBuildMaterial("G4_WATER",fromIsotopes);
    
    // Print materials
-    // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+    G4cout << *(G4Material::GetMaterialTable()) << G4endl;
 
     // Default Material
     defaultMaterial = G4Material::GetMaterial("Galactic");

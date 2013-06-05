@@ -1,0 +1,13 @@
+RANGESIM
+
+Simulates the ranges of primary particles through differnet medium using
+the GEANT4 toolkit
+
+TO RUN:
+#make
+#./bin/Linux-g++/rangeSim val_erange.mac > out_val_erange.txt 
+#./bin/Linux-g++/rangeSim val_erange.mac > out_val_erange.txt 
+#./bin/Linux-g++/rangeSim range.mac > out_val_erange.txt
+#python Analysis.py
+
+This will create an excel file and two png's of the analysis of the output

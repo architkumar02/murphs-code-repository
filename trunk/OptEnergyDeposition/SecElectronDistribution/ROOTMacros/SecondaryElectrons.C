@@ -49,7 +49,7 @@ void DrawNeutronGammaKinESecondary(TFile* fG, TFile* fN){
     names->Add(new TObjString("Neutron"));
     bool logX = true;
     bool logY = true;
-    PlotHistogram(hist,names,1E-3,1.5E3,"","Kinetic Energy (MeV)","NGSecElecKinEDist.pdf",logX,logY);
+    PlotHistogram(hist,names,1E-3,1.5E3,"","Kinetic Energy (MeV)","NGSecElecKinEDist.png",logX,logY);
 }
 
 void DrawAlphaTritonKinESecondary(TFile* fN){

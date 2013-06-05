@@ -1,0 +1,59 @@
+# Macro file for "rangeSim.cc"
+# 
+# compute the csda range of primary particle
+#
+/control/verbose 0
+/run/verbose 0
+#
+#
+/run/initialize
+#
+/rangesim/gun/setDefault
+/gun/particle alpha
+#/gun/particle ion
+#/gun/ion 2 4 2
+#
+# Running differnet energies through alumnium
+#
+/rangesim/det/setMat G4_Al
+/rangesim/det/update
+/gun/energy 10 MeV
+/run/beamOn 100
+/gun/energy 5 MeV
+/run/beamOn 100
+/gun/energy 2.5 MeV
+/run/beamOn 100
+/gun/energy 1.25 MeV
+/run/beamOn 100
+/gun/energy 1 MeV
+/run/beamOn 100
+#
+# Running through PS
+#
+/rangesim/det/setMat G4_POLYSTYRENE
+/rangesim/det/update
+/gun/energy 10 MeV
+/run/beamOn 100
+/gun/energy 5 MeV
+/run/beamOn 100
+/gun/energy 2.5 MeV
+/run/beamOn 100
+/gun/energy 1.25 MeV
+/run/beamOn 100
+/gun/energy 1 MeV
+/run/beamOn 100
+#
+# Running through Plastic Scintillator
+#
+/rangesim/det/setMat G4_PLASTIC_SC_VINYLTOLUENE
+/rangesim/det/update
+/gun/energy 10 MeV
+/run/beamOn 100
+/gun/energy 5 MeV
+/run/beamOn 100
+/gun/energy 2.5 MeV
+/run/beamOn 100
+/gun/energy 1.25 MeV
+/run/beamOn 100
+/gun/energy 1 MeV
+/run/beamOn 100

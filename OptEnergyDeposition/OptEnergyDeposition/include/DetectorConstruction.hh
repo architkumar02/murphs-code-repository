@@ -31,7 +31,7 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4Material* GetAbsorberMaterial()		{return absMaterial;};
 		G4Material* GetGapMaterial()			{return gapMaterial;};
 		
-        G4double    GetAbsorberThickness()		{return absThickness;};
+    G4double    GetAbsorberThickness()		{return absThickness;};
 		G4double	GetGapThickness()			{return gapThickness;};
 
 		const G4VPhysicalVolume* GetPhysicalWorld()		{return worldPV;};

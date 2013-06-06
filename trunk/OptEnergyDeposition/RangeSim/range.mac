@@ -1,8 +1,23 @@
-# Range of Reaction Products in Selected Materials
+# $Id: range.mac,v 1.12 2009-09-15 12:51:49 maire Exp $
+#
+# Macro file for "TestEm1.cc"
+# 
+# compute the csda range of the primary particle
+# with or without fluctuations
+#
+/control/verbose 2
+/run/verbose 2
+#
+/rangesim/det/setMat Water
+/rangesim/det/setSize 10 cm
+#
+/rangesim/phys/addPhysics  local
+###/rangesim/phys/addPhysics  empenelope
+###/rangesim/phys/addPhysics  emlivermore
 #
 /run/initialize
 #
-# csda condition
+# prevent any secondary production
 /rangesim/phys/setCuts 1 km
 #
 # no step limitation from eLoss
@@ -12,47 +27,14 @@
 /process/eLoss/fluct false
 /process/inactivate msc
 #
+/rangesim/gun/setDefault
+/gun/particle proton
+/gun/energy 100 MeV
 #
-# G4_POLYSTYRENE
-/rangesim/det/setMat G4_POLYSTYRENE
-/rangesim/det/update
-/control/execute rangeRuns.mac
+/rangesim/histo/setFileName range
+/rangesim/histo/setFileType hbook
+/rangesim/histo/setHisto 1 150 70 85 mm	# csda range
+#	 
+/rangesim/event/printModulo 4000
 #
-# G4_EJ426HD2
-#
-/rangesim/det/setMat   PS_Detector
-/rangesim/det/update
-/control/execute rangeRuns.mac
-#
-#  PS_Detector
-#
-/rangesim/det/setMat  EJ426HD2
-/rangesim/det/update
-/control/execute rangeRuns.mac
-#
-# G4_PLASTIC_SC_VINYLTOLUENE
-#
-/rangesim/det/setMat   G4_PLASTIC_SC_VINYLTOLUENE
-/rangesim/det/update
-/control/execute rangeRuns.mac
-#
-# Boron samples from SCSU
-#
-/rangesim/det/setMat  MS0
-/rangesim/det/update
-/control/execute rangeRuns.mac
-/rangesim/det/setMat  MS1
-/rangesim/det/update
-/control/execute rangeRuns.mac
-/rangesim/det/setMat  MS2
-/rangesim/det/update
-/control/execute rangeRuns.mac
-/rangesim/det/setMat  MS3
-/rangesim/det/update
-/control/execute rangeRuns.mac
-/rangesim/det/setMat  MS4
-/rangesim/det/update
-/control/execute rangeRuns.mac
-/rangesim/det/setMat  MS5
-/rangesim/det/update
-/control/execute rangeRuns.mac
+/run/beamOn 40000

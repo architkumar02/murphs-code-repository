@@ -1,3 +1,9 @@
+# --------------------------------------------------------------
+# GNUmakefile for rangeSim
+#
+# Matthew J. Urffer (matthew.urffer@gmail.com)
+# This is based heavily off of TestEm1
+# --------------------------------------------------------------
 
 name := rangeSim
 G4TARGET := $(name)
@@ -11,6 +17,7 @@ endif
 all: lib bin
 
 #### G4ANALYSIS_USE := true
+G4ANALYSIS_USE := true
 
 include $(G4INSTALL)/config/architecture.gmk
 

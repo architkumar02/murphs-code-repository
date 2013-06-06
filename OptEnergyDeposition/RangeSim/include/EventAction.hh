@@ -23,47 +23,50 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: PrimaryGeneratorAction.hh,v 1.3 2006-06-29 16:36:37 gunter Exp $
+//
+// $Id: EventAction.hh,v 1.3 2006-06-29 16:36:10 gunter Exp $
 // GEANT4 tag $Name: not supported by cvs2svn $
 //
+// 
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PrimaryGeneratorAction_h
-#define PrimaryGeneratorAction_h 1
+#ifndef EventAction_h
+#define EventAction_h 1
 
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
+#include "G4UserEventAction.hh"
 #include "globals.hh"
 
-class G4Event;
-class DetectorConstruction;
-class PrimaryGeneratorMessenger;
+class EventActionMessenger;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+class EventAction : public G4UserEventAction
 {
   public:
-    PrimaryGeneratorAction(DetectorConstruction*);    
-   ~PrimaryGeneratorAction();
+    EventAction();
+   ~EventAction();
 
   public:
-    void SetDefaultKinematic(G4int);
-    void SetRndmBeam(G4double val)  {rndmBeam = val;}   
-    void GeneratePrimaries(G4Event*);
+    void BeginOfEventAction(const G4Event*);
+    void   EndOfEventAction(const G4Event*);
     
-    G4ParticleGun* GetParticleGun() {return particleGun;}
-
+    void AddEdep(G4double Edep)    {TotalEnergyDeposit += Edep;};      
+    G4double GetEnergyDeposit()    {return TotalEnergyDeposit;};    
+    void SetDrawFlag(G4String val) {drawFlag = val;};
+    void SetPrintModulo(G4int val) {printModulo = val;};
+            
+    
   private:
-    G4ParticleGun*             particleGun;
-    DetectorConstruction*      Detector;
-    G4double                   rndmBeam;       
-    PrimaryGeneratorMessenger* gunMessenger;     
+    G4double                  TotalEnergyDeposit;   
+    G4String                  drawFlag;
+    G4int                     printModulo;                    
+    EventActionMessenger*  eventMessenger;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
 
-
+    

@@ -23,47 +23,42 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: PrimaryGeneratorAction.hh,v 1.3 2006-06-29 16:36:37 gunter Exp $
+// $Id: StepMaxMessenger.cc,v 1.2 2006-06-29 16:37:29 gunter Exp $
 // GEANT4 tag $Name: not supported by cvs2svn $
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PrimaryGeneratorAction_h
-#define PrimaryGeneratorAction_h 1
+#include "StepMaxMessenger.hh"
 
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
-#include "globals.hh"
-
-class G4Event;
-class DetectorConstruction;
-class PrimaryGeneratorMessenger;
+#include "StepMax.hh"
+#include "G4UIcmdWithADoubleAndUnit.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+StepMaxMessenger::StepMaxMessenger(StepMax* stepM)
+:stepMax(stepM)
+{ 
+  StepMaxCmd = new G4UIcmdWithADoubleAndUnit("/rangesim/stepMax",this);
+  StepMaxCmd->SetGuidance("Set max allowed step length");
+  StepMaxCmd->SetParameterName("mxStep",false);
+  StepMaxCmd->SetRange("mxStep>0.");
+  StepMaxCmd->SetUnitCategory("Length");
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+StepMaxMessenger::~StepMaxMessenger()
 {
-  public:
-    PrimaryGeneratorAction(DetectorConstruction*);    
-   ~PrimaryGeneratorAction();
-
-  public:
-    void SetDefaultKinematic(G4int);
-    void SetRndmBeam(G4double val)  {rndmBeam = val;}   
-    void GeneratePrimaries(G4Event*);
-    
-    G4ParticleGun* GetParticleGun() {return particleGun;}
-
-  private:
-    G4ParticleGun*             particleGun;
-    DetectorConstruction*      Detector;
-    G4double                   rndmBeam;       
-    PrimaryGeneratorMessenger* gunMessenger;     
-};
+  delete StepMaxCmd;
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#endif
+void StepMaxMessenger::SetNewValue(G4UIcommand* command, G4String newValue)
+{ 
+  if (command == StepMaxCmd)
+    { stepMax->SetMaxStep(StepMaxCmd->GetNewDoubleValue(newValue));}
+}
 
-
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

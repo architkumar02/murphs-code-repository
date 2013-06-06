@@ -23,47 +23,52 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: PrimaryGeneratorAction.hh,v 1.3 2006-06-29 16:36:37 gunter Exp $
+// $Id: HistoMessenger.hh,v 1.4 2007-11-12 15:48:58 maire Exp $
 // GEANT4 tag $Name: not supported by cvs2svn $
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PrimaryGeneratorAction_h
-#define PrimaryGeneratorAction_h 1
+#ifndef HistoMessenger_h
+#define HistoMessenger_h 1
 
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
+#include "G4UImessenger.hh"
 #include "globals.hh"
-
-class G4Event;
-class DetectorConstruction;
-class PrimaryGeneratorMessenger;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+class HistoManager;
+class G4UIdirectory;
+class G4UIcommand;
+class G4UIcmdWithAString;
+class G4UIcmdWithAnInteger;
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+class HistoMessenger: public G4UImessenger
 {
   public:
-    PrimaryGeneratorAction(DetectorConstruction*);    
-   ~PrimaryGeneratorAction();
 
-  public:
-    void SetDefaultKinematic(G4int);
-    void SetRndmBeam(G4double val)  {rndmBeam = val;}   
-    void GeneratePrimaries(G4Event*);
-    
-    G4ParticleGun* GetParticleGun() {return particleGun;}
+   HistoMessenger(HistoManager* );
+  ~HistoMessenger();
+
+   void SetNewValue(G4UIcommand* ,G4String );
 
   private:
-    G4ParticleGun*             particleGun;
-    DetectorConstruction*      Detector;
-    G4double                   rndmBeam;       
-    PrimaryGeneratorMessenger* gunMessenger;     
+
+   HistoManager*           histoManager;
+   
+   G4UIdirectory*          histoDir;   
+   G4UIcmdWithAString*     factoryCmd;
+   G4UIcmdWithAString*     typeCmd;
+   G4UIcmdWithAString*     optionCmd;   
+   G4UIcommand*            histoCmd;
+   G4UIcmdWithAnInteger*   prhistoCmd;   
+   G4UIcmdWithAnInteger*   rmhistoCmd;
+
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
 

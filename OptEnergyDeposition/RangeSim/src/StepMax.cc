@@ -23,47 +23,59 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: PrimaryGeneratorAction.hh,v 1.3 2006-06-29 16:36:37 gunter Exp $
+// $Id: StepMax.cc,v 1.2 2006-06-29 16:37:27 gunter Exp $
 // GEANT4 tag $Name: not supported by cvs2svn $
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PrimaryGeneratorAction_h
-#define PrimaryGeneratorAction_h 1
-
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
-#include "globals.hh"
-
-class G4Event;
-class DetectorConstruction;
-class PrimaryGeneratorMessenger;
+#include "StepMax.hh"
+#include "StepMaxMessenger.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+StepMax::StepMax(const G4String& processName)
+ : G4VDiscreteProcess(processName),MaxChargedStep(DBL_MAX)
 {
-  public:
-    PrimaryGeneratorAction(DetectorConstruction*);    
-   ~PrimaryGeneratorAction();
-
-  public:
-    void SetDefaultKinematic(G4int);
-    void SetRndmBeam(G4double val)  {rndmBeam = val;}   
-    void GeneratePrimaries(G4Event*);
-    
-    G4ParticleGun* GetParticleGun() {return particleGun;}
-
-  private:
-    G4ParticleGun*             particleGun;
-    DetectorConstruction*      Detector;
-    G4double                   rndmBeam;       
-    PrimaryGeneratorMessenger* gunMessenger;     
-};
+  pMess = new StepMaxMessenger(this);
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#endif
+StepMax::~StepMax() { delete pMess; }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4bool StepMax::IsApplicable(const G4ParticleDefinition& particle)
+{
+  return (particle.GetPDGCharge() != 0. && !particle.IsShortLived());
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void StepMax::SetMaxStep(G4double step) {MaxChargedStep = step;}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4double StepMax::PostStepGetPhysicalInteractionLength( const G4Track&,
+                                                   G4double,
+                                                   G4ForceCondition* condition )
+{
+  // condition is set to "Not Forced"
+  *condition = NotForced;
+
+  return MaxChargedStep;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+G4VParticleChange* StepMax::PostStepDoIt(const G4Track& aTrack, const G4Step&)
+{
+   // do nothing
+   aParticleChange.Initialize(aTrack);
+   return &aParticleChange;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 

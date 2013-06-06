@@ -23,47 +23,45 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: PrimaryGeneratorAction.hh,v 1.3 2006-06-29 16:36:37 gunter Exp $
+//
+// $Id: PhysListEmStandard.hh,v 1.5 2007-11-12 15:48:58 maire Exp $
 // GEANT4 tag $Name: not supported by cvs2svn $
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PrimaryGeneratorAction_h
-#define PrimaryGeneratorAction_h 1
+#ifndef PhysListEmStandard_h
+#define PhysListEmStandard_h 1
 
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
+#include "G4VPhysicsConstructor.hh"
 #include "globals.hh"
-
-class G4Event;
-class DetectorConstruction;
-class PrimaryGeneratorMessenger;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+class PhysListEmStandard : public G4VPhysicsConstructor
 {
-  public:
-    PrimaryGeneratorAction(DetectorConstruction*);    
-   ~PrimaryGeneratorAction();
+  public: 
+    PhysListEmStandard(const G4String& name = "standard");
+   ~PhysListEmStandard();
 
-  public:
-    void SetDefaultKinematic(G4int);
-    void SetRndmBeam(G4double val)  {rndmBeam = val;}   
-    void GeneratePrimaries(G4Event*);
-    
-    G4ParticleGun* GetParticleGun() {return particleGun;}
-
-  private:
-    G4ParticleGun*             particleGun;
-    DetectorConstruction*      Detector;
-    G4double                   rndmBeam;       
-    PrimaryGeneratorMessenger* gunMessenger;     
+  public: 
+    // This method is dummy for physics
+    void ConstructParticle() {};
+ 
+    // This method will be invoked in the Construct() method.
+    // each physics process will be instantiated and
+    // registered to the process manager of each particle type 
+    void ConstructProcess();
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
+
+
+
+
+
+
 
 

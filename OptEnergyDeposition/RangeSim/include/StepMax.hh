@@ -23,47 +23,54 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: PrimaryGeneratorAction.hh,v 1.3 2006-06-29 16:36:37 gunter Exp $
+// $Id: StepMax.hh,v 1.2 2006-06-29 16:36:45 gunter Exp $
 // GEANT4 tag $Name: not supported by cvs2svn $
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PrimaryGeneratorAction_h
-#define PrimaryGeneratorAction_h 1
+#ifndef StepMax_h
+#define StepMax_h 1
 
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
 #include "globals.hh"
+#include "G4VDiscreteProcess.hh"
+#include "G4ParticleDefinition.hh"
+#include "G4Step.hh"
 
-class G4Event;
-class DetectorConstruction;
-class PrimaryGeneratorMessenger;
+class StepMaxMessenger;
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+class StepMax : public G4VDiscreteProcess
 {
   public:
-    PrimaryGeneratorAction(DetectorConstruction*);    
-   ~PrimaryGeneratorAction();
 
-  public:
-    void SetDefaultKinematic(G4int);
-    void SetRndmBeam(G4double val)  {rndmBeam = val;}   
-    void GeneratePrimaries(G4Event*);
-    
-    G4ParticleGun* GetParticleGun() {return particleGun;}
+     StepMax(const G4String& processName = "UserMaxStep");
+    ~StepMax();
+
+     G4bool IsApplicable(const G4ParticleDefinition&);
+
+     void SetMaxStep(G4double);
+
+     G4double GetMaxStep() {return MaxChargedStep;};
+
+     G4double PostStepGetPhysicalInteractionLength( const G4Track& track,
+			                       G4double previousStepSize,
+			                       G4ForceCondition* condition);
+
+     G4VParticleChange* PostStepDoIt(const G4Track&, const G4Step&);
+
+     G4double GetMeanFreePath(const G4Track&, G4double,G4ForceCondition*)
+     {return DBL_MAX;};    
 
   private:
-    G4ParticleGun*             particleGun;
-    DetectorConstruction*      Detector;
-    G4double                   rndmBeam;       
-    PrimaryGeneratorMessenger* gunMessenger;     
+
+     G4double MaxChargedStep;
+     
+     StepMaxMessenger* pMess;
 };
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 #endif
-
 

@@ -23,47 +23,61 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: PrimaryGeneratorAction.hh,v 1.3 2006-06-29 16:36:37 gunter Exp $
+//
+// $Id: EventAction.cc,v 1.9 2010-06-07 05:40:45 perl Exp $
 // GEANT4 tag $Name: not supported by cvs2svn $
 //
+// 
+
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PrimaryGeneratorAction_h
-#define PrimaryGeneratorAction_h 1
+#include "EventAction.hh"
 
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
-#include "globals.hh"
+#include "EventActionMessenger.hh"
 
-class G4Event;
-class DetectorConstruction;
-class PrimaryGeneratorMessenger;
+#include "G4Event.hh"
+#include "G4UnitsTable.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+EventAction::EventAction()
+:drawFlag("none"),printModulo(10000),eventMessenger(0)
 {
-  public:
-    PrimaryGeneratorAction(DetectorConstruction*);    
-   ~PrimaryGeneratorAction();
-
-  public:
-    void SetDefaultKinematic(G4int);
-    void SetRndmBeam(G4double val)  {rndmBeam = val;}   
-    void GeneratePrimaries(G4Event*);
-    
-    G4ParticleGun* GetParticleGun() {return particleGun;}
-
-  private:
-    G4ParticleGun*             particleGun;
-    DetectorConstruction*      Detector;
-    G4double                   rndmBeam;       
-    PrimaryGeneratorMessenger* gunMessenger;     
-};
+  eventMessenger = new EventActionMessenger(this);
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#endif
+EventAction::~EventAction()
+{
+  delete eventMessenger;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void EventAction::BeginOfEventAction(const G4Event* evt)
+{
+ G4int evtNb = evt->GetEventID();
+ 
+ //printing survey
+ if (evtNb%printModulo == 0) {
+    G4cout << "\n---> Begin of Event: " << evtNb << G4endl;
+}
+ 
+ //additional initializations            
+ TotalEnergyDeposit = 0.;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void EventAction::EndOfEventAction(const G4Event*)
+{
+  if (drawFlag != "none") G4cout << " Energy deposit: "
+                                 << G4BestUnit(TotalEnergyDeposit,"Energy")
+                                 << G4endl;
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 

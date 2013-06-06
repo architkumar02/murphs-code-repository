@@ -23,47 +23,62 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: PrimaryGeneratorAction.hh,v 1.3 2006-06-29 16:36:37 gunter Exp $
+// $Id: EventActionMessenger.cc,v 1.3 2006-06-29 16:37:01 gunter Exp $
 // GEANT4 tag $Name: not supported by cvs2svn $
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PrimaryGeneratorAction_h
-#define PrimaryGeneratorAction_h 1
+#include "EventActionMessenger.hh"
 
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
-#include "globals.hh"
-
-class G4Event;
-class DetectorConstruction;
-class PrimaryGeneratorMessenger;
+#include "EventAction.hh"
+#include "G4UIdirectory.hh"
+#include "G4UIcmdWithAString.hh"
+#include "G4UIcmdWithAnInteger.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+EventActionMessenger::EventActionMessenger(EventAction* EvAct)
+:eventAction(EvAct)
 {
-  public:
-    PrimaryGeneratorAction(DetectorConstruction*);    
-   ~PrimaryGeneratorAction();
-
-  public:
-    void SetDefaultKinematic(G4int);
-    void SetRndmBeam(G4double val)  {rndmBeam = val;}   
-    void GeneratePrimaries(G4Event*);
-    
-    G4ParticleGun* GetParticleGun() {return particleGun;}
-
-  private:
-    G4ParticleGun*             particleGun;
-    DetectorConstruction*      Detector;
-    G4double                   rndmBeam;       
-    PrimaryGeneratorMessenger* gunMessenger;     
-};
+  eventDir = new G4UIdirectory("/rangesim/event/");
+  eventDir->SetGuidance("event control");
+ 
+  DrawCmd = new G4UIcmdWithAString("/rangesim/event/drawTracks",this);
+  DrawCmd->SetGuidance("Draw the tracks in the event");
+  DrawCmd->SetGuidance("  Choice : none,charged, all");
+  DrawCmd->SetParameterName("choice",true);
+  DrawCmd->SetDefaultValue("all");
+  DrawCmd->SetCandidates("none charged all");
+  DrawCmd->AvailableForStates(G4State_Idle);
+  
+  PrintCmd = new G4UIcmdWithAnInteger("/rangesim/event/printModulo",this);
+  PrintCmd->SetGuidance("Print events modulo n");
+  PrintCmd->SetParameterName("EventNb",false);
+  PrintCmd->SetRange("EventNb>0");
+  PrintCmd->AvailableForStates(G4State_Idle);      
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#endif
+EventActionMessenger::~EventActionMessenger()
+{
+  delete DrawCmd;
+  delete PrintCmd;
+  delete eventDir;   
+}
 
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
+void EventActionMessenger::SetNewValue(G4UIcommand* command,
+                                          G4String newValue)
+{ 
+  if(command == DrawCmd)
+    {eventAction->SetDrawFlag(newValue);}
+    
+  if(command == PrintCmd)
+    {eventAction->SetPrintModulo(PrintCmd->GetNewIntValue(newValue));}           
+   
+}
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

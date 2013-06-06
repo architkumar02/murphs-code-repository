@@ -23,47 +23,43 @@
 // * acceptance of all terms of the Geant4 Software license.          *
 // ********************************************************************
 //
-// $Id: PrimaryGeneratorAction.hh,v 1.3 2006-06-29 16:36:37 gunter Exp $
+// $Id: SteppingAction.cc,v 1.8 2006-06-29 16:37:31 gunter Exp $
 // GEANT4 tag $Name: not supported by cvs2svn $
 //
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-#ifndef PrimaryGeneratorAction_h
-#define PrimaryGeneratorAction_h 1
+#include "SteppingAction.hh"
+#include "RunAction.hh"
+#include "EventAction.hh"
+#include "HistoManager.hh"
 
-#include "G4VUserPrimaryGeneratorAction.hh"
-#include "G4ParticleGun.hh"
-#include "globals.hh"
-
-class G4Event;
-class DetectorConstruction;
-class PrimaryGeneratorMessenger;
+#include "G4SteppingManager.hh"
+#include "G4VProcess.hh"
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-class PrimaryGeneratorAction : public G4VUserPrimaryGeneratorAction
+SteppingAction::SteppingAction(RunAction* run, EventAction* event, HistoManager* histo)
+:runAction(run), eventAction(event), histoManager(histo)
+{ }
+
+//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+
+void SteppingAction::UserSteppingAction(const G4Step* aStep)
 {
-  public:
-    PrimaryGeneratorAction(DetectorConstruction*);    
-   ~PrimaryGeneratorAction();
+  G4double EdepStep = aStep->GetTotalEnergyDeposit();
+  if (EdepStep > 0.) {  runAction->AddEdep(EdepStep);
+                      eventAction->AddEdep(EdepStep);
+  }
+  const G4VProcess* process = aStep->GetPostStepPoint()->GetProcessDefinedStep();
+  if (process) runAction->CountProcesses(process->GetProcessName());
 
-  public:
-    void SetDefaultKinematic(G4int);
-    void SetRndmBeam(G4double val)  {rndmBeam = val;}   
-    void GeneratePrimaries(G4Event*);
-    
-    G4ParticleGun* GetParticleGun() {return particleGun;}
-
-  private:
-    G4ParticleGun*             particleGun;
-    DetectorConstruction*      Detector;
-    G4double                   rndmBeam;       
-    PrimaryGeneratorMessenger* gunMessenger;     
-};
+  // step length of primary particle
+  G4int ID         = aStep->GetTrack()->GetTrackID();
+  G4double steplen = aStep->GetStepLength();
+  if (ID == 1) histoManager->FillHisto(3,steplen);
+}
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-#endif
 
 

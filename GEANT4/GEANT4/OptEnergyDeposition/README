@@ -1,0 +1,5 @@
+OptEnergyDeposition
+
+  Simulation of the energy deposition in a thin film.
+  Contains ComptonScattering, which is a numerical approximation to the
+  compton scattering

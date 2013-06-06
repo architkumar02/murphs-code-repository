@@ -1,0 +1,21 @@
+Folder of GEANT4 Simulations
+  Document Projects:
+    OptEnergyDeposition
+    SecElectronDistribution
+    RangeSim
+
+RangeSim
+  The simulation of primary particle ranges in different materials. This
+  project contains a comparison to the NIST Values (based on downloaded 
+  data) that (in addition) creates a xls file for easy data interpratation.
+  This simulation is based on the example of TestEM1, andwas used for the 
+  valiation of Andrew Mabe's TRIM calculations
+
+OptEnergyDeposition
+  Finds the Energy Depsotion in films
+  Geometry is a single film layer with a single spaer layer
+
+SecElectronDistribution
+  Calculates the electron energy distribution of films
+  Geometry is a single film layer with a single spaer layer
+  Also contains ComptonScatter, which is the analtytical ComptonScattering

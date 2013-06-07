@@ -61,7 +61,7 @@ def WriteData(filename,ws):
   ws.write(0,6,'1.78 MeV Alpha CSDA Range')
   ws.write(0,8,'1.02 MeV Li-7 CSDA Range')
   for i in range(4):
-    ws.write(1,2+2*i,'Range mg/cm^2')
+    ws.write(1,2+2*i,'Range g/cm^2')
   rowCount = 1
   mat = dict()
   for d in ranges:
@@ -79,10 +79,10 @@ def WriteData(filename,ws):
     r = d['mass true range']
     rerr =d['mass true range rms']
     if p == 'alpha':
-      if e == '2.05 MeV':
+      if float(e) == 2.05:
         ws.write(row,2,r)
         ws.write(row,3,rerr)
-      elif e == '1.78 MeV':
+      elif float(e) == 1.78:
         ws.write(row,6,r)
         ws.write(row,7,rerr)
       else:
@@ -115,6 +115,8 @@ def WriteVal(filename,star,ws,name):
     r = d['mass true range']
     rerr = d['mass true range rms']
     nistVal = np.interp(e,star[mat][0],star[mat][1])
+    if nistVal <= 0:
+      pass
     if not mat in matDict:
       matDict[mat] = list()
     matDict[mat].append([e,r/nistVal])
@@ -134,13 +136,14 @@ def WriteVal(filename,star,ws,name):
     data = np.transpose(np.array(matDict[mat]))
     ax.plot(data[:][0],data[:][1],col[i],label=mat)
     i += 1
-  ax.legend(loc=3,bbox_to_anchor=(0.05,1.05),prop={'size':10},ncol=3,borderaxespad=0.)
+  ax.legend(loc=3,bbox_to_anchor=(0.05,1.05),prop={'size':8},ncol=4,borderaxespad=0.)
+  plt.yscale('linear')
+  plt.xlabel("Energy (MeV)")
+  plt.ylabel("Sim Range / NIST Range")
   if name == 'electron':
     plt.xscale('log')
-    plt.yscale('linear')
   else:
     plt.xscale('linear')
-    plt.yscale('linear')
   fig.savefig(name+'.png')
 
 def main():
@@ -155,7 +158,7 @@ def main():
   WriteVal('out_val_arange.txt',astar,wb.add_sheet('Alpha Validaiton'),'alpha')
   WriteVal('out_val_erange.txt',estar,wb.add_sheet('Electron Validaiton'),'electron')
   print '\tGathering Computed Data'
-  #WriteData('Out_Range.txt',wb.add_sheet('Range'))
+  WriteData('out_range.txt',wb.add_sheet('Range'))
   wb.save('RangeSimAnalysis.xls')
 
 if __name__ == '__main__':

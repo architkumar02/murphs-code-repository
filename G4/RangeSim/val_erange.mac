@@ -7,22 +7,28 @@
 #
 #
 /run/initialize
+/rangesim/phys/setCuts 1 nm
+/rangesim/det/setSize 1 m
 #
 #
 /rangesim/gun/setDefault
 /gun/particle e-
 #
-/rangesim/det/setMat G4_Al
-/rangesim/det/update
-#
-#
 # Running differnet energies through alumnium
 #
+/rangesim/det/setMat G4_Al
+/rangesim/det/update
 /gun/energy 10 MeV
+/run/beamOn 100
+/gun/energy 5 MeV
 /run/beamOn 100
 /gun/energy 1 MeV
 /run/beamOn 100
+/gun/energy 500 keV
+/run/beamOn 100
 /gun/energy 100 keV
+/run/beamOn 100
+/gun/energy 50 keV
 /run/beamOn 100
 /gun/energy 10 keV
 /run/beamOn 100
@@ -33,9 +39,15 @@
 /rangesim/det/update
 /gun/energy 10 MeV
 /run/beamOn 100
+/gun/energy 5 MeV
+/run/beamOn 100
 /gun/energy 1 MeV
 /run/beamOn 100
+/gun/energy 500 keV
+/run/beamOn 100
 /gun/energy 100 keV
+/run/beamOn 100
+/gun/energy 50 keV
 /run/beamOn 100
 /gun/energy 10 keV
 /run/beamOn 100
@@ -46,9 +58,34 @@
 /rangesim/det/update
 /gun/energy 10 MeV
 /run/beamOn 100
+/gun/energy 5 MeV
+/run/beamOn 100
 /gun/energy 1 MeV
 /run/beamOn 100
+/gun/energy 500 keV
+/run/beamOn 100
 /gun/energy 100 keV
+/run/beamOn 100
+/gun/energy 50 keV
+/run/beamOn 100
+/gun/energy 10 keV
+/run/beamOn 100
+#
+# Running through Water 
+#
+/rangesim/det/setMat G4_WATER
+/rangesim/det/update
+/gun/energy 10 MeV
+/run/beamOn 100
+/gun/energy 5 MeV
+/run/beamOn 100
+/gun/energy 1 MeV
+/run/beamOn 100
+/gun/energy 500 keV
+/run/beamOn 100
+/gun/energy 100 keV
+/run/beamOn 100
+/gun/energy 50 keV
 /run/beamOn 100
 /gun/energy 10 keV
 /run/beamOn 100

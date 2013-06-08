@@ -15,6 +15,10 @@ OptEnergyDeposition
   Finds the Energy Depsotion in films
   Geometry is a single film layer with a single spaer layer
 
+singleCollsionEnergyLoss
+  Calculates the single collsion energy loss.  As of 6/7/2013 I don't think
+  this simulation is quite finished yet
+
 SecElectronDistribution
   Calculates the electron energy distribution of films
   Geometry is a single film layer with a single spaer layer

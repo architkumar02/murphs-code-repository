@@ -19,6 +19,7 @@
 
 #include "G4UnitsTable.hh"
 
+#include <iomanip>
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 DetectorConstruction::DetectorConstruction()
@@ -110,11 +111,18 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double fractionPolymer = 0.85;
   G4double fractionScintillant = 0.05;
   G4double fractionAbsorber = 0.10;
-  G4Material* psDetector = new G4Material("PS_Detector",density=1.1*g/cm3,nComponents=3,kStateSolid);
+  
+  
+  G4Material* psDetector;
+  for (int i = 0; i < 3; i++){
+    std::ostringstream oss;
+    oss << "PS_LiF-"<<std::setprecision(2)<<fractionAbsorber<<"_PPOPOPO-"<<fractionScintillant;
+  psDetector = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=3,kStateSolid);
   psDetector->AddMaterial(nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes),fractionPolymer);
   psDetector->AddMaterial(scintillant,fractionScintillant);
   psDetector->AddMaterial(LiAbsorber,fractionAbsorber);
-
+  fractionAbsorber += 0.10;
+} 
   // Defining EJ426 HD2
   G4double massFraction;
   G4Material* EJ426HD2 = new G4Material("EJ426HD2",density=4.1*g/cm3,nComponents=4);

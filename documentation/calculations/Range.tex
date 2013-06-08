@@ -1,0 +1,42 @@
+% ComptonScatteringSpectra
+\documentclass[draftcls,onecolumn]{IEEEtran}
+
+%% INCLUDING THE PREAMBLE
+\input{../Preamble}
+
+%% Start of the document
+\begin{document}
+\title{GEANT4 Simulate Ranges}
+\author{Matthew J. Urffer}
+\date{\today}
+\maketitle
+
+% Nomenclature
+\printnomenclature
+
+% Tables of Contents, Figures, Tables
+\listoftodos
+\tableofcontents
+\listoffigures
+\listoftables
+\lstlistoflistings
+
+\section{Introduction}
+Accurate knowledge of the range of a particle in a material is essentail for for the optimal design of a detector.
+Knowing the range allows for the selective optimization of the energy deposition by making the detector material thick enough such that all of the particle will be stopped in the material, thus depositing all of it's energy.
+Tabulated ranges exists for common materials, and codes such at TRIM and GEANT4 can be used for the calcuation of the range in differnet materials\cite{berger_estar_2005}.
+
+\section{Methods}
+The GEANT4 toolkit contains detailed electromagnetic models that can be adapted to calculate the ranges of primary particles.
+An example provided with the toolkit, \verb+TestEm1+, provides the basis for calculating the ranges of electrons in aluminum. 
+This work adapted that example for calculation of the ranges of in materials that are intresting for polymeric neutron detectors; namely \iso[6]{LiF} loaded polystyrene (PS), \iso[6]{LiF} loaded polyethylnapthalate (PEN), \iso[10]{B} loaded methylstyrene (MS), and \iso[6]{LiF} loaded zinc sulfide (EJ-426HD2).
+
+
+\subsection{Validation Results}
+\label{sec:ValResults}
+
+\subsection{Range of Selected Particles and Ions}
+\label{sec:RangeResults}
+
+
+\end{document}

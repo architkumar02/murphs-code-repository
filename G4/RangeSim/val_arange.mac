@@ -20,65 +20,65 @@
 /rangesim/det/setMat G4_Al
 /rangesim/det/update
 /gun/energy 10 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 7.5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 2.5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 1.25 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 1 MeV
-/run/beamOn 100
+/run/beamOn 1000
 #
 # Running through PS
 #
 /rangesim/det/setMat G4_POLYSTYRENE
 /rangesim/det/update
 /gun/energy 10 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 7.5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 2.5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 1.25 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 1 MeV
-/run/beamOn 100
+/run/beamOn 1000
 #
 # Running through Plastic Scintillator
 #
 /rangesim/det/setMat G4_PLASTIC_SC_VINYLTOLUENE
 /rangesim/det/update
 /gun/energy 10 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 7.5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 2.5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 1.25 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 1 MeV
-/run/beamOn 100
+/run/beamOn 1000
 #
 # Running through Water 
 #
 /rangesim/det/setMat G4_WATER
 /rangesim/det/update
 /gun/energy 10 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 7.5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 2.5 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 1.25 MeV
-/run/beamOn 100
+/run/beamOn 1000
 /gun/energy 1 MeV
-/run/beamOn 100
+/run/beamOn 1000

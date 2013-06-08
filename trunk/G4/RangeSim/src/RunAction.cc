@@ -150,9 +150,6 @@ void RunAction::EndOfRunAction(const G4Run* aRun)
     
   //save histograms      
   histoManager->save();
-  
-  // show Rndm status
-  CLHEP::HepRandom::showEngineStatus(); 
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

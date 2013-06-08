@@ -107,6 +107,7 @@ def WriteVal(filename,star,ws,name):
   ws.write(0,1,'Energy')
   ws.write(0,2,'SIM CSDA')
   ws.write(0,4,'SIM/NIST')
+  ws.write(0,5,'SIM/NIST Err')
   row = 1
   matDict = dict()
   for d in ranges:
@@ -125,6 +126,7 @@ def WriteVal(filename,star,ws,name):
     ws.write(row,2,r)
     ws.write(row,3,rerr)
     ws.write(row,4,r/nistVal)
+    ws.write(row,5,r/nistVal*(rerr/r))
     row += 1
 
   # Plotting

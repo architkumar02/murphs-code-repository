@@ -8,7 +8,7 @@ RangeSim
   The simulation of primary particle ranges in different materials. This
   project contains a comparison to the NIST Values (based on downloaded 
   data) that (in addition) creates a xls file for easy data interpratation.
-  This simulation is based on the example of TestEM1, andwas used for the 
+  This simulation is based on the example of TestEM1, and was used for the 
   valiation of Andrew Mabe's TRIM calculations
 
 OptEnergyDeposition

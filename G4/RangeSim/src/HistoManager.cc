@@ -6,7 +6,6 @@
 #include "AIDA/AIDA.h"
 #endif
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 HistoManager::HistoManager()
 :af(0),tree(0),factoryOn(false)
@@ -46,8 +45,6 @@ HistoManager::~HistoManager()
   delete af;
 #endif  
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HistoManager::book()
 {
@@ -90,8 +87,6 @@ void HistoManager::book()
 #endif
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 void HistoManager::save()
 {
 #ifdef G4ANALYSIS_USE
@@ -108,7 +103,6 @@ void HistoManager::save()
 #endif
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HistoManager::FillHisto(G4int ih, G4double e, G4double weight)
 {
@@ -122,7 +116,6 @@ void HistoManager::FillHisto(G4int ih, G4double e, G4double weight)
 #endif
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void HistoManager::SetHisto(G4int ih,
                  G4int nbins, G4double valmin, G4double valmax, const G4String& unit)

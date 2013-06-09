@@ -1,6 +1,3 @@
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
 #include "EventAction.hh"
 
 #include "EventActionMessenger.hh"
@@ -46,7 +43,3 @@ void EventAction::EndOfEventAction(const G4Event*)
                                  << G4BestUnit(TotalEnergyDeposit,"Energy")
                                  << G4endl;
 }
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-

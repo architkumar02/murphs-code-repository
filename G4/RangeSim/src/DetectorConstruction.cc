@@ -112,16 +112,17 @@ void DetectorConstruction::DefineMaterials()
   G4double fractionScintillant = 0.05;
   G4double fractionAbsorber = 0.10;
 
-
   G4Material* psDetector;
-  for (int i = 0; i < 3; i++){
+  fractionAbsorber = 0.1;
+  while (fractionAbsorber <= 0.3){
     std::ostringstream oss;
     oss << "PS_LiF-"<<std::setprecision(2)<<fractionAbsorber<<"_PPOPOPOP-"<<fractionScintillant;
     psDetector = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=3,kStateSolid);
+    fractionPolymer = 1.0 - fractionAbsorber - fractionScintillant;
     psDetector->AddMaterial(nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes),fractionPolymer);
     psDetector->AddMaterial(scintillant,fractionScintillant);
     psDetector->AddMaterial(LiAbsorber,fractionAbsorber);
-    fractionAbsorber += 0.10;
+    fractionAbsorber += 0.05;
   } 
  
   // Defining PEN Based Films
@@ -131,11 +132,13 @@ void DetectorConstruction::DefineMaterials()
   PEN->AddElement(eO,nAtoms=6);
   
   G4Material* penDetector;
-  for (int i = 0; i < 3; i++){
+  fractionAbsorber = 0.0;
+  while (fractionAbsorber <= 0.3){
     std::ostringstream oss;
     oss << "PEN_LiF-"<<std::setprecision(2)<<fractionAbsorber<<"_PPOPOPOP-"<<fractionScintillant;
+    fractionPolymer = 1.0 - fractionAbsorber - fractionScintillant;
     penDetector = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=3,kStateSolid);
-    penDetector->AddMaterial(nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes),fractionPolymer);
+    penDetector->AddMaterial(PEN,fractionPolymer);
     penDetector->AddMaterial(scintillant,fractionScintillant);
     penDetector->AddMaterial(LiAbsorber,fractionAbsorber);
     fractionAbsorber += 0.05;

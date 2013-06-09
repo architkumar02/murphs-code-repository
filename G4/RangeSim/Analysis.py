@@ -65,14 +65,13 @@ def WriteData(filename,ws):
   rowCount = 1
   mat = dict()
   for d in ranges:
-    if not (d['material'] in mat):
+    if not str(d['material']) in mat:
       rowCount += 1
-      row = rowCount
-      mat[d['material']] = rowCount
-      ws.write(row,0,d['material'])
-      ws.write(row,1,d['density'])
-    else:
-      row = mat[d['material']]
+      mat[str(d['material'])] = rowCount
+      ws.write(rowCount,0,d['material'])
+      ws.write(rowCount,1,d['density'])
+    # Writing to the correct row
+    row = mat[d['material']]
     p = (d['particle']).strip()
     e = (d['energy']).strip()
     den = float(d['density'].split()[0])

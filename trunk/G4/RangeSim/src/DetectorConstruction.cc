@@ -22,7 +22,7 @@
 #include <iomanip>
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-DetectorConstruction::DetectorConstruction()
+  DetectorConstruction::DetectorConstruction()
 :pBox(0), lBox(0), aMaterial(0), magField(0)
 {
   BoxSize = 10*m;
@@ -46,7 +46,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 
- void DetectorConstruction::DefineMaterials()
+void DetectorConstruction::DefineMaterials()
 {
   G4String name, symbol;             // a=mass of a mole;
   G4double a, z, density;            // z=mean number of protons;  
@@ -111,18 +111,36 @@ G4VPhysicalVolume* DetectorConstruction::Construct()
   G4double fractionPolymer = 0.85;
   G4double fractionScintillant = 0.05;
   G4double fractionAbsorber = 0.10;
-  
-  
+
+
   G4Material* psDetector;
   for (int i = 0; i < 3; i++){
     std::ostringstream oss;
-    oss << "PS_LiF-"<<std::setprecision(2)<<fractionAbsorber<<"_PPOPOPO-"<<fractionScintillant;
-  psDetector = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=3,kStateSolid);
-  psDetector->AddMaterial(nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes),fractionPolymer);
-  psDetector->AddMaterial(scintillant,fractionScintillant);
-  psDetector->AddMaterial(LiAbsorber,fractionAbsorber);
-  fractionAbsorber += 0.10;
-} 
+    oss << "PS_LiF-"<<std::setprecision(2)<<fractionAbsorber<<"_PPOPOPOP-"<<fractionScintillant;
+    psDetector = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=3,kStateSolid);
+    psDetector->AddMaterial(nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes),fractionPolymer);
+    psDetector->AddMaterial(scintillant,fractionScintillant);
+    psDetector->AddMaterial(LiAbsorber,fractionAbsorber);
+    fractionAbsorber += 0.10;
+  } 
+ 
+  // Defining PEN Based Films
+  G4Material* PEN = new G4Material("PEN",density=1.33*g/cm3,nComponents=3);
+  PEN->AddElement(eC,nAtoms=14);
+  PEN->AddElement(eH,nAtoms=14);
+  PEN->AddElement(eO,nAtoms=6);
+  
+  G4Material* penDetector;
+  for (int i = 0; i < 3; i++){
+    std::ostringstream oss;
+    oss << "PEN_LiF-"<<std::setprecision(2)<<fractionAbsorber<<"_PPOPOPOP-"<<fractionScintillant;
+    penDetector = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=3,kStateSolid);
+    penDetector->AddMaterial(nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes),fractionPolymer);
+    penDetector->AddMaterial(scintillant,fractionScintillant);
+    penDetector->AddMaterial(LiAbsorber,fractionAbsorber);
+    fractionAbsorber += 0.05;
+  } 
+
   // Defining EJ426 HD2
   G4double massFraction;
   G4Material* EJ426HD2 = new G4Material("EJ426HD2",density=4.1*g/cm3,nComponents=4);
@@ -173,23 +191,23 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
   G4SolidStore::GetInstance()->Clean();
 
   G4Box*
-  sBox = new G4Box("Container",				//its name
-                   BoxSize/2,BoxSize/2,BoxSize/2);	//its dimensions
+    sBox = new G4Box("Container",				//its name
+        BoxSize/2,BoxSize/2,BoxSize/2);	//its dimensions
 
   lBox = new G4LogicalVolume(sBox,			//its shape
-                             aMaterial,			//its material
-                             aMaterial->GetName());	//its name
+      aMaterial,			//its material
+      aMaterial->GetName());	//its name
 
   pBox = new G4PVPlacement(0,				//no rotation
-  			   G4ThreeVector(),		//at (0,0,0)
-                           lBox,			//its logical volume			   
-                           aMaterial->GetName(),	//its name
-                           0,				//its mother  volume
-                           false,			//no boolean operation
-                           0);				//copy number
-			   
+      G4ThreeVector(),		//at (0,0,0)
+      lBox,			//its logical volume			   
+      aMaterial->GetName(),	//its name
+      0,				//its mother  volume
+      false,			//no boolean operation
+      0);				//copy number
+
   PrintParameters();
-  
+
   //always return the root volume
   //
   return pBox;
@@ -200,7 +218,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes()
 void DetectorConstruction::PrintParameters()
 {
   G4cout << "\n The Box is " << G4BestUnit(BoxSize,"Length")
-         << " of " << aMaterial->GetName() << G4endl;
+    << " of " << aMaterial->GetName() << G4endl;
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
@@ -228,21 +246,21 @@ void DetectorConstruction::SetMagField(G4double fieldValue)
 {
   //apply a global uniform magnetic field along Z axis
   G4FieldManager* fieldMgr
-   = G4TransportationManager::GetTransportationManager()->GetFieldManager();
+    = G4TransportationManager::GetTransportationManager()->GetFieldManager();
 
   if (magField) delete magField;	//delete the existing magn field
 
   if (fieldValue!=0.)			// create a new one if non nul
-    {
-      magField = new G4UniformMagField(G4ThreeVector(0.,0.,fieldValue));
-      fieldMgr->SetDetectorField(magField);
-      fieldMgr->CreateChordFinder(magField);
-    }
-   else
-    {
-      magField = 0;
-      fieldMgr->SetDetectorField(magField);
-    }
+  {
+    magField = new G4UniformMagField(G4ThreeVector(0.,0.,fieldValue));
+    fieldMgr->SetDetectorField(magField);
+    fieldMgr->CreateChordFinder(magField);
+  }
+  else
+  {
+    magField = 0;
+    fieldMgr->SetDetectorField(magField);
+  }
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......

@@ -24,6 +24,22 @@
 /rangesim/det/update
 /control/execute rangeRuns.mac
 #
+/rangesim/det/setMat PEN_LiF-0.1_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.2_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.25_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.3_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
 /rangesim/det/setMat PS_LiF-0.1_PPOPOPOP-0.05
 /rangesim/det/update
 /control/execute rangeRuns.mac

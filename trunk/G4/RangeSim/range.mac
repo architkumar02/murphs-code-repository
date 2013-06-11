@@ -24,7 +24,19 @@
 /rangesim/det/update
 /control/execute rangeRuns.mac
 #
+/rangesim/det/setMat PEN_LiF-0_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.05_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
 /rangesim/det/setMat PEN_LiF-0.1_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.15_PPOPOPOP-0.05
 /rangesim/det/update
 /control/execute rangeRuns.mac
 #
@@ -40,6 +52,58 @@
 /rangesim/det/update
 /control/execute rangeRuns.mac
 #
+/rangesim/det/setMat PEN_LiF-0.35_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.4_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.45_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.5_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PS_LiF-0_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.55_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.6_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.65_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.7_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.75_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.8_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.85_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PEN_LiF-0.9_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
 /rangesim/det/setMat PS_LiF-0.1_PPOPOPOP-0.05
 /rangesim/det/update
 /control/execute rangeRuns.mac
@@ -49,6 +113,30 @@
 /control/execute rangeRuns.mac
 #
 /rangesim/det/setMat PS_LiF-0.3_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PS_LiF-0.4_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PS_LiF-0.5_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PS_LiF-0.6_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PS_LiF-0.7_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PS_LiF-0.8_PPOPOPOP-0.05
+/rangesim/det/update
+/control/execute rangeRuns.mac
+#
+/rangesim/det/setMat PS_LiF-0.9_PPOPOPOP-0.05
 /rangesim/det/update
 /control/execute rangeRuns.mac
 #

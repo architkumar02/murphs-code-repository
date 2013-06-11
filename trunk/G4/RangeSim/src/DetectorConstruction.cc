@@ -83,7 +83,7 @@ void DetectorConstruction::DefineMaterials()
   enrichLi->AddIsotope(Li7, abundance7Li);
 
   // Defining 6LiF Absorber
-  G4Material* LiAbsorber = new G4Material("6LiF",density=1.0*g/cm3,nComponents=2);
+  G4Material* LiAbsorber = new G4Material("6LiF",density=2.63*g/cm3,nComponents=2);
   LiAbsorber->AddElement(enrichLi,nAtoms=1);
   LiAbsorber->AddElement(eF,nAtoms=1);
 
@@ -110,15 +110,15 @@ void DetectorConstruction::DefineMaterials()
   // Polymer PS Based Detector
   G4double fractionPolymer = 0.85;
   G4double fractionScintillant = 0.05;
-  G4double fractionAbsorber = 0.10;
+  G4double fractionAbsorber = 0.0;
 
   G4Material* psDetector;
-  fractionAbsorber = 0.1;
-  while (fractionAbsorber <= 0.3){
+  fractionAbsorber = 0.0;
+  while (fractionAbsorber <= 0.95){
+    fractionPolymer = 1.0 - fractionAbsorber - fractionScintillant;
     std::ostringstream oss;
     oss << "PS_LiF-"<<std::setprecision(2)<<fractionAbsorber<<"_PPOPOPOP-"<<fractionScintillant;
     psDetector = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=3,kStateSolid);
-    fractionPolymer = 1.0 - fractionAbsorber - fractionScintillant;
     psDetector->AddMaterial(nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes),fractionPolymer);
     psDetector->AddMaterial(scintillant,fractionScintillant);
     psDetector->AddMaterial(LiAbsorber,fractionAbsorber);
@@ -133,10 +133,10 @@ void DetectorConstruction::DefineMaterials()
   
   G4Material* penDetector;
   fractionAbsorber = 0.0;
-  while (fractionAbsorber <= 0.3){
+  while (fractionAbsorber <= 0.95){
+    fractionPolymer = 1.0 - fractionAbsorber - fractionScintillant;
     std::ostringstream oss;
     oss << "PEN_LiF-"<<std::setprecision(2)<<fractionAbsorber<<"_PPOPOPOP-"<<fractionScintillant;
-    fractionPolymer = 1.0 - fractionAbsorber - fractionScintillant;
     penDetector = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=3,kStateSolid);
     penDetector->AddMaterial(PEN,fractionPolymer);
     penDetector->AddMaterial(scintillant,fractionScintillant);

@@ -3,13 +3,13 @@
 /rangesim/gun/setDefault
 /gun/particle alpha
 /gun/energy 2.05 MeV # Li-6 alpha
-/run/beamOn 10000
+/run/beamOn 1000
 /gun/energy 1.78 MeV # Highest B-10 alpha
-/run/beamOn 10000
+/run/beamOn 1000
 /gun/particle triton
 /gun/energy 2.73 MeV # Li-6 triton
-/run/beamOn 10000
+/run/beamOn 1000
 /gun/particle ion
 /gun/ion 3 7 3
 /gun/energy 1.02 MeV # Higest B-10 Li-7 product
-/run/beamOn 10000
+/run/beamOn 1000

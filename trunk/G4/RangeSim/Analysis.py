@@ -95,6 +95,27 @@ def WriteData(filename,ws):
     else:
       print p+' is not recongized'
 
+def WriteWaterPDTA(filename,ws):
+  # Reading in the Data
+  ranges = None
+  with open(filename,'r') as f:
+    ranges = GetRanges(f)
+  # Writing to the XLS worksheet
+  headers = ['Energy (MeV)','Proton Range','','Deuteron','','Triton','','Alpha Range','']
+  pcol = {'proton':1,'deuteron':3,'triton':5,'alpha':7}
+  erow = {10:1,5:2,1:3,0.5:4,0.1:5,0.05:6,0.01:7}
+  for col in range(len(headers)):
+    ws.write(0,col,headers[col])
+  for eKey in erow:
+    ws.write(erow[eKey],0,eKey)
+  for d in ranges:
+    p = (d['particle']).strip()
+    e = (d['energy']).strip()
+    r = d['mass true range']
+    rerr =d['mass true range rms']
+    ws.write(erow[float(e)],pcol[p],r) 
+    ws.write(erow[float(e)],pcol[p]+1,rerr) 
+
 def WriteVal(filename,star,ws,name):
   # Reading in the Data
   ranges = None
@@ -158,8 +179,10 @@ def main():
   print '\tComparing to NIST Values'
   WriteVal('out_val_arange.txt',astar,wb.add_sheet('Alpha Validaiton'),'alpha')
   WriteVal('out_val_erange.txt',estar,wb.add_sheet('Electron Validaiton'),'electron')
+  WriteWaterPDTA('out_pdta.txt',wb.add_sheet('Water PDTA'))
   print '\tGathering Computed Data'
   WriteData('out_range.txt',wb.add_sheet('Range'))
+  
   wb.save('RangeSimAnalysis.xls')
 
 if __name__ == '__main__':

@@ -45,7 +45,7 @@
 /run/beamOn 1000
 /gun/energy 10 keV
 /run/beamOn 1000
-/gun/particle deutron
+/gun/particle deuteron
 /gun/energy 10 MeV
 /run/beamOn 1000
 /gun/energy 5 MeV

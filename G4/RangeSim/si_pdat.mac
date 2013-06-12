@@ -1,0 +1,77 @@
+# Macro file for simulation of proton, duetron, and triton
+# 
+# compute the csda range of primary particle
+#
+/control/verbose 0
+/run/verbose 0
+#
+#
+/run/initialize
+/rangesim/phys/setCuts 1 nm
+/rangesim/det/setSize 1 m
+#
+# Running through Si, differnet energies and primary particles
+#
+/rangesim/det/setMat G4_Si
+/rangesim/det/update
+/rangesim/gun/setDefault
+/gun/particle triton
+/gun/energy 10 MeV
+/run/beamOn 1000
+/gun/energy 5 MeV
+/run/beamOn 1000
+/gun/energy 1 MeV
+/run/beamOn 1000
+/gun/energy 500 keV
+/run/beamOn 1000
+/gun/energy 100 keV
+/run/beamOn 1000
+/gun/energy 50 keV
+/run/beamOn 1000
+/gun/energy 10 keV
+/run/beamOn 1000
+/gun/particle proton
+/gun/energy 10 MeV
+/run/beamOn 1000
+/gun/energy 5 MeV
+/run/beamOn 1000
+/gun/energy 1 MeV
+/run/beamOn 1000
+/gun/energy 500 keV
+/run/beamOn 1000
+/gun/energy 100 keV
+/run/beamOn 1000
+/gun/energy 50 keV
+/run/beamOn 1000
+/gun/energy 10 keV
+/run/beamOn 1000
+/gun/particle deuteron
+/gun/energy 10 MeV
+/run/beamOn 1000
+/gun/energy 5 MeV
+/run/beamOn 1000
+/gun/energy 1 MeV
+/run/beamOn 1000
+/gun/energy 500 keV
+/run/beamOn 1000
+/gun/energy 100 keV
+/run/beamOn 1000
+/gun/energy 50 keV
+/run/beamOn 1000
+/gun/energy 10 keV
+/run/beamOn 1000
+/gun/particle alpha
+/gun/energy 10 MeV
+/run/beamOn 1000
+/gun/energy 5 MeV
+/run/beamOn 1000
+/gun/energy 1 MeV
+/run/beamOn 1000
+/gun/energy 500 keV
+/run/beamOn 1000
+/gun/energy 100 keV
+/run/beamOn 1000
+/gun/energy 50 keV
+/run/beamOn 1000
+/gun/energy 10 keV
+/run/beamOn 1000

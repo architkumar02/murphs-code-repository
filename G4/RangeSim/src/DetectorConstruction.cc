@@ -178,6 +178,7 @@ void DetectorConstruction::DefineMaterials()
   nistManager->FindOrBuildMaterial("G4_AIR",fromIsotopes);
   nistManager->FindOrBuildMaterial("G4_WATER",fromIsotopes);
   nistManager->FindOrBuildMaterial("G4_Al",fromIsotopes); 
+  nistManager->FindOrBuildMaterial("G4_Si",fromIsotopes); 
 
   // Print materials
   G4cout << *(G4Material::GetMaterialTable()) << G4endl;

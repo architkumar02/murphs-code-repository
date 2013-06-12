@@ -179,7 +179,9 @@ def main():
   print '\tComparing to NIST Values'
   WriteVal('out_val_arange.txt',astar,wb.add_sheet('Alpha Validaiton'),'alpha')
   WriteVal('out_val_erange.txt',estar,wb.add_sheet('Electron Validaiton'),'electron')
-  WriteWaterPDTA('out_pdta.txt',wb.add_sheet('Water PDTA'))
+  print '\tLooking at Proton, Deuteron, and Triton Ranges'
+  WriteWaterPDTA('out_water_pdta.txt',wb.add_sheet('Water PDTA'))
+  WriteWaterPDTA('out_si_pdta.txt',wb.add_sheet('Si PDTA'))
   print '\tGathering Computed Data'
   WriteData('out_range.txt',wb.add_sheet('Range'))
   

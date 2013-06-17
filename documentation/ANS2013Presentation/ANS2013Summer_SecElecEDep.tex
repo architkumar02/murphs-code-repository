@@ -1,0 +1,308 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% TO COMPILE: lmake (animal scrifices may be necessary)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%																							                           %
+%				                         PREAMBLE      							             %
+%                                                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\documentclass[compress]{beamer}
+
+\mode<presentation>
+{
+  \usetheme{Frankfurt}
+  \usecolortheme{crane}
+  \setbeamercovered{transparent}
+}
+
+% Package Setup
+\input{../PresentationPreamable}
+
+% Preamble / Frst Size
+%\setbeamersize{text margin left=5mm, text margin right 5mm}
+\title[ANS 2013] {Characterization and Simulation of Thin Polymeric Films for Portal Monitors}
+\author[] {
+    Matthew Urffer\inst{1} \and 
+    R. Uppal \inst{2} \and 
+    A.Mabe \inst{3}  \and
+    D. Penumadu \inst{2} \and
+    L. F. Miller \inst{1}
+}
+\institute[University of Tennessee] { 
+  \inst{1}%
+  Department of Nuclear Engineering,
+  University of Tennessee, Knoxville, TN
+    \\
+    \inst{2}
+  Department of Civil Engineering,
+  University of Tennessee, Knoxville, TN
+  \\
+  \inst{3}
+  Department of Chemistry,
+  University of Tennessee, Knoxville, TN
+
+}
+
+\date[] {June 19, 2013}
+\pgfdeclareimage[height=0.5cm]{university-logo}{../images/utwordmarkhorz.png}
+\logo{\pgfuseimage{university-logo}}
+
+\begin{document}
+
+\begin{frame}[plain]
+  \titlepage
+  \tiny
+    \begin{center}
+\centering{Financial support from the Domestic Nuclear Detection Office (DNDO) through Award No. 003387891 is gratefully acknowledged. 
+  Any opinions, findings, and conclusions or recommendations expressed in this material are those of the presenter and do not necessarily reflect the views of DNDO.}
+  \end{center}
+\end{frame}
+
+\begin{frame}{Talk Outline}
+  \tableofcontents
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                        %
+%                            INTRODUCTION                                %
+%                                                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\include{./Introduction}
+\section{Energy Deposition}
+\subsection{Motivation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Single Collision Energy Loss}
+How much energy does an electron lose in a collision?
+  \newtheorem{thm1}{Single Collision Energy Loss Definition}
+  \begin{thm1}<1->
+    \small
+    Interaction of an electron of kinetic energy E with water can be described by the probability $N(E,E')dE$ that it loses an amount of energy between $E'$ and $E'+dE$
+  \end{thm1}
+  \begin{itemize}
+    \item $N(E,E')$ is the single collision spectrum of $E$
+    \item $N(E,E')$ is a normalized probability function
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Motivation}
+  Secondary Electron Range Calculations:
+  \begin{itemize}
+    \item Low energy, high fidelity low energy electron transport needed for gamma discrimination simulation
+    \item GEANT4 (with \verb+G4DNAPhysics+) provide the ability to simulate low energy electron interactions
+    \item Ability to validate GEANT4 simulation
+  \end{itemize}
+  Neturon - Photon Discrimination:
+  \begin{itemize}
+    \item Secondary electrons from gamma interactions will have a higher energy than reaction products from neutorn interactions
+    \item Higher energies imply a partial energy deposition, thus ability for pulse height discrimination
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Project Goal}
+  \centering
+  \begin{itemize}
+    \item Validate GEANT4 simulation method by reproducing single collision energy loss spectra
+    \item Apply this simulation to energy deposition in films
+  \end{itemize}
+  \begin{figure}
+    \includegraphics[width=0.6\textwidth]{Turner_Fig2_SingleCollisionELoss}
+  \end{figure}
+  \flushleft
+  \small
+  Example:
+  \begin{itemize}
+    \tiny
+    \item For \SI{10}{\keV}, the average value of the single collision energy loss between \SI{45}{\keV} to \SI{50}{\keV} is 0.1 $\text{eV}^{-1}$
+    \item Interval is \SI{5}{\keV}, so 5\% chance that a \SI{10}{\keV} electron in water has an energy loss between \SI{45}{\keV} and \SI{50}{\keV} in it's first collision
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Monte Carlo Simulation Modeling}
+Why Monte Carlo Simulation?
+\begin{itemize}
+  \item Can model the physical event
+  \item Analytical solutions are hard
+\end{itemize}
+Why GEANT4?
+\begin{itemize}
+  \item Develop familarity with the toolkit
+  \item GEANT4 has the ability to model low energy electrons
+  \item GEANT4 has the ability to model light transport
+\end{itemize}
+\centering
+The single collsion energy loss is a simple simulation with all of the energy transfer componenets necessary for detailed detector energy depostion.
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                        %
+%                                METHODS                                 %
+%                                                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Methods}
+\subsection{GEANT4}
+\begin{frame}[fragile]{GEANT4 Introduction}
+What GEANT4 is:
+\begin{itemize}
+  \small
+  \item \href{geant4.cern.ch}{geant4.cern.ch}
+  \item Free software package for the simulation of the passage of particles through matter
+  \item Essentially a collection of tools for geometry, materials, physics models, events and digitization, visualizations $\dots$
+  \item Maintained by the CERN community, widely used in physics
+\end{itemize}
+What GEANT4 is not:
+\begin{itemize}
+  \small
+  \item For the timid
+  \begin{itemize}
+    \item Users are responsible for correctly implementing their own physics
+    \item Users are responsible for correctly implementing their own analysis
+  \end{itemize}
+  \item Stagnant - major release are still occurring
+\end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{GEANT4 Microdose Models}
+\verb+G4DNAPhyscis+, \href{geant4-dna.in2p3.fr}{geant4-dna.in2p3.fr/index.html}
+  \begin{itemize}
+    \item A microdose model for modeling early biological damage by ionizing radiation on the DNA scale
+    \item Electron interactions include: elastic scattering (\SI{7.4}{\eV}), electronic excitation (\SI{9}{\eV}), ionization (\SI{11}{\eV}), vibrational excitation (\SI{2}{\eV})
+    \item Similar methods exist for the protons, alphas
+    \item Only material defined is \verb+G4_WATER+ (NIST based)
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}[fragile]{Implemented Simulation}
+  Single Collision Energy Loss:
+  \begin{itemize}
+     \item Electrons shot into a cube of water
+     \item Initial events chosen by a particle gun
+     \item Verbose tracking for first change in energy, in addition to binning on this value through ROOT
+  \end{itemize}
+  Energy Deposition in Thin Polymers:
+  \begin{itemize}
+    \item \SI{0.25}{\eV} neutrons and \iso[60]{Co} photons shot into \iso[6]{LiF} loaded polymer
+    \item Energy deposition calculated for each event, binned over a run
+  \end{itemize}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                        %
+%                               RESULTS                                  %
+%                                                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Results}
+\subsection{Single Collision Validation Results}
+\begin{frame}{GEANT4 Single Collision Energy Loss}
+  \begin{figure}
+    \includegraphics[width=0.75\textwidth]{SingleCollisionEnergyLoss_300bins}
+  \end{figure}
+\end{frame}
+\begin{frame}{Comparison to Turner}
+  \begin{columns}[onlytextwidth]
+    \begin{column}{0.45\textwidth}
+      \begin{figure}
+        \includegraphics[width=\textwidth]{Turner_Fig2_SingleCollisionELoss}
+        \caption{Tuner Spectrum}
+      \end{figure}
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \begin{figure}
+        \includegraphics[width=\textwidth]{SingleCollisionEnergyLoss_300bins}
+        \caption{GEANT4 Simulated Spectrum}
+    \end{figure}
+    \end{column}
+  \end{columns}
+\vspace{2mm}
+Discrepancies are in the resolution of cross section data
+\end{frame}
+\subsection{Energy Deposition}
+\begin{frame}{Comparison to Measured Spectra}
+  \begin{columns}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{PS_EDepSim_Co60}
+
+     GEANT4 Simulated Energy Deposition
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{PS_GammaCR-Binned-FluxNorm_20LiF_5PPO}
+
+      Measured Pulse Height Spectra
+    \end{column}
+  \end{columns}
+\end{frame}
+\begin{frame}{Average Light Yield and Average Energy Deposition}
+  \begin{columns}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{G4EDep_LightYield_Co60}
+
+		  Gamma (\iso[60]{Co})
+    \end{column}
+    \begin{column}{0.45\textwidth}
+      \centering
+      \includegraphics[width=\textwidth]{G4EDep_LightYield_Neutron}
+
+		  Neutrons
+    \end{column}
+  \end{columns}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                        %
+%                            CONCLUSIONS                                 %
+%                                                                        %
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\section{Summary}
+\begin{frame}{Summary}
+  \begin{itemize}
+    \item GEANT4 has the ability to accurately simulate low energy electrons in water
+    \item Successfully validated a GEANT4 simulation of the energy deposition of electrons in water
+    \begin{itemize}
+      \item Improvements in cross sections allow for greater accuracy to be observed
+      \item Same spectral shapes are observed
+    \end{itemize}
+  \end{itemize}
+\end{frame}
+\begin{frame}{Energy Depostion in thin Polymers}
+  \begin{itemize}
+    \item Calculated the energy deposition of \iso[60]{Co} photons and neutrons in \SI{15}{\um} to \SI{600}{\um} films
+    \item Neutron - gamma discrimination can be enhanced by preferential energy deposition
+  \end{itemize}
+  \begin{table}[ht]
+      \caption{Fractional Energy Deposition for Various Thickness}
+    \centering
+    \begin{tabular}{c | c c}
+    Thickness & Gamma Fraction & Neutron Fraction \\
+    \hline
+    \hline
+    \SI{15}{\um} & 0.010 & 0.531 \\
+    \SI{25}{\um} & 0.013 & 0.634 \\
+    \SI{50}{\um} & 0.017 & 0.782 \\
+    \SI{150}{\um} & 0.032 & 0.927 \\
+    \SI{300}{\um} & 0.052 & 0.964 \\
+    \SI{600}{\um} & 0.087 & 0.982 \\
+    \SI{1}{\mm} & 0.130 & 0.989 \\
+    \SI{1}{\cm} & 0.425 & 0.998 \\
+    \end{tabular}
+    \label{tab:FractionEDep}
+  \end{table}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{}
+  \centering
+  \begin{figure}
+    \includegraphics[height=3cm]{PowerTQuestion.png}
+  \end{figure}
+\end{frame}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% BILBIOLGRAPHY
+\begin{frame}[plain,allowframebreaks]
+\frametitle{Works Cited}
+	\tiny
+  \bibliography{../Zotero}
+\end{frame}
+
+\end{document}
+
+

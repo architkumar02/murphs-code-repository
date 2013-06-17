@@ -1,0 +1,145 @@
+% !TEX TS-program = pdflatex
+% !TEX encoding = UTF-8 Unicode
+
+% Matthew Urffer Master Thesis
+% INTRODUCTORY MATERIAL 
+
+\section{Introduction}
+
+\subsection{Radiation Portal Monitors}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{U.S. Border Traffic}
+\begin{columns}[onlytextwidth]
+\begin{column} {0.45\textwidth}
+ 
+  \begin{itemize}
+  \item Every day 932,456 people cross into the U.S. \cite{cpb_typical_2012}
+    \begin{itemize}
+    	\item 259,191 by air
+	\item 48,073 by sea
+	\item 621,874 by land
+    \end{itemize}
+  \item 64,483 truck, rail and sea containers \cite{cpb_typical_2012}
+ \item 253,821 privately-owned vehicles \cite{cpb_typical_2012}
+  \end{itemize}
+\end{column}
+\begin{column}{0.45\textwidth}
+\centering
+\begin{figure}
+		\includegraphics[width=\textwidth]{PortalEntryMap.eps}
+\end{figure}
+\end{column}
+\end{columns}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Radiation Portal Monitors}
+\begin{columns}[onlytextwidth]
+	\begin{column} {0.45\textwidth}
+  	\begin{itemize}
+  		\item Radiation portal monitors (RPMs) are passive radiation detectors
+  		\item {
+  			 RPMs are currently \iso[3]{He} based detectors
+  			\center
+    		${}^3He +n \to p +{}^3H$
+    	}
+  		\item Shortage of \iso[3]{He}, so alternatives are being explored
+  		\end{itemize}
+	\end{column}
+	\begin{column}{0.5\textwidth}
+		\centering
+		\begin{figure}
+			\includegraphics[width=\textwidth]{RPM8_Installed.eps}
+			\end{figure}
+	\end{column}
+\end{columns}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Neutron Adsorption Interactions}
+\begin{itemize}
+	\item Desired reaction properties
+	\begin{itemize}
+		\item High probability of occurrence
+		\item Ease of detecting reaction products
+		\item Reaction products have a low pulse height defect
+	\end{itemize}
+\end{itemize}
+\begin{table}
+	\tiny
+	\begin{tabular}{ c | c c c} 
+		Reaction                           & Q-Value (MeV) & Thermal Cross Section & Application \\
+		\hline
+		\hline
+		${}^3He + n \to p +{}^3H$          & 0.756     & 5,330 & Proportional counter gas \\
+		${}^6Li + n \to {}^3H + \alpha$    & 4.78      & 940 & Lithium glass scintillators \\
+		${}^{10}B + n \to \alpha + {}^7Li$ & 2.31      & 3,840 & Plastic scintillators \\
+		${}^{157}Gd + n \to \gamma$        &various    & 259,000 & various \\
+	\end{tabular}
+\end{table}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Detector Requirements}
+DHS / DNDO (along with PNNL) has determined a set of objectives that replacement technologies should meet:
+\begin{table}
+	\tiny
+	\begin{tabular}{c c }
+	Parameter & Specification \\
+	\hline
+	\hline
+	Absolute neutron detection efficiency & 2.5 cps/ng of ${}^{252}Cf$ (in specified test configuration) \\
+	Intrinsic gamma-neutron detection efficiency & $ \epsilon_{int,\gamma n}\leq 10^{-6}$ \\
+	Gamma absolute rejection ratio for neutrons (GARRn) & $ 0.9 \leq \text{ GARRn }\leq$ 1.1 at 10 mR/h exposure \\
+	Cost &  \$ 30,000 per system \\
+	\hline
+	\end{tabular}
+\end{table}
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%                                                                             %
+%                                PREVIOUS WORK                                %
+%                                                                             %
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\begin{frame}{Replacement Technologies (Lithium)}
+\begin{columns}[onlytextwidth]
+\begin{column}{0.45\textwidth}
+\begin{itemize}
+	\small
+	\item LiF:ZnS coated Paddles (IAT) \cite{kouzes_lithium_2010}
+	\begin{itemize}
+		\item Did not fulfill the neutron count rate
+		\item Adequate gamma ray rejection
+		\item Passed the GARRn
+	\end{itemize}
+	\small
+	\item NucSafe Glass Fibers\cite{kouzes_alternative_2010}
+	\begin{itemize}
+		\item Tested with a scale model, 1.72 cps
+		\item Three filter levels for GARRn
+		\begin{itemize}
+			\tiny
+			\item Conservative filter passed GARRn, failed count rate
+			\item Other filters failed GARRn
+		\end{itemize}
+	\end{itemize}
+\end{itemize}
+\end{column}
+\begin{column}{0.45\textwidth}
+	\begin{figure}
+		\includegraphics[height=0.25\textheight]{LiFZnSPaddle.eps}
+		\caption{${}^6$LiF:ZnS Paddle}
+		\label{fig:LifZnSPaddle}
+		\includegraphics[height=0.25\textheight]{NucSafeFibers.eps}
+		\caption{NucSafe Fibers}
+		\label{fig:NucSafeFibers}
+	\end{figure}
+\end{column}
+\end{columns}
+\end{frame}

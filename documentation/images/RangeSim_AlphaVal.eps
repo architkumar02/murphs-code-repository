@@ -1,9 +1,9 @@
 %!PS-Adobe-3.0 EPSF-3.0
-%%BoundingBox: 0 0 733 560
+%%BoundingBox: 0 0 767 587
 %%LanguageLevel: 2
 %%Creator: OriginLab Corporation
-%%Title: (Z:\SimRanges\RangeSim_AlphaVal.eps)
-%%CreationDate: Mon Jun 10 14:48:53 2013
+%%Title: (H:\SimRanges\RangeSim_AlphaVal.eps)
+%%CreationDate: Tue Jun 11 21:06:27 2013
 %%EndComments
 
 /OriginLab::PSL1 128 dict dup begin def
@@ -30,6 +30,7 @@
 /s/show ld/xs/xshow ld/gls/glyphshow ld/xgls{cpt 3 1 roll add exch 3 -1 roll gls m}bd
 /cd/currentdict ld/i/index ld
 /DrawBox{4 2 roll m 1 index 0 rl 0 exch rl neg 0 rl cp}bd
+/plus.re { 6 { 3 index } repeat moveto 0 exch rlineto 0 rlineto pop pop neg 0 exch rlineto pop lineto closepath } def
 /DrawBcc{4 2 roll m 2 copy 0 lt exch 0 lt xor{dup 0 exch rl exch 0 rl neg 0 exch rl}{exch dup 0 rl exch 0 exch rl neg 0 rl}ifelse cp}bd
 /rectline{dup type/arraytype eq{dup length 0 exch 4 exch 4 sub{0 1 3{3 copy add get 4 1 roll pop}for pop 5 1 roll DrawBox}for pop}{DrawBox}ifelse}bd
 /rectpath{dup type/arraytype eq{dup length 0 exch 4 exch 4 sub{0 1 3{3 copy add get 4 1 roll pop}for pop 5 1 roll DrawBcc}for pop}{DrawBcc}ifelse}bd
@@ -57,10 +58,74 @@
  {cd/DataSource get dup type/filetype eq {mystring readstring pop}{exec}ifelse
  }L1imgmask end}if}{L1imgmask}ifelse
  }bd
+% Gradient function
+/GradientStep 1 150 div def
+/GradientStartRGB { /R1 exch def /G1 exch def /B1 exch def } def
+/GradientEndRGB { /R2 exch def /G2 exch def /B2 exch def
+/GradientSteps GradientLength GradientStep div def
+/GradientRStep R2 R1 sub GradientSteps div def
+/GradientGStep G2 G1 sub GradientSteps div def
+/GradientBStep B2 B1 sub GradientSteps div def
+} def
+/GradientStepRGB { /R1 R1 GradientRStep add def
+/G1 G1 GradientGStep add def
+/B1 B1 GradientBStep add def
+R1 G1 B1 setrgbcolor
+} def
 %%EndResource
 /rectclip{np rectpath clip np}wd
 /rectfill{gs np rectpath fi gr}wd
 /rectstroke{gs np dup type/arraytype eq{dup length 6 eq}{false}ifelse{1 index type/arraytype eq{exch}{5 1 roll}ifelse rectline concat st}{rectline st}ifelse gr}wd
+%%BeginResource: procset OriginLab::Image
+/OriginLab::Image 32 dict dup begin
+/BinProc{[currentfile mystring /readstring cvx /pop cvx] cvx bind}bd
+/HexProc{[currentfile mystring /readhexstring cvx /pop cvx] cvx bind}bd
+/Ascii85Proc{currentfile /ASCII85Decode filter}bd
+/LZWA85{currentfile /ASCII85Decode filter /LZWDecode filter}bd
+/ImgProcArray[/BinProc /HexProc /Ascii85Proc /LZWA85]def
+/ImgDict{/ImgDict 16 dict def ImgDict dup begin /ImageType 1 def /MultipleDataSource false def end}bd
+/L2Dec{{[1 0]}{[0 1]}ifelse}bd
+/BegImg{ /Img_sv save def
+ /ImgDir ed ImgProcArray exch get /ImgProc exch ld
+ dup /polarityflag ed L2Dec /polarity ed /smoothflag ed
+ tr /dx 2 index def /dy 1 index abs def sc
+ string /mystring ed /bpc ed /ih ed /iw ed
+ }bd
+/EndImg {Img_sv restore}bd
+/DoXImg{ /rgb_lookup ed /hival ed ImgDict dup begin
+ [/Indexed /DeviceRGB hival rgb_lookup] /L1img where{pop/ImgCS ed}{setcolorspace}ifelse
+ /rgb_string iw 3 mul string def
+ /Width iw def
+ /Height ih def
+ /Decode [0 1 bpc{2 mul}repeat 1 sub] def
+ /ImageMatrix
+  ImgDir 0 eq{[iw 0 0 ih 0 0]}if
+  ImgDir 1 eq{[iw neg 0 0 ih iw 0]}if
+  ImgDir 2 eq{[iw 0 0 ih neg 0 ih]}if
+  ImgDir 3 eq{[iw neg 0 0 ih neg iw ih]}if
+  def
+ /DataSource ImgProc def
+ /BitsPerComponent bpc def
+ /Interpolate smoothflag def
+ end image}bd
+/DoImg{ ImgDict dup begin
+ [/DeviceRGB] /L1img where{pop/ImgCS ed}{setcolorspace}ifelse
+ /rgb_string iw 3 mul string def
+ /Width iw def
+ /Height ih def
+ /Decode [0 1 0 1 0 1] def
+ /ImageMatrix
+  ImgDir 0 eq{[iw 0 0 ih 0 0]}if
+  ImgDir 1 eq{[iw neg 0 0 ih iw 0]}if
+  ImgDir 2 eq{[iw 0 0 ih neg 0 ih]}if
+  ImgDir 3 eq{[iw neg 0 0 ih neg iw ih]}if
+  def
+ /DataSource ImgProc def
+ /BitsPerComponent 8 def
+ /Interpolate smoothflag def
+ end image}bd
+end def
+%%EndResource
 %%BeginFont: /MC1_Arial
 12 dict begin
 /FontInfo 8 dict dup begin
@@ -1473,12 +1538,11 @@ end
 } bind def
 currentdict end /MC3_Arial exch definefont pop
 %%EndFont
-0 0 732.44 559.67 rectpath cl np
 /clipproc{clippath{[{/m cvx}{/l cvx}{/c cvx}{/cp cvx}pathforall}stopped
 {cleartomark[pathbbox exch 3 i sub exch 2 i sub/rectpath cvx}if]np}bd
 /iclmtx mtx cmtx def/iclpath clipproc xd/clinit{pathproc initclip np iclpath cl np exec}bd
 /clmove{pathproc 3 1 roll clippath pathproc 2 i neg 2 i neg tr initclip np exec cl tr np exec}bd
-/clrect[gs np iclpath{pathbbox}stopped{0 0 732.44 559.67 }if gr]def
+/clrect[gs np iclpath{pathbbox}stopped{0 0 767 586.09 }if gr]def
 /cloper{mtx cmtx iclmtx smtx exch exec smtx}bd
 /cland{{exch cvx exec}cloper}bd
 /clcopy{{exch clinit cvx exec}cloper}bd
@@ -1488,11 +1552,11 @@ currentdict end /MC3_Arial exch definefont pop
  1 -1 roll clrect 3 get 2 copy lt{exch}if pop 1 1 roll
  exch 3 i sub exch 2 i sub rectpath cvx exec}cloper}bd
 /icl{{clinit}cloper}bd
-0.228951 0.229341 sc
+0.254087 0.254195 sc
 
 /initmtx mtx cmtx def
+[0.944513 -0 0 -0.944181 0 2305.67] concat
 gs
-[1.00098 0 0 -0.999323 0 2440.35] concat
 968 2035 m
 968 2023 l
 3 sw
@@ -4284,92 +4348,92 @@ st
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 552 -2146 m
-(0)[38 ] xs
+/MC1_Arial 75 self 550 -2151 m
+(0)[42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 949 -2146 m
-(2)[38 ] xs
+/MC1_Arial 75 self 947 -2151 m
+(2)[42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 1345 -2146 m
-(4)[38 ] xs
+/MC1_Arial 75 self 1343 -2151 m
+(4)[42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 1742 -2146 m
-(6)[38 ] xs
+/MC1_Arial 75 self 1740 -2151 m
+(6)[42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 2138 -2146 m
-(8)[38 ] xs
+/MC1_Arial 75 self 2136 -2151 m
+(8)[42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 2516 -2146 m
-(10)[38 38 ] xs
+/MC1_Arial 75 self 2512 -2151 m
+(10)[42 42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 381 -1929 m
-(0.90)[38 19 38 38 ] xs
+/MC1_Arial 75 self 367 -1930 m
+(0.90)[42 21 42 42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 381 -1679 m
-(0.95)[38 19 38 38 ] xs
+/MC1_Arial 75 self 367 -1680 m
+(0.95)[42 21 42 42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 381 -1428 m
-(1.00)[38 19 38 38 ] xs
+/MC1_Arial 75 self 367 -1429 m
+(1.00)[42 21 42 42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 381 -1178 m
-(1.05)[38 19 38 38 ] xs
+/MC1_Arial 75 self 367 -1179 m
+(1.05)[42 21 42 42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 381 -928 m
-(1.10)[38 19 38 38 ] xs
+/MC1_Arial 75 self 367 -929 m
+(1.10)[42 21 42 42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 381 -677 m
-(1.15)[38 19 38 38 ] xs
+/MC1_Arial 75 self 367 -678 m
+(1.15)[42 21 42 42 ] xs
 1 -1 sc
 gr
 gs
 1 -1 sc
 0 0 0 rgb
-/MC1_Arial 69 self 381 -427 m
-(1.20)[38 19 38 38 ] xs
+/MC1_Arial 75 self 367 -428 m
+(1.20)[42 21 42 42 ] xs
 1 -1 sc
 gr
 571 2069 m
@@ -4957,10 +5021,10 @@ st
 786 1828 l
 st
 gr
-1264 106 m
-2721 106 l
-2721 479 l
-1264 479 l
+1261 100 m
+2875 100 l
+2875 518 l
+1261 518 l
 cp
 gs
 1 1 1 rgb
@@ -4970,23 +5034,21 @@ gr
 st
 gs
 gs
-1354 139 36 36 rectfill
-1264 479 m
-1354 139 36 36 rectstroke
+1364 139 36 36 rectfill
+1261 518 m
+1364 139 36 36 rectstroke
 gr
 1 -1 sc
-/MC2_Arial 78 self 1456 -183 m
-( )[21 ] xs
+/MC2_Arial 84 self 1476 -185 m
+( )[23 ] xs
 1 -1 sc
-gs
 1 -1 sc
-1477 -183 m
-(G4_Al)[59 42 42 51 17 ] xs
+1499 -185 m
+(G4_Al)[65 47 47 56 19 ] xs
 1 -1 sc
-gr
 gs
 np
-1372 249 20 0 360  a
+1382 260 20 0 360  a
 cp
 gs
 1 0 0 rgb
@@ -4996,19 +5058,17 @@ gr
 st
 gr
 1 -1 sc
-1456 -275 m
-( )[21 ] xs
+1476 -288 m
+( )[23 ] xs
+1 -1 sc
+1 -1 sc
+1499 -288 m
+(G4_POLYSTYRENE)[65 47 47 56 65 47 54 56 52 54 61 56 61 56 ] xs
 1 -1 sc
 gs
-1 -1 sc
-1477 -275 m
-(G4_POLYSTYRENE)[59 42 42 51 59 42 49 51 47 49 55 51 55 51 ] xs
-1 -1 sc
-gr
-gs
-1372 313 m
-1396 355 l
-1347 355 l
+1382 335 m
+1406 377 l
+1357 377 l
 cp
 gs
 0 0 1 rgb
@@ -5018,19 +5078,17 @@ gr
 st
 gr
 1 -1 sc
-1456 -367 m
-( )[21 ] xs
+1476 -391 m
+( )[23 ] xs
+1 -1 sc
+1 -1 sc
+1499 -391 m
+(G4_PLASTIC_SC_VINYLTOLUENE)[65 47 47 56 47 56 56 52 23 61 47 56 61 47 56 23 61 54 47 52 65 47 61 56 61 56 ] xs
 1 -1 sc
 gs
-1 -1 sc
-1477 -367 m
-(G4_PLASTIC_SC_VINYLTOLUENE)[59 42 42 51 42 51 51 47 21 55 42 51 55 42 51 21 55 49 42 47 59 42 55 51 55 51 ] xs
-1 -1 sc
-gr
-gs
-1396 419 m
-1372 461 l
-1347 419 l
+1406 452 m
+1382 494 l
+1357 452 l
 cp
 gs
 1 0 1 rgb
@@ -5040,36 +5098,30 @@ gr
 st
 gr
 1 -1 sc
-1456 -459 m
-( )[21 ] xs
+1476 -494 m
+( )[23 ] xs
 1 -1 sc
-gs
 1 -1 sc
-1477 -459 m
-(G4_WATER)[59 42 42 75 51 47 51 55 ] xs
+1499 -494 m
+(G4_WATER)[65 47 47 83 56 52 56 61 ] xs
 1 -1 sc
-gr
 gr
 gs
 gs
-gs
 1 -1 sc
-321 -1905 tr
+305 -1967 tr
 90 ro
-/MC3_Arial 84 self 0 0 m
-(Simulated Range / NIST Range \(arb\))[ 56 19 70 47 19 47 23 47 47 23 61 47 47 47 47 23 23 23 61 23 56 51 23 61 47 47 47 47 23 28 47 28 47 
-28 ] xs
+/MC3_Arial 91 self 0 0 m
+(Simulated Range / NIST Range \(arb\))[ 61 20 76 51 20 51 25 51 51 25 66 51 51 51 51 25 25 25 66 25 61 56 25 66 51 51 51 51 25 30 51 30 51 
+30 ] xs
 1 -1 sc
-gr
 gr
 gr
 gs
-gs
 1 -1 sc
-/MC2_Arial 84 self 1403 -2279 m
-(Energy \(MeV\))[56 47 47 28 47 41 23 28 69 47 56 28 ] xs
+/MC2_Arial 91 self 1382 -2293 m
+(Energy \(MeV\))[61 51 51 30 51 43 25 30 75 51 61 30 ] xs
 1 -1 sc
-gr
 gr
 gr
 Save0 restore end

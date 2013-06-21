@@ -4,6 +4,15 @@
 %% INCLUDING THE PREAMBLE
 \input{../Preamble}
 
+
+%% SUBVERSION INFORMATION
+\usepackage{svn-multi}
+\svnidlong
+{$LastChangedBy$}
+{$LastChangedRevision$}
+{$LastChangedDate$}
+{$HeadURL$}
+
 %% Start of the document
 \begin{document}
 \title{GEANT4 Simulate Ranges}
@@ -66,7 +75,20 @@ The data was compared to the TRIM calculations preformed by Andrew Mabe.
 \label{sec:RangeResults}
 
 A parametric study was completed on the how the range changes with increasing amount of absorber.
+\begin{figure}
+  \includegraphics[width=\textwidth]{RangeSim_MassFraction_Alpha}
+  \caption[2.05 MeV Alpha Range in PS and PEN Composites]{Range of the \SI{2.05}{\MeV} alpha in PS and PEN LiF loaded films. Initially the ranges are very differnet (due to the differnet ranges in the consituent materials) but as the absorber amount increases the range approaches that of LiF.}
+  \label{fig:MassFracRangeAlpha}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=\textwidth]{RangeSim_MassFraction_Triton}
+  \caption[2.78 MeV Triton Range in PS and PEN Composites]{Range of the \SI{2.73}{\MeV} triton in PS and PEN LiF loaded films. Initially the ranges are very different, but as the absorber amount increases the range approaches that of LiF.}
+  \label{MassFracRangeTriton}
+\end{figure}
 
+\appendices
+\section{CSDA Range of Lif}
+\label{sec:CSDARangeLiF}
 \begin{figure}
   \centering
   \begin{subfigure}{0.45\textwidth}
@@ -82,15 +104,30 @@ A parametric study was completed on the how the range changes with increasing am
   \caption[Comparison of alpha ranges in LiF and PS]{Comparison of alpha CSDA ranges in PS and LiF. LiF generally has a higher range than PS. Data from NIST ASTAR\cite{berger_estar_2005}.} 
   \label{fig:NISTPSLiF}
 \end{figure}
+
+\section{Proton, Deuteron, Triton and Alpha Ranges}
+\label{sec:PDTA}
+The range of protons, deutrons, tritons, and alpha particles was investigated in water and silicon.
+For the same kinetic energy, it is observed that the protons have the largest range, followed by the deutron, triton, and alpha.
+This follows the rough relationship described as
+\begin{align}
+  R_d(E) = 2 R_p\left(\frac{1}{2}E\right)
+  
+\end{align}
+\begin{figure}
+  \includegraphics[width=\textwidth]{RangeSim_PDTA_Si}
+  \caption[CSDA Range for Differnet Charged Particles in Si]{CSDA Range for protons, deuterons, tritons and alpha in silicon}
+  \label{fig:CSDARangePDTASi}
+\end{figure}
+\begin{figure}
+  \includegraphics[width=\textwidth]{RangeSim_PDTA_Water}
+  \caption[CSDA Range for Differnet Charged Particles in Water]{CSDA Range for protons, deuterons, tritons and alpha in water}
+  \label{fig:CSDARangePDTAWater}
+\end{figure}
+
+\section{File Locations and Report Status}
+The data generated in this report is from a GEANT4 simulation that can be found (at revision 771) \path{https://murphs-code-repository.googlecode.com/svn/trunk/G4/RangeSim}, and the plots were generated with the OriginPro project \path{RangeSim.opj}.
+This document is may be found in \LaTeX format at \url{\svnkw{HeadURL}}.  
+The latest revision for this file is \svnrev, and was on \svndate, committed by \svnauthor.
 \end{document}
 
-\begin{figure}
-  \includegraphics[width=\textwidth]{RangeSim_MassFraction_Alpha}
-  \caption[2.05 MeV Alpha Range in PS and PEN Composites]{Range of the \SI{2.05}{\MeV} alpha in PS and PEN LiF loaded films. Initially the ranges are very differnet (due to the differnet ranges in the consituent materials) but as the absorber amount increases the range approaches that of LiF.}
-  \label
-\end{figure}
-\begin{figure}
-  \includegraphics[width=\textwidth]{RangeSim_MassFraction_Triton}
-  \caption[2.78 MeV Triton Range in PS and PEN Composites]{
-  \label
-\end{figure}

@@ -14,23 +14,21 @@ TO RUN:
 
 CONTENTS:
   
+  MACROS:
+    gui.mac - GUI for the GEANT4 
+    vis.mac - Detector visulationization macro
+    MSSamplesMacros/gRun.mac       - gamma gun macro 
+    MSSamplesMacros/nRun.mac       - neutron gun macro
+    MSSamplesMacros/Thickness.mac  - thickness runs
+
 analysis.py
-gRun10000_MS1.mac
-gRun.mac
-gSub.qsub.e14780
-gSub.qsub.e14782
-gSub.qsub.o14780
-gSub.qsub.o14782
-gui.mac
 MS_GammaOutput.txt
 MS_NeutronOutput.txt
 msRun.sh
-msSamples.mac
 polymerFilm.cc
 README
 run.sh
 subJobs.sh
-vis.mac
 
 analysis:
 Makefile
@@ -57,10 +55,6 @@ gRun.mac
 neutronSource.mac
 nRun.mac
 
-MSSamplesMacros:
-gRun.mac
-nRun.mac
-Thickness.mac
 
 src:
 Analysis.cc

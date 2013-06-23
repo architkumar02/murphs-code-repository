@@ -172,7 +172,7 @@ void DetectorConstruction::DefineMaterials()
   carborane->AddElement(eB,nAtoms=10);
   carborane->AddElement(eH,nAtoms=12);
   G4double massFracCarborane = 0.00;
-  for (int i = 0; i < 6; i++){
+  for (int i = 0; i < 7; i++){
     std::ostringstream oss;
     oss << "MS"<<i;
     BoronScint = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=2,kStateSolid);

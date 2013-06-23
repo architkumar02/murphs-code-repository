@@ -5,6 +5,8 @@
 # Setting up the analysis
 #
 /Analysis/setParticleName neutron
+/Analysis/setHistogramMax 3 MeV
+/Analysis/setEDepPosAnalysis true
 #
 # Setting up the source
 #

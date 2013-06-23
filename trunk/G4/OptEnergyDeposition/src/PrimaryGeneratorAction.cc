@@ -16,8 +16,7 @@ PrimaryGeneratorAction::PrimaryGeneratorAction()
 }
 
 
-PrimaryGeneratorAction::~PrimaryGeneratorAction()
-{
+PrimaryGeneratorAction::~PrimaryGeneratorAction(){
   delete fParticleGun;
 }
 

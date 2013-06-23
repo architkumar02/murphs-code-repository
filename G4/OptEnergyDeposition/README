@@ -1,5 +1,79 @@
 OptEnergyDeposition
 
   Simulation of the energy deposition in a thin film.
-  Contains ComptonScattering, which is a numerical approximation to the
-  compton scattering
+
+  Setup Simulations
+    msRun - runs methylstyrene samples of various thickness
+
+TO RUN:
+  > make GNUmakefile
+  > ./bin/Linux-g++/polymerFilm
+
+  To run the methylstyrene simulations:
+  > ./msRun SAMPLENAME (i.e. MS1, MS2 .... MS6)
+
+CONTENTS:
+  
+analysis.py
+gRun10000_MS1.mac
+gRun.mac
+gSub.qsub.e14780
+gSub.qsub.e14782
+gSub.qsub.o14780
+gSub.qsub.o14782
+gui.mac
+MS_GammaOutput.txt
+MS_NeutronOutput.txt
+msRun.sh
+msSamples.mac
+polymerFilm.cc
+README
+run.sh
+subJobs.sh
+vis.mac
+
+analysis:
+Makefile
+PlotHistograms.C
+
+bin:
+
+include:
+Analysis.hh
+AnalysisMessenger.hh
+CaloHit.hh
+CaloSensitiveDetector.hh
+DetectorConstruction.hh
+DetectorMessenger.hh
+EventAction.hh
+HadronicPhysics.hh
+PhysicsList.hh
+PrimaryGeneratorAction.hh
+RunAction.hh
+
+macros:
+co60Source.mac
+gRun.mac
+neutronSource.mac
+nRun.mac
+
+MSSamplesMacros:
+gRun.mac
+nRun.mac
+Thickness.mac
+
+src:
+Analysis.cc
+AnalysisMessenger.cc
+CaloHit.cc
+CaloSensitiveDetector.cc
+DetectorConstruction.cc
+DetectorMessenger.cc
+EventAction.cc
+HadronicPhysics.cc
+PhysicsList.cc
+PrimaryGeneratorAction.cc
+RunAction.cc
+
+tmp:
+Linux-g++

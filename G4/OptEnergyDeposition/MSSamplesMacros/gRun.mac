@@ -5,6 +5,8 @@
 # Setting up the analysis
 #
 /Analysis/setParticleName Co60
+/Analysis/setHistogramMax 1.3 MeV
+/Analysis/setEDepPosAnalysis true
 # 
 # Running the co60 beam source
 #

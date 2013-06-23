@@ -164,22 +164,22 @@ void DetectorConstruction::DefineMaterials()
     EJ426HD2->AddElement(eZn,massFraction=0.447);
     EJ426HD2->AddElement(eS,massFraction=0.219);
 
-    // Defining Boron Loaded Plastic
-    G4Material* BoronScint;
-    G4Material* pvt = nistManager->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE",fromIsotopes);
-    G4Material* carborane = new G4Material("Carborane",density=1.0*g/cm3,nComponents=3,kStateSolid);
-    carborane->AddElement(eC,nAtoms=2);
-    carborane->AddElement(eB,nAtoms=10);
-    carborane->AddElement(eH,nAtoms=12);
-    G4double massFracCarborane = 0.00;
-    for (int i = 0; i < 6; i++){
-        std::ostringstream oss;
-        oss << "MS"<<i;
-        BoronScint = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=2,kStateSolid);
-        BoronScint->AddMaterial(pvt,1.00-massFracCarborane);
-        BoronScint->AddMaterial(carborane,massFracCarborane);
-        massFracCarborane += 0.01;
-    }
+  // Defining Boron Loaded Plastic
+  G4Material* BoronScint;
+  G4Material* pvt = nistManager->FindOrBuildMaterial("G4_PLASTIC_SC_VINYLTOLUENE",fromIsotopes);
+  G4Material* carborane = new G4Material("Carborane",density=1.0*g/cm3,nComponents=3,kStateSolid);
+  carborane->AddElement(eC,nAtoms=2);
+  carborane->AddElement(eB,nAtoms=10);
+  carborane->AddElement(eH,nAtoms=12);
+  G4double massFracCarborane = 0.00;
+  for (int i = 0; i < 6; i++){
+    std::ostringstream oss;
+    oss << "MS"<<i;
+    BoronScint = new G4Material(oss.str(),density=1.1*g/cm3,nComponents=2,kStateSolid);
+    BoronScint->AddMaterial(pvt,1.00-massFracCarborane);
+    BoronScint->AddMaterial(carborane,massFracCarborane);
+    massFracCarborane += 0.01;
+  }
 
 
     // Vacuum

@@ -29,7 +29,7 @@ function runNeutron()
 if [[ $G4WORKDIR && ${G4WORKDIR-_} ]]
 then
   runGamma
-  #runNeutron
+  runNeutron
 else
   echo "G4WORKDIR is not defined"
   exit

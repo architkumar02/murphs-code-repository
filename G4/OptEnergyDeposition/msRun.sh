@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Setting up the default parameters
-export NPS=10000
+export NPS=1000000
 export MAT=MS1
 if [ $# -eq 2 ] 
 then
@@ -12,6 +12,11 @@ then
   MAT=$1
 fi
 # Checking for the right format
+if [[ ! -n $G4WORKDIR ]]
+then
+  echo "G4WORKDIR is not defined"
+  exit
+fi
 if [ "$NPS" -ne "$NPS" ] 2>/dev/null; then
   echo "USAGE: ./msRun MAT NPS"
   exit
@@ -60,17 +65,11 @@ function runNeutron()
 }
 
 # Running the jobs
-if [[ -n $G4WORKDIR ]]
-then
-  runGamma
-  runNeutron
-  # Cleaning up
-  #rm nRun_${NPS}_${MAT}.mac
-  rm nSub.qsub
-  #rm gRun_${NPS}_${MAT}.mac
-  rm gSub.qsub
-else
-  echo "G4WORKDIR is not defined"
-  exit
-fi
+runGamma
+runNeutron
+# Cleaning up
+rm nRun_${NPS}_${MAT}.mac
+rm nSub.qsub
+rm gRun_${NPS}_${MAT}.mac
+rm gSub.qsub
 

@@ -11,6 +11,14 @@
 /PolymerTransport/det/update
 /run/beamOn NUMPARTICLES
 #
+/PolymerTransport/det/setAbsThick 5 mm
+/PolymerTransport/det/update
+/run/beamOn NUMPARTICLES
+#
+/PolymerTransport/det/setAbsThick 2 mm
+/PolymerTransport/det/update
+/run/beamOn NUMPARTICLES
+#
 /PolymerTransport/det/setAbsThick 1 mm
 /PolymerTransport/det/update
 /run/beamOn NUMPARTICLES

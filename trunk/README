@@ -1,0 +1,14 @@
+Irridiator Characterization
+
+Characterization Simulations of the the neutron and gamma irridiators at the i
+University of Tennessee Nuclear Engineering Department.
+
+Author:
+  Matthew J. Urffer (murffer@utk.edu, matthew.urffer@gmail.com)
+
+Contents:
+  IncidentFlux - determines the incident flux over a number of differnet
+    detector shapes for the neutron and gamma irridiator
+
+  PbCdNeutronIrridiator - looks at the neutron and gamma flux profiles for
+    GS20

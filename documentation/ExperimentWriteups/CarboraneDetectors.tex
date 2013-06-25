@@ -109,6 +109,46 @@ It is observed that very little gain in the total count is observed for four to 
   \caption[Measured Thermal Neutron Count Rate]{Measured thermal neutron count rate as a function of carborane concentration. }
   \label{fig:NCRper10B}
 \end{figure}
+\section{Simulated Energy Depostion}
+Carborane loaded samples were simulated with the GEANT4 toolkit.
+The sample composition was approximated as \verb+G4_PLASTIC_SC_VINYTOLUENE+ loaded with the appropiate mass fraction of carborane.
+Measurements of the density of the samples had a range of densities from \SI{0.98}{\gram\per\cm\cubed} to \SI{1.1}{\gram\per\cm\cubed} that did not display a clear trend with incresing carborane fraction; therefore all of the simulated film densities were set at \SI{1.0}{\gram\per\cm\cubed}.
+The scintillator and wavelength shifter, PPO and bis-MSB, where not accounted for in the material composition as they consited of \SI{10}{\gram\per\liter} and  \SI{0.5}{\gram\per\liter}, respectively.
+The simulation geometry was a single sheet of the detector material.
+Neutronic interactions were simulated by shooting thermal (\SI{0.25}{\eV}) neutrons at the detector, while \iso[60]{Co} was simulated by shooting two photons at the detector.
+
+The energy depostion of each event was computed by summing all of the energy deposition of the steps in a track through the detector.
+In the case where the primary particle did not interact with the detector material the energy deposition was zero, and such event were not binned (or included in the analysis).
+\autoref{fig:SimEDepGamma} and  \autoref{fig:SimEDepNeutron} show the simulated energy deposition.
+As expected, the gamma energy depostion closely follows an expontial law as shown by the linear trend on a log-log plot.
+In addition, it is observed that up \SI{100000}{\m} \todo{better value} only 10\% of the \iso[60]{Co} energy is deposited in the film.
+For neutrons, it is observed that a very thin film is necessary to capture over 90\% of the reaction product energies.
+This is due to the reaction products being heavy and charged.
+For comparison, the ratio of the fractional average energy depsotion of neutrons compared to the fractional average energy deposition of the gammas is shown in \autoref{fig:SimEDepRatio}.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{MSCarborane_GammaEDep_Selected}
+  \caption[Simulated Average Gamma Energy Deposition]{Simulated average energy depsotion from a \iso[60]{Co} source for various thickness and carborane concentations.  The solid line is the $\mu_{en}$ energy depostion for a similar material from the NIST X-ray mass attentuation dataset.}
+  \label{fig:SimEDepGamma}
+\end{figure}
+\begin{figure}
+  \centering
+  \begin{subfigure}[b]{0.45\textwidth}
+  \includegraphics[width=\textwidth]{MSCarborane_NeutronEDep_Selected}
+  \end{subfigure}%
+  ~
+  \begin{subfigure}[b]{0.45\textwidth}
+  \includegraphics[width=\textwidth]{MSCarborane_NeutronEDep_Small}
+  \end{subfigure}%
+  \caption[Simulated Average Neutron Energy Deposition]{Simulated average energy depsotion from a thermal neutron source for various thickness and carborane concentations.  It is proposed that the increase in average energy depostion from higher carborane concentrations is due to the higher interaction rate on near the surface of the film.}
+  \label{fig:SimEDepNeutron}
+\end{figure}
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{MSCarborane_NGEDepRatio}
+  \caption[Ratio of Frational Neutron Energy Depostion to Gamma]{Ratio of the fractional neutron energy depostion to the fraction of energy deposited by a gamma inteaction.}
+  \label{fig:SimEDepRatio}
+\end{figure}
 \section{Proposed Experiments}
 It is proposed to recast one of the samples unto disk in order to limit the energy deposition of gammas and therefore improve the neutron - photon discrimination.
 \pagebreak

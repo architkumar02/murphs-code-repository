@@ -47,27 +47,8 @@ def GetEDep(dirName):
       neutron[key] = [h.GetMean(),h.GetMeanError()]
   return (neutron,gamma)
 
-def WriteData(neutron,gamma,ws):
-  # Getting a list of materials (and corresponding row)
-  matDict = dict()
-  col = 0
-  for key in neutron:
-    mat = key.split('_')[0]
-    if not mat in matDict:
-      matDict[mat] = col
-      col += 7
-  # Getting a list of all the thickness
-  tDict = dict()
-  row = 3
-  for key in neutron:
-    t = key.split('_')[1]
-    if not t in tDict:
-      tDict[t] = (GetThickness(t),row)
-      row += 1
-  print tDict
-  print matDict
+def WriteHeader(ws,matDict,headers):
   # Writting the headers and units
-  headers = ('Thickness','Fraction Neturon','','Fraction Co60','','Gamma / Neutron','')
   for key in matDict:
     col = matDict[key]
     for h in range(len(headers)):
@@ -75,8 +56,46 @@ def WriteData(neutron,gamma,ws):
     ws.write(1,col,'mm')
     for h in range(1,len(headers)):
       ws.write(2,col+h,key)
+
+def WriteData(neutron,gamma,wb):
+  # Creating worksheets
+  wsn = wb.add_sheet('Neutron')
+  wsg = wb.add_sheet('Gamma')
+  wsr = wb.add_sheet('Neutron Gamma Ratio')
+  # Getting a list of materials (and corresponding row)
+  matDict = dict()
+  col = 0
+  for key in neutron:
+    mat = key.split('_')[0]
+    if not mat in matDict:
+      matDict[mat] = 0
+  for key in sorted(matDict.keys()):
+      matDict[key] = col
+      col += 3
+  mat = sorted(matDict.keys())
+  # Getting a list of all the thickness
+  tDict = dict()
+  row = 3
+  for key in neutron:
+    t = key.split('_')[1]
+    if not t in tDict:
+      tDict[t] = 0
+
+  tMap = dict()
+  for key in tDict:
+    tMap[GetThickness(key)] = key
+  for key in sorted([GetThickness(t) for t in tDict]):
+    tDict[tMap[key]] = (key,row)
+    row += 1
+  print "Thickness Dictionary"
+  print tDict
+  print "Material Dictionary"
+  print matDict
     
   # Writing the data
+  WriteHeader(wsn,matDict,('Thickness','Neutron Energy Deposition',''))
+  WriteHeader(wsg,matDict,('Thickness','Gamma Energy Deposition',''))
+  WriteHeader(wsr,matDict,('Thickness','Gamma / Neutron Ratio',''))
   ratio = dict()
   for key in neutron:
     n = neutron[key]
@@ -85,14 +104,17 @@ def WriteData(neutron,gamma,ws):
     t = key.split('_')[1]
     col = matDict[mat]
     tval,row = tDict[t]
-    ratio[key] = (g[0]/n[0], g[0]/n[0]*np.sqrt(n[1]*n[1]/(n[0]*n[0])+g[1]*g[1]/(g[0]*g[0])))
-    ws.write(row,col,tval)
-    ws.write(row,col+1,n[0])
-    ws.write(row,col+2,n[1])
-    ws.write(row,col+3,g[0])
-    ws.write(row,col+4,g[1])
-    ws.write(row,col+5,ratio[key][0])
-    ws.write(row,col+6,ratio[key][1])
+    qRatio = 2.33/(0.5*1.1732+0.5*1.3325)
+    ratio[key] = (g[0]/n[0]*qRatio, g[0]/n[0]*np.sqrt(n[1]*n[1]/(n[0]*n[0])+g[1]*g[1]/(g[0]*g[0])))
+    wsn.write(row,col,tval)
+    wsg.write(row,col,tval)
+    wsr.write(row,col,tval)
+    wsn.write(row,col+1,n[0])
+    wsn.write(row,col+2,n[1])
+    wsg.write(row,col+1,g[0])
+    wsg.write(row,col+2,g[1])
+    wsr.write(row,col+1,ratio[key][0])
+    wsr.write(row,col+2,ratio[key][1])
 
 def main():
   # Reading in the NIST DATA
@@ -101,7 +123,7 @@ def main():
 
   # Analayzing the Data
   wb = xlwt.Workbook()
-  WriteData(n,g,wb.add_sheet('FractionalEDep'))
+  WriteData(n,g,wb)
   wb.save('EDepAnalysis.xls')
 
 if __name__ == '__main__':

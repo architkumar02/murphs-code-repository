@@ -1,0 +1,29 @@
+Purpose of this study is to determine the incident flux of the neutron and
+gamma sources for varius radi (2.54 and 1.2 cm) and thickness
+
+Bugs:
+  2013-04-03 I forgot to change the materials to a non-absorbering (so I wonder what affect this will make)
+Changelog:
+  2013-04-02 Started working on this
+  2013-04-03 Submitted jobs to queue system
+  2013-06-24 Cleaning up and README work
+
+TO RUN:
+  > ./RUNDATA.sh   # Generates data for the Neutron and Gamma incident flux
+  > ./runPtSurc.sh # Generates data for a point source
+
+ANALYSIS:
+  > python analysis.py
+    - Reads the run output (*.o) and creates two xls files containing a summary
+    of the run data. The two excel files are GammaAnalysis.xls and 
+    NeutronAnalysis.xls
+
+HELPER FILES:
+  - gPointScript.sh  - generates MCNPX input decks for the gamma point source
+  - gRunScript.sh    - generates MCNPX input decsk for the gamma irridiator
+  - nRunScript.sh    - generates MCNPX input decks for the neutron irridiator
+  
+  nRunScript.sh and gRunScript.sh are both called by RUNDATA.sh.
+
+DATA FILES:
+  - SimulatedData.tgz results of the simulation

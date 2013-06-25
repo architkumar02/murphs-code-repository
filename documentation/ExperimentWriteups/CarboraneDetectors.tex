@@ -84,13 +84,19 @@ A rough estimate of the decrease in light yield can then be calculated from the 
   \caption[Light Yield of Methylstyrene Carborane Samples]{Light yield (average or peak) of the methylstyrene samples for a variety of sources.  The decrease in light yield as a function of carborane content is evident. EJ-254 1\% has a published light output of \SI{9,200}{photons\per\MeV} which corresponds to a beta average of 765 channels.} 
   \label{fig:LY}
 \end{figure}
-\subsection{Neutron Performance}
-The neutron performance of these detectors is shown in \autoref{fig:NeutronSpectra}.
+\subsection{Neutron and Gamma Performance}
+The neutron performance of these detectors is shown in \autoref{fig:NeutronSpectra}, while the gamma from \iso[60]{Co} is shown in \autoref{fig:LYGamma}.
 The effect of adding carborane can be seen in the spectra where adding carborane tends to decrease the light yield of the sample, while increasing the total count rate.
 It is also observed that these samples are brighter than the commercial EJ-254 1\% boron samples.
 \autoref{fig:NCRperMass} shows the count rate of each carborane sample as a function of carborane loading, normalized by the mass of the sample. 
 It is observed that very little gain in the total count is observed for four to five percent carborane loading, this is due to the self shielding and depletion of the neutron flux within the sample.
 \autoref{fig:NCRper10B} shows the neutron count rate normalized by the mass of \iso[10]{B} in the sample, where the effects of self-shielding are clearly evident in the downward trend count rate per mass absorber as a function of carborane loading.
+\begin{figure}
+  \centering
+  \includegraphics[width=0.6\textwidth]{MSCarborane_Co60}
+  \caption[Gamma Response of Carborane Samples]{Gamma (\iso[60]{Co}) response of selected methylstyrene boron loaded scintillators.  Note that in both cases the light yield is diminished as additional boron is added.}
+  \label{fig:LYGamma}
+\end{figure}
 \begin{figure}
   \centering
   \includegraphics[width=0.6\textwidth]{MSCarborane_NetNeutron}
@@ -151,9 +157,9 @@ For comparison, the ratio of the fractional average energy deposition of neutron
 \end{figure}
 \section{Proposed Experiments}
 It is proposed to recast one of the samples unto disk in order to limit the energy deposition of gammas and therefore improve the neutron - photon discrimination.
+As of June 24, 2013 it was decided to recast the 1\% and 3\% carborane samples into a 2\% sample of \SI{100}{\um} onto two flat sheets.
 \pagebreak
 \appendices
-\section{}
 \section{File Locations and Report Status}
 The spectra files for this report may be found in \path{SpectraFiles/(0)_2013_Data/MS_SCSU}, and the plots were generated with the OriginPro project \path{MS_Carborane.opj}.
 This document is may be found in \LaTeX format at \url{\svnkw{HeadURL}}.  

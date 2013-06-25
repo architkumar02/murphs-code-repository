@@ -68,8 +68,6 @@ function runNeutron()
 runGamma
 runNeutron
 # Cleaning up
-rm nRun_${NPS}_${MAT}.mac
 rm nSub.qsub
-rm gRun_${NPS}_${MAT}.mac
 rm gSub.qsub
 

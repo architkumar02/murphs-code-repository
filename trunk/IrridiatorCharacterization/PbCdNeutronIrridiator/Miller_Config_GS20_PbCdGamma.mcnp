@@ -14,12 +14,14 @@ c ----------- Lead Detector Well ---------------------------
   300     0                -302  #610 trcl=1 fill=1
   302     204  -0.001225   -300         u=1     $ air
   303     2    -1.18       -301 300     u=1     $ Plastic
-  304     406  -11.35      301          u=1     $ Lead
+  304     406  -11.35      301 -3021    u=1     $ Lead
+  305     406  -11.35      3021         u=1     $ Lead
 c ------------ Cadimium Detector Well ----------------------
   400     0                -402 #620 trcl=2 fill=2
   402     204  -0.001225   -400        u=2      $ air
   403     2    -1.18       -401 400    u=2      $ Plastic
-  404     318  -8.65       401         u=2      $ cd
+  404     318  -8.65       401 -4021   u=2      $ cd
+  405     318  -8.65       4021        u=2      $ cd
 c ------------ Lead Well  PMT -----------------------------------
   610   0    -602        trcl=61  fill=6       
 c ------------ Cd Well PMT --------------------------------------
@@ -66,12 +68,14 @@ c ----------------- Source Sheilding (Lead) ---------------------
   206       rcc 15.5575 15.24 13.305 0 0 3.81 0.3175  $ SS 316 Sour
   210         s 15.5575 15.24 15.21 2.5914E-04 $ Spherical Point Source
 c --------------- Lead Well -------------------------------------               
-  300       rcc 0 0 0.439 0 0 27.726 3.564  $ Inner Well (ID Plastic)
-  301       rcc 0 0 0.439 0 0 27.726 3.7885  $ Plastic OD / Pb ID
+  300       rcc 0 0 0.439 0 0 27.501 3.564  $ Inner Well (ID Plastic)
+  301       rcc 0 0 0.439 0 0 27.501 3.7885  $ Plastic OD / Pb ID
+ 3021       rcc 0 0 0.001 0 0 27.939 4.0015  $ Pb OD
   302       rcc 0 0 0 0 0 27.94 4.0025  $ Pb OD
 c --------------- Cadimium Well ----------------------------------              
-  400       rcc 0 0 0.418 0 0 27.731 3.7765  $ Inner Well (ID Plastic)
-  401       rcc 0 0 0.418 0 0 27.731 3.933  $ Plastic OD / cd ID
+  400       rcc 0 0 0.418 0 0 27.522 3.7765  $ Inner Well (ID Plastic)
+  401       rcc 0 0 0.418 0 0 27.522 3.933  $ Plastic OD / cd ID
+ 4021       rcc 0 0 0.001 0 0 27.939 4.141   $ Cd OD (Smiggion small)
   402       rcc 0 0 0 0 0 27.94 4.142  $ Cd OD
 c --------------- Detector --------------------------------------
   500       rcc 0 0 1E-6 0 0 0.200 1.27    $ 2.01 thick, 1" Dimeter
@@ -82,11 +86,11 @@ c --------------- PMT --------------------------------------------
   604    602 rcc 0 0 0.3178 0 0 5 2.54     $ Mu Metal Outer
   605    602 rcc 0 0 0.3178 0 0 5 2.535    $ Mu Metal Inner
 c --------------- World Boundary ---------------------------------              
- 1000       rpp -10 60 -10 60 -10 60  $ An oversized box
+ 1000       rpp -10 60 -10 20 -10 60  $ An oversized box
 
 c *********************** Data Cards ***************************
 MODE N P 
-IMP:N,P 1 22r 0
+IMP:N,P 1 24r 0
 PHYS:N 100 4j -1 2 
 CUT:N  2j 0 0
 PHYS:P 3j -1
@@ -158,11 +162,38 @@ FC1 Neutron Particle Tallies (Source)
 F1:n 210
 C1 0 1
 FC11 Neutron Particle Tallies (Pb Well)
+E11 0 1E-3 100i 5
 F11:n (500.1<610) (500.2<610) (500.3<610)  T
 C11 0 1
 FC21 Neutron Particle Tallies (Cd Well)
+E21 0 1E-3 100i 5
 F21:n (500.1<620) (500.2<620) (500.3<620)  T
 C21 0 1
+c --------------- Photon Particle Tallies ----------------------
+FC121 Photon Particle Tallies (Pb Well)
+E121 0 1E-3 100i 5
+F121:p (500.1<610) (500.2<610) (500.3<610)  T
+C121 0 1
+FC221 Photon Particle Tallies (Cd Well)
+E221 0 1E-3 100i 5
+F221:p (500.1<620) (500.2<620) (500.3<620)  T
+C221 0 1
+FC131 Photon Particle Tally (Pb Well Out - ID)
+F131:p 301.1 300.2 300.3  T
+E131  0 1E-3 100i 5
+C131 0 1
+FC141 Photon Particle Tally (Pb Well In - OD)
+F141:p (3021.1<300) (300.2<300) (3021.3<300) T
+E141  0 1E-3 100i 5
+C141 0 1
+FC231 Photon Particle Tally (Cd Well Out - ID)
+F231:p 401.1 300.2 400.3 T
+E231  0 1E-3 100i 5
+C231 0 1
+FC241 Photon Particle Tally (Cd Well In - OD)
+F241:p (4021.1<400) (300.2<400) (3021.3<400) T
+E241  0 1E-3 100i 5
+C241 0 1
 c -------------- Output -----------------------------------------
 PRINT 20 40 50 160 161 162
 PRDMP j j 1      $ Write a MCTAL File

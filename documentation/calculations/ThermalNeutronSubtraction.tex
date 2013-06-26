@@ -1,0 +1,56 @@
+% Intrinsic Efficiency
+\documentclass[draftcls,onecolumn]{IEEEtran}
+
+%% INCLUDING THE PREAMBLE
+\input{../Preamble}
+\input{./CalcPreamble}
+\usepackage{svn-multi}
+\svnidlong
+{$LastChanged$}
+{$LastChangedRevision$}
+{$LastChangedDate$}
+{$HeadURL$}
+
+%% Start of the document
+\begin{document}
+\title{Thermal Neutron Subtraction}
+\author{Matthew J. Urffer}
+\date{\today}
+\maketitle
+
+% Nomenclature
+\printnomenclature
+\printindex
+
+% Tables of Contents, Figures, Tables
+\listoftodos
+\tableofcontents
+\listoffigures
+\listoftables
+\lstlistoflistings
+\section{Thermal Neutron Subtraction}
+One of the neturon irridiators at the Univeristy of Tennessee consits of two detetor wells; one that is surounded by lead and another that is surounded by cadmium.
+It was envisioned that the cadmium well would yield the response of the detector to fast neutrons, while the lead well would yeild the response of neutron of all energies while providing a similar gamma attenuation as the cadmium.
+However, because of $(n,\gamma)$ interactions, the acutal particle fluence that the detector sees is not as simple.
+There will be gamma contributions from neutron scattering in the HDPE as well as from the material making up the detector well, in addition to the radioactive background from cosmic rays.
+The neutron count rate in any of the wells, \nom{$CR_{tot}$}{total count rate} is then the sum of three components as shown in \autoref{eqn:TotalCR}; counts orginating from neturon  interactions (\nom{$CR_{n}$}{neutron count rate}), counts orginating from gamma interactions (\nom{$CR_{\gamma}$}{gamma count rate}) and the background count rate (\nom{$CR_{Bkg}$}{background count rate}.
+The detector count rate in the lead well will be denoted with a superscript $Pb$, and likewise for the cadmium well a superscript $Cd$.
+\begin{align}
+  \label{eqn:TotalCR}
+  CR_{tot} &= CR_{n} + CR_{\gamma} + CR_{Bkg}
+\end{align}
+
+It is possible to break the neutron count rate component up into two terms; a thermal (\nom{$CR_{n,E<E_{th}}$}{thermal neutron count rate} and a fast neutron count rate, \nom{$CR_{n,E>E_{th}}$}{fast neutron count rate}.
+The gamma count rate can also be divided into the contributions from gammas from the neutron scattering off of the HDPE and those off of the material of the well (either lead on cadmium).
+It is therefore desired to know the incident gamma flux from the polyethylene $(n,\gamma)$ reactions, as well as the $(n,\gamma)$ from the capture reactions in the cadmium.
+% Bibliography
+\bibliography{../Zotero}
+
+\pagebreak
+\appendices
+\section{File Locations and Report Status}
+This document is may be found in \LaTeX format at \url{\svnkw{HeadURL}}.  
+The latest revision for this file is \svnrev, and was on \svndate, committed by \svnauthor.
+\section{Code Listings}
+\end{document}
+

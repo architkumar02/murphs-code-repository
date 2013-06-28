@@ -285,19 +285,31 @@ class MCTAL:
 
     def WriteTally(self,tallyNum,ws):
         """ Writes the tallyNum to worksheet ws"""
-        tally = GetTally(tallyNum)
+        tally = self.GetTally(tallyNum)
         row = 0
         col = 0
-        for b in tally.axes['f'].GetBins():
-            for c in tally.axesl['c']:
-                pass
-        print "Tally is a key"
-        pass
+        val = 0
+        for f in tally.axes['f'].GetBins():
+            for c in tally.axes['c'].GetBins():
+                # Printing the header
+                longName = 'f'+str(f) + ' c'+str(c)
+                ws.write(0,col,longName)     # Long Name
+                ws.write(1,col,"MeV")        # Energy
+                ws.write(2,col,str(f))       # Comments
+                row = 3
+                for e in tally.axes['e'].GetBins():
+                    ws.write(row,col,e)                                                   # Energy
+                    ws.write(row,col+1,float(tally.data[val]))                            # Value
+                    ws.write(row,col+2,float(tally.data[val])*float(tally.errors[val]))   # absolute error
+                    val += 1
+                    row += 1
+                # Incrementing col
+                col += 3
 
     def ConvertToXLS(self,filename='mctal.xls'):
         """ Converts MCTAL file to an xls file of filename"""
         wb = xlwt.Workbook() 
         for t in self.tallies:
-            WritetTally(t,wb.add_sheet(str(t)))
+            self.WriteTally(t,wb.add_sheet(str(t)))
         wb.save(filename)
 

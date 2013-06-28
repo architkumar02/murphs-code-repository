@@ -2,6 +2,7 @@
 
 import os
 import numpy
+import mctal as m
 
 def getTallyUnionTotal(filename,tally):
   # Getting all the lines
@@ -46,6 +47,10 @@ def main():
   getTallyUnionTotal(filename,'241')
   getTallyUnionTotal(filename,'121')
   getTallyUnionTotal(filename,'221')
-  
+
+  # Saving the tally structure
+  tallies = m.MCTAL('MillerConfig_GS20_PbCdGamma.m')
+  tallies.WriteTally('PbCdGamma.xls')
+
 if __name__ == "__main__":
   main()

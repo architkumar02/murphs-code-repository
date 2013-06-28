@@ -1,0 +1,111 @@
+Miller's Neutron source inside HDPE
+c ************************* Cell Cards ************************
+c -------- HDPE Moderator -------------------------------------
+  100     456 -0.93         -1 200 
+c ------- Creating a source universe --------------------------                 
+  200     0              -200  fill=3
+  201     1   -15.1      -210  u=3              $ Cf252 Spherical Source
+  202     488 -7.92      (-206 :-205 )210  u=3  $ Stainless Steel 316 Around Source
+  203     406 -11.35     -204 205  u=3          $ Lead Pig
+  204     456 -0.93      (-202 :-203 ) 204  u=3  $ HDPE around source
+  205     204 -0.001225  (210 202 203 204 ) u=3 $ Air until universe boundary
+c ------ outside world ----------------------------------------                 
+ 1000     204 -0.001225    -1000 #100 #200 $ Air inside the world
+ 1001     0                1000                  $ Outside world
+
+c ********************* Surface Cards ***************************               
+c --------------------- Outer HDPE Box --------------------------               
+    1         s 15.5575 15.24 15.21 25
+c ------------------ Universe for Inner Source Holder and Source                
+  200       rpp 10.795 20.32 10.795 19.685 10.795 30.1625 
+c ------------------ Inner Source Holder HDPE -------------------               
+  202       rpp 10.795 20.32 10.795 19.685 10.795 15.875  $ Block holdi
+  203       rpp 10.795 20.32 10.795 19.685 24.13 30.1625  $ Block above
+c ----------------- Source Sheilding (Lead) ---------------------               
+  204       rcc 15.5575 15.24 10.795 0 0 13.335 2.54  $ Lead Pig ou
+  205       rcc 15.5575 15.24 13.305 0 0 9.525 1.27  $ Lead Pig in
+  206       rcc 15.5575 15.24 13.305 0 0 3.81 0.3175  $ SS 316 Sour
+  210         s 15.5575 15.24 15.21 2.5914E-04 $ Spherical Point source
+c --------------- World Boundary ---------------------------------              
+ 1000         s 15.5575 15.24 15.21 50  $ An oversized box
+
+c *********************** Data Cards ***************************
+MODE N P 
+IMP:N,P 1 7r 0
+PHYS:N 100 4j -1 2 
+CUT:N  2j 0 0
+PHYS:P 3j -1
+CUT:P j 0
+c --------------- Source Defination -----------------------------
+c Simulates the source as emitting spontanous fission particles of a Watt 
+c Fission Energy Spectrum, parameters from Appendix H, pg. 3 of the MCNP
+c manual.   
+sdef cel=d1 pos=15.5575 15.24  15.21 rad=d2 par=SF vec=1 0 0 dir=d3
+si1 L (201<200)  $ Source is bounded by cell 201, inside universe cell 200
+sp1 v
+si2  0 2.5914E-04           $ Starting Position
+sp2 -21 1
+sb3 -31 2.0                 $ Source bias in the +x direction
+c -------------- Number of Particles to Simulate ----------------
+nps 5E6
+c -------------- Interaction Rate Tallies -----------------------
+E0  0 1E-3 100i 5
+FC14 (n,gamma) Radiative Capture Reactions in Detector in HDPE
+F14:n 100
+FM14 -1 3 456
+SD14 1
+c --------------- Photon Particle Tallies ----------------------
+FC1 Photon Particle Tallies (Source)
+F1:n 210
+C1 0 1
+FC21 Photon Particle Tally (Source SS-316)
+F21:p 206.1 206.2 205.3 T
+C21 0 1
+FC31 Photon Particle Tally (Source Pb)
+F31:p 204.1 203.6 200.6 T
+C31 0 1
+FC41 Photon Particle Tally (HPDE)
+F41:p 1
+C41 0 1
+c -------------- Output -----------------------------------------
+PRINT 20 40 50 160 161 162
+PRDMP j j 1      $ Write a MCTAL File
+c -------------- Material Definations ---------------------------
+m1    98252  1              $ Cf-252 - rho = 15.1 g/cc - Wiki
+c GS20 Detector 
+c Composition for Dr. Melcher, density from Saint Gobain
+m3   3006    -0.0368    3007    -0.0019    8016    -0.2985
+     12025   -0.0241    13027   -0.0476    14000   -0.2617
+     58140   -0.0171
+m2    6000   3.549E-02      $ Plexiglas - C5H8O2 - rho=1.18 - MCNP Primer
+      1001   5.678E-02
+      8016   1.420E-02
+m204  7014.70c      -0.755636  $air (US S. Atm at sea level) rho = 0.001225
+      8016.70c      -0.231475 18036.70c     -3.9e-005 18038.70c       -8e-006 
+      18040.70c     -0.012842  
+m318  48106.70c     -0.011777  $Cadmium rho = 8.65 g/cc,
+      48108.70c     -0.008543 48110.70c     -0.122116 48111.70c     -0.126284 
+      48112.70c      -0.24021 48113.70c     -0.122734 48114.70c      -0.29111 
+      48116.70c     -0.077225 
+m406  82204.70c     -0.013781  $Lead - rho = 11.32 g/cc
+      82206.70c     -0.239557 82207.70c     -0.220743 82208.70c     -0.525919 
+m456  1001.70c      -0.143716  $Polyethylene - rho = 0.93 g/cc
+      6000.70c      -0.856284 
+m488  14028.70c     -0.009187  $Steel, Stainless 316 rho = 7.92
+      14029.70c     -0.000482 14030.70c     -0.000331 24050.70c     -0.007095 
+      24052.70c     -0.142291 24053.70c     -0.016443 24054.70c     -0.004171 
+      25055.70c         -0.02 26054.70c     -0.037326 26056.70c     -0.601748 
+      26057.70c     -0.014024 26058.70c     -0.001903 28058.70c     -0.080873 
+      28060.70c     -0.031984 28061.70c     -0.001408 28062.70c     -0.004546 
+      28064.70c     -0.001189 42092.70c     -0.003554 42094.70c     -0.002264 
+      42095.70c     -0.003937 42096.70c     -0.004169 42097.70c     -0.002412 
+      42098.70c     -0.006157 42100.70c     -0.002507
+C    $Glass, Borosilicate (Pyrex),
+m388  5011.70c      -0.040066 8016.70c      -0.539559 11023.70c     -0.028191 
+      13027.70c     -0.011644 14028.70c     -0.346565 14029.70c     -0.018175 
+      14030.70c     -0.012481 19039.70c     -0.003086 19041.70c     -0.000234 
+m468  1001.70c      -0.048382  $Polyvinyl Chloride,
+      6000.70c      -0.384361 17035.70c     -0.423941 17037.70c     -0.143316 
+m4    6000.70c      -0.0002  $Mu Meta
+      25055.70c     -0.005    14000.60c     -0.0035   28000.50c     -0.8 
+      42000.66c      -0.42    26000.55c     -0.1913 

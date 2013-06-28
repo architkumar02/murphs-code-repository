@@ -1,3 +1,16 @@
 PbCdNeutronIrridiator
 
 The purpose of this is to complete MCNPX simulations of the neutron irridiator
+
+SIMULATIONS FILES:
+  HDPEGamma.mcnp - Gamma energies from the Cf-252 through HDPE.  Purspose
+    is to find the source of the gammas entrant into the wells
+
+  Miller_Config_GS20_PbCdGamma.mcnp - Gamma and Neutron Particle tallies, 
+    interaction rates, and fluxes in the lead and cadmium wells
+  
+  qsub.sh - Submission script
+
+ANALYSIS FILES:
+  extractRates.py
+  mctal.py

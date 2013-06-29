@@ -8,7 +8,9 @@ SIMULATIONS FILES:
 
   Miller_Config_GS20_PbCdGamma.mcnp - Gamma and Neutron Particle tallies, 
     interaction rates, and fluxes in the lead and cadmium wells
-  
+ 
+  SphereTest.mcnp - Gamma and neutron tallies Cf-252 encased in HDPE.
+    There is no shielding (no Pb, SS-316) around the Cf-252 source.
   qsub.sh - Submission script
 
 ANALYSIS FILES:

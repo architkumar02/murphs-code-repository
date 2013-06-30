@@ -3,6 +3,7 @@
 # Page numbers refer to MCNPX 2.7.0 manual
 
 import sys, re, string
+import os, os.path
 from array import array
 import copy
 import xlwt
@@ -297,12 +298,20 @@ class MCTAL:
                 ws.write(1,col,"MeV")        # Energy
                 ws.write(2,col,str(f))       # Comments
                 row = 3
+                
                 for e in tally.axes['e'].GetBins():
                     ws.write(row,col,e)                                                   # Energy
                     ws.write(row,col+1,float(tally.data[val]))                            # Value
                     ws.write(row,col+2,float(tally.data[val])*float(tally.errors[val]))   # absolute error
                     val += 1
                     row += 1
+                
+                # Adding the total bin
+                ws.write(row,col,'total')
+                ws.write(row,col+1,float(tally.data[val]))                            # Value
+                ws.write(row,col+2,float(tally.data[val])*float(tally.errors[val]))   # absolute error
+                val += 1
+
                 # Incrementing col
                 col += 3
 
@@ -313,3 +322,11 @@ class MCTAL:
             self.WriteTally(t,wb.add_sheet(str(t)))
         wb.save(filename)
 
+if __name__ == "__main__":
+    # Loops through the directory, converting all of the mctal files to xls
+    for f in os.listdir('.'):
+        if f.endswith('.m'):
+            fnew = f.strip('.m')
+            m = MCTAL(f)
+            m.ConvertToXLS(fnew+'.xls')
+    print 'Converted all mctal files to xls'

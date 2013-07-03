@@ -1,0 +1,166 @@
+Neutron Irridiator (Cf-252) in Pasqua
+C Input Deck by Matthew J. Urffer (matthew.urffer@gmail.com)
+C See page 111, 85 of the MJU's 2nd lab notebook for some of the geometry
+C #######################################################################C
+C                                                                        C
+C                               Cell Cards                               C
+C                                                                        C
+C #######################################################################C
+C -------------------------- HDPE Moderation -----------------------------
+100  10  -0.93     -100       $ Bottom HDPE Slab
+101  10  -0.93     -101       $ Right HDPE block
+102  20  -0.001205 -102       $ Air in square detector well
+104  10  -0.93     -104       $ Left block
+105  10  -0.93     -105       $ Top block
+106  10  -0.93     -106       $ Right of U shape src loc
+107  10  -0.93     -107       $ Middle of U shape src loc
+108  10  -0.93     -108       $ Left of U shape src loc
+C --------------------------  Source Holder ------------------------------
+300  51  -11.35    -300 400   $ Lead Pig
+400  50  -15.1     -400       $ Cf-252 Source
+C ------------- Source Holder (Screws and back block ) -------------------
+110  10  -0.93     -109 200 201     $ Back HDPE block
+201  20  -0.001205 -200 250         $ Air around bottom screw
+202  20  -0.001205 -201 251         $ Air around top screw
+203  10  -0.93     -250             $ Bottom screw
+204  10  -0.93     -251             $ Top screw
+210  10  -0.93     -210 211         $ Source pig block
+211  20  -0.001205 -211  300        $ Source pig air
+c -------------------------- PMT -----------------------------------------
+600   0    -600        trcl=6     fill=6  
+602   38  -2.23   -602              u=6     $ PMT Glass
+603   46  -1.406  601               u=6     $ Plastic
+604   52    -8.74   -603 604          u=6     $ Metal
+605   20  -0.001225 -604             u=6  $Air
+C ------------------------- Layered Detetor -----------------------------
+500   0    -500        trcl=5     fill=5
+501   46  -1.406 501              u=5     $ Black tape
+502   41  -2.25  -501 502         u=5     $ Teflon reflector
+503   10  -0.97  -503             u=5     $ Acrylic slab A 
+504   10  -0.97  -504             u=5     $ Detector Backing A
+505   1   -2.6   -505             u=5     $ Detector A
+506   10  -0.97  -506             u=5     $ Acrylic slab B 
+507   10  -0.97  -507             u=5     $ Detector Backing B
+508   1   -2.6   -508             u=5     $ Detector B
+509   10  -0.97  -509             u=5     $ Acrylic slab C
+C --------------------------- Outside world -----------------------------
+1000 20  -0.001205 -1001 1000 #600 #500
+1001 0   1001 
+
+C #######################################################################C
+C                                                                        C
+C                             Surface Cards                              C
+C                                                                        C
+C #######################################################################C
+C --------------------------- Layered Detector --------------------------
+500 rpp 0   8.02 0     6.25  0    8.02           $ Outer detector world
+501 rpp 0.1 7.92 0.1   6.15  0.1  7.92           $ Black Tape (plastic)
+502 rpp 0.2 7.82 0.2   6.05  0.2  7.82           $ Teflon Tape
+503 rpp 0.2 7.82 0.2   2.1   0.2  7.82           $ Acrylic slab A
+504 rpp 0.2 7.82 2.1   2.125 0.2  7.82           $ Backing A
+505 rpp 0.2 7.82 2.125 2.175 0.2  7.82           $ FILM A
+506 rpp 0.2 7.82 2.175 4.075 0.2  7.82           $ Acylic slab B
+507 rpp 0.2 7.82 4.075 4.1   0.2  7.82           $ Backing B
+508 rpp 0.2 7.82 4.1   4.15  0.2  7.82           $ Detector B
+509 rpp 0.2 7.82 4.15  6.05  0.2  7.82           $ Acyrlic slab C
+C -------------------------- HDPE Moderation -----------------------------
+100 RPP -15.24  15.24 0     40.64 -16.19 -5.27   $ Bottom Slab
+101 RPP -15.24  -5.66 0     9.52 -5.27   5.27   $ Right Block
+102 RPP -5.66    5.66 0     9.52  -5.27   5.27   $ Air gap in middle
+104 RPP  5.66   15.24 0     9.52 -5.27   5.27   $ Left Block
+105 RPP -15.24  15.24 0     40.64  5.27   16.19  $ Top Slab
+106 RPP -15.24  -5.66 9.52  40.64  -5.27  5.27   $ Right of U-shape src loc
+107 RPP -5.66    5.66 9.52  22.64  -5.27  5.27   $ Middle of U-Shape src loc
+108 RPP  5.66   15.24 9.52  40.64  -5.27  5.27   $ Left of U-shape src loc
+109 RPP -15.24  15.24 40.64 51.44  -16.19 16.19  $ Back block
+C --------------------------  Source Holder ----------------------------
+200 RCC  0.00 40.64 -2.54 0.00 3.34 0.00 0.97   $ Bottom hole src screw A  
+250 RCC  0.00 40.64 -2.54 0.00 3.34 0.00 0.63   $ Bottom hole src screw B  
+201 RCC  0.00 40.64  2.54 0.00 3.34 0.00 0.97   $ top hole src screws A
+251 RCC  0.00 40.64  2.54 0.00 3.34 0.00 0.63   $ top hole src screws B 
+210 RPP  -5.66   5.66 22.64  40.64 -5.27  5.27   $ Bottom source holder 
+211 RCC  0.00 27.61 -2.53 0.00 0.00  7.80 2.45   $ Air for source pig
+C ------------------------------  Source --------------------------------
+300 RCC  0.00 27.61 -2.53 0.00 0.00  7.5  1.45   $ source pig
+400 S    0.00 27.61 0.00 1                       $ Cf-252 sphere
+C -------------------------------- PMT ----------------------------------
+600 rcc  0      0 0 10     0 0  2.54         $ PMT Space 
+601 rcc  0      0 0 10     0 0  2.53   $ Outer plastic 
+602 rcc  0      0 0 0.3178 0 0  2.53   $ 2" Diamter, 1/8" Thick (Glass)
+603 rcc  0.3178 0 0 9.6822 0 0  2.53   $ Mu metal outer
+604 rcc  0.3178 0 0 9.6822 0 0  2.52   $ Mu metal inner
+C --------------------------- Outside world -----------------------------
+1000 RPP -15.24 15.24 0.00 51.44 -16.19 16.19    $ HDPE Box
+1001 RPP -20    20    -15  60    -20    20       $ Outside world
+
+C #######################################################################C
+C                                                                        C
+C                               Data Cards                               C
+C                                                                        C
+C #######################################################################C
+MODE N 
+IMP:N 1 32r 0
+PHYS:N 100 4j -1 2 
+CUT:N  2j 0 0
+NPS 1E7
+c --------------- Source Defination -----------------------------
+c Fission Energy Spectrum, parameters from Appendix H, pg. 3 of the MCNP
+c manual.   
+sdef pos=0 27.61 0.0 par=n erg=D1
+SP1 -3 1.025 2.926
+C ---------------------------- Translations ------------------------------
+*tr6 4.01 -5 0                $ 5 cm away
+*tr5 -4.01 -6.5 -4.01     $ Move to center of detector
+C ------------------------------ Tally Ho --------------------------------
+FC4 Neutron Flux in Detector
+F4:n (505<500) (508<500) T 
+FC14 Total Neutrons Reactions in Detector
+F14:n (505<500) (508<500) T 
+FM14 -1 1 1
+FC54 (n,t) Reactions in Detector
+F54:n (505<500) (508<500) T 
+FM54 -1 1 105
+FC11 Neutrons Crossing Surface (First Detector)
+C F11:n 505.1 505.2 505.3 505.4 505.5 505.6 T
+F11:n 502.1 502.2 505.3 504.3 502.5 502.6 T
+C11 0 1
+FC21 Neutrons Crossing Surface (Second Detector)
+F21:n 502.1 502.2 508.3 507.3 502.5 502.6 T
+C21 0 1
+C ----------------------- Output -----------------------------------------
+PRDMP j j 1      $ Write a MCTAL File
+PRINT 30 40 50
+C ------------------------- Material Compositions ------------------------
+C Material Composition from Dr. Hulbert (Eljen).  See 2nd Notebook, pg. 12
+C m1    $ EJ-426 HD2 ZnS(Ag):6LiF - Only modeling the 6LiF and ZnS, rho=2.6
+C      3006.70c    1.39E22    3007.70c    0.073E22    9019.70c    
+C      1.46E22  30000.70c    7.50E21      16032.70c   7.50E21
+C Material Composition scaledfrom PNNL-22228
+m1     $LiF:ZnS, PNNL 22228
+      3006.70c    -0.0475    3007.70c    -0.0024    9019.70c  -0.1700
+      30000.70c   -0.3426    16032.70c   -0.1674    6012.70c  -0.0974
+      1001.70c    -0.0131    8016.70c    -0.0519
+m2     $LiF:ZnS, PNNL 22228
+      3006.70c    -0.0460   3007.70c    -0.0024    9019.70c  -0.1516
+      30000.70c   -0.4282    16032.70c   -0.2093    6012.70c  -0.0974
+      1001.70c    -0.0131    8016.70c    -0.0519
+m10    $ HDPE, rho=0.93 PNNL Compendium
+      1001 -0.143716  6012 -0.856284
+m20    $ Air, rho= 0.001205 PNNL compendium
+      6012 -0.000124  7014 -0.755268  8016 -0.231781  18040 -0.012827
+m38   $ Glass, Boroscilate (Pyrex)
+      5011.70c      -0.040066 8016.70c      -0.539559 11023.70c     -0.02811
+      13027.70c     -0.011644 14028.70c     -0.346565 14029.70c     -0.018175
+      14030.70c     -0.012481 19039.70c     -0.003086 19041.70c     -0.000234
+m41   $ Teflon Tape, rho=2.25 g/cc
+      6012 -0.240183          9019 -0.759818
+m46  1001.70c      -0.048382  $Polyvinyl Chloride,
+      6000.70c      -0.384361 17035.70c     -0.423941 17037.70c     -0.143316 
+m50    $ Cf-252, rho=15.1
+      98251 -1.00
+m51    $ Lead, rho=11.34
+      82000 -1.00
+m52    $ Mu Meta, rho = 8.74 g/cc
+      6000.70c      -0.0002  $Mu Meta
+      25055.70c     -0.005    14000.60c     -0.0035   28000.50c     -0.8 
+      42000.66c      -0.42    26000.55c     -0.1913 

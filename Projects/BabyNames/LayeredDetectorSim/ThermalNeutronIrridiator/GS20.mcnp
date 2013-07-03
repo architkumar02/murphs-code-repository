@@ -75,9 +75,9 @@ CUT:N  2j 0 0
 c ------------------- Transformations --------------------------                
 *tr601 0 0 -0.189           $ PMT Cap (thickness of cap)
 *tr602 0 0 0.201            $ PMT Glass / Body (thickness of detector)
-*tr61 41.9 8.3 5.4       $ PMT Locations (left)
-*tr62 41.9 15.24 5.4     $ PMT Locations (center)
-*tr63 41.9 22.0 5.4     $ PMT Locations (right)
+*tr61 41.9 8.3 5.7      $ PMT Locations (left)
+*tr62 41.9 15.24 5.7    $ PMT Locations (center)
+*tr63 41.9 22.0 5.7     $ PMT Locations (right)
 c --------------- Source Defination -----------------------------
 c Simulates the source as emitting spontanous fission particles of a Watt 
 c Fission Energy Spectrum, parameters from Appendix H, pg. 3 of the MCNP
@@ -88,8 +88,8 @@ sp1 v
 si2  0 2.5914E-04           $ Starting Position
 sp2 -21 1
 sb3 -31 2.0                 $ Source bias in the +x direction
-c -------------- Number of Particles to Simulate ----------------
-nps 1E8
+c ------------- Number of Particles to Simulate ----------------
+nps 5E6
 c -------------- Interaction Rate Tallies -----------------------
 c Third bin is thermal to 10 eV.  Fouth bin is 10 eV to 100 ev.  Fifth bin is 100eV
 c to 1keV.  Sixth bin is 1keV to 1 MeV. Last Bin is 1 MeV to 10 MeV.

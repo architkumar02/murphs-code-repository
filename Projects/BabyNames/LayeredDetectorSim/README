@@ -1,0 +1,33 @@
+SIMULATION OF LAYERED DETECTOR
+
+GEOMETRY:
+  
+  GS20Calibration:
+    Calibration of the light yield and number of photons using GS20 glass
+
+  LayeredDetectorLightYield:
+    EJ426HD2  - 
+    PSFilm    -
+    Carborane -
+
+  SmallNeutronIrridiator:
+    The irridiator is a Cf-252 source is the Pasqua characterization lab. 
+    This irridiator does not have the lead and cadmium wells. The geometry
+    for this irridiator was never validated.
+  
+  ThermalNeutronIrridiator:
+    The irridiator is a Cf-252 source in the Pasuqa characterization lab 
+    that typically houses the lead and cadmium wells in order to determine
+    the thermal neutron response.  For the layered detector measurements and
+    simulations, however, both of the wells were removed.
+
+    MillerConfig_GS20.mcnp - GS20 in the left, center and right positons.
+      See Matthew's second lab notebook, pg  134.
+  
+  GammaSource:
+    THe gamma source used in the layered detector mesurments.  The orginal
+    geometry is described on pg. 133 of Matthew's second lab notebook.
+
+MATERIALS:
+
+Currently only the EJ-426 is physical.  Probably should check the material composition

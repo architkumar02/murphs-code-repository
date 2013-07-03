@@ -1,0 +1,89 @@
+ mcnpx    ver=2.7.0 ld=Mon Apr 18 08:00:00 MST 2011   07/03/13 08:31:46
+
+ *************************************************************
+ *                                                           *
+ *                   MCNPX                                   *
+ *                                                           *
+ * Copyright 2007. Los Alamos National Security, LLC.        *
+ * All rights reserved.                                      *
+ *                                                           *
+ * This material was produced under U.S. Government contract *
+ * DE-AC52-06NA25396 for Los Alamos National Laboratory,     *
+ * which is operated by Los Alamos National Security, LLC    *
+ * for the U.S. Department of Energy. The Government is      *
+ * granted for itself and others acting on its behalf a      *
+ * paid-up, nonexclusive, irrevocable worldwide license in   *
+ * this material to reproduce, prepare derivative works, and *
+ * works, and perform publicly and display publicly.         *
+ * Beginning five (5) years after June 1, 2006, subject to   *
+ * additional five-year worldwide renewals, the Government   *
+ * is granted for itself and others acting on its behalf     *
+ * a paid-up, nonexclusive, irrevocable worldwide license    *
+ * in this material to reproduce, prepare derivative works,  *
+ * distribute copies to the public, perform publicly and     *
+ * display publicly, and to permit others to do so.          *
+ *                                                           *
+ * NEITHER THE UNITED STATES NOR THE UNITED STATES           *
+ * DEPARTMENT OF ENERGY, NOR LOS ALAMOS NATIONAL SECURITY,   *
+ * LLC, NOR ANY OF THEIR EMPLOYEES, MAKES ANY WARRANTY,      *
+ * EXPRESS OR IMPLIED, OR ASSUMES ANY LEGAL LIABILITY OR     *
+ * RESPONSIBILITY FOR THE ACCURACY, COMPLETENESS, OR         *
+ * USEFULNESS OF ANY INFORMATION, APPARATUS, PRODUCT, OR     *
+ * PROCESS DISCLOSED, OR REPRESENTS THAT ITS USE WOULD NOT   *
+ * INFRINGE PRIVATELY OWNED RIGHTS.                          *
+ *                                                           *
+ *************************************************************
+ warning.  universe map (print table 128) disabled.
+ phys:n 100 4j -1 2                                                   
+ warning.  no recoil particle type specified on mode card.
+ m2    6000   3.549E-02      $ Plexiglas - C5H8O2 - rho=1.18 - MCNP Pr
+ warning.  material   2 is not used in the problem.
+ m318  48106.70c     -0.011777  $Cadmium rho = 8.65 g/cc,             
+ warning.  material 318 is not used in the problem.
+ 
+ warning.  total nu is now the default for fixed-source problems.
+ warning.   106 surfaces were deleted for being the same as others.
+ warning.  surface      6.6 appears more than once in a chain.
+ warning.  surface     11.2 appears more than once in a chain.
+ warning.  surface     10.1 appears more than once in a chain.
+ warning.  surface      7.4 appears more than once in a chain.
+ warning.  surface      6.3 appears more than once in a chain.
+ warning.  surface      8.6 appears more than once in a chain.
+ warning.    8016.  c and   8016.70c are both called for.
+ warning.   13027.  c and  13027.70c are both called for.
+ warning.   14000.  c and  14000.60c are both called for.
+ warning.    2 materials had unnormalized fractions. print table 40.
+ warning.     1 cells appear to consist of more than one piece.
+ warning.  vol/area for repeated structure tally  154 may be wrong.
+ warning.  vol/area for repeated structure tally  254 may be wrong.
+ warning.  vol/area for repeated structure tally  354 may be wrong.
+ imcn   is done
+ warning.  fm/pert card rxn 105 is missing from   3007.70c
+ warning.  fm/pert card rxn 105 is missing from  12025.70c
+ warning.  fm/pert card rxn 105 is missing from  14000.60c
+ warning.        1 coincident energy grid points in  42096.70c
+ warning.        1 coincident energy grid points in  42097.70c
+ warning.  nubar of  98252.70c may be either prompt or total.
+ warning.   98252.70c lacks delayed neutron cross sections.
+ dump    1 on file NIrridiator_GS20.r   nps =           0  coll =              0
+                              ctm =      0.00     nrn =              0
+
+ xact   is done
+ dynamic storage =         0 words,          0 bytes.      cp0 =  0.35
+master starting      23 by       1 subtasks   07/03/13 08:32:08
+master sending static commons...
+master sharing runtpe file...
+master completed initialization broadcasts.
+rendezvous at nps =    10000000 # of microtasks =      23    07/03/13 08:32:11
+ run terminated because 230 particles got lost.
+ warning.  tally  31 tfc bin did not pass  3 of 10 statistical checks.
+ warning.  tally 154 tfc bin did not pass  3 of 10 statistical checks.
+ warning.  tally 254 tfc bin did not pass  3 of 10 statistical checks.
+ warning.  tally 354 tfc bin did not pass  3 of 10 statistical checks.
+ warning.     6 of   6 tallies did not pass all 10 statistical checks.
+ warning.     6 of   6 tallies had bins with large relative errors.
+ dump    2 on file NIrridiator_GS20.r   nps =     9566764  coll =        9071566
+                              ctm =      1.20     nrn =      163346703
+
+ tally data written to file NIrridiator_GS20.m                      
+ mcrun  is done

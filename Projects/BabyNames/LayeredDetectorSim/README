@@ -5,7 +5,8 @@ GEOMETRY:
   GS20Calibration:
     Calibration of the light yield and number of photons using GS20 glass
 
-  LayeredDetectorLightYield:
+
+LayeredDetectorLightYield:
     EJ426HD2  - 
     PSFilm    -
     Carborane -

@@ -1,51 +1,37 @@
-/// \file optical//include/DetectorMessenger.hh
-/// \brief Definition of the DetectorMessenger class
-//
-//
 #ifndef DetectorMessenger_h
 #define DetectorMessenger_h 1
 
-#include "G4UImessenger.hh"
 #include "globals.hh"
+#include "G4UImessenger.hh"
 
 class DetectorConstruction;
 class G4UIdirectory;
-class G4UIcmdWithADoubleAndUnit;
-class G4UIcmdWith3VectorAndUnit;
+class G4UIcmdWithAString;
 class G4UIcmdWithAnInteger;
-class G4UIcommand;
-class G4UIcmdWithABool;
-class G4UIcmdWithADouble;
+class G4UIcmdWithADoubleAndUnit;
+class G4UIcmdWithoutParameter;
 
 class DetectorMessenger: public G4UImessenger
 {
   public:
-
-    DetectorMessenger(DetectorConstruction*);
-    virtual ~DetectorMessenger();
- 
-    virtual void SetNewValue(G4UIcommand*, G4String);
- 
+    DetectorMessenger(DetectorConstruction* );
+   ~DetectorMessenger();
+    
+    void SetNewValue(G4UIcommand*, G4String);
+    
   private:
-
-    DetectorConstruction*     fDetector;
-    G4UIdirectory*               fDetectorDir;
-    G4UIdirectory*               fVolumesDir;
-    G4UIcmdWith3VectorAndUnit*   fDimensionsCmd;
-    G4UIcmdWithADoubleAndUnit*   fHousingThicknessCmd;
-    G4UIcmdWithADoubleAndUnit*   fPmtRadiusCmd;
-    G4UIcmdWithAnInteger*        fNxCmd;
-    G4UIcmdWithAnInteger*        fNyCmd;
-    G4UIcmdWithAnInteger*        fNzCmd;
-    G4UIcmdWithABool*            fSphereCmd;
-    G4UIcmdWithADouble*          fReflectivityCmd;
-    G4UIcmdWithABool*            fWlsCmd;
-    G4UIcmdWithABool*            fLxeCmd;
-    G4UIcmdWithAnInteger*        fNFibersCmd;
-    G4UIcommand*                 fUpdateCmd;
-    G4UIcommand*                 fDefaultsCmd;
-    G4UIcmdWithADouble*        fMainScintYield;
-    G4UIcmdWithADouble*        fWLSScintYield;
+    DetectorConstruction* Detector;
+    
+    G4UIdirectory*             PolymerTransportDir;
+    G4UIdirectory*             detDir;
+    G4UIcmdWithAString*        AbsMaterCmd;
+    G4UIcmdWithAString*        GapMaterCmd;
+    G4UIcmdWithADoubleAndUnit* AbsThickCmd;
+    G4UIcmdWithADoubleAndUnit* GapThickCmd;
+    G4UIcmdWithADoubleAndUnit* SizeRadiusCmd;
+    G4UIcmdWithAnInteger*      NbLayersCmd;    
+    G4UIcmdWithoutParameter*   UpdateCmd;
 };
 
 #endif
+

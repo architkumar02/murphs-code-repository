@@ -1,59 +1,45 @@
-/// \file optical//src/PhysicsList.cc
-/// \brief Implementation of the PhysicsList class
-//
-//
 #include "PhysicsList.hh"
 
-#include "GeneralPhysics.hh"
-#include "EMPhysics.hh"
-#include "MuonPhysics.hh"
-
+#include "G4EmDNAPhysics.hh"
+#include "G4EmStandardPhysics.hh"
+#include "G4EmStandardPhysics_option4.hh"
+#include "G4EmLivermorePhysics.hh"
 #include "G4OpticalPhysics.hh"
-#include "G4OpticalProcessIndex.hh"
+#include "HadronPhysicsQGSP_BERT_HP.hh"
+#include "G4IonPhysics.hh"
+#include "MyIonPhysics.hh"
+/**
+ * PhysicsList
+ *
+ * Constructs the physics of the simulation
+ */
+PhysicsList::PhysicsList() : G4VModularPhysicsList() {
+    currentDefaultCut   = 10*nm;
 
-#include "G4SystemOfUnits.hh"
+    // SetVerboseLevel(1);
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-PhysicsList::PhysicsList() : G4VModularPhysicsList()
-{
-  // default cut value  (1.0mm)
-  defaultCutValue = 1.0*mm;
-
-  // General Physics
-  RegisterPhysics( new GeneralPhysics("general") );
-
-  // EM Physics
-  RegisterPhysics( new EMPhysics("standard EM"));
-
-  // Muon Physics
-  RegisterPhysics( new MuonPhysics("muon"));
-
-  // Optical Physics
-  G4OpticalPhysics* opticalPhysics = new G4OpticalPhysics();
-  RegisterPhysics( opticalPhysics );
-
-  opticalPhysics->SetWLSTimeProfile("delta");
-
-  opticalPhysics->SetScintillationYieldFactor(1.0);
-  opticalPhysics->SetScintillationExcitationRatio(0.0);
-
-  opticalPhysics->SetMaxNumPhotonsPerStep(100);
-  opticalPhysics->SetMaxBetaChangePerStep(10.0);
-
-  opticalPhysics->SetTrackSecondariesFirst(kCerenkov,true);
-  opticalPhysics->SetTrackSecondariesFirst(kScintillation,true);
-
+    // Adding Physics List
+    RegisterPhysics( new HadronPhysicsQGSP_BERT_HP());
+//    RegisterPhysics( new G4IonPhysics());
+    RegisterPhysics( new MyIonPhysics(1));
+   // RegisterPhysics( new G4HadronElasticPhysicsXS());
+   // RegisterPhysics( new G4QStoppingPhysics());
+    
+    RegisterPhysics( new G4EmStandardPhysics_option4());
+   // RegisterPhysics( new G4EmDNAPhysics());
 }
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-PhysicsList::~PhysicsList() {}
+PhysicsList::~PhysicsList(){
+    // Nothing to be done
+}
+
+
 
 //....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
 void PhysicsList::SetCuts(){
-  //  " G4VUserPhysicsList::SetCutsWithDefault" method sets
-  //   the default cut value for all particle types
-  SetCutsWithDefault();
+
+    SetDefaultCutValue(10*nm);
 }

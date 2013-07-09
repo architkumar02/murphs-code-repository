@@ -1,27 +1,27 @@
-/// \file optical//include/RunAction.hh
-/// \brief Definition of the RunAction class
-//
-//
-#include "G4UserRunAction.hh"
+/**
+ * @file    RunAction.hh
+ *
+ * @date    5 July 2012
+ * @author  murffer
+ *
+ * @brief   Implements user class RunAction
+ */
 
 #ifndef RunAction_h
 #define RunAction_h 1
 
-class RecorderBase;
+#include "G4UserRunAction.hh"
+#include "globals.hh"
+#include "Analysis.hh"
 
-class RunAction : public G4UserRunAction
-{
-  public:
+class G4Run;
 
-    RunAction(RecorderBase*);
-    virtual ~RunAction();
-
-    virtual void BeginOfRunAction(const G4Run*);
-    virtual void EndOfRunAction(const G4Run*);
-
-  private:
-
-    RecorderBase* fRecorder;
+class RunAction : public G4UserRunAction{
+    public:
+        RunAction();
+        virtual ~RunAction() {};
+        virtual void BeginOfRunAction(const G4Run*);
+        virtual void   EndOfRunAction(const G4Run*);
+    private:
 };
-
 #endif

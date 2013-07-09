@@ -19,71 +19,49 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		DetectorConstruction();
 		virtual ~DetectorConstruction();
 
-		virtual G4VPhysicalVolume* Construct();
+		virtual G4VPhysicalVolume* Construct();                     /* Construct the detector */
 
-		void PrintCaloParameters();
-
-		G4double GetWorldSizeXY()			{return worldSizeXY;};
-		G4double GetWorldSizeZ()			{return worldSizeZ;};
-		G4double GetCaloThickness()		    {return caloThickness;};
-		G4double GetCaloRadius()			{return oRadius;};
-
+		G4double GetGS20Thickness()		    {return gs20Thickness;};  /* GS20 Thickness      */
+		G4double GetGS20Radius()			    {return gs20Radius;};     /* GS20 Radius         */
 		G4Material* GetAbsorberMaterial()		{return absMaterial;};
-		G4Material* GetGapMaterial()			{return gapMaterial;};
-		
-        G4double    GetAbsorberThickness()		{return absThickness;};
-		G4double	GetGapThickness()			{return gapThickness;};
 
-		const G4VPhysicalVolume* GetPhysicalWorld()		{return worldPV;};
-
-		void SetAbsorberMaterial(G4String);
-		void SetAbsorberThickness(G4double);
-
-		void SetGapMaterial(G4String);
-		void SetGapThickness(G4double);
-
-		void SetCaloRadius(G4double);
+		void SetGS20Thickness(G4double);
 
 		void UpdateGeometry();
-	private:
-		//! Define needed materials
-		void DefineMaterials();
-		//! Initialzie geometry parametners
-		void ComputeParameters();
-		//! Creates the Calorimeter (detector)
-		G4VPhysicalVolume* ConstructCalorimeter();
-		//! Sets the visualtiation attributes
-		void SetVisAttributes();
-		//! Sets the Sensitve Detectors
-		void SetSensitiveDetectors();
+		void PrintParameters();
 
-		// Geometry Names
+private:
+
+    /* METHODS */
+		void DefineMaterials();                       /* Define Materials                 */
+		G4VPhysicalVolume* ConstructDetector();       /* Constructs the detector          */
+		void SetVisAttributes();                      /* Sets visulationation attributes  */
+		void SetSensitiveDetectors();                 /* Sets up sensitive detectors      */
+
+    /* FIELDS */
 		G4LogicalVolume*    worldLV;		// World
 		G4VPhysicalVolume*  worldPV;
 		G4VSolid*           worldS;
 
-        G4LogicalVolume*    absLV;			// Absorber Volume
-		G4VPhysicalVolume*  absPV;			
-		G4VSolid*	        absS;
+    G4LogicalVolume*    gs20LV;			// GS20 Volume
+		G4VPhysicalVolume*  gs20PV;			
+		G4VSolid*	          gs20S;
 
-        G4LogicalVolume*    gapLV;         // Calorimeter (gap)
-        G4VPhysicalVolume*  gapPV;
-        G4VSolid*           gapS;
+    G4LogicalVolume*    pmtLV;      /* PMT */
+    G4VPhysicalVolume*  pmtPV;
+    G4VSolid*           pmtS;
     
 		// Materials
 		G4Material* defaultMaterial;    	// Vacumun
-		G4Material* absMaterial;   		// Detector material
-		G4Material* gapMaterial;        	// Gap material
+		G4Material* absMaterial;   		    // Detector material (GS20)
+		G4Material* refMaterial;        	// reflector material (teflon)
 
 		// Geometry parameters
-        G4double absThickness;	      	// Thickness of Absorber
-		G4double gapThickness;        	// Thickness of Gap 
-		G4double oRadius;		    	// Outer Radius of Detector
-		G4double iRadius;			    // Inner radious of  Detector
-		G4double startAngle;
-		G4double spanAngle;
-
-		G4double caloThickness;         // Thickness of entire calorimeter
+    G4double gs20Thickness;	      	// Thickness of Absorber
+		G4double refThickness;        	// Thickness of Reflector
+		G4double gs20Radius;		    	  // Outer Radius of Detector
+    G4double pmtRadius;             // Radius of the PMT
+		G4double detectorThickness;         // Thickness of entire detectorrimeter
 		G4double worldSizeXY;
 		G4double worldSizeZ;
 

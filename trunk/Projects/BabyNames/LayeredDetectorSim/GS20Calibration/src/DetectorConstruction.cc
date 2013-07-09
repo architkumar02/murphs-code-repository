@@ -1,372 +1,363 @@
-/// \file optical//src/DetectorConstruction.cc
-/// \brief Implementation of the DetectorConstruction class
-//
-//
 #include "DetectorConstruction.hh"
-#include "PMTSD.hh"
-#include "ScintSD.hh"
 #include "DetectorMessenger.hh"
-#include "MainVolume.hh"
-#include "WLSSlab.hh"
 
-#include "G4SDManager.hh"
-#include "G4RunManager.hh"
-#include "G4LogicalBorderSurface.hh"
-#include "G4LogicalSkinSurface.hh"
-#include "G4OpticalSurface.hh"
-#include "G4MaterialTable.hh"
-#include "G4VisAttributes.hh"
+#include "globals.hh"
 #include "G4Material.hh"
+#include "G4NistManager.hh"
+#include "G4UnitsTable.hh"
+
 #include "G4Box.hh"
 #include "G4Tubs.hh"
-#include "G4Sphere.hh"
 #include "G4LogicalVolume.hh"
-#include "G4ThreeVector.hh"
+#include "G4PVReplica.hh"
 #include "G4PVPlacement.hh"
-#include "globals.hh"
-#include "G4SolidStore.hh"
-#include "G4LogicalVolumeStore.hh"
-#include "G4PhysicalVolumeStore.hh"
+
 #include "G4GeometryManager.hh"
-#include "G4UImanager.hh"
-#include "G4PhysicalConstants.hh"
-#include "G4SystemOfUnits.hh"
+#include "G4PhysicalVolumeStore.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4SolidStore.hh"
 
-G4bool DetectorConstruction::fSphereOn = true;
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+#include "CaloSensitiveDetector.hh"
+#include "G4SDManager.hh"
 
-DetectorConstruction::DetectorConstruction()
-: f_mt(NULL), fMPTPStyrene(NULL)
-{
-  fExperimentalHall_box = NULL;
-  fExperimentalHall_log = NULL;
-  fExperimentalHall_phys = NULL;
+#include "G4VisAttributes.hh"
+#include "G4Colour.hh"
 
-  f = fAl = fAir = fVacuum = fGlass = NULL;
-  fPstyrene = fPMMA = fPethylene1 = fPethylene2 = NULL;
+#include "G4FieldManager.hh"
+#include "G4TransportationManager.hh"
+#include "G4UserLimits.hh"
 
-  fN = fO = fC = fH = NULL;
+#include "Analysis.hh"
 
-  fUpdated = false;
+/**
+ * DetectorConstruction
+ *
+ * Setting the default detector construciton.
+ */
+DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
+    fCheckOverlaps(true){
 
-  SetDefaults();
+        worldSizeZ  = 25*cm;      // Fixed World Size; 
+        
+        // Geometry parameters
+        absThickness = 5*cm;	        // Thickness of Absorber
+        gapThickness = 1*cm;            // Thickness of Gap 
+        oRadius  = 2.54*cm;		        // Outer Radius of Detector
+        iRadius = 0.*cm;				// Inner radious of  Detector
+        startAngle = 0.*deg;
+        spanAngle = 360.*deg;
 
-  fDetectorMessenger = new DetectorMessenger(this);
+        // Compute parameters
+        ComputeParameters();
+
+        // Define materials 
+        DefineMaterials();
+        SetAbsorberMaterial("EJ426HD2");
+        SetGapMaterial("G4_PLEXIGLASS");
+
+        // Create commands for interactive defiantions of the calorimeter
+        detectorMessenger = new DetectorMessenger(this);
+    }
+
+DetectorConstruction::~DetectorConstruction(){
+
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-DetectorConstruction::~DetectorConstruction() {}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void DetectorConstruction::DefineMaterials(){
-  G4double a;  // atomic mass
-  G4double z;  // atomic number
-  G4double density;
-
-  G4int polyPMMA = 1;
-  G4int nC_PMMA = 3+2*polyPMMA;
-  G4int nH_PMMA = 6+2*polyPMMA;
-
-  G4int polyeth = 1;
-  G4int nC_eth = 2*polyeth;
-  G4int nH_eth = 4*polyeth;
-
-  //***Elements
-  fH = new G4Element("H", "H", z=1., a=1.01*g/mole);
-  fC = new G4Element("C", "C", z=6., a=12.01*g/mole);
-  fN = new G4Element("N", "N", z=7., a= 14.01*g/mole);
-  fO = new G4Element("O"  , "O", z=8., a= 16.00*g/mole);
-
-  //***Materials
-  //Liquid Xenon
-  f = new G4Material("",z=54.,a=131.29*g/mole,density=3.020*g/cm3);
-  //Aluminum
-  fAl = new G4Material("Al",z=13.,a=26.98*g/mole,density=2.7*g/cm3);
-  //Vacuum
-  fVacuum = new G4Material("Vacuum",z=1.,a=1.01*g/mole,
-                          density=universe_mean_density,kStateGas,0.1*kelvin,
-                          1.e-19*pascal);
-  //Air
-  fAir = new G4Material("Air", density= 1.29*mg/cm3, 2);
-  fAir->AddElement(fN, 70*perCent);
-  fAir->AddElement(fO, 30*perCent);
-  //Glass
-  fGlass = new G4Material("Glass", density=1.032*g/cm3,2);
-  fGlass->AddElement(fC,91.533*perCent);
-  fGlass->AddElement(fH,8.467*perCent);
-  //Polystyrene
-  fPstyrene = new G4Material("Polystyrene", density= 1.03*g/cm3, 2);
-  fPstyrene->AddElement(fC, 8);
-  fPstyrene->AddElement(fH, 8);
-  //Fiber(PMMA)
-  fPMMA = new G4Material("PMMA", density=1190*kg/m3,3);
-  fPMMA->AddElement(fH,nH_PMMA);
-  fPMMA->AddElement(fC,nC_PMMA);
-  fPMMA->AddElement(fO,2);
-  //Cladding(polyethylene)
-  fPethylene1 = new G4Material("Pethylene1", density=1200*kg/m3,2);
-  fPethylene1->AddElement(fH,nH_eth);
-  fPethylene1->AddElement(fC,nC_eth);
-  //Double cladding(flourinated polyethylene)
-  fPethylene2 = new G4Material("Pethylene2", density=1400*kg/m3,2);
-  fPethylene2->AddElement(fH,nH_eth);
-  fPethylene2->AddElement(fC,nC_eth);
- 
-  //***Material properties tables
-
-  const G4int lxenum = 3;
-  G4double lxe_Energy[lxenum]    = { 7.0*eV , 7.07*eV, 7.14*eV };
-
-  G4double lxe_SCINT[lxenum] = { 0.1, 1.0, 0.1 };
-  G4double lxe_RIND[lxenum]  = { 1.59 , 1.57, 1.54 };
-  G4double lxe_ABSL[lxenum]  = { 35.*cm, 35.*cm, 35.*cm};
-  f_mt = new G4MaterialPropertiesTable();
-  f_mt->AddProperty("FASTCOMPONENT", lxe_Energy, lxe_SCINT, lxenum);
-  f_mt->AddProperty("SLOWCOMPONENT", lxe_Energy, lxe_SCINT, lxenum);
-  f_mt->AddProperty("RINDEX",        lxe_Energy, lxe_RIND,  lxenum);
-  f_mt->AddProperty("ABSLENGTH",     lxe_Energy, lxe_ABSL,  lxenum);
-  f_mt->AddConstProperty("SCINTILLATIONYIELD",12000./MeV);
-  f_mt->AddConstProperty("RESOLUTIONSCALE",1.0);
-  f_mt->AddConstProperty("FASTTIMECONSTANT",20.*ns);
-  f_mt->AddConstProperty("SLOWTIMECONSTANT",45.*ns);
-  f_mt->AddConstProperty("YIELDRATIO",1.0);
-  f->SetMaterialPropertiesTable(f_mt);
-
-  // Set the Birks Constant for the  scintillator
-
-  f->GetIonisation()->SetBirksConstant(0.126*mm/MeV);
- 
-  G4double glass_RIND[lxenum]={1.49,1.49,1.49};
-  G4double glass_AbsLength[lxenum]={420.*cm,420.*cm,420.*cm};
-  G4MaterialPropertiesTable *glass_mt = new G4MaterialPropertiesTable();
-  glass_mt->AddProperty("ABSLENGTH",lxe_Energy,glass_AbsLength,lxenum);
-  glass_mt->AddProperty("RINDEX",lxe_Energy,glass_RIND,lxenum);
-  fGlass->SetMaterialPropertiesTable(glass_mt);
-
-  G4double vacuum_Energy[lxenum]={2.0*eV,7.0*eV,7.14*eV};
-  G4double vacuum_RIND[lxenum]={1.,1.,1.};
-  G4MaterialPropertiesTable *vacuum_mt = new G4MaterialPropertiesTable();
-  vacuum_mt->AddProperty("RINDEX", vacuum_Energy, vacuum_RIND,lxenum);
-  fVacuum->SetMaterialPropertiesTable(vacuum_mt);
-  fAir->SetMaterialPropertiesTable(vacuum_mt);//Give air the same rindex
-
-  const G4int wlsnum = 4;
-  G4double wls_Energy[] = {2.00*eV,2.87*eV,2.90*eV,3.47*eV};
- 
-  G4double rIndexPstyrene[wlsnum]={ 1.5, 1.5, 1.5, 1.5};
-  G4double absorption1[wlsnum]={2.*cm, 2.*cm, 2.*cm, 2.*cm};
-  G4double scintilFast[wlsnum]={0.00, 0.00, 1.00, 1.00};
-  fMPTPStyrene = new G4MaterialPropertiesTable();
-  fMPTPStyrene->AddProperty("RINDEX",wls_Energy,rIndexPstyrene,wlsnum);
-  fMPTPStyrene->AddProperty("ABSLENGTH",wls_Energy,absorption1,wlsnum);
-  fMPTPStyrene->AddProperty("FASTCOMPONENT",wls_Energy, scintilFast,wlsnum);
-  fMPTPStyrene->AddConstProperty("SCINTILLATIONYIELD",10./keV);
-  fMPTPStyrene->AddConstProperty("RESOLUTIONSCALE",1.0);
-  fMPTPStyrene->AddConstProperty("FASTTIMECONSTANT", 10.*ns);
-  fPstyrene->SetMaterialPropertiesTable(fMPTPStyrene);
-
-  // Set the Birks Constant for the Polystyrene scintillator
-
-  fPstyrene->GetIonisation()->SetBirksConstant(0.126*mm/MeV);
-
-  G4double RefractiveIndexFiber[wlsnum]={ 1.60, 1.60, 1.60, 1.60};
-  G4double AbsFiber[wlsnum]={9.00*m,9.00*m,0.1*mm,0.1*mm};
-  G4double EmissionFib[wlsnum]={1.0, 1.0, 0.0, 0.0};
-  G4MaterialPropertiesTable* fiberProperty = new G4MaterialPropertiesTable();
-  fiberProperty->AddProperty("RINDEX",wls_Energy,RefractiveIndexFiber,wlsnum);
-  fiberProperty->AddProperty("WLSABSLENGTH",wls_Energy,AbsFiber,wlsnum);
-  fiberProperty->AddProperty("WLSCOMPONENT",wls_Energy,EmissionFib,wlsnum);
-  fiberProperty->AddConstProperty("WLSTIMECONSTANT", 0.5*ns);
-  fPMMA->SetMaterialPropertiesTable(fiberProperty);
-
-  G4double RefractiveIndexClad1[wlsnum]={ 1.49, 1.49, 1.49, 1.49};
-  G4MaterialPropertiesTable* clad1Property = new G4MaterialPropertiesTable();
-  clad1Property->AddProperty("RINDEX",wls_Energy,RefractiveIndexClad1,wlsnum);
-  clad1Property->AddProperty("ABSLENGTH",wls_Energy,AbsFiber,wlsnum);
-  fPethylene1->SetMaterialPropertiesTable(clad1Property);
-
-  G4double RefractiveIndexClad2[wlsnum]={ 1.42, 1.42, 1.42, 1.42};
-  G4MaterialPropertiesTable* clad2Property = new G4MaterialPropertiesTable();
-  clad2Property->AddProperty("RINDEX",wls_Energy,RefractiveIndexClad2,wlsnum);
-  clad2Property->AddProperty("ABSLENGTH",wls_Energy,AbsFiber,wlsnum);
-  fPethylene2->SetMaterialPropertiesTable(clad2Property);
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+/**
+ * Construct
+ *
+ * Creating the detector's world volume
+ */
 G4VPhysicalVolume* DetectorConstruction::Construct(){
-  DefineMaterials();
-  return ConstructDetector();
+
+    // Return Physical World
+    G4VPhysicalVolume* calo = ConstructCalorimeter();
+
+    // Set Visulation Attributes
+    SetVisAttributes();
+
+    // Assign Sensitve Detectors
+    SetSensitiveDetectors();
+    return calo;
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-G4VPhysicalVolume* DetectorConstruction::ConstructDetector()
+void DetectorConstruction::DefineMaterials()
 {
-  //The experimental hall walls are all 1m away from housing walls
-  G4double expHall_x = fScint_x+fD_mtl+1.*m;
-  G4double expHall_y = fScint_y+fD_mtl+1.*m;
-  G4double expHall_z = fScint_z+fD_mtl+1.*m;
+    G4String name, symbol;             // a=mass of a mole;
+    G4double a, z, density;            // z=mean number of protons;  
+    G4int iz, n;                       // iz=nb of protons  in an isotope; 
+    // n=nb of nucleons in an isotope;
+    G4int nAtoms;
+    G4int nComponents;
 
-  //Create experimental hall
-  fExperimentalHall_box
-    = new G4Box("expHall_box",expHall_x,expHall_y,expHall_z);
-  fExperimentalHall_log = new G4LogicalVolume(fExperimentalHall_box,
-                                             fVacuum,"expHall_log",0,0,0);
-  fExperimentalHall_phys = new G4PVPlacement(0,G4ThreeVector(),
-                              fExperimentalHall_log,"expHall",0,false,0);
+    // NIST Material Manager
+    G4NistManager* nistManager = G4NistManager::Instance();
+    G4bool fromIsotopes = true;
 
-  fExperimentalHall_log->SetVisAttributes(G4VisAttributes::Invisible);
+    // Getting Elements
+    G4Element* eH = nistManager->FindOrBuildElement("H",fromIsotopes);
+    G4Element* eC = nistManager->FindOrBuildElement("C",fromIsotopes);
+    G4Element* eO = nistManager->FindOrBuildElement("O",fromIsotopes);
+    G4Element* eN = nistManager->FindOrBuildElement("N",fromIsotopes);
+    G4Element* eF = nistManager->FindOrBuildElement("F",fromIsotopes);
+    G4Element* eS = nistManager->FindOrBuildElement("S",fromIsotopes);
+    G4Element* eZn = nistManager->FindOrBuildElement("Zn",fromIsotopes);
 
-  //Place the main volume
-  if(fMainVolume){
-    new MainVolume(0,G4ThreeVector(),fExperimentalHall_log,false,0,this);
-  }
+    // defining enriched Lithium 6
+    G4double a6Li = 6.015*g/mole;	// Molar Masses (Wolfram Alpha)
+    G4double a7Li = 7.016*g/mole;
+    G4double enrichement = 110.815*perCent;
+    G4double abundance6Li = enrichement*a6Li/a7Li;		// Relative Abudadance
+    G4double abundance7Li = 1-abundance6Li;
 
-  //Place the WLS slab
-  if(fWLSslab){
-    G4VPhysicalVolume* slab = new WLSSlab(0,G4ThreeVector(0.,0.,
-                                             -fScint_z/2.-fSlab_z-1.*cm),
-                                             fExperimentalHall_log,false,0,
-                                             this);
+    G4Isotope* Li6 = new G4Isotope(name="Li6", iz=3, n=6, a6Li);
+    G4Isotope* Li7 = new G4Isotope(name="Li7", iz=3, n=7, a7Li);
+    G4Element* enrichLi  = new G4Element(name="enriched Lithium", symbol="Li", nComponents=2);
+    enrichLi->AddIsotope(Li6, abundance6Li);
+    enrichLi->AddIsotope(Li7, abundance7Li);
 
-    //Surface properties for the WLS slab
-    G4OpticalSurface* scintWrap = new G4OpticalSurface("ScintWrap");
- 
-    new G4LogicalBorderSurface("ScintWrap", slab,
-                               fExperimentalHall_phys,
-                               scintWrap);
- 
-    scintWrap->SetType(dielectric_metal);
-    scintWrap->SetFinish(polished);
-    scintWrap->SetModel(glisur);
+    // Defining 6LiF Absorber
+    G4Material* LiAbsorber = new G4Material("6LiF",density=1.0*g/cm3,nComponents=2);
+    LiAbsorber->AddElement(enrichLi,nAtoms=1);
+    LiAbsorber->AddElement(eF,nAtoms=1);
 
-    const G4int num = 2;
+    // PPO C15H11NO
+    G4Material* PPO = new G4Material("PPO",density=1.1*g/cm3,nComponents=4,kStateSolid);
+    PPO->AddElement(eC,nAtoms=15);
+    PPO->AddElement(eH,nAtoms=11);
+    PPO->AddElement(eO,nAtoms=1);
+    PPO->AddElement(eN,nAtoms=1);
 
-    G4double pp[num] = {2.0*eV, 3.5*eV};
-    G4double reflectivity[num] = {1., 1.};
-    G4double efficiency[num] = {0.0, 0.0};
+    // POPOP C24H15N2O2
+    G4Material* POPOP = new G4Material("POPOP",density=1.1*g/cm3,nComponents=4,kStateSolid);
+    POPOP->AddElement(eC,nAtoms=24);
+    POPOP->AddElement(eH,nAtoms=15);
+    POPOP->AddElement(eO,nAtoms=2);
+    POPOP->AddElement(eN,nAtoms=2);
+
+    // Scintillant
+    G4double fractionPPO = 46./(46.+1.36);		// Scintillant is in the ratio of 46 g PPO to 1.36 g POPOP
+    G4Material* scintillant = new G4Material("PPO/POPOP",density=1.1*g/cm3,nComponents=2,kStateSolid);
+    scintillant->AddMaterial(PPO,fractionPPO);
+    scintillant->AddMaterial(POPOP,1-fractionPPO);
+
+    // Polymer PS Based Detector
+    G4double fractionPolymer = 0.85;
+    G4double fractionScintillant = 0.05;
+    G4double fractionAbsorber = 0.10;
+    G4Material* psDetector = new G4Material("PS_Detector",density=1.1*g/cm3,nComponents=3,kStateSolid);
+    psDetector->AddMaterial(nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes),fractionPolymer);
+    psDetector->AddMaterial(scintillant,fractionScintillant);
+    psDetector->AddMaterial(LiAbsorber,fractionAbsorber);
     
-    G4MaterialPropertiesTable* scintWrapProperty 
-      = new G4MaterialPropertiesTable();
+    // Defining EJ426 HD2
+    G4double massFraction;
+    G4Material* EJ426HD2 = new G4Material("EJ426HD2",density=4.1*g/cm3,nComponents=4);
+    EJ426HD2->AddElement(enrichLi,massFraction=0.081);
+    EJ426HD2->AddElement(eF,massFraction=0.253);
+    EJ426HD2->AddElement(eZn,massFraction=0.447);
+    EJ426HD2->AddElement(eS,massFraction=0.219);
 
-    scintWrapProperty->AddProperty("REFLECTIVITY",pp,reflectivity,num);
-    scintWrapProperty->AddProperty("EFFICIENCY",pp,efficiency,num);
-    scintWrap->SetMaterialPropertiesTable(scintWrapProperty);
-  }
+    // Vacuum
+    new G4Material("Galactic", z=1., a=1.01*g/mole,density= universe_mean_density,kStateGas, 2.73*kelvin, 3.e-18*pascal);
 
-  return fExperimentalHall_phys;
+    nistManager->FindOrBuildMaterial("G4_PLEXIGLASS",fromIsotopes);
+    nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes);
+    nistManager->FindOrBuildMaterial("G4_AIR",fromIsotopes);
+    nistManager->FindOrBuildMaterial("G4_WATER",fromIsotopes);
+   
+   // Print materials
+    // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
+
+    // Default Material
+    defaultMaterial = G4Material::GetMaterial("Galactic");
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
 
-void DetectorConstruction::SetDimensions(G4ThreeVector dims){
-  this->fScint_x=dims[0];
-  this->fScint_y=dims[1];
-  this->fScint_z=dims[2];
-  fUpdated=true;
-}
- 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+/**
+ * ComputeParameters
+ *
+ */
+void DetectorConstruction::ComputeParameters(){
 
-void DetectorConstruction::SetHousingThickness(G4double d_mtl){
-  this->fD_mtl=d_mtl;
-  fUpdated=true;
+    caloThickness = absThickness+2*gapThickness;
+    worldSizeXY = 1.2 * oRadius;
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+/**
+ * PrintCaloParameters
+ *
+ * Prints the parameters of the geometry
+ */
+void DetectorConstruction::PrintCaloParameters(){
 
-void DetectorConstruction::SetNX(G4int nx){
-  this->fNx=nx;
-  fUpdated=true;
+    // print parameters
+    G4cout << "\n------------ Calorimeter Parameters ---------------------"
+        <<"\n--> The carlorimeter is a single layer of: \n\t[ "
+        << G4BestUnit(absThickness,"Length")<< " of " << absMaterial->GetName() 
+        << " + "
+        << G4BestUnit(gapThickness,"Length") << " of " << gapMaterial->GetName() << " ]"
+        << "\n--> The calormeter is " <<G4BestUnit(caloThickness,"Length") << " thick"
+        << " with a radius of "<<G4BestUnit(oRadius,"Length")<<""
+        << "\n------------------------------------------------------------\n"
+        <<" The world is "<<worldSizeXY/cm<<" cm by "<<worldSizeXY/cm 
+        <<" cm by "<<worldSizeZ/cm<<" cm."
+        <<G4endl;
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+/**
+ * ConstructCalorimeter()
+ *
+ * Calorimeter is constructed as a solid cylinder of the gap (non-scintillating)
+ * material with layers of the absorber (scintillating) material.
+ */
+G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 
-void DetectorConstruction::SetNY(G4int ny){
-  this->fNy=ny;
-  fUpdated=true;
+    // Clean old geometry, if any
+    G4GeometryManager::GetInstance()->OpenGeometry();
+    G4PhysicalVolumeStore::GetInstance()->Clean();
+    G4LogicalVolumeStore::GetInstance()->Clean();
+    G4SolidStore::GetInstance()->Clean();
+
+    // complete the Calor parameters definition
+    ComputeParameters();
+
+
+    // World
+    worldS = new G4Box("World",worldSizeXY, worldSizeXY, worldSizeZ); 
+    worldLV = new G4LogicalVolume(worldS,defaultMaterial,"World");
+    worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",
+            0,false,0,fCheckOverlaps);
+
+    //
+    // Setting up the Calorimeter
+    //
+    // The beam is shotting along the z, comming from +z
+
+    // Absorber
+    absS = new G4Tubs("Abs",iRadius,oRadius,absThickness/2,0,360*deg);
+    absLV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
+    absPV = new G4PVPlacement(0,G4ThreeVector(0,0,(gapThickness+absThickness)/2),
+                absLV,"Absorber",worldLV,false,0,fCheckOverlaps);
+    
+    // Spacer / gap
+    gapS = new G4Tubs("Gap",iRadius,oRadius,gapThickness/2,0,360*deg);
+    gapLV = new G4LogicalVolume(gapS,gapMaterial,"Gap",0);
+    gapPV = new G4PVPlacement(0,G4ThreeVector(),
+                gapLV,"Gap",worldLV,false,0,fCheckOverlaps);
+
+    PrintCaloParameters();
+
+    // Return the worlds physical volume
+    return worldPV;
+}
+/**
+ * SetSensitiveDetectors
+ *
+ * Setting the Sensitive Detectors of the Detector
+ */
+void DetectorConstruction::SetSensitiveDetectors(){
+    G4SDManager* SDman = G4SDManager::GetSDMpointer();
+    caloSD = new CaloSensitiveDetector("SD/CaloSD","CaloHitCollection");
+    SDman->AddNewDetector(caloSD);
+    absLV->SetSensitiveDetector(caloSD);
+
+    // Setting the Maximum Step Size
+    G4double maxStep = 0.01*absThickness;
+    absLV->SetUserLimits(new G4UserLimits(maxStep));
+}
+/**
+ * SetVisAttributes()
+ *
+ * Sets the visualtion attributes
+ */
+#include "G4Colour.hh"
+void DetectorConstruction::SetVisAttributes(){
+    
+    // Setting the Visualization attributes for the Abs
+    {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Cyan());
+    //atb->SetForceWireframe(true);
+    //atb->SetForceSolid(true);
+    absLV->SetVisAttributes(atb);}
+
+    // Setting the Visualization attributes for the Calorimeter 
+    {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Gray());
+    //atb->SetForceWireframe(true);
+    //atb->SetForceSolid(true);
+    gapLV->SetVisAttributes(atb);}
+
+    // Setting the Layers to be white and invisiable
+    {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
+   // atb->SetForceWireframe(true);
+    atb->SetVisibility(false);
+    worldLV->SetVisAttributes(atb);}
+    
+    // Setting the World to be white and invisiable
+    {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
+    //atb->SetForceWireframe(true);
+    atb->SetVisibility(false);
+    worldPV->GetLogicalVolume()->SetVisAttributes(atb);}
+
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void DetectorConstruction::SetNZ(G4int nz){
-  this->fNz=nz;
-  fUpdated=true;
+/**
+ * SetAbsorberMaterial
+ *
+ * Set's the absorber material, which contains the neutron absorber
+ */
+void DetectorConstruction::SetAbsorberMaterial(G4String materialChoice){
+    G4Material* pttoMaterial = G4Material::GetMaterial(materialChoice);     
+    if (pttoMaterial) absMaterial = pttoMaterial;
+}
+/**
+ * SetGapMaterial
+ *
+ * Set's the gap material.
+ */
+void DetectorConstruction::SetGapMaterial(G4String materialChoice){
+    G4Material* pttoMaterial = G4Material::GetMaterial(materialChoice);
+    if (pttoMaterial) gapMaterial = pttoMaterial;
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void DetectorConstruction::SetPMTRadius(G4double outerRadius_pmt){
-  this->fOuterRadius_pmt=outerRadius_pmt;
-  fUpdated=true;
+/**
+ * SetAbsorberThickness
+ *
+ * Sets the absorber thickness
+ */
+void DetectorConstruction::SetAbsorberThickness(G4double val){
+    absThickness = val;
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void DetectorConstruction::SetDefaults(){
-  //Resets to default values
-  fD_mtl=0.0635*cm;
-
-  fScint_x = 17.8*cm;
-  fScint_y = 17.8*cm;
-  fScint_z = 22.6*cm;
-
-  fNx = 2;
-  fNy = 2;
-  fNz = 3;
-
-  fOuterRadius_pmt = 2.3*cm;
-
-  fSphereOn = true;
-  fRefl=1.0;
-
-  fNfibers=15;
-  fWLSslab=false;
-  fMainVolume=true;
-  fSlab_z=2.5*mm;
-
-  G4UImanager::GetUIpointer()
-    ->ApplyCommand("//detector/scintYieldFactor 1.");
-
-  if(f_mt)f_mt->AddConstProperty("SCINTILLATIONYIELD",12000./MeV);
-  if(fMPTPStyrene)fMPTPStyrene->AddConstProperty("SCINTILLATIONYIELD",10./keV);
-
-  fUpdated=true;
+/**
+ * SetGapThickness
+ *
+ * Sets the thickness of the gap
+ */
+void DetectorConstruction::SetGapThickness(G4double val){
+    gapThickness = val;
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
+/**
+ * SetCaloRadius
+ *
+ * Sets the calorimter radius
+ */
+void DetectorConstruction::SetCaloRadius(G4double val){
+    oRadius = val;
+}
+
+#include "G4RunManager.hh"
 
 void DetectorConstruction::UpdateGeometry(){
+    G4RunManager::GetRunManager()->DefineWorldVolume(ConstructCalorimeter());
+    
+    absLV->SetSensitiveDetector(caloSD);
 
-  // clean-up previous geometry
-  G4GeometryManager::GetInstance()->OpenGeometry();
+    // Setting the Maximum Step Size
+    G4double maxStep = 0.01*absThickness;
+    absLV->SetUserLimits(new G4UserLimits(maxStep));
 
-  G4PhysicalVolumeStore::GetInstance()->Clean();
-  G4LogicalVolumeStore::GetInstance()->Clean();
-  G4SolidStore::GetInstance()->Clean();
-  G4LogicalSkinSurface::CleanSurfaceTable();
-  G4LogicalBorderSurface::CleanSurfaceTable();
-  G4SurfaceProperty::CleanSurfacePropertyTable();
-
-  //define new one
-  G4RunManager::GetRunManager()->DefineWorldVolume(ConstructDetector());
-  G4RunManager::GetRunManager()->GeometryHasBeenModified();
-
-  fUpdated=false;
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
-void DetectorConstruction::SetMainScintYield(G4double y){
-  f_mt->AddConstProperty("SCINTILLATIONYIELD",y/MeV);
-}
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
- 
-void DetectorConstruction::SetWLSScintYield(G4double y){
-  fMPTPStyrene->AddConstProperty("SCINTILLATIONYIELD",y/MeV);
+    G4RunManager::GetRunManager()->GeometryHasBeenModified();
 }

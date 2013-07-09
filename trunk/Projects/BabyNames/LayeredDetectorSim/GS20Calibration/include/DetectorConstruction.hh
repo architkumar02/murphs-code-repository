@@ -1,122 +1,97 @@
-/// \file optical//include/DetectorConstruction.hh
-/// \brief Definition of the DetectorConstruction class
-//
-//
-#ifndef DetectorConstruction_H
-#define DetectorConstruction_H 1
+#ifndef DetectorConstruction_h
+#define DetectorConstruction_h 1
 
-class G4LogicalVolume;
-class G4VPhysicalVolume;
-class G4Box;
-class G4Tubs;
-class PMTSD;
-class ScintSD;
-class G4Sphere;
-
-#include "G4Material.hh"
-#include "DetectorMessenger.hh"
-#include "G4VisAttributes.hh"
-#include "G4RotationMatrix.hh"
 #include "G4VUserDetectorConstruction.hh"
+#include "globals.hh"
 
-class DetectorConstruction : public G4VUserDetectorConstruction
-{
-  public:
+#include "G4VSolid.hh"
+#include "CaloSensitiveDetector.hh"
 
-    DetectorConstruction();
-    virtual ~DetectorConstruction();
+class G4Box;
+class G4VPhysicalVolume;
+class G4LogicalVolume;
+class G4Material;
+class DetectorMessenger;
 
-    virtual G4VPhysicalVolume* Construct();
+class DetectorConstruction : public G4VUserDetectorConstruction{
 
-    //Functions to modify the geometry
-    void SetDimensions(G4ThreeVector );
-    void SetHousingThickness(G4double );
-    void SetNX(G4int );
-    void SetNY(G4int );
-    void SetNZ(G4int );
-    void SetPMTRadius(G4double );
-    void SetDefaults();
+	public:
+		DetectorConstruction();
+		virtual ~DetectorConstruction();
 
-    //Get values
-    G4double GetScintX(){return fScint_x;}
-    G4double GetScintY(){return fScint_y;}
-    G4double GetScintZ(){return fScint_z;}
-    G4double GetHousingThickness(){return fD_mtl;}
-    G4int GetNX(){return fNx;}
-    G4int GetNY(){return fNy;}
-    G4int GetNZ(){return fNz;}
-    G4double GetPMTRadius(){return fOuterRadius_pmt;}
-    G4double GetSlabZ(){return fSlab_z;}
- 
-    //rebuild the geometry based on changes. must be called
-    void UpdateGeometry();
-    G4bool GetUpdated(){return fUpdated;}
+		virtual G4VPhysicalVolume* Construct();
 
-    void SetSphereOn(G4bool b){fSphereOn=b; fUpdated=true;}
-    static G4bool GetSphereOn(){return fSphereOn;}
+		void PrintCaloParameters();
 
-    void SetHousingReflectivity(G4double r){fRefl=r; fUpdated=true;}
-    G4double GetHousingReflectivity(){return fRefl;}
+		G4double GetWorldSizeXY()			{return worldSizeXY;};
+		G4double GetWorldSizeZ()			{return worldSizeZ;};
+		G4double GetCaloThickness()		    {return caloThickness;};
+		G4double GetCaloRadius()			{return oRadius;};
 
-    void SetWLSSlabOn(G4bool b){fWLSslab=b; fUpdated=true;}
-    G4bool GetWLSSlabOn(){return fWLSslab;}
+		G4Material* GetAbsorberMaterial()		{return absMaterial;};
+		G4Material* GetGapMaterial()			{return gapMaterial;};
+		
+        G4double    GetAbsorberThickness()		{return absThickness;};
+		G4double	GetGapThickness()			{return gapThickness;};
 
-    void SetMainVolumeOn(G4bool b){fMainVolume=b; fUpdated=true;}
-    G4bool GetMainVolumeOn(){return fMainVolume;}
+		const G4VPhysicalVolume* GetPhysicalWorld()		{return worldPV;};
 
-    void SetNFibers(G4int n){fNfibers=n; fUpdated=true;}
-    G4int GetNFibers(){return fNfibers;}
+		void SetAbsorberMaterial(G4String);
+		void SetAbsorberThickness(G4double);
 
-    void SetMainScintYield(G4double );
-    void SetWLSScintYield(G4double );
+		void SetGapMaterial(G4String);
+		void SetGapThickness(G4double);
 
-  private:
+		void SetCaloRadius(G4double);
 
-    void DefineMaterials();
-    G4VPhysicalVolume* ConstructDetector();
+		void UpdateGeometry();
+	private:
+		//! Define needed materials
+		void DefineMaterials();
+		//! Initialzie geometry parametners
+		void ComputeParameters();
+		//! Creates the Calorimeter (detector)
+		G4VPhysicalVolume* ConstructCalorimeter();
+		//! Sets the visualtiation attributes
+		void SetVisAttributes();
+		//! Sets the Sensitve Detectors
+		void SetSensitiveDetectors();
 
-    DetectorMessenger* fDetectorMessenger;
+		// Geometry Names
+		G4LogicalVolume*    worldLV;		// World
+		G4VPhysicalVolume*  worldPV;
+		G4VSolid*           worldS;
 
-    G4bool fUpdated;
- 
-    G4Box* fExperimentalHall_box;
-    G4LogicalVolume* fExperimentalHall_log;
-    G4VPhysicalVolume* fExperimentalHall_phys;
+        G4LogicalVolume*    absLV;			// Absorber Volume
+		G4VPhysicalVolume*  absPV;			
+		G4VSolid*	        absS;
 
-    //Materials & Elements
-    G4Material* f;
-    G4Material* fAl;
-    G4Element* fN;
-    G4Element* fO;
-    G4Material* fAir;
-    G4Material* fVacuum;
-    G4Element* fC;
-    G4Element* fH;
-    G4Material* fGlass;
-    G4Material* fPstyrene;
-    G4Material* fPMMA;
-    G4Material* fPethylene1;
-    G4Material* fPethylene2;
+        G4LogicalVolume*    gapLV;         // Calorimeter (gap)
+        G4VPhysicalVolume*  gapPV;
+        G4VSolid*           gapS;
+    
+		// Materials
+		G4Material* defaultMaterial;    	// Vacumun
+		G4Material* absMaterial;   		// Detector material
+		G4Material* gapMaterial;        	// Gap material
 
-    //Geometry
-    G4double fScint_x;
-    G4double fScint_y;
-    G4double fScint_z;
-    G4double fD_mtl;
-    G4int fNx;
-    G4int fNy;
-    G4int fNz;
-    G4double fOuterRadius_pmt;
-    G4int fNfibers;
-    static G4bool fSphereOn;
-    G4double fRefl;
-    G4bool fWLSslab;
-    G4bool fMainVolume;
-    G4double fSlab_z;
+		// Geometry parameters
+        G4double absThickness;	      	// Thickness of Absorber
+		G4double gapThickness;        	// Thickness of Gap 
+		G4double oRadius;		    	// Outer Radius of Detector
+		G4double iRadius;			    // Inner radious of  Detector
+		G4double startAngle;
+		G4double spanAngle;
 
-    G4MaterialPropertiesTable* f_mt;
-    G4MaterialPropertiesTable* fMPTPStyrene;
+		G4double caloThickness;         // Thickness of entire calorimeter
+		G4double worldSizeXY;
+		G4double worldSizeZ;
 
+		// Sensitive Detectors
+		CaloSensitiveDetector* caloSD;
+
+		G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
+		DetectorMessenger* detectorMessenger;		// Pointer to the messenger
 };
-
 #endif
+

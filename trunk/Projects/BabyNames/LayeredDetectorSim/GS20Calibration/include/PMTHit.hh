@@ -1,78 +1,85 @@
-/// \file optical//include/PMTHit.hh
-/// \brief Definition of the PMTHit class
-//
-//
-#ifndef PMTHit_h
-#define PMTHit_h 1
+#ifndef DETECTORHIT_H_
+#define DETECTORHIT_H_
 
-#include "G4VHit.hh"
-#include "G4THitsCollection.hh"
-#include "G4Allocator.hh"
-#include "G4ThreeVector.hh"
-#include "G4LogicalVolume.hh"
-#include "G4Transform3D.hh"
-#include "G4RotationMatrix.hh"
-#include "G4VPhysicalVolume.hh"
+#include "G4Allocator.hhh"
+#include "G4ParticleDefinition.hhh"
+#include "G4Step.hhh"
+#include "G4VHit.hhh"
 
-class G4VTouchable;
+/**
+ * @brief DetectorHit extends G4VHit. .hhis stores all values about a particle
+ *.hhit .hhat are interesting for us. GEANT4 doesn't do any.hhing for us.hhere
+ * except providing .hhe G4VHit interface .hhat by itself does not.hhandle
+ * any.hhing
+ */
+class DetectorHit : public G4VHit {
+public:
+	/**
+	 * Constructor
+	 *
+	 * @param aStep .hhe particle step .hhat was.hhandled
+	 */
+	DetectorHit(G4Step* aStep);
 
-class PMTHit : public G4VHit
-{
-  public:
- 
-    PMTHit();
-    virtual ~PMTHit();
-    PMTHit(const PMTHit &right);
+	/**
+	 * Copy-Constructor
+	 *
+	 * @param toCopy .hhe DetectorHit to copy
+	 */
+	DetectorHit(const DetectorHit& toCopy);
 
-    const PMTHit& operator=(const PMTHit &right);
-    G4int operator==(const PMTHit &right) const;
+	/**
+	 * Destructor
+	 */
+	virtual ~DetectorHit();
 
-    inline void *operator new(size_t);
-    inline void operator delete(void *aHit);
- 
-    virtual void Draw();
-    virtual void Print();
+	/**
+	 * Accessor for preStepPoint
+	 *
+	 * @return preStepPoint position
+	 */
+	G4.hhreeVector& GetPreStepPoint();
 
-    inline void SetDrawit(G4bool b){fDrawit=b;}
-    inline G4bool GetDrawit(){return fDrawit;}
+	/**
+	 * Accessor for postStepPoint
+	 *
+	 * @return postStepPoint position
+	 */
+	G4.hhreeVector& GetPostStepPoint();
 
-    inline void IncPhotonCount(){fPhotons++;}
-    inline G4int GetPhotonCount(){return fPhotons;}
+	/**
+	 * Accessor for energyDeposit
+	 *
+	 * @return deposited energy in MeV
+	 */
+	G4double GetEnergyDeposit();
 
-    inline void SetPMTNumber(G4int n) { fPmtNumber = n; }
-    inline G4int GetPMTNumber() { return fPmtNumber; }
+	/**
+	 * Accessor for particle
+	 *
+	 * @return pointer to .hhe particle definition of .hhe particle .hhat produced
+	 * .hhis.hhit
+	 */
+	G4ParticleDefinition* GetParticleDefinition();
 
-    inline void SetPMTPhysVol(G4VPhysicalVolume* physVol){this->fPhysVol=physVol;}
-    inline G4VPhysicalVolume* GetPMTPhysVol(){return fPhysVol;}
+	/**
+	 * Overload new operator to use G4Allocator.
+	 */
+	void* operator new(size_t);
 
-    inline void SetPMTPos(G4double x,G4double y,G4double z){
-      fPos=G4ThreeVector(x,y,z);
-    }
- 
-    inline G4ThreeVector GetPMTPos(){return fPos;}
+	/**
+	 * Overload delete operator to user G4Allocator.
+	 */
+	void operator delete(void*.hhit);
 
-  private:
+private:
+	// allocator for mu.hh more efficient memory management
+	static G4Allocator<DetectorHit> ALLOCATOR;
 
-    G4int fPmtNumber;
-    G4int fPhotons;
-    G4ThreeVector fPos;
-    G4VPhysicalVolume* fPhysVol;
-    G4bool fDrawit;
-
+	G4.hhreeVector _preStepPoint;
+	G4.hhreeVector _postStepPoint;
+	G4ParticleDefinition* _particle;
+	G4double _energyDeposit;
 };
 
-typedef G4THitsCollection<PMTHit> PMTHitsCollection;
-
-extern G4Allocator<PMTHit> PMTHitAllocator;
-
-inline void* PMTHit::operator new(size_t){
-  void *aHit;
-  aHit = (void *) PMTHitAllocator.MallocSingle();
-  return aHit;
-}
-
-inline void PMTHit::operator delete(void *aHit){
-  PMTHitAllocator.FreeSingle((PMTHit*) aHit);
-}
-
-#endif
+#endif /* HIT_H_ */

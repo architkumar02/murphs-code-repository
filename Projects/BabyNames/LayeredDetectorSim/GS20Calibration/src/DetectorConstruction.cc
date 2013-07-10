@@ -69,14 +69,14 @@ DetectorConstruction::~DetectorConstruction(){
 G4VPhysicalVolume* DetectorConstruction::Construct(){
 
     // Return Physical World
-    G4VPhysicalVolume* calo = Construct();
+    G4VPhysicalVolume* world = Construct();
 
     // Set Visulation Attributes
     SetVisAttributes();
 
     // Assign Sensitve Detectors
     SetSensitiveDetectors();
-    return calo;
+    return wold;
 }
 
 
@@ -95,12 +95,15 @@ void DetectorConstruction::DefineMaterials()
 
     // Getting Elements
     G4Element* eH = nistManager->FindOrBuildElement("H",fromIsotopes);
+    G4Element* eB = nistManager->FindOrBuildElement("B",fromIsotopes);
     G4Element* eC = nistManager->FindOrBuildElement("C",fromIsotopes);
-    G4Element* eO = nistManager->FindOrBuildElement("O",fromIsotopes);
     G4Element* eN = nistManager->FindOrBuildElement("N",fromIsotopes);
+    G4Element* eO = nistManager->FindOrBuildElement("O",fromIsotopes);
     G4Element* eF = nistManager->FindOrBuildElement("F",fromIsotopes);
-    G4Element* eS = nistManager->FindOrBuildElement("S",fromIsotopes);
-    G4Element* eZn = nistManager->FindOrBuildElement("Zn",fromIsotopes);
+    G4Element* eNa = nistManager->FindOrBuildElement("Na",fromIsotopes);
+    G4Element* eAl = nistManager->FindOrBuildElement("Al",fromIsotopes);
+    G4Element* eSi = nistManager->FindOrBuildElement("Si",fromIsotopes);
+    G4Element* eK = nistManager->FindOrBuildElement("K",fromIsotopes);
 
     // defining enriched Lithium 6
     G4double a6Li = 6.015*g/mole;	// Molar Masses (Wolfram Alpha)
@@ -121,6 +124,7 @@ void DetectorConstruction::DefineMaterials()
     LiAbsorber->AddElement(eF,nAtoms=1);
 
 
+    
     nistManager->FindOrBuildMaterial("G4_PLEXIGLASS",fromIsotopes);
     nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes);
     nistManager->FindOrBuildMaterial("G4_AIR",fromIsotopes);
@@ -175,8 +179,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     // GS20 Detector
     gs20S = new G4Tubs("Abs",0,gs20Radius,gs20Thickness/2,0,360*deg);
     gs20LV = new G4LogicalVolume(absS,absMaterial,"Absorber",0);
-    gs20PV = new G4PVPlacement(0,G4ThreeVector(0,0,0),
-                absLV,"Absorber",worldLV,false,0,fCheckOverlaps);
+    gs20PV = new G4PVPlacement(0,G4ThreeVector(0,0,0),absLV,"Absorber",worldLV,false,0,fCheckOverlaps);
     
     // Light Reflector
     G4Double rInner = {gs20Radius,gs20Radius,0};
@@ -189,8 +192,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     G4Tubs *refTop = new G4Tubs("refTop",0,gs20Radius+refThickness,refThickness,0,360*deg);
     */
 
+    // Optical Grease
+    G4double greaseThickenss = 5*um;
+    G4Tubs *greaseS = new G4Tubs("opticalGrease",0,gs20Thickness,greaseThickness,0,360*deg);
+    G4LogicalVolume* pmtGlassL = new G4LogicalVolume(pmtGlassS,G4Material::GetMaterial("OpticalGrease"),"PMT Glass",0);
+
     // PMT Glass
-    G4Tubs *pmtGlass = new G4Tubs("PMTGlass",0,pmtRadius,pmtThickness,0,360*deg);
+    G4Tubs *pmtGlassS = new G4Tubs("PMTGlass",0,pmtRadius,pmtThickness,0,360*deg);
+    G4LogicalVolume* pmtGlassL = new G4LogicalVolume(pmtGlassS,G4Material::GetMaterial("Borosilicate Glass"),"PMT Glass",0);
 
     // PMT Air
     G4Tubs *pmtAirS = new G4Tubs("PMTAir",0,2*Pi,gs20Radius+refThickness,pmtRadius,gs20Thicknss);
@@ -207,6 +216,33 @@ G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
     // Return the worlds physical volume
     return worldPV;
 }
+/*
+ * DefineOpticalProperties
+ *
+ * Defines the optical properties of the materials used in the simulation
+ */
+void DetectorConstruction::DefineOpticalProperties(){
+	/*
+   * set optical properties of Boroscilate Glass
+   */
+	G4MaterialPropertiesTable* propertiesTable = new G4MaterialPropertiesTable();
+
+	// set absorption length
+	G4MaterialPropertyVector* absorption = new G4MaterialPropertyVector();
+	absorption->AddElement(0.1 * CLHEP::eV, 0.1 * CLHEP::mm);
+	absorption->AddElement(10. * CLHEP::eV, 0.1 * CLHEP::mm);
+	propertiesTable->AddProperty("ABSLENGTH", absorption);
+
+	// set refractive index
+	G4MaterialPropertyVector* rindex = new G4MaterialPropertyVector();
+	rindex->AddElement(0.1 * CLHEP::eV, 1.54);
+	rindex->AddElement(10. * CLHEP::eV, 1.54);
+	propertiesTable->AddProperty("RINDEX", rindex);
+
+	G4Material::GetMaterial("Borosilicate Glass", true)->SetMaterialPropertiesTable(propertiesTable);
+
+}
+
 /**
  * SetSensitiveDetectors
  *

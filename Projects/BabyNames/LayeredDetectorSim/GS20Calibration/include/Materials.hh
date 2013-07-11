@@ -1,5 +1,5 @@
-#ifndef OpticalMaterials_h
-#define OpticalMaterials_h 1
+#ifndef Materials_h
+#define Materials_h 1
 
 #include "globals.hh"
 #include "G4Material.hh"
@@ -10,11 +10,11 @@
  *
  * The optical materials are implemented as a static class
  */
-class OpticalMaterials{
+class Materials{
 
   public:
     ~OpticalMatials();
-    static OpticalMaterials* GetInstance();
+    static Materials* GetInstance();
     G4Material* GetMaterial(const G4String);
 
   private:
@@ -36,3 +36,5 @@ class OpticalMaterials{
     G4Material* Air;         /* Air            */
     G4Material* BlackTape;   /* Black tape     */
 };
+
+#endif

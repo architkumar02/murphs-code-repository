@@ -1,5 +1,0 @@
-#PBS -q gen2
-#PBS -V
-#PBS -l nodes=6:ppn=4
-cd $PBS_O_WORKDIR
-mpirun mcnpx inp=GS20.mcnp name=NIrridiator_GS20.

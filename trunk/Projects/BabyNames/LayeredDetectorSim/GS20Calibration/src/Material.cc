@@ -1,4 +1,4 @@
-#include "OpticalMaterials.hh"
+#include "Materials.hh"
 
 #include "globals.hh"
 #include "G4Material.hh"
@@ -10,7 +10,7 @@
  *
  * The optical materials are implemented as a static class
  */
-OpticalMaterials::OpticalMaterials(){
+Materials::Materials(){
   // Getting the NIST Material Manager
   nistMan = G4NistManager::Instance();
   nistMan->SetVerbose(2);
@@ -25,7 +25,7 @@ OpticalMaterials::OpticalMaterials(){
 
 }
 
-OpticalMaterials::~OpticalMaterials(){
+Materials::~Materials(){
   delete Teflon;      /* Teflon Tape    */
   delete GS20;        /* GS20 Detector  */
   delete BK7;         /* PMT Window Glass (Boroscilate) */
@@ -34,7 +34,7 @@ OpticalMaterials::~OpticalMaterials(){
   delete BlackTape;   /* Black tape     */
 }
 
-OpticalMaterials* OpticalMaterials::Instance(){
+Materials* Materials::Instance(){
   if (instance ==0)
     instance = new OpticalMaterails();
   return instance;
@@ -49,7 +49,7 @@ OpticalMaterials* OpticalMaterials::Instance(){
  * @param material Material Name
  * @return A pointer to the material
  */
-G4Material* OpticalMaterials::GetMaterial(const G4String material){
+G4Material* Materials::GetMaterial(const G4String material){
   
   // Trying to build the material
   G4Material* mat = nistMan->FindOrdBuildMaterial(material);
@@ -59,7 +59,7 @@ G4Material* OpticalMaterials::GetMaterial(const G4String material){
   if(!mat) {
     std::ostringstream o;
     o<<"Materail "<<material<<" not found.";
-    G4Exception("OpticalMaterials::GetMaterial","",FatalException,o.str(),c_str());
+    G4Exception("Materials::GetMaterial","",FatalException,o.str(),c_str());
   }
   return mat;
 }
@@ -67,7 +67,7 @@ G4Material* OpticalMaterials::GetMaterial(const G4String material){
 /**
  * Creates the optical materials
  */
-void OpticalMaterials::CreateMaterials(){
+void Materials::CreateMaterials(){
     G4double density;
     G4int ncomponents;
     G4double fractionmass;
@@ -171,50 +171,85 @@ void OpticalMaterials::CreateMaterials(){
 /**
  * Sets the optical properties of Teflon
  */
-void OpticalMaterials:: SetOpticalPropertiesTeflon(){
+void Materials:: SetOpticalPropertiesTeflon(){
 
 }
 /**
  * Sets the optical properties of GS20
  */
-void OpticalMaterials::SetOpticalPropertiesGS20();
+void Materials::SetOpticalPropertiesGS20();
 /**
  * Sets the optical properties of BK7
  */
-void OpticalMaterials:: SetOpticalPropertiesBK7();
+void Materials:: SetOpticalPropertiesBK7();
 /**
  * Sets the optical properties of Silicone
+ *
+ * These values are from the GEANT4 WLS Example
  */
-void OpticalMaterials::SetOpticalPropertiesSilicone();
+void Materials::SetOpticalPropertiesSilicone(){
+  const G4int nEntries = 50;
+
+  G4double PhotonEnergy[nEntries] =
+  {2.00*eV,2.03*eV,2.06*eV,2.09*eV,2.12*eV,
+   2.15*eV,2.18*eV,2.21*eV,2.24*eV,2.27*eV,
+   2.30*eV,2.33*eV,2.36*eV,2.39*eV,2.42*eV,
+   2.45*eV,2.48*eV,2.51*eV,2.54*eV,2.57*eV,
+   2.60*eV,2.63*eV,2.66*eV,2.69*eV,2.72*eV,
+   2.75*eV,2.78*eV,2.81*eV,2.84*eV,2.87*eV,
+   2.90*eV,2.93*eV,2.96*eV,2.99*eV,3.02*eV,
+   3.05*eV,3.08*eV,3.11*eV,3.14*eV,3.17*eV,
+   3.20*eV,3.23*eV,3.26*eV,3.29*eV,3.32*eV,
+   3.35*eV,3.38*eV,3.41*eV,3.44*eV,3.47*eV};
+  G4double AbsClad[nEntries] =
+  {20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,
+   20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,
+   20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,
+   20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,
+   20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m,20.0*m};
+
+   G4double RefractiveIndexSilicone[nEntries] =
+   { 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46,
+     1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46,
+     1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46,
+     1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46,
+     1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46, 1.46};
+
+  // Add entries into properties table
+  G4MaterialPropertiesTable* MPTSilicone = new G4MaterialPropertiesTable();
+  MPTSilicone->AddProperty("RINDEX",PhotonEnergy,RefractiveIndexSilicone,nEntries);
+  MPTSilicone->AddProperty("ABSLENGTH",PhotonEnergy,AbsClad,nEntries);
+  Silicone->SetMaterialPropertiesTable(MPTSilicone);
+  
+}
 /**
  * Sets the optical properties of Air
- */
-void OpticalMaterials:: SetOpticalPropertiesAir();
-
-/*
- * DefineOpticalProperties
  *
- * Defines the optical properties of the materials used in the simulation
+ * These values are from the GEANT4 WLS example
  */
-void DetectorConstruction::DefineOpticalProperties(){
-	/*
-   * set optical properties of Boroscilate Glass
-   */
-	G4MaterialPropertiesTable* propertiesTable = new G4MaterialPropertiesTable();
+void Materials:: SetOpticalPropertiesAir(){
+  const G4int nEntries = 50;
 
-	// set absorption length
-	G4MaterialPropertyVector* absorption = new G4MaterialPropertyVector();
-	absorption->AddElement(0.1 * CLHEP::eV, 0.1 * CLHEP::mm);
-	absorption->AddElement(10. * CLHEP::eV, 0.1 * CLHEP::mm);
-	propertiesTable->AddProperty("ABSLENGTH", absorption);
+  G4double PhotonEnergy[nEntries] =
+  {2.00*eV,2.03*eV,2.06*eV,2.09*eV,2.12*eV,
+   2.15*eV,2.18*eV,2.21*eV,2.24*eV,2.27*eV,
+   2.30*eV,2.33*eV,2.36*eV,2.39*eV,2.42*eV,
+   2.45*eV,2.48*eV,2.51*eV,2.54*eV,2.57*eV,
+   2.60*eV,2.63*eV,2.66*eV,2.69*eV,2.72*eV,
+   2.75*eV,2.78*eV,2.81*eV,2.84*eV,2.87*eV,
+   2.90*eV,2.93*eV,2.96*eV,2.99*eV,3.02*eV,
+   3.05*eV,3.08*eV,3.11*eV,3.14*eV,3.17*eV,
+   3.20*eV,3.23*eV,3.26*eV,3.29*eV,3.32*eV,
+   3.35*eV,3.38*eV,3.41*eV,3.44*eV,3.47*eV};
 
-	// set refractive index
-	G4MaterialPropertyVector* rindex = new G4MaterialPropertyVector();
-	rindex->AddElement(0.1 * CLHEP::eV, 1.54);
-	rindex->AddElement(10. * CLHEP::eV, 1.54);
-	propertiesTable->AddProperty("RINDEX", rindex);
+  G4double RefractiveIndex[nEntries] =
+  { 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00,
+    1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00,
+    1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00,
+    1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00,
+    1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00, 1.00};
 
-	G4Material::GetMaterial("Borosilicate Glass", true)->SetMaterialPropertiesTable(propertiesTable);
-
+  G4MaterialPropertiesTable* MPT = new G4MaterialPropertiesTable();
+  MPT->AddProperty("RINDEX", PhotonEnergy, RefractiveIndex, nEntries);
+  Air->SetMaterialPropertiesTable(MPT);
 }
-

@@ -162,7 +162,10 @@ void Materials::CreateMaterials(){
     Silicone = nistMan->ConstructNewMaterial("Silicone",elements,natoms,density);
     elmenents.clear();           natoms.clear();
   
-    
+     
+    //-----------------------------------------------------------------------
+    // Getting other materials
+    //-----------------------------------------------------------------------
     nistMan->FindOrBuildMaterial("G4_PLEXIGLASS",fromIsotopes);
     nistMan->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes);
     nistMan->FindOrBuildMaterial("G4_Galactic",fromIsotopes);
@@ -170,18 +173,109 @@ void Materials::CreateMaterials(){
 
 /**
  * Sets the optical properties of Teflon
+ *
+ * Teflon is also Polytetrafluoroethylene, which could be flurinated polyethene
+ * Sources of the Teflon data:
+ *  Index of Reflection: DOI 10.1117/1.2965541
+ *  Absorbition length: GEANT4 lXe example
  */
-void Materials:: SetOpticalPropertiesTeflon(){
+void Materials::SetOpticalPropertiesTeflon(){
+    // Index of Reflection (146 nm to 1570 nm)
+    const G4int nRINDEX = 13;
+    G4double photonEnergyReflection[nRINDEX] = 
+    {8.5506*eV,4.7232*eV,3.2627*eV,2.4921*eV,2.0160*eV,
+    1.6926*eV,1.4586*eV,1.2815*eV,1.1427*eV,1.0311*eV, 
+    0.9393*eV,0.8625*eV,0.7973*eV};
+    G4double RefractiveIndexTeflon[nRINDEX]=
+    {1.4300,1.3300,1.3150,1.3100,1.3050,    
+    1.3050,1.3000,1.2900,1.2975,1.2970,
+    1.2960,1.2950,1.2950};
 
+    // Absorbition length (619 to 357 nm)
+    const G4int nABS = 4;
+    G4double photonEnergyAbs[nABS] = {2.00*eV,2.87*eV,2.90*eV,3.47*eV};
+    G4double AbsLengthTeflon[nABS]={9.00*m,9.00*m,0.1*mm,0.1*mm};
+  
+    // Add entries into properties table
+    G4MaterialPropertiesTable* MPTTeflon = new G4MaterialPropertiesTable();
+    MPTTeflon->AddProperty("RINDEX",photonEnergyRINDEX,RefractiveIndexTeflon,nRINDEX);
+    MPTTeflon->AddProperty("ABSLENGTH",photonEnergyABS,AbsLengthTeflon,nABS);
+    Teflon->SetMaterialPropertiesTable(MPTTeflon);
 }
+
 /**
  * Sets the optical properties of GS20
+ *
+ * Data Sources:
+ *  Assumed that the index of reflection and absorbition length are similar to BK7
  */
-void Materials::SetOpticalPropertiesGS20();
+void Materials::SetOpticalPropertiesGS20(){
+    
+    // Index of Reflection (146 nm to 1570 nm)
+    const G4int nRINDEX = 13;
+    G4double photonEnergyReflection[nRINDEX] = 
+    {8.5506*eV,4.7232*eV,3.2627*eV,2.4921*eV,2.0160*eV,
+    1.6926*eV,1.4586*eV,1.2815*eV,1.1427*eV,1.0311*eV, 
+    0.9393*eV,0.8625*eV,0.7973*eV};
+    G4double RefractiveIndexGlass[nRINDEX]=
+    {1.6508,1.5266,1.4980,1.4872,1.4819,    
+    1.4790,1.4772,1.4760,1.4752,1.4746,    
+    1.4742,1.4738,1.4736};
+
+    // Absorbition Length
+    const G4int nABS=2;
+    G4double photonEnergyABS[nABS] = {3.5*eV,1.75*eV};
+    G4double AbsLengthGlass[nABS] = {70*cm, 70*cm};
+    
+    // Setting sctintillation to be the emission spectra
+    const G4int nEM = 6;
+    G4double photonEnergyEM[nEM] = {3.8,3.5,3.1,2.8,2.5};
+    G4double emGS20={0,0.19,0.37,0.32,0.10,0.02};
+
+    // Setting  Scintillation Properties
+	  MPTGS20->AddProperty("FASTCOMPONENT",photonEnergyEM,emGS20,nEM);
+    MPTGS20->AddConstProperty("FASTTIMECONSTANT",50*ns);      //
+    MPTGS20->AddConstProperty("SCINTILLATIONYIELD", 3600*MeV);
+    MPTGS20->AddConstProperty("YIELDRATIO", 1.0);
+    MPTGS20->AddConstProperty("RESOLUTIONSCALE", 1.0);
+	
+    // Creating the materials property table and adding entries into properties table
+    G4MaterialPropertiesTable* MPTGS20 = new G4MaterialPropertiesTable();
+    MPTGS20->AddProperty("RINDEX",photonEnergyRINDEX,RefractiveIndexGlass,nRINDEX);
+    MPTGS20->AddProperty("ABSLENGTH",photonEnergyABS,AbsLengthGlass,nABS);
+    GS20->SetMaterialPropertiesTable(MPTGS20);
+}
 /**
  * Sets the optical properties of BK7
+ *
+ * Data sources:
+ *  Index of Reflection n(lambda) = 1.472+3760/(lambda)^2 - doi:10.1016/j.nima.2010.09.027 
+ *  Absorbition Length: const 70 cm (See pg. 139 of MJU's lab notebook)
  */
-void Materials:: SetOpticalPropertiesBK7();
+void Materials:: SetOpticalPropertiesBK7(){
+    // Index of Reflection (146 nm to 1570 nm)
+    const G4int nRINDEX = 13;
+    G4double photonEnergyReflection[nRINDEX] = 
+    {8.5506*eV,4.7232*eV,3.2627*eV,2.4921*eV,2.0160*eV,
+    1.6926*eV,1.4586*eV,1.2815*eV,1.1427*eV,1.0311*eV, 
+    0.9393*eV,0.8625*eV,0.7973*eV};
+    G4double RefractiveIndexGlass[nRINDEX]=
+    {1.6508,1.5266,1.4980,1.4872,1.4819,    
+    1.4790,1.4772,1.4760,1.4752,1.4746,    
+    1.4742,1.4738,1.4736};
+    
+    // Absorbition Length
+    const G4int nABS=2;
+    G4double photonEnergyABS[nABS] = {3.5*eV,1.75*eV};
+    G4double AbsLengthGlass[nABS] = {70*cm, 70*cm};
+
+    // Add entries into properties table
+    G4MaterialPropertiesTable* MPTBK7 = new G4MaterialPropertiesTable();
+    MPTBK7->AddProperty("RINDEX",photonEnergyRINDEX,RefractiveIndexGlass,nRINDEX);
+    MPTBK7->AddProperty("ABSLENGTH",photonEnergyABS,AbsLengthGlass,nABS);
+    BK7->SetMaterialPropertiesTable(MPTBK7);
+ }
+  
 /**
  * Sets the optical properties of Silicone
  *

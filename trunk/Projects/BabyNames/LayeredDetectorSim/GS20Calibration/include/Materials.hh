@@ -13,13 +13,13 @@
 class Materials{
 
   public:
-    ~OpticalMatials();
+    ~Materials();
     static Materials* GetInstance();
     G4Material* GetMaterial(const G4String);
 
   private:
     // Methods
-    WLSMaterials();
+    Materials();
     void CreateMaterials();
     void SetOpticalPropertiesTeflon();
     void SetOpticalPropertiesGS20();
@@ -28,9 +28,10 @@ class Materials{
     void SetOpticalPropertiesAir();
     
     // Fields
-    G4NistManager* nistMan;
-    G4Material* Teflon;      /* Teflon Tape    */
-    G4Material* GS20;        /* GS20 Detector  */
+    static Materials* instance;   /* Materials Instance        */
+    G4NistManager* nistMan;  /* NIST Material Manager          */
+    G4Material* Teflon;      /* Teflon Tape                    */
+    G4Material* GS20;        /* GS20 Detector                  */
     G4Material* BK7;         /* PMT Window Glass (Boroscilate) */
     G4Material* Silicone;    /* Optical Grease */
     G4Material* Air;         /* Air            */

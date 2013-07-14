@@ -34,9 +34,10 @@ Materials::~Materials(){
   delete BlackTape;   /* Black tape     */
 }
 
-Materials* Materials::Instance(){
-  if (instance ==0)
-    instance = new OpticalMaterails();
+Materials* Materials::GetInstance(){
+  if (instance ==0){
+    instance = new Materials();
+  }
   return instance;
 }
 
@@ -52,14 +53,14 @@ Materials* Materials::Instance(){
 G4Material* Materials::GetMaterial(const G4String material){
   
   // Trying to build the material
-  G4Material* mat = nistMan->FindOrdBuildMaterial(material);
+  G4Material* mat = nistMan->FindOrBuildMaterial(material);
   if (!mat) mat = G4Material::GetMaterial(material);
 
   // Exceptional error if it isn't found
   if(!mat) {
     std::ostringstream o;
     o<<"Materail "<<material<<" not found.";
-    G4Exception("Materials::GetMaterial","",FatalException,o.str(),c_str());
+    G4Exception("Materials::GetMaterial","",FatalException,o.str().c_str());
   }
   return mat;
 }
@@ -69,10 +70,8 @@ G4Material* Materials::GetMaterial(const G4String material){
  */
 void Materials::CreateMaterials(){
     G4double density;
-    G4int ncomponents;
-    G4double fractionmass;
     std::vector<G4int> natoms;
-    std::vecotor<G4double> fractionMass;
+    std::vector<G4double> fractionMass;
     std::vector<G4String> elements;
 
     // Material Definations
@@ -88,25 +87,25 @@ void Materials::CreateMaterials(){
     // GS20 is (by mass fraction):
     //  56% SiO2, 4% MgO,  18% Al2O3 18% Li2O, and 4% Ce2O3
     //-----------------------------------------------------------------------
-    G4Isotope* Li6 = new G4Isotope(name="Li6",3,6,6.015*g/mole);
-    G4Isotope* Li7 = new G4Isotope(name="Li7",3,7,7.015*g/mole);
+    G4Isotope* Li6 = new G4Isotope("Li6",3,6,6.015*g/mole);
+    G4Isotope* Li7 = new G4Isotope("Li7",3,7,7.015*g/mole);
     G4Element* enrichLi  = new G4Element("enriched Lithium","Li",2);
     enrichLi->AddIsotope(Li6,0.95*perCent);
     enrichLi->AddIsotope(Li7,0.05*perCent);
 
     G4Material* LiOxide = new G4Material("6LiO2",density=2.013*g/cm3,2);
-    LiAbsorber->AddElement(enrichLi,2);
-    LiAbsorber->AddElement(nistManager->FindOrBuildElement("O"),1);
+    LiOxide->AddElement(enrichLi,2);
+    LiOxide->AddElement(nistMan->FindOrBuildElement("O"),1);
 
     G4Material* SiO2 = nistMan->FindOrBuildMaterial("G4_SILICON_DIOXIDE");
     G4Material* MgO = nistMan->FindOrBuildMaterial("G4_MAGNESIUM_OXIDE");
     G4Material* Al2O3 = nistMan->FindOrBuildMaterial("G4_ALUMINUM_OXIDE");
     
-    elmenents.push_back("Ce");   natoms.push_back(2);
-    elmenents.push_back("O");    natoms.push_back(3);
+    elements.push_back("Ce");   natoms.push_back(2);
+    elements.push_back("O");    natoms.push_back(3);
     density = 6.2*g/cm3;
     G4Material* Ce2O3 = nistMan->ConstructNewMaterial("Ce2O3",elements,natoms,density);
-    elmenents.clear();           natoms.clear();
+    elements.clear();           natoms.clear();
 
     density = 2.5*g/cm3;
     G4Material* GS20 = new G4Material("GS20",density,5,kStateSolid);
@@ -123,21 +122,21 @@ void Materials::CreateMaterials(){
     //
     // SiO2=69.13% B2O3=10.75% BaO=3.07% Na2O=10.40% K2O=6.29% As2O3=0.36%
     //-----------------------------------------------------------------------
-    elmenents.push_back("Ba");   natoms.push_back(1);
-    elmenents.push_back("O");    natoms.push_back(1);
+    elements.push_back("Ba");   natoms.push_back(1);
+    elements.push_back("O");    natoms.push_back(1);
     density = 5.27*g/cm3;
     G4Material* BaO = nistMan->ConstructNewMaterial("BaO",elements,natoms,density);
-    elmenents.clear();           natoms.clear();
+    elements.clear();           natoms.clear();
     
     G4Material* B2O3 = nistMan->FindOrBuildMaterial("G4_BORON_OXIDE");
     G4Material* Na2O = nistMan->FindOrBuildMaterial("G4_SODIUM_MONOXIDE");
     G4Material* K2O = nistMan->FindOrBuildMaterial("G4_POTASSIUM_OXIDE");
     
-    elmenents.push_back("As");   natoms.push_back(2);
-    elmenents.push_back("O");    natoms.push_back(3);
+    elements.push_back("As");   natoms.push_back(2);
+    elements.push_back("O");    natoms.push_back(3);
     density = 3.74*g/cm3;
-    G4Material* BaO = nistMan->ConstructNewMaterial("A2O3",elements,natoms,density);
-    elmenents.clear();           natoms.clear();
+    G4Material* As2O3 = nistMan->ConstructNewMaterial("As2O3",elements,natoms,density);
+    elements.clear();           natoms.clear();
 
     G4Material* BK7 = new G4Material("BK7", 2.23*g/cm3,6, kStateSolid);
     BK7->AddMaterial(SiO2,69.13*perCent);
@@ -156,19 +155,19 @@ void Materials::CreateMaterials(){
     // Silicone Optical Grease
     // Composition from $G4EXAMPLES/extended/wls/src/WLSMaterials.cc
     //-----------------------------------------------------------------------
-    elmenents.push_back("C");   natoms.push_back(2);
-    elmenents.push_back("H");    natoms.push_back(6);
+    elements.push_back("C");   natoms.push_back(2);
+    elements.push_back("H");    natoms.push_back(6);
     density = 1.060*g/cm3;
     Silicone = nistMan->ConstructNewMaterial("Silicone",elements,natoms,density);
-    elmenents.clear();           natoms.clear();
+    elements.clear();           natoms.clear();
   
      
     //-----------------------------------------------------------------------
     // Getting other materials
     //-----------------------------------------------------------------------
-    nistMan->FindOrBuildMaterial("G4_PLEXIGLASS",fromIsotopes);
-    nistMan->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes);
-    nistMan->FindOrBuildMaterial("G4_Galactic",fromIsotopes);
+    nistMan->FindOrBuildMaterial("G4_PLEXIGLASS");
+    nistMan->FindOrBuildMaterial("G4_POLYSTYRENE");
+    nistMan->FindOrBuildMaterial("G4_Galactic");
 }
 
 /**
@@ -182,7 +181,7 @@ void Materials::CreateMaterials(){
 void Materials::SetOpticalPropertiesTeflon(){
     // Index of Reflection (146 nm to 1570 nm)
     const G4int nRINDEX = 13;
-    G4double photonEnergyReflection[nRINDEX] = 
+    G4double photonEnergyRINDEX[nRINDEX] = 
     {8.5506*eV,4.7232*eV,3.2627*eV,2.4921*eV,2.0160*eV,
     1.6926*eV,1.4586*eV,1.2815*eV,1.1427*eV,1.0311*eV, 
     0.9393*eV,0.8625*eV,0.7973*eV};
@@ -193,7 +192,7 @@ void Materials::SetOpticalPropertiesTeflon(){
 
     // Absorbition length (619 to 357 nm)
     const G4int nABS = 4;
-    G4double photonEnergyAbs[nABS] = {2.00*eV,2.87*eV,2.90*eV,3.47*eV};
+    G4double photonEnergyABS[nABS] = {2.00*eV,2.87*eV,2.90*eV,3.47*eV};
     G4double AbsLengthTeflon[nABS]={9.00*m,9.00*m,0.1*mm,0.1*mm};
   
     // Add entries into properties table
@@ -213,7 +212,7 @@ void Materials::SetOpticalPropertiesGS20(){
     
     // Index of Reflection (146 nm to 1570 nm)
     const G4int nRINDEX = 13;
-    G4double photonEnergyReflection[nRINDEX] = 
+    G4double photonEnergyRINDEX[nRINDEX] = 
     {8.5506*eV,4.7232*eV,3.2627*eV,2.4921*eV,2.0160*eV,
     1.6926*eV,1.4586*eV,1.2815*eV,1.1427*eV,1.0311*eV, 
     0.9393*eV,0.8625*eV,0.7973*eV};
@@ -230,19 +229,18 @@ void Materials::SetOpticalPropertiesGS20(){
     // Setting sctintillation to be the emission spectra
     const G4int nEM = 6;
     G4double photonEnergyEM[nEM] = {3.8,3.5,3.1,2.8,2.5};
-    G4double emGS20={0,0.19,0.37,0.32,0.10,0.02};
-
+    G4double emGS20[nEM]={0,0.19,0.37,0.32,0.10,0.02};
+	
+    // Creating the materials property table and adding entries into properties table
+    G4MaterialPropertiesTable* MPTGS20 = new G4MaterialPropertiesTable();
+    MPTGS20->AddProperty("RINDEX",photonEnergyRINDEX,RefractiveIndexGlass,nRINDEX);
+    MPTGS20->AddProperty("ABSLENGTH",photonEnergyABS,AbsLengthGlass,nABS);
     // Setting  Scintillation Properties
 	  MPTGS20->AddProperty("FASTCOMPONENT",photonEnergyEM,emGS20,nEM);
     MPTGS20->AddConstProperty("FASTTIMECONSTANT",50*ns);      //
     MPTGS20->AddConstProperty("SCINTILLATIONYIELD", 3600*MeV);
     MPTGS20->AddConstProperty("YIELDRATIO", 1.0);
     MPTGS20->AddConstProperty("RESOLUTIONSCALE", 1.0);
-	
-    // Creating the materials property table and adding entries into properties table
-    G4MaterialPropertiesTable* MPTGS20 = new G4MaterialPropertiesTable();
-    MPTGS20->AddProperty("RINDEX",photonEnergyRINDEX,RefractiveIndexGlass,nRINDEX);
-    MPTGS20->AddProperty("ABSLENGTH",photonEnergyABS,AbsLengthGlass,nABS);
     GS20->SetMaterialPropertiesTable(MPTGS20);
 }
 /**
@@ -255,7 +253,7 @@ void Materials::SetOpticalPropertiesGS20(){
 void Materials:: SetOpticalPropertiesBK7(){
     // Index of Reflection (146 nm to 1570 nm)
     const G4int nRINDEX = 13;
-    G4double photonEnergyReflection[nRINDEX] = 
+    G4double photonEnergyRINDEX[nRINDEX] = 
     {8.5506*eV,4.7232*eV,3.2627*eV,2.4921*eV,2.0160*eV,
     1.6926*eV,1.4586*eV,1.2815*eV,1.1427*eV,1.0311*eV, 
     0.9393*eV,0.8625*eV,0.7973*eV};

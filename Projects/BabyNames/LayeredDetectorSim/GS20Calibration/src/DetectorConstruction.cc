@@ -28,7 +28,7 @@
 #include "G4TransportationManager.hh"
 #include "G4UserLimits.hh"
 
-#include "Analysis.hh"
+#include "Materials.hh"
 
 /**
  * DetectorConstruction
@@ -55,10 +55,14 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
         // Create commands for interactive defiantions of the calorimeter
         SetDetectorMaterial("GS20");
         detectorMessenger = new DetectorMessenger(this);
-    }
-
+}
+/**
+ * Deconstructor
+ */
 DetectorConstruction::~DetectorConstruction(){
-
+  // Deleting the messenger and materials if they exist
+  if (detectorMessenger) delete detectorMessenger;
+  if (materials)         delete materials;
 }
 
 /**
@@ -68,6 +72,9 @@ DetectorConstruction::~DetectorConstruction(){
  */
 G4VPhysicalVolume* DetectorConstruction::Construct(){
 
+    // Creating Detector Materials
+    materials = Materials::GetInstance();
+    
     // Return Physical World
     G4VPhysicalVolume* world = Construct();
 

@@ -12,6 +12,7 @@ class G4VPhysicalVolume;
 class G4LogicalVolume;
 class G4Material;
 class DetectorMessenger;
+class Material;
 
 class DetectorConstruction : public G4VUserDetectorConstruction{
 
@@ -52,9 +53,7 @@ private:
     G4VSolid*           pmtS;
     
 		// Materials
-		G4Material* defaultMaterial;    	// Vacumun
-		G4Material* absMaterial;   		    // Detector material (GS20)
-		G4Material* refMaterial;        	// reflector material (teflon)
+		Material* materials;
 
 		// Geometry parameters
     G4double gs20Thickness;	      	// Thickness of Absorber

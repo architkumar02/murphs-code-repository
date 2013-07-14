@@ -1,4 +1,4 @@
-#include "DetectorHit.h"
+#include "DetectorHit.hh"
 
 #include "G4OpticalPhoton.hh"
 

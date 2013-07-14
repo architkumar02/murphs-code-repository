@@ -56,6 +56,7 @@ DetectorConstruction::DetectorConstruction() : G4VUserDetectorConstruction(),
         SetDetectorMaterial("GS20");
         detectorMessenger = new DetectorMessenger(this);
 }
+
 /**
  * Deconstructor
  */
@@ -86,65 +87,6 @@ G4VPhysicalVolume* DetectorConstruction::Construct(){
     return wold;
 }
 
-
-void DetectorConstruction::DefineMaterials()
-{
-    G4String name, symbol;             // a=mass of a mole;
-    G4double a, z, density;            // z=mean number of protons;  
-    G4int iz, n;                       // iz=nb of protons  in an isotope; 
-    // n=nb of nucleons in an isotope;
-    G4int nAtoms;
-    G4int nComponents;
-
-    // NIST Material Manager
-    G4NistManager* nistManager = G4NistManager::Instance();
-    G4bool fromIsotopes = true;
-
-    // Getting Elements
-    G4Element* eH = nistManager->FindOrBuildElement("H",fromIsotopes);
-    G4Element* eB = nistManager->FindOrBuildElement("B",fromIsotopes);
-    G4Element* eC = nistManager->FindOrBuildElement("C",fromIsotopes);
-    G4Element* eN = nistManager->FindOrBuildElement("N",fromIsotopes);
-    G4Element* eO = nistManager->FindOrBuildElement("O",fromIsotopes);
-    G4Element* eF = nistManager->FindOrBuildElement("F",fromIsotopes);
-    G4Element* eNa = nistManager->FindOrBuildElement("Na",fromIsotopes);
-    G4Element* eAl = nistManager->FindOrBuildElement("Al",fromIsotopes);
-    G4Element* eSi = nistManager->FindOrBuildElement("Si",fromIsotopes);
-    G4Element* eK = nistManager->FindOrBuildElement("K",fromIsotopes);
-
-    // defining enriched Lithium 6
-    G4double a6Li = 6.015*g/mole;	// Molar Masses (Wolfram Alpha)
-    G4double a7Li = 7.016*g/mole;
-    G4double enrichement = 110.815*perCent;
-    G4double abundance6Li = enrichement*a6Li/a7Li;		// Relative Abudadance
-    G4double abundance7Li = 1-abundance6Li;
-
-    G4Isotope* Li6 = new G4Isotope(name="Li6", iz=3, n=6, a6Li);
-    G4Isotope* Li7 = new G4Isotope(name="Li7", iz=3, n=7, a7Li);
-    G4Element* enrichLi  = new G4Element(name="enriched Lithium", symbol="Li", nComponents=2);
-    enrichLi->AddIsotope(Li6, abundance6Li);
-    enrichLi->AddIsotope(Li7, abundance7Li);
-
-    // Defining 6LiF Absorber
-    G4Material* LiAbsorber = new G4Material("6LiF",density=1.0*g/cm3,nComponents=2);
-    LiAbsorber->AddElement(enrichLi,nAtoms=1);
-    LiAbsorber->AddElement(eF,nAtoms=1);
-
-
-    
-    nistManager->FindOrBuildMaterial("G4_PLEXIGLASS",fromIsotopes);
-    nistManager->FindOrBuildMaterial("G4_POLYSTYRENE",fromIsotopes);
-    nistManager->FindOrBuildMaterial("G4_AIR",fromIsotopes);
-    nistManager->FindOrBuildMaterial("G4_WATER",fromIsotopes);
-    nistManager->FindOrBuildMaterial("G4_POLYVINYL_CHLORIDE",fromIsotopes);
-    nistManager->FindOrBuildMaterial("G4_TEFLON",fromIsotopes);
-    nistManager->FindOrBuildMaterial("G4_Galactic",fromIsotopes);
-   
-   // Print materials
-    // G4cout << *(G4Material::GetMaterialTable()) << G4endl;
-}
-
-
 /**
  * PrintCaloParameters
  *
@@ -163,6 +105,7 @@ void DetectorConstruction::PrintParameters(){
 /**
  * Construct()
  *
+ * Constructs the detector volume and PMT
  */
 G4VPhysicalVolume* DetectorConstruction::ConstructCalorimeter(){
 

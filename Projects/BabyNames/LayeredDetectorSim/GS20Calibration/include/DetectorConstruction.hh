@@ -8,11 +8,13 @@
 #include "CaloSensitiveDetector.hh"
 
 class G4Box;
+class G4Tubs;
+class G4Polycone;
 class G4VPhysicalVolume;
 class G4LogicalVolume;
 class G4Material;
 class DetectorMessenger;
-class Material;
+class Materials;
 
 class DetectorConstruction : public G4VUserDetectorConstruction{
 
@@ -20,13 +22,15 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		DetectorConstruction();
 		virtual ~DetectorConstruction();
 
-		virtual G4VPhysicalVolume* Construct();                     /* Construct the detector */
+		virtual G4VPhysicalVolume* Construct();                     /* Construct the detector         */
+    G4VPhysicalVolume* ConstructVolumes();                      /* Construct the detector volumes */
 
 		G4double GetGS20Thickness()		    {return gs20Thickness;};  /* GS20 Thickness      */
 		G4double GetGS20Radius()			    {return gs20Radius;};     /* GS20 Radius         */
-		G4Material* GetAbsorberMaterial()		{return absMaterial;};
+		G4Material* GetAbsorberMaterial()	{return absMaterial;};    /* Returns the Abosrber*/
 
 		void SetGS20Thickness(G4double);
+    void SetGS20Radius(G4double);
 
 		void UpdateGeometry();
 		void PrintParameters();
@@ -34,7 +38,6 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 private:
 
     /* METHODS */
-		void DefineMaterials();                       /* Define Materials                 */
 		G4VPhysicalVolume* ConstructDetector();       /* Constructs the detector          */
 		void SetVisAttributes();                      /* Sets visulationation attributes  */
 		void SetSensitiveDetectors();                 /* Sets up sensitive detectors      */
@@ -53,7 +56,8 @@ private:
     G4VSolid*           pmtS;
     
 		// Materials
-		Material* materials;
+		Materials* materials;            /* Material Manager                   */
+    G4Material* absMaterial;        /* Absorber and Scintillator Material */
 
 		// Geometry parameters
     G4double gs20Thickness;	      	// Thickness of Absorber
@@ -64,7 +68,9 @@ private:
 		G4double worldSizeXY;
 		G4double worldSizeZ;
 
-		// Sensitive Detectors
+    G4Material* detMaterial;        /* Detector Material */
+		
+    // Sensitive Detectors
 		CaloSensitiveDetector* caloSD;
 
 		G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps

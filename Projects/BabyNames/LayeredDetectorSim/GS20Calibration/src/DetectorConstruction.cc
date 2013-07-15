@@ -18,9 +18,9 @@
 #include "G4LogicalVolumeStore.hh"
 #include "G4SolidStore.hh"
 
-
-#include "CaloSensitiveDetector.hh"
 #include "G4SDManager.hh"
+#include "AbsorberSD.hh"
+#include "PMTSD.hh"
 
 #include "G4VisAttributes.hh"
 #include "G4Colour.hh"
@@ -164,17 +164,22 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
 /**
  * SetSensitiveDetectors
  *
- * Setting the Sensitive Detectors of the Detector
+ * Setting the Sensitive Detectors of the Detector.
+ * If the sensitive detectors exits, then only the senstive detector is 
+ * registered to the logical volume.
  */
 void DetectorConstruction::SetSensitiveDetectors(){
     G4SDManager* SDman = G4SDManager::GetSDMpointer();
-    caloSD = new CaloSensitiveDetector("SD/CaloSD","CaloHitCollection");
-    SDman->AddNewDetector(caloSD);
-    gs20LV->SetSensitiveDetector(caloSD);
-
-    // Setting the Maximum Step Size
-    G4double maxStep = 1*um;
-    gs20LV->SetUserLimits(new G4UserLimits(maxStep));
+    if (!pmtSD){
+        pmtSD = new PMTSD("PMT/PMTSD","PMTHitCollection");
+        SDman->AddNewDetector(pmtSD);
+    }
+    if (!absSD){
+        absSD = new AbsorberSD("Absorber/AbsSD","AbsHitCollection");
+        SDman->AddNewDetector(absSD);
+    }
+    gs20LV->SetSensitiveDetector(absSD);
+    pmtLV->SetSensitiveDetector(pmtSD);
 }
 /**
  * SetVisAttributes()
@@ -203,6 +208,14 @@ void DetectorConstruction::SetVisAttributes(){
     worldPV->GetLogicalVolume()->SetVisAttributes(atb);}
 
 }
+/**
+ * SetGS20Thickness
+ *
+ * Sets the detector thickness
+ */
+void DetectorConstruction::SetGS20Thickness(G4double val){
+  gs20Thickness = val;
+}
 
 /**
  * SetGS20Radius
@@ -217,16 +230,19 @@ void DetectorConstruction::SetGS20Radius(G4double val){
       gs20Radius = val;
 }
 
+/**
+ * UpdateGeometry
+ *
+ * Creates a new geometry, and reassings the sensitive detectors
+ */
 #include "G4RunManager.hh"
-
 void DetectorConstruction::UpdateGeometry(){
-    G4RunManager::GetRunManager()->DefineWorldVolume(ConstructCalorimeter());
+    // Creating the new geomtry  
+    G4RunManager::GetRunManager()->DefineWorldVolume(ConstructVolumes());
     
-    gs20LV->SetSensitiveDetector(caloSD);
+    // Setting the sensitive detectors
+    SetSensitiveDetectors(); 
 
-    // Setting the Maximum Step Size
-    G4double maxStep = 1*um;
-    gs20LV->SetUserLimits(new G4UserLimits(maxStep));
-
+    // Updating the engine
     G4RunManager::GetRunManager()->GeometryHasBeenModified();
 }

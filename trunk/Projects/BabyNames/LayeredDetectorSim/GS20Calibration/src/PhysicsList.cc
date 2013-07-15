@@ -7,7 +7,6 @@
 #include "G4OpticalPhysics.hh"
 #include "HadronPhysicsQGSP_BERT_HP.hh"
 #include "G4IonPhysics.hh"
-#include "MyIonPhysics.hh"
 /**
  * PhysicsList
  *
@@ -20,8 +19,9 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList() {
 
     // Adding Physics List
     RegisterPhysics( new HadronPhysicsQGSP_BERT_HP());
-//    RegisterPhysics( new G4IonPhysics());
+    RegisterPhysics( new G4IonPhysics());
     RegisterPhysics( new MyIonPhysics(1));
+    RegisterPhysics( new OpticalPhysics());
    // RegisterPhysics( new G4HadronElasticPhysicsXS());
    // RegisterPhysics( new G4QStoppingPhysics());
     

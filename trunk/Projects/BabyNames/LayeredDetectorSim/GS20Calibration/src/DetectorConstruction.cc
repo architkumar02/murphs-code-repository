@@ -61,15 +61,19 @@ DetectorConstruction::~DetectorConstruction(){
 G4VPhysicalVolume* DetectorConstruction::Construct(){
 
     // Creating Detector Materials
+    G4cout<<"DetectorConstruction - Creating the Materials"<<G4endl;
     materials = Materials::GetInstance();
     
     // Return Physical World
-    G4VPhysicalVolume* world = Construct();
+    G4cout<<"DetectorConstruction - Creating the Physical Volume"<<G4endl;
+    G4VPhysicalVolume* world = ConstructVolumes();
 
     // Set Visulation Attributes
+    G4cout<<"DetectorConstruction - Setting Visulizaition"<<G4endl;
     SetVisAttributes();
 
     // Assign Sensitve Detectors
+    G4cout<<"DetectorConstruction - Setting Senstive Detectors"<<G4endl;
     SetSensitiveDetectors();
     return world;
 }
@@ -109,6 +113,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     gs20Radius  = 2.54*cm;		      /* Radius of GS20 Sctintillator   */
 
     // World
+    G4cout<<"DetectorConstruction::ConstructVolumes - World"<<G4endl;
     worldS = new G4Box("World",2.5*pmtRadius,2.5*pmtRadius,20*cm); 
     worldLV = new G4LogicalVolume(worldS,materials->GetMaterial("G4_Galactic"),"World");
     worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",
@@ -120,11 +125,13 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     // The beam is shotting along the z, comming from +z
 
     // GS20 Detector
+    G4cout<<"DetectorConstruction::ConstructVolumes - GS20 Detector"<<G4endl;
     gs20S = new G4Tubs("Abs",0,gs20Radius,gs20Thickness/2,0,360*deg);
     gs20LV = new G4LogicalVolume(gs20S,absMaterial,"Absorber",0);
     gs20PV = new G4PVPlacement(0,G4ThreeVector(0,0,0),gs20LV,"Absorber",worldLV,false,0,fCheckOverlaps);
     
     // Light Reflector
+    G4cout<<"DetectorConstruction::ConstructVolumes - Light Reflector"<<G4endl;
     G4double rInner[3] = {gs20Radius,gs20Radius,0};
     G4double rOuter[3] = {pmtRadius,gs20Radius+refThickness,gs20Radius+refThickness};
     G4double zPlane[3]  = {refThickness,gs20Thickness-refThickness,gs20Thickness+refThickness};

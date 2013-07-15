@@ -155,66 +155,66 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     G4double capORadius[3] = {pmtRadius,pmtRadius,0};
     G4double capZPlane[3]  ={pmtRadius+capThickness,pmtRadius+capThickness,pmtRadius+capThickness};
     G4Polycone *pmtCapS = new G4Polycone("PMTCap",0,2*pi,3,capZPlane,capIRadius,capORadius);
-    G4LogicalVolume* pmtCapLV = new G4LogicalVolume(pmtCapS,G4Material::GetMaterial("G4_POLYVINYL_CHLORIDE"),"PMT Cap",0);
+  G4LogicalVolume* pmtCapLV = new G4LogicalVolume(pmtCapS,materials->GetMaterial("G4_POLYVINYL_CHLORIDE"),"PMT Cap",0);
 
-    // Return the worlds physical volume
-    return worldPV;
+  // Return the worlds physical volume
+  return worldPV;
 }
 
 /**
- * SetSensitiveDetectors
- *
- * Setting the Sensitive Detectors of the Detector.
- * If the sensitive detectors exits, then only the senstive detector is 
- * registered to the logical volume.
- */
+* SetSensitiveDetectors
+*
+* Setting the Sensitive Detectors of the Detector.
+* If the sensitive detectors exits, then only the senstive detector is 
+* registered to the logical volume.
+*/
 void DetectorConstruction::SetSensitiveDetectors(){
-    G4SDManager* SDman = G4SDManager::GetSDMpointer();
-    if (!pmtSD){
-        pmtSD = new PMTSD("PMT/PMTSD","PMTHitCollection");
-        SDman->AddNewDetector(pmtSD);
-    }
-    if (!absSD){
-        absSD = new AbsorberSD("Absorber/AbsSD","AbsHitCollection");
-        SDman->AddNewDetector(absSD);
-    }
-    gs20LV->SetSensitiveDetector(absSD);
-    pmtLV->SetSensitiveDetector(pmtSD);
+  G4SDManager* SDman = G4SDManager::GetSDMpointer();
+  if (!pmtSD){
+      pmtSD = new PMTSD("PMT/PMTSD","PMTHitCollection");
+      SDman->AddNewDetector(pmtSD);
+  }
+  if (!absSD){
+      absSD = new AbsorberSD("Absorber/AbsSD","AbsHitCollection");
+      SDman->AddNewDetector(absSD);
+  }
+  gs20LV->SetSensitiveDetector(absSD);
+  pmtLV->SetSensitiveDetector(pmtSD);
 }
 /**
- * SetVisAttributes()
- *
- * Sets the visualtion attributes
- */
+* SetVisAttributes()
+*
+* Sets the visualtion attributes
+*/
 #include "G4Colour.hh"
 void DetectorConstruction::SetVisAttributes(){
-    
-    // Setting the Visualization attributes for the Abs
-    {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Cyan());
-    //atb->SetForceWireframe(true);
-    //atb->SetForceSolid(true);
-    gs20LV->SetVisAttributes(atb);}
+  
+  // Setting the Visualization attributes for the Abs
+  {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Cyan());
+  //atb->SetForceWireframe(true);
+  //atb->SetForceSolid(true);
+  gs20LV->SetVisAttributes(atb);}
 
-    // Setting the Layers to be white and invisiable
-    {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
-   // atb->SetForceWireframe(true);
-    atb->SetVisibility(false);
-    worldLV->SetVisAttributes(atb);}
-    
-    // Setting the World to be white and invisiable
-    {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
-    //atb->SetForceWireframe(true);
-    atb->SetVisibility(false);
-    worldPV->GetLogicalVolume()->SetVisAttributes(atb);}
+  // Setting the Layers to be white and invisiable
+  {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
+ // atb->SetForceWireframe(true);
+  atb->SetVisibility(false);
+  worldLV->SetVisAttributes(atb);}
+  
+  // Setting the World to be white and invisiable
+  {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
+  //atb->SetForceWireframe(true);
+  atb->SetVisibility(false);
+  worldPV->GetLogicalVolume()->SetVisAttributes(atb);}
 
 }
 /**
- * SetGS20Thickness
- *
- * Sets the detector thickness
- */
+* SetGS20Thickness
+*
+* Sets the detector thickness
+*/
 void DetectorConstruction::SetGS20Thickness(G4double val){
-  gs20Thickness = val;
+gs20Thickness = val;
 }
 
 /**

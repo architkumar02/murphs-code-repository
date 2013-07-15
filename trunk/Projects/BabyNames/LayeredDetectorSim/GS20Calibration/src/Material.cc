@@ -13,15 +13,27 @@
 Materials::Materials(){
   // Getting the NIST Material Manager
   nistMan = G4NistManager::Instance();
-  nistMan->SetVerbose(2);
+  nistMan->SetVerbose(0);
 
   // Creating my custom materials
+  G4cout<<"Creating the materials"<<G4endl;
   CreateMaterials();
+  G4cout<<"\tSucess"<<G4endl;
+  G4cout<<"Creating Optical Teflon"<<G4endl;
   SetOpticalPropertiesTeflon();
+  G4cout<<"\tSucess"<<G4endl;
+  G4cout<<"Creating Optical GS20"<<G4endl;
   SetOpticalPropertiesGS20();
+  G4cout<<"\tSucess"<<G4endl;
+  G4cout<<"Creating Optical BK7"<<G4endl;
   SetOpticalPropertiesBK7();
+  G4cout<<"\tSucess"<<G4endl;
+  G4cout<<"Creating Optical Silicone"<<G4endl;
   SetOpticalPropertiesSilicone();
+  G4cout<<"\tSucess"<<G4endl;
+  G4cout<<"Creating Optical Air"<<G4endl;
   SetOpticalPropertiesAir();
+  G4cout<<"\tSucess"<<G4endl;
 
 }
 
@@ -122,7 +134,7 @@ void Materials::CreateMaterials(){
     GS20->AddMaterial(Al2O3,18*perCent);
     GS20->AddMaterial(LiOxide,18*perCent);
     GS20->AddMaterial(Ce2O3,4*perCent);
-
+    
     
     //-----------------------------------------------------------------------
     // BK7 Glass (Boroscilicate glass) 
@@ -218,6 +230,8 @@ void Materials::SetOpticalPropertiesTeflon(){
  */
 void Materials::SetOpticalPropertiesGS20(){
     
+    
+    G4cout<<GS20<<G4endl;
     // Index of Reflection (146 nm to 1570 nm)
     const G4int nRINDEX = 13;
     G4double photonEnergyRINDEX[nRINDEX] = 
@@ -249,6 +263,7 @@ void Materials::SetOpticalPropertiesGS20(){
     MPTGS20->AddConstProperty("SCINTILLATIONYIELD", 3600*MeV);
     MPTGS20->AddConstProperty("YIELDRATIO", 1.0);
     MPTGS20->AddConstProperty("RESOLUTIONSCALE", 1.0);
+    MPTGS20->DumpTable();
     GS20->SetMaterialPropertiesTable(MPTGS20);
 }
 /**

@@ -1,85 +1,79 @@
-#ifndef DETECTORHIT_H_
-#define DETECTORHIT_H_
+#ifndef PMTHit_h
+#define PMTHit_h 1
 
-#include "G4Allocator.hhh"
-#include "G4ParticleDefinition.hhh"
-#include "G4Step.hhh"
-#include "G4VHit.hhh"
+#include "G4VHit.hh"
+#include "G4ThreeVector.hh"
+#include "G4Allocator.hh"
+#include "G4THitsCollection.hh"
+#include "G4ParticleDefinition.hh"
+#include "G4VPhysicalVolume.hh"
 
 /**
- * @brief DetectorHit extends G4VHit. .hhis stores all values about a particle
- *.hhit .hhat are interesting for us. GEANT4 doesn't do any.hhing for us.hhere
- * except providing .hhe G4VHit interface .hhat by itself does not.hhandle
- * any.hhing
+ * @brief - Hit: a snapshot of the physcial interaction of a track in the sensitive region of a detector
+ *
+ * Contians:
+ *  - Particle Information (type and rank (primary, secondary, tertiary ...))
+ *  - Positon and time
+ *  - momentum and kinetic energy
+ *  - geometric information
  */
-class DetectorHit : public G4VHit {
-public:
-	/**
-	 * Constructor
-	 *
-	 * @param aStep .hhe particle step .hhat was.hhandled
-	 */
-	DetectorHit(G4Step* aStep);
+class PMTHit : public G4VHit {
+	public:
+		PMTHit();
+		~PMTHit();
 
-	/**
-	 * Copy-Constructor
-	 *
-	 * @param toCopy .hhe DetectorHit to copy
-	 */
-	DetectorHit(const DetectorHit& toCopy);
 
-	/**
-	 * Destructor
-	 */
-	virtual ~DetectorHit();
+		inline void* operator new(size_t);
+		inline void operator delete(void*);
 
-	/**
-	 * Accessor for preStepPoint
-	 *
-	 * @return preStepPoint position
-	 */
-	G4.hhreeVector& GetPreStepPoint();
+		void Print();
 
-	/**
-	 * Accessor for postStepPoint
-	 *
-	 * @return postStepPoint position
-	 */
-	G4.hhreeVector& GetPostStepPoint();
+	private:
+		G4ThreeVector pos;			            /* Position of the hit                    */
+		G4ThreeVector momentum;		          /* Momentrum of the ste                   */
+		G4double kEnergy;                   /* Kinetic Energy of the particle         */
+		G4int trackID;				              /* Track ID                               */
+		G4int parentID;                     /* Parent ID                              */
+    G4double time;                      /* Global time (time since current event) */
+    G4ParticleDefinition* particle;     /* Particle Definition                    */
+		G4int particleRank;                 /* Primary, Secondary, etc                */
+		G4VPhysicalVolume* volume;			    /* Physical Volume                        */
 
-	/**
-	 * Accessor for energyDeposit
-	 *
-	 * @return deposited energy in MeV
-	 */
-	G4double GetEnergyDeposit();
+	public:
+		void SetTrackID(G4int track)				  {trackID = track;};
+		void SetParentID(G4int id)				    {parentID = id;};
+		void SetPosition(G4ThreeVector p)			{pos = p;};
+		void SetMomentum(G4ThreeVector p)			{momentum = p;};
+		void SetKineticEnergy(G4double E)     {kEnergy = E;};
+    void SetTime(G4double t)              {time = t;};
+		void SetParticle(G4ParticleDefinition* pdef)
+		{particle = pdef;};
+		void SetParticleRank(G4int rank)      {particleRank = rank;};
+		void SetVolume(G4VPhysicalVolume* v)	{volume = v;};
 
-	/**
-	 * Accessor for particle
-	 *
-	 * @return pointer to .hhe particle definition of .hhe particle .hhat produced
-	 * .hhis.hhit
-	 */
-	G4ParticleDefinition* GetParticleDefinition();
-
-	/**
-	 * Overload new operator to use G4Allocator.
-	 */
-	void* operator new(size_t);
-
-	/**
-	 * Overload delete operator to user G4Allocator.
-	 */
-	void operator delete(void*.hhit);
-
-private:
-	// allocator for mu.hh more efficient memory management
-	static G4Allocator<DetectorHit> ALLOCATOR;
-
-	G4.hhreeVector _preStepPoint;
-	G4.hhreeVector _postStepPoint;
-	G4ParticleDefinition* _particle;
-	G4double _energyDeposit;
+		G4int GetTrackID()					        {return trackID;};
+    G4int GetParentID()                 {return parentID;};
+		G4ThreeVector GetPosition()			    {return pos;};
+		G4ThreeVector GetMomentum()			    {return momentum;};
+    G4double GetTime()                  {return time;};
+		G4double GetKineticEnergy()         {return kEnergy;};
+		G4ParticleDefinition* GetParticle() {return particle;};
+		G4int GetParticleRank()             {return particleRank;};
+		G4VPhysicalVolume* GetVolume()      {return volume;};
 };
 
-#endif /* HIT_H_ */
+typedef G4THitsCollection<PMTHit> PMTHitsCollection;
+extern G4Allocator<PMTHit> PMTHitAllocator;
+
+inline void* PMTHit::operator new(size_t){
+	void *aHit;
+	aHit = (void *) PMTHitAllocator.MallocSingle();
+	return aHit;
+}
+
+
+inline void PMTHit::operator delete(void *aHit){
+	PMTHitAllocator.FreeSingle((PMTHit*) aHit);
+}
+#endif
+

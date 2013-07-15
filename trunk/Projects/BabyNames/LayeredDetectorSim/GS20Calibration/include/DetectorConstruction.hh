@@ -5,7 +5,6 @@
 #include "globals.hh"
 
 #include "G4VSolid.hh"
-#include "CaloSensitiveDetector.hh"
 
 class G4Box;
 class G4Tubs;
@@ -15,6 +14,9 @@ class G4LogicalVolume;
 class G4Material;
 class DetectorMessenger;
 class Materials;
+
+class AbsorberSD;
+class PMTSD;
 
 class DetectorConstruction : public G4VUserDetectorConstruction{
 
@@ -71,7 +73,8 @@ private:
     G4Material* detMaterial;        /* Detector Material */
 		
     // Sensitive Detectors
-		CaloSensitiveDetector* caloSD;
+		AbsorberSD* absSD;              /* Absorber (GS20 Glass SD) */
+    PMTSD*  pmtSD;                  /* PMT SD                   */
 
 		G4bool  fCheckOverlaps; // option to activate checking of volumes overlaps
 		DetectorMessenger* detectorMessenger;		// Pointer to the messenger

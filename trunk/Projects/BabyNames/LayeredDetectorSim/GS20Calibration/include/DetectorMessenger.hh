@@ -22,14 +22,10 @@ class DetectorMessenger: public G4UImessenger
   private:
     DetectorConstruction* Detector;
     
-    G4UIdirectory*             PolymerTransportDir;
+    G4UIdirectory*             GS20LightYieldDir;
     G4UIdirectory*             detDir;
-    G4UIcmdWithAString*        AbsMaterCmd;
-    G4UIcmdWithAString*        GapMaterCmd;
     G4UIcmdWithADoubleAndUnit* AbsThickCmd;
-    G4UIcmdWithADoubleAndUnit* GapThickCmd;
     G4UIcmdWithADoubleAndUnit* SizeRadiusCmd;
-    G4UIcmdWithAnInteger*      NbLayersCmd;    
     G4UIcmdWithoutParameter*   UpdateCmd;
 };
 

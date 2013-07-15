@@ -20,8 +20,7 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList() {
     // Adding Physics List
     RegisterPhysics( new HadronPhysicsQGSP_BERT_HP());
     RegisterPhysics( new G4IonPhysics());
-    RegisterPhysics( new MyIonPhysics(1));
-    RegisterPhysics( new OpticalPhysics());
+    RegisterPhysics( new G4OpticalPhysics());
    // RegisterPhysics( new G4HadronElasticPhysicsXS());
    // RegisterPhysics( new G4QStoppingPhysics());
     

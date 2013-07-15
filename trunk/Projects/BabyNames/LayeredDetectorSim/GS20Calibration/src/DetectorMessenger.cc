@@ -12,44 +12,27 @@ DetectorMessenger::DetectorMessenger(
                                            DetectorConstruction* Det)
 :Detector(Det)
 { 
-  PolymerTransportDir = new G4UIdirectory("/PolymerTransport/");
-  PolymerTransportDir->SetGuidance("UI commands of this example");
+  GS20LightYieldDir = new G4UIdirectory("/GS20LightYield/");
+  GS20LightYieldDir->SetGuidance("UI commands of this example");
   
-  detDir = new G4UIdirectory("/PolymerTransport/det/");
+  detDir = new G4UIdirectory("/GS20LightYield/det/");
   detDir->SetGuidance("detector control");
-       
-  AbsMaterCmd = new G4UIcmdWithAString("/PolymerTransport/det/setAbsMat",this);
-  AbsMaterCmd->SetGuidance("Select Material of the Absorber.");
-  AbsMaterCmd->SetParameterName("choice",false);
-  AbsMaterCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-  
-  GapMaterCmd = new G4UIcmdWithAString("/PolymerTransport/det/setGapMat",this);
-  GapMaterCmd->SetGuidance("Select Material of the Gap.");
-  GapMaterCmd->SetParameterName("choice",false);
-  GapMaterCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
     
-  AbsThickCmd = new G4UIcmdWithADoubleAndUnit("/PolymerTransport/det/setAbsThick",this);
+  AbsThickCmd = new G4UIcmdWithADoubleAndUnit("/GS20LightYield/det/setGS20Thick",this);
   AbsThickCmd->SetGuidance("Set Thickness of the Absorber");
   AbsThickCmd->SetParameterName("Size",false);
   AbsThickCmd->SetRange("Size>=0.");
   AbsThickCmd->SetUnitCategory("Length");
   AbsThickCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
   
-  GapThickCmd = new G4UIcmdWithADoubleAndUnit("/PolymerTransport/det/setGapThick",this);
-  GapThickCmd->SetGuidance("Set Thickness of the Gap");
-  GapThickCmd->SetParameterName("Size",false);
-  GapThickCmd->SetRange("Size>=0.");
-  GapThickCmd->SetUnitCategory("Length");  
-  GapThickCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
-  
-  SizeRadiusCmd = new G4UIcmdWithADoubleAndUnit("/PolymerTransport/det/setRadius",this);
+  SizeRadiusCmd = new G4UIcmdWithADoubleAndUnit("/GS20LightYield/det/setGS20Radius",this);
   SizeRadiusCmd->SetGuidance("Set tranverse size of the calorimeter");
   SizeRadiusCmd->SetParameterName("Size",false);
   SizeRadiusCmd->SetRange("Size>0.");
   SizeRadiusCmd->SetUnitCategory("Length");    
   SizeRadiusCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
 
-  UpdateCmd = new G4UIcmdWithoutParameter("/PolymerTransport/det/update",this);
+  UpdateCmd = new G4UIcmdWithoutParameter("/GS20LightYield/det/update",this);
   UpdateCmd->SetGuidance("Update calorimeter geometry.");
   UpdateCmd->SetGuidance("This command MUST be applied before \"beamOn\" ");
   UpdateCmd->SetGuidance("if you changed geometrical value(s).");
@@ -59,30 +42,21 @@ DetectorMessenger::DetectorMessenger(
 
 DetectorMessenger::~DetectorMessenger()
 {
-  delete AbsMaterCmd; delete GapMaterCmd;
-  delete AbsThickCmd; delete GapThickCmd;
-  delete SizeRadiusCmd;   delete UpdateCmd;
+  delete AbsThickCmd;
+  delete SizeRadiusCmd; 
+  delete UpdateCmd;
   delete detDir;
-  delete PolymerTransportDir;  
+  delete GS20LightYieldDir;  
 }
 
 void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
 { 
-  if( command == AbsMaterCmd )
-   { Detector->SetAbsorberMaterial(newValue);}
-   
-  if( command == GapMaterCmd )
-   { Detector->SetGapMaterial(newValue);}
   
   if( command == AbsThickCmd )
-   { Detector->SetAbsorberThickness(AbsThickCmd
-                                               ->GetNewDoubleValue(newValue));}
-   
-  if( command == GapThickCmd )
-   { Detector->SetGapThickness(GapThickCmd->GetNewDoubleValue(newValue));}
+   { Detector->SetGS20Thickness(AbsThickCmd->GetNewDoubleValue(newValue));}
    
   if( command == SizeRadiusCmd )
-   { Detector->SetCaloRadius(SizeRadiusCmd->GetNewDoubleValue(newValue));}
+   { Detector->SetGS20Radius(SizeRadiusCmd->GetNewDoubleValue(newValue));}
    
   if( command == UpdateCmd )
    { Detector->UpdateGeometry(); }

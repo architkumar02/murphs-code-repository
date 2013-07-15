@@ -1,4 +1,4 @@
-#include "DetectorHit.hh"
+#include "AbsorberHit.hh"
 #include "G4UnitsTable.hh"
 #include "G4VVisManager.hh"
 #include "G4Circle.hh"
@@ -6,30 +6,29 @@
 #include "G4VisAttributes.hh"
 
 #include <iomanip>
-G4Allocator<DetectorHit> HitAllocator;
+G4Allocator<AbsorberHit> AbsHitAllocator;
 
-DetectorHit::DetectorHit(): G4VHit(){
+AbsorberHit::AbsorberHit(): G4VHit(){
     // Initilization preformed in intilization list
 }
 
 /**
- * Destroctor of DetectorHit
+ * Destroctor of AbsorberHit
  */
-DetectorHit::~DetectorHit() {}
+AbsorberHit::~AbsorberHit() {}
 
 /**
  * Print
  *
  * Print's out information about the hit
  */
-void DetectorHit::Print(){
+void AbsorberHit::Print(){
 	G4cout << "  trackID: " << trackID <<" particle: "
          <<particle->GetParticleName()<<" rank: "<<particleRank
 		     <<"\nvolume: "<<volume->GetName()
          <<" position[mm]: " << pos/mm
          <<"\n Momentum "<<momentum<<" Kinetic Energy[keV]"<<kEnergy/keV
-		     <<"\nenergy deposit[keV]: " << edep/keV<<" step length [mm]: "
-         << stepLength/mm
+		     <<"\nenergy deposit[keV]: " << edep/keV
          <<G4endl;
 }
 

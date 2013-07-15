@@ -33,7 +33,15 @@ Materials::~Materials(){
   delete Air;         /* Air            */
   delete BlackTape;   /* Black tape     */
 }
-
+/**
+ * Setting the Singleton Class
+ */
+Materials* Materials::instance=0;  
+/**
+ * Instance of the Singleton Class
+ *
+ * @return the instance of the Singleton Materials
+ */
 Materials* Materials::GetInstance(){
   if (instance ==0){
     instance = new Materials();

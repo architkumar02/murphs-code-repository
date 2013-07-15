@@ -1,5 +1,5 @@
-#include "CaloSensitiveDetector.hh"
-#include "CaloHit.hh"
+#include "PMTSD.hh"
+#include "PMTHit.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"
 #include "G4ThreeVector.hh"
@@ -8,7 +8,7 @@
 #include "G4TouchableHistory.hh"
 #include "G4VProcess.hh"
 
-CaloSensitiveDetector::CaloSensitiveDetector(const G4String& name,
+PMTSD::PMTSD(const G4String& name,
         const G4String& HCname) :
     G4VSensitiveDetector(name),hitCollection(NULL) {
 
@@ -16,13 +16,13 @@ CaloSensitiveDetector::CaloSensitiveDetector(const G4String& name,
     }
 
 
-CaloSensitiveDetector::~CaloSensitiveDetector(){ }
+PMTSD::~PMTSD(){ }
 
 
-void CaloSensitiveDetector::Initialize(G4HCofThisEvent* HCE){
+void PMTSD::Initialize(G4HCofThisEvent* HCE){
 
     // Create Hits Collection
-    hitCollection = new CaloHitsCollection(SensitiveDetectorName,collectionName[0]); 
+    hitCollection = new PMTHitsCollection(SensitiveDetectorName,collectionName[0]); 
     G4int HCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
     HCE->AddHitsCollection( HCID, hitCollection );
 }
@@ -32,26 +32,12 @@ void CaloSensitiveDetector::Initialize(G4HCofThisEvent* HCE){
  *
  * Adds a hit to the sensitive detector, depending on the step
  */
-G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
+G4bool PMTSD::ProcessHits(G4Step* aStep,G4TouchableHistory*){
 
-    CaloHit* newHit = new CaloHit();
-    //G4cout<<"First step?: "<<aStep->IsFirstStepInVolume()<<G4endl;
-    const G4VProcess *p = aStep->GetTrack()->GetCreatorProcess();
-    G4String pName = "FirstStep";
-    if (p != NULL)
-      pName = p->GetProcessName();
-    newHit->SetCreatorProcess(pName);
-    pName = "";
-    p = aStep->GetPostStepPoint()->GetProcessDefinedStep();
-    if (p != NULL)
-      pName = p->GetProcessName();
-    newHit->SetFirstStep(aStep->GetPreStepPoint()->GetStepStatus() == fGeomBoundary);
+    PMTHit* newHit = new PMTHit();
     
-    newHit->SetPostProcess(pName);
     newHit->SetTrackID    (aStep->GetTrack()->GetTrackID());
     newHit->SetParentID   (aStep->GetTrack()->GetParentID());
-    newHit->SetEdep		    (aStep->GetTotalEnergyDeposit());
-    newHit->SetStepLength	(aStep->GetStepLength());
     newHit->SetPosition	  (aStep->GetPreStepPoint()->GetPosition());
     newHit->SetMomentum	  (aStep->GetPreStepPoint()->GetMomentum());
     newHit->SetKineticEnergy (aStep->GetPreStepPoint()->GetKineticEnergy());
@@ -63,7 +49,7 @@ G4bool CaloSensitiveDetector::ProcessHits(G4Step* aStep,G4TouchableHistory*){
 }
 
 
-void CaloSensitiveDetector::EndOfEvent(G4HCofThisEvent*)
+void PMTSD::EndOfEvent(G4HCofThisEvent*)
 {
     if (verboseLevel > 1){
         G4int nOfHits = hitCollection->entries();

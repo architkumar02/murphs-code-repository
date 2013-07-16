@@ -68,7 +68,7 @@ G4Material* Materials::GetMaterial(const G4String material){
   // Exceptional error if it isn't found
   if(!mat) {
     std::ostringstream o;
-    o<<"Materail "<<material<<" not found.";
+    o<<"Material "<<material<<" not found.";
     G4Exception("Materials::GetMaterial","",FatalException,o.str().c_str());
   }
   return mat;
@@ -125,12 +125,12 @@ void Materials::CreateMaterials(){
     GS20->AddMaterial(Ce2O3,4*perCent);
     
     
-    //-----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     // BK7 Glass (Boroscilicate glass) 
     // Compositon from www.zcq-quartz.com/gass-2.html
     //
     // SiO2=69.13% B2O3=10.75% BaO=3.07% Na2O=10.40% K2O=6.29% As2O3=0.36%
-    //-----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     elements.push_back("Ba");   natoms.push_back(1);
     elements.push_back("O");    natoms.push_back(1);
     density = 5.27*g/cm3;
@@ -155,15 +155,15 @@ void Materials::CreateMaterials(){
     BK7->AddMaterial(K2O,6.29*perCent);
     BK7->AddMaterial(As2O3,0.36*perCent);
     
-    //-----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     // AIR
-    //-----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     Air = nistMan->FindOrBuildMaterial("G4_AIR");
     
-    //-----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     // Silicone Optical Grease
     // Composition from $G4EXAMPLES/extended/wls/src/WLSMaterials.cc
-    //-----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     elements.push_back("C");   natoms.push_back(2);
     elements.push_back("H");    natoms.push_back(6);
     density = 1.060*g/cm3;
@@ -171,9 +171,9 @@ void Materials::CreateMaterials(){
     elements.clear();           natoms.clear();
   
      
-    //-----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     // Getting other materials
-    //-----------------------------------------------------------------------
+    //----------------------------------------------------------------------
     nistMan->FindOrBuildMaterial("G4_PLEXIGLASS");
     nistMan->FindOrBuildMaterial("G4_POLYSTYRENE");
     nistMan->FindOrBuildMaterial("G4_Galactic");

@@ -175,6 +175,7 @@ void Materials::CreateMaterials(){
     // Getting other materials
     //----------------------------------------------------------------------
     nistMan->FindOrBuildMaterial("G4_PLEXIGLASS");
+    nistMan->FindOrBuildMaterial("G4_POLYVINYL_CHLORIDE");
     nistMan->FindOrBuildMaterial("G4_POLYSTYRENE");
     nistMan->FindOrBuildMaterial("G4_Galactic");
 }

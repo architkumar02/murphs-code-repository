@@ -2,9 +2,20 @@
 #include "DetectorMessenger.hh"
 
 #include "globals.hh"
+#include "G4UnitsTable.hh"
+
+#include "G4GeometryManager.hh"
+#include "G4PhysicalVolumeStore.hh"
+#include "G4LogicalVolumeStore.hh"
+#include "G4SolidStore.hh"
+#include "G4RunManager.hh"
+#include "G4RegionStore.hh"
+#include "G4LogicalBorderSurface.hh"
+#include "G4LogicalSkinSurface.hh"
+
 #include "G4Material.hh"
 #include "G4NistManager.hh"
-#include "G4UnitsTable.hh"
+#include "Materials.hh"
 
 #include "G4Box.hh"
 #include "G4Tubs.hh"
@@ -13,10 +24,6 @@
 #include "G4PVReplica.hh"
 #include "G4PVPlacement.hh"
 
-#include "G4GeometryManager.hh"
-#include "G4PhysicalVolumeStore.hh"
-#include "G4LogicalVolumeStore.hh"
-#include "G4SolidStore.hh"
 
 #include "G4SDManager.hh"
 #include "AbsorberSD.hh"
@@ -28,8 +35,6 @@
 #include "G4FieldManager.hh"
 #include "G4TransportationManager.hh"
 #include "G4UserLimits.hh"
-
-#include "Materials.hh"
 
 /**
  * DetectorConstruction
@@ -88,14 +93,21 @@ void DetectorConstruction::PrintParameters(){
         <<"\n\tLight transport properties are:"
         <<G4endl;
 }
-
+/**
+ * FindMaterial
+ *
+ * Finds, and if necessary, builds a material
+ */
+G4Material* DetectorConstruction::FindMaterial(G4String name){
+  G4Material* material = G4Material::GetMaterial(name,true);
+  return material;
+}
 /**
  * Construct()
  *
  * Constructs the detector volume and PMT
  */
 G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
-
     // Clean old geometry, if any
     G4GeometryManager::GetInstance()->OpenGeometry();
     G4PhysicalVolumeStore::GetInstance()->Clean();
@@ -112,10 +124,11 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     greaseThickness = 5*um;
     refThickness = 100*um;
     capThickness = 2*mm;                       /* Thickness of the cap     */
+    absMaterial = FindMaterial("GS20");
     G4double capInSeam = gs20Thickness+refThickness;    /* Inside height of the cap */
     // World
     worldS = new G4Box("World",2.5*pmtRadius,2.5*pmtRadius,20*cm); 
-    worldLV = new G4LogicalVolume(worldS,materials->GetMaterial("G4_Galactic"),"World");
+    worldLV = new G4LogicalVolume(worldS,FindMaterial("G4_Galactic"),"World");
     worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",
             0,false,0,fCheckOverlaps);
 
@@ -133,29 +146,29 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     G4Tubs *refSide = new G4Tubs("refSide",gs20Radius,gs20Radius+refThickness,gs20Thickness,0,360*deg);
     G4Tubs *refTop = new G4Tubs("refTop",0,gs20Radius+refThickness,refThickness,0,360*deg);
     G4UnionSolid *refS = new G4UnionSolid("Reflector",refSide,refTop,0,G4ThreeVector(0,0,gs20Thickness));
-    G4LogicalVolume* refLV = new G4LogicalVolume(refS,materials->GetMaterial("G4_TEFLON"),"Reflector",0);
+    G4LogicalVolume* refLV = new G4LogicalVolume(refS,FindMaterial("G4_TEFLON"),"Reflector",0);
     G4VPhysicalVolume* refPV = new G4PVPlacement(0,G4ThreeVector(0,0,pmtThickness),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
 
     // Optical Grease
     G4Tubs *greaseS = new G4Tubs("opticalGrease",0,gs20Thickness,greaseThickness,0,360*deg);
-    G4LogicalVolume* greaseLV = new G4LogicalVolume(greaseS,materials->GetMaterial("Silicone"),"PMT Glass",0);
+    G4LogicalVolume* greaseLV = new G4LogicalVolume(greaseS,FindMaterial("Silicone"),"PMT Glass",0);
     G4VPhysicalVolume* greasePV = new G4PVPlacement(0,G4ThreeVector(0,0,-greaseThickness),greaseLV,"Grease",worldLV,false,0,fCheckOverlaps);
   
     // PMT Glass
     G4Tubs *pmtS = new G4Tubs("PMTGlass",0,pmtRadius,pmtThickness,0,360*deg);
-    pmtLV = new G4LogicalVolume(pmtS,materials->GetMaterial("BK7"),"PMT Glass",0);
+    pmtLV = new G4LogicalVolume(pmtS,FindMaterial("BK7"),"PMT Glass",0);
     pmtPV = new G4PVPlacement(0,G4ThreeVector(0,0,-1*(pmtThickness+2*greaseThickness)),pmtLV,"PMTGlass",worldLV,false,0,fCheckOverlaps);
     
     // PMT Cap
     G4Tubs *capSide = new G4Tubs("CapSide",pmtRadius,pmtRadius+capThickness,capInSeam,0,2*pi);
     G4Tubs *capTop = new G4Tubs("CapTop",0,pmtRadius+capThickness,capThickness,0,2*pi);
     G4UnionSolid *pmtCapS = new G4UnionSolid("PMTCap",capSide,capTop,0,G4ThreeVector(0,0,capInSeam));
-    G4LogicalVolume* pmtCapLV = new G4LogicalVolume(pmtCapS,materials->GetMaterial("G4_POLYVINYL_CHLORIDE"),"PMT Cap",0);
+    G4LogicalVolume* pmtCapLV = new G4LogicalVolume(pmtCapS,FindMaterial("G4_POLYVINYL_CHLORIDE"),"PMT Cap",0);
     G4VPhysicalVolume* pmtCapPV = new G4PVPlacement(0,G4ThreeVector(0,0,0),pmtCapLV,"PMTCap",worldLV,false,0,fCheckOverlaps);
 
     // PMT Air
     G4Tubs *pmtAirS = new G4Tubs("PMTAir",0,2*pi,gs20Radius+refThickness,pmtRadius,gs20Thickness);
-    G4LogicalVolume* pmtAirLV = new G4LogicalVolume(pmtAirS,materials->GetMaterial("G4_AIR"),"PMT Air Gap",0);
+    G4LogicalVolume* pmtAirLV = new G4LogicalVolume(pmtAirS,FindMaterial("G4_AIR"),"PMT Air Gap",0);
   
   // Return the worlds physical volume
   return worldPV;
@@ -235,14 +248,22 @@ void DetectorConstruction::SetGS20Radius(G4double val){
  *
  * Creates a new geometry, and reassings the sensitive detectors
  */
-#include "G4RunManager.hh"
 void DetectorConstruction::UpdateGeometry(){
+
+    if(!worldPV) return;
+  
+    // Cleaning up previous geometry
+    G4GeometryManager::GetInstance()->OpenGeometry();
+    G4PhysicalVolumeStore::GetInstance()->Clean();
+    G4LogicalVolumeStore::GetInstance()->Clean();
+    G4LogicalSkinSurface::CleanSurfaceTable();
+    G4LogicalBorderSurface::CleanSurfaceTable();
+
     // Creating the new geomtry  
     G4RunManager::GetRunManager()->DefineWorldVolume(ConstructVolumes());
-    
-    // Setting the sensitive detectors
     SetSensitiveDetectors(); 
-
+    
     // Updating the engine
     G4RunManager::GetRunManager()->GeometryHasBeenModified();
+    G4RegionStore::GetInstance()->UpdateMaterialList(worldPV);
 }

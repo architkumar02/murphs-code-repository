@@ -27,10 +27,11 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		virtual G4VPhysicalVolume* Construct();                     /* Construct the detector         */
     G4VPhysicalVolume* ConstructVolumes();                      /* Construct the detector volumes */
 
-		G4double GetGS20Thickness()		    {return gs20Thickness;};  /* GS20 Thickness      */
-		G4double GetGS20Radius()			    {return gs20Radius;};     /* GS20 Radius         */
-		G4Material* GetAbsorberMaterial()	{return absMaterial;};    /* Returns the Abosrber*/
-
+    G4Material* FindMaterial(G4String);                                 /* Finds a Material     */
+		G4double GetGS20Thickness()		    {return gs20Thickness;};  /* GS20 Thickness       */
+		G4double GetGS20Radius()			    {return gs20Radius;};     /* GS20 Radius          */
+		G4Material* GetAbsorberMaterial()	{return absMaterial;};    /* Returns the Abosrber */
+    
 		void SetGS20Thickness(G4double);
     void SetGS20Radius(G4double);
 

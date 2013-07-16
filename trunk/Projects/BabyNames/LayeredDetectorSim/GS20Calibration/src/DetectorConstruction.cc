@@ -8,7 +8,7 @@
 
 #include "G4Box.hh"
 #include "G4Tubs.hh"
-#include "G4Polycone.hh"
+#include "G4UnionSolid.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVReplica.hh"
 #include "G4PVPlacement.hh"
@@ -61,19 +61,15 @@ DetectorConstruction::~DetectorConstruction(){
 G4VPhysicalVolume* DetectorConstruction::Construct(){
 
     // Creating Detector Materials
-    G4cout<<"DetectorConstruction - Creating the Materials"<<G4endl;
     materials = Materials::GetInstance();
     
     // Return Physical World
-    G4cout<<"DetectorConstruction - Creating the Physical Volume"<<G4endl;
     G4VPhysicalVolume* world = ConstructVolumes();
 
     // Set Visulation Attributes
-    G4cout<<"DetectorConstruction - Setting Visulizaition"<<G4endl;
     SetVisAttributes();
 
     // Assign Sensitve Detectors
-    G4cout<<"DetectorConstruction - Setting Senstive Detectors"<<G4endl;
     SetSensitiveDetectors();
     return world;
 }
@@ -110,10 +106,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     
     // Geometry parameters
     gs20Thickness = 2*mm;	          /* Thickness of GS20 Scintilator  */
-    gs20Radius  = 2.54*cm;		      /* Radius of GS20 Sctintillator   */
-
+    gs20Radius  = 1.27*cm;		      /* Radius of GS20 Sctintillator   */
+    pmtRadius = 2.54*cm;
+    pmtThickness = 2*mm;
+    greaseThickness = 5*um;
+    refThickness = 100*um;
+    capThickness = 2*mm;                       /* Thickness of the cap     */
+    G4double capInSeam = gs20Thickness+refThickness;    /* Inside height of the cap */
     // World
-    G4cout<<"DetectorConstruction::ConstructVolumes - World"<<G4endl;
     worldS = new G4Box("World",2.5*pmtRadius,2.5*pmtRadius,20*cm); 
     worldLV = new G4LogicalVolume(worldS,materials->GetMaterial("G4_Galactic"),"World");
     worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",
@@ -125,45 +125,38 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     // The beam is shotting along the z, comming from +z
 
     // GS20 Detector
-    G4cout<<"DetectorConstruction::ConstructVolumes - GS20 Detector"<<G4endl;
     gs20S = new G4Tubs("Abs",0,gs20Radius,gs20Thickness/2,0,360*deg);
-    gs20LV = new G4LogicalVolume(gs20S,absMaterial,"Absorber",0);
-    gs20PV = new G4PVPlacement(0,G4ThreeVector(0,0,0),gs20LV,"Absorber",worldLV,false,0,fCheckOverlaps);
+    gs20LV = new G4LogicalVolume(gs20S,absMaterial,"Absorber - GS20",0);
+    gs20PV = new G4PVPlacement(0,G4ThreeVector(0,0,gs20Thickness/2.0),gs20LV,"Absorber - GS20",worldLV,false,0,fCheckOverlaps);
     
     // Light Reflector
-    G4cout<<"DetectorConstruction::ConstructVolumes - Light Reflector"<<G4endl;
-    G4double rInner[3] = {gs20Radius,gs20Radius,0};
-    G4double rOuter[3] = {pmtRadius,gs20Radius+refThickness,gs20Radius+refThickness};
-    G4double zPlane[3]  = {refThickness,gs20Thickness-refThickness,gs20Thickness+refThickness};
-    G4Polycone *refS = new G4Polycone("Ref",0,2*pi,3,zPlane,rInner,rOuter);
-    /*
-    G4Tubs *refFlange = new G4Tubs("refFlange",gs20Radius,pmtRadius,refThickness,0,360*deg);
     G4Tubs *refSide = new G4Tubs("refSide",gs20Radius,gs20Radius+refThickness,gs20Thickness,0,360*deg);
     G4Tubs *refTop = new G4Tubs("refTop",0,gs20Radius+refThickness,refThickness,0,360*deg);
-    */
+    G4UnionSolid *refS = new G4UnionSolid("Reflector",refSide,refTop,0,G4ThreeVector(0,0,gs20Thickness));
+    G4LogicalVolume* refLV = new G4LogicalVolume(refS,materials->GetMaterial("G4_TEFLON"),"Reflector",0);
+    G4VPhysicalVolume* refPV = new G4PVPlacement(0,G4ThreeVector(0,0,pmtThickness),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
 
     // Optical Grease
-    G4double greaseThickness = 5*um;
     G4Tubs *greaseS = new G4Tubs("opticalGrease",0,gs20Thickness,greaseThickness,0,360*deg);
-    G4LogicalVolume* greaseLV = new G4LogicalVolume(greaseS,materials->GetMaterial("OpticalGrease"),"PMT Glass",0);
-
+    G4LogicalVolume* greaseLV = new G4LogicalVolume(greaseS,materials->GetMaterial("Silicone"),"PMT Glass",0);
+    G4VPhysicalVolume* greasePV = new G4PVPlacement(0,G4ThreeVector(0,0,-greaseThickness),greaseLV,"Grease",worldLV,false,0,fCheckOverlaps);
+  
     // PMT Glass
-    G4double pmtThickness = 2*mm;
-    G4Tubs *pmtGlassS = new G4Tubs("PMTGlass",0,pmtRadius,pmtThickness,0,360*deg);
-    G4LogicalVolume* pmtGlassLV = new G4LogicalVolume(pmtGlassS,materials->GetMaterial("BK7"),"PMT Glass",0);
+    G4Tubs *pmtS = new G4Tubs("PMTGlass",0,pmtRadius,pmtThickness,0,360*deg);
+    pmtLV = new G4LogicalVolume(pmtS,materials->GetMaterial("BK7"),"PMT Glass",0);
+    pmtPV = new G4PVPlacement(0,G4ThreeVector(0,0,-1*(pmtThickness+2*greaseThickness)),pmtLV,"PMTGlass",worldLV,false,0,fCheckOverlaps);
+    
+    // PMT Cap
+    G4Tubs *capSide = new G4Tubs("CapSide",pmtRadius,pmtRadius+capThickness,capInSeam,0,2*pi);
+    G4Tubs *capTop = new G4Tubs("CapTop",0,pmtRadius+capThickness,capThickness,0,2*pi);
+    G4UnionSolid *pmtCapS = new G4UnionSolid("PMTCap",capSide,capTop,0,G4ThreeVector(0,0,capInSeam));
+    G4LogicalVolume* pmtCapLV = new G4LogicalVolume(pmtCapS,materials->GetMaterial("G4_POLYVINYL_CHLORIDE"),"PMT Cap",0);
+    G4VPhysicalVolume* pmtCapPV = new G4PVPlacement(0,G4ThreeVector(0,0,0),pmtCapLV,"PMTCap",worldLV,false,0,fCheckOverlaps);
 
     // PMT Air
     G4Tubs *pmtAirS = new G4Tubs("PMTAir",0,2*pi,gs20Radius+refThickness,pmtRadius,gs20Thickness);
     G4LogicalVolume* pmtAirLV = new G4LogicalVolume(pmtAirS,materials->GetMaterial("G4_AIR"),"PMT Air Gap",0);
-    
-    // PMT Cap
-    G4double capThickness = 2*mm;
-    G4double capIRadius[3] = {0,gs20Thickness+refThickness,gs20Thickness+refThickness+capThickness};
-    G4double capORadius[3] = {pmtRadius,pmtRadius,0};
-    G4double capZPlane[3]  ={pmtRadius+capThickness,pmtRadius+capThickness,pmtRadius+capThickness};
-    G4Polycone *pmtCapS = new G4Polycone("PMTCap",0,2*pi,3,capZPlane,capIRadius,capORadius);
-  G4LogicalVolume* pmtCapLV = new G4LogicalVolume(pmtCapS,materials->GetMaterial("G4_POLYVINYL_CHLORIDE"),"PMT Cap",0);
-
+  
   // Return the worlds physical volume
   return worldPV;
 }

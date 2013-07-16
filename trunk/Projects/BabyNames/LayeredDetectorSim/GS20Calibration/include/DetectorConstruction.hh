@@ -8,7 +8,7 @@
 
 class G4Box;
 class G4Tubs;
-class G4Polycone;
+class G4UnionSolid;
 class G4VPhysicalVolume;
 class G4LogicalVolume;
 class G4Material;
@@ -67,6 +67,9 @@ private:
 		G4double gs20Radius;		    	  // Outer Radius of Detector
     G4double pmtRadius;             // Radius of the PMT
 		G4double detectorThickness;         // Thickness of entire detectorrimeter
+    G4double pmtThickness;          /* Thickness of the PMT Glass       */
+    G4double greaseThickness;       /* Thickness of the optical grease */
+    G4double capThickness;          /* Thickness of the cap    */
 		G4double worldSizeXY;
 		G4double worldSizeZ;
 

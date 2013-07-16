@@ -20,6 +20,7 @@
 #include "G4Box.hh"
 #include "G4Tubs.hh"
 #include "G4UnionSolid.hh"
+#include "G4SubtractionSolid.hh"
 #include "G4LogicalVolume.hh"
 #include "G4PVReplica.hh"
 #include "G4PVPlacement.hh"
@@ -70,7 +71,7 @@ G4VPhysicalVolume* DetectorConstruction::Construct(){
     
     // Return Physical World
     G4VPhysicalVolume* world = ConstructVolumes();
-
+    
     // Set Visulation Attributes
     SetVisAttributes();
 
@@ -87,11 +88,18 @@ G4VPhysicalVolume* DetectorConstruction::Construct(){
 void DetectorConstruction::PrintParameters(){
 
     // print parameters
-    G4cout << "\n------------ Detector Parameters ---------------------"
-        <<"\n--> The detector material is a disc of: \n\t "
-        << G4BestUnit(gs20Thickness,"Length")<< " of " << absMaterial->GetName() 
-        <<"\n\tLight transport properties are:"
-        <<G4endl;
+    G4cout<<"\n------------ Detector Parameters ---------------------"
+          <<"\n--> The detector material is a disc of: "<<absMaterial->GetName()
+          <<"\n\t thickness: "<<G4BestUnit(gs20Radius,"Length")
+          <<"\n\t radius: "<<G4BestUnit(gs20Radius,"Length")
+          <<"\n--> Mounting Material: "<<mountMaterial->GetName()
+          <<"\n\t thickness: "<<G4BestUnit(refThickness,"Length")
+          <<"\n--> PMT Material: "<<pmtMaterial->GetName()
+          <<"\n\t thickness: "<<G4BestUnit(pmtThickness,"Length")
+          <<"\n\t radius: "<<G4BestUnit(pmtRadius,"Length")
+          <<"\n--> Reflector Material: "<<refMaterial->GetName()
+          <<"\n\t thickness: "<<G4BestUnit(refThickness,"Length")
+          <<G4endl;
 }
 /**
  * FindMaterial
@@ -114,52 +122,55 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     G4LogicalVolumeStore::GetInstance()->Clean();
     G4SolidStore::GetInstance()->Clean();
         
-    worldSizeZ  = 25*cm;      // Fixed World Size; 
+    worldSizeZ  = 5*cm;      // Fixed World Size; 
     
     // Geometry parameters
-    gs20Thickness = 2*mm;	          /* Thickness of GS20 Scintilator  */
+    gs20Thickness = 5*mm;	          /* Thickness of GS20 Scintilator  */
     gs20Radius  = 1.27*cm;		      /* Radius of GS20 Sctintillator   */
     pmtRadius = 2.54*cm;
-    pmtThickness = 2*mm;
-    greaseThickness = 5*um;
-    refThickness = 100*um;
+    pmtThickness = 5*mm;
+    mountThickness = 3*mm;
+    refThickness = 3*mm;
     capThickness = 2*mm;                       /* Thickness of the cap     */
     absMaterial = FindMaterial("GS20");
+    pmtMaterial = FindMaterial("BK7");
+    refMaterial = FindMaterial("G4_TEFLON");
+    mountMaterial = FindMaterial("Silicone");
     G4double capInSeam = gs20Thickness+refThickness;    /* Inside height of the cap */
     // World
     worldS = new G4Box("World",2.5*pmtRadius,2.5*pmtRadius,20*cm); 
     worldLV = new G4LogicalVolume(worldS,FindMaterial("G4_Galactic"),"World");
-    worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",
-            0,false,0,fCheckOverlaps);
-
-    //
-    // Setting up the GS20
-    //
-    // The beam is shotting along the z, comming from +z
+    worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",0,false,0,fCheckOverlaps);
 
     // GS20 Detector
     gs20S = new G4Tubs("Abs",0,gs20Radius,gs20Thickness/2,0,360*deg);
     gs20LV = new G4LogicalVolume(gs20S,absMaterial,"Absorber - GS20",0);
     gs20PV = new G4PVPlacement(0,G4ThreeVector(0,0,gs20Thickness/2.0),gs20LV,"Absorber - GS20",worldLV,false,0,fCheckOverlaps);
     
-    // Light Reflector
-    G4Tubs *refSide = new G4Tubs("refSide",gs20Radius,gs20Radius+refThickness,gs20Thickness,0,360*deg);
-    G4Tubs *refTop = new G4Tubs("refTop",0,gs20Radius+refThickness,refThickness,0,360*deg);
-    G4UnionSolid *refS = new G4UnionSolid("Reflector",refSide,refTop,0,G4ThreeVector(0,0,gs20Thickness));
-    G4LogicalVolume* refLV = new G4LogicalVolume(refS,FindMaterial("G4_TEFLON"),"Reflector",0);
-    G4VPhysicalVolume* refPV = new G4PVPlacement(0,G4ThreeVector(0,0,pmtThickness),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
+    // Light Reflector (Teflon)
+    G4Tubs *refSide = new G4Tubs("refSide",gs20Radius,gs20Radius+refThickness,gs20Thickness+mountThickness,0,360*deg);
+    refS=refSide;
+    //G4Tubs *refTop = new G4Tubs("refTop",0,gs20Radius+refThickness,refThickness,0,360*deg);
+    //refS = new G4UnionSolid("Reflector",refSide,refTop,0,G4ThreeVector(0,0,gs20Thickness+refThickness));
+    /*
+    G4Tubs *refTub = new G4Tubs("refTop",0,gs20Radius+refThickness,gs20Thickness+refThickness,0,360*deg);
+    refS = new G4SubtractionSolid("Reflector",refTub,gs20S);
+    */
+    refLV = new G4LogicalVolume(refS,refMaterial,"Reflector",0);
+    refPV = new G4PVPlacement(0,G4ThreeVector(0,0,gs20Thickness-mountThickness),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
 
-    // Optical Grease
-    G4Tubs *greaseS = new G4Tubs("opticalGrease",0,gs20Thickness,greaseThickness,0,360*deg);
-    G4LogicalVolume* greaseLV = new G4LogicalVolume(greaseS,FindMaterial("Silicone"),"PMT Glass",0);
-    G4VPhysicalVolume* greasePV = new G4PVPlacement(0,G4ThreeVector(0,0,-greaseThickness),greaseLV,"Grease",worldLV,false,0,fCheckOverlaps);
+    // Abosrber and PMT Mounting (Optical Grease)
+    mountS = new G4Tubs("opticalGrease",0,gs20Radius,mountThickness,0,360*deg);
+    mountLV = new G4LogicalVolume(mountS,mountMaterial,"PMT Glass",0);
+    mountPV = new G4PVPlacement(0,G4ThreeVector(0,0,-mountThickness),mountLV,"Grease",worldLV,false,0,fCheckOverlaps);
   
     // PMT Glass
-    G4Tubs *pmtS = new G4Tubs("PMTGlass",0,pmtRadius,pmtThickness,0,360*deg);
-    pmtLV = new G4LogicalVolume(pmtS,FindMaterial("BK7"),"PMT Glass",0);
-    pmtPV = new G4PVPlacement(0,G4ThreeVector(0,0,-1*(pmtThickness+2*greaseThickness)),pmtLV,"PMTGlass",worldLV,false,0,fCheckOverlaps);
+    pmtS = new G4Tubs("PMTGlass",0,pmtRadius,pmtThickness,0,360*deg);
+    pmtLV = new G4LogicalVolume(pmtS,pmtMaterial,"PMT Glass",0);
+    pmtPV = new G4PVPlacement(0,G4ThreeVector(0,0,-1*(pmtThickness+mountThickness*2)),pmtLV,"PMTGlass",worldLV,false,0,fCheckOverlaps);
     
     // PMT Cap
+    /*
     G4Tubs *capSide = new G4Tubs("CapSide",pmtRadius,pmtRadius+capThickness,capInSeam,0,2*pi);
     G4Tubs *capTop = new G4Tubs("CapTop",0,pmtRadius+capThickness,capThickness,0,2*pi);
     G4UnionSolid *pmtCapS = new G4UnionSolid("PMTCap",capSide,capTop,0,G4ThreeVector(0,0,capInSeam));
@@ -169,7 +180,10 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     // PMT Air
     G4Tubs *pmtAirS = new G4Tubs("PMTAir",0,2*pi,gs20Radius+refThickness,pmtRadius,gs20Thickness);
     G4LogicalVolume* pmtAirLV = new G4LogicalVolume(pmtAirS,FindMaterial("G4_AIR"),"PMT Air Gap",0);
-  
+    */
+  // Printing basic information about the geometry
+  PrintParameters();
+
   // Return the worlds physical volume
   return worldPV;
 }
@@ -202,24 +216,32 @@ void DetectorConstruction::SetSensitiveDetectors(){
 #include "G4Colour.hh"
 void DetectorConstruction::SetVisAttributes(){
   
-  // Setting the Visualization attributes for the Abs
-  {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Cyan());
-  //atb->SetForceWireframe(true);
-  //atb->SetForceSolid(true);
+  // Setting the Visualization attributes for the Absorber (scintillator)
+  {G4VisAttributes* atb= new G4VisAttributes(G4Colour::Blue());
+  atb->SetForceSolid(true);
   gs20LV->SetVisAttributes(atb);}
 
-  // Setting the Layers to be white and invisiable
-  {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
- // atb->SetForceWireframe(true);
-  atb->SetVisibility(false);
-  worldLV->SetVisAttributes(atb);}
+  // Setting the PMT to be green
+  {G4VisAttributes* atb = new G4VisAttributes(G4Colour::Green());
+  atb->SetForceSolid(true);
+  pmtLV->SetVisAttributes(atb);}
+
+  // Setting the mounting (optical grease) to be grey
+  {G4VisAttributes* atb = new G4VisAttributes(G4Colour::Grey());
+  atb->SetForceSolid(true);
+  mountLV->SetVisAttributes(atb);}
+
+  // Setting the Teflon to be cyan and wireframe
+  {G4VisAttributes* atb = new G4VisAttributes(G4Colour::Cyan());
+  atb->SetForceSolid(true);
+  //atb->SetForceWireframe(true);
+  refLV->SetVisAttributes(atb);}
   
   // Setting the World to be white and invisiable
   {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());
   //atb->SetForceWireframe(true);
   atb->SetVisibility(false);
   worldPV->GetLogicalVolume()->SetVisAttributes(atb);}
-
 }
 /**
 * SetGS20Thickness

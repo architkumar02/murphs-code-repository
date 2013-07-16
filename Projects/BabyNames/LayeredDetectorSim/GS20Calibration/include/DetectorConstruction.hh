@@ -50,13 +50,21 @@ private:
 		G4VPhysicalVolume*  worldPV;
 		G4VSolid*           worldS;
 
-    G4LogicalVolume*    gs20LV;			// GS20 Volume
+    G4LogicalVolume*    gs20LV;			/* GS20 Absorber */
 		G4VPhysicalVolume*  gs20PV;			
 		G4VSolid*	          gs20S;
 
     G4LogicalVolume*    pmtLV;      /* PMT */
     G4VPhysicalVolume*  pmtPV;
     G4VSolid*           pmtS;
+
+    G4LogicalVolume*    refLV;      /* LIght Reflector */
+    G4VPhysicalVolume*  refPV;
+    G4VSolid*           refS;
+
+    G4LogicalVolume*    mountLV;      /* Mounting (Optical Grease) */
+    G4VPhysicalVolume*  mountPV;
+    G4VSolid*           mountS;
     
 		// Materials
 		Materials* materials;            /* Material Manager                   */
@@ -69,13 +77,16 @@ private:
     G4double pmtRadius;             // Radius of the PMT
 		G4double detectorThickness;         // Thickness of entire detectorrimeter
     G4double pmtThickness;          /* Thickness of the PMT Glass       */
-    G4double greaseThickness;       /* Thickness of the optical grease */
+    G4double mountThickness;       /* Thickness of the optical grease */
     G4double capThickness;          /* Thickness of the cap    */
 		G4double worldSizeXY;
 		G4double worldSizeZ;
 
-    G4Material* detMaterial;        /* Detector Material */
-		
+    G4Material* detMaterial;        /* Detector Material (GS20 Glass)         */
+	  G4Material* mountMaterial;      /* Mounting Material (Optical Grease      */
+    G4Material* refMaterial;        /* Reflector Material (Teflon Tape)       */
+    G4Material* pmtMaterial;        /* PMT Material (Boroscilate (BK7) Glass  */
+
     // Sensitive Detectors
 		AbsorberSD* absSD;              /* Absorber (GS20 Glass SD) */
     PMTSD*  pmtSD;                  /* PMT SD                   */

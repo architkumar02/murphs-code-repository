@@ -136,7 +136,6 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     pmtMaterial = FindMaterial("BK7");
     refMaterial = FindMaterial("G4_TEFLON");
     mountMaterial = FindMaterial("Silicone");
-    G4double capInSeam = gs20Thickness+refThickness;    /* Inside height of the cap */
     
     // The constructors take half thickness, so divide by two for them
     // World
@@ -165,17 +164,18 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     refS = new G4UnionSolid("Reflector",refSide,refTop,0,G4ThreeVector(0,0,(gs20Thickness+mountThickness)/2));
     refLV = new G4LogicalVolume(refS,refMaterial,"Reflector",0);
     //refPV = new G4PVPlacement(0,G4ThreeVector(0,0,refThickness/2+gs20Thickness-(gs20Thickness+mountThickness/2)),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
-    refPV = new G4PVPlacement(0,G4ThreeVector(0,0,refThickness/2-(mountThickness/2)),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
+    refPV = new G4PVPlacement(0,G4ThreeVector(0,0,(refThickness-mountThickness)/2),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
     
     // PMT Cap
-    /*
+    G4double capInSeam = gs20Thickness+refThickness+pmtThickness;      /* Inside height of the cap */
     G4Tubs *capSide = new G4Tubs("CapSide",pmtRadius,pmtRadius+capThickness,capInSeam,0,2*pi);
-    G4Tubs *capTop = new G4Tubs("CapTop",0,pmtRadius+capThickness,capThickness,0,2*pi);
-    G4UnionSolid *pmtCapS = new G4UnionSolid("PMTCap",capSide,capTop,0,G4ThreeVector(0,0,capInSeam));
-    G4LogicalVolume* pmtCapLV = new G4LogicalVolume(pmtCapS,FindMaterial("G4_POLYVINYL_CHLORIDE"),"PMT Cap",0);
-    G4VPhysicalVolume* pmtCapPV = new G4PVPlacement(0,G4ThreeVector(0,0,0),pmtCapLV,"PMTCap",worldLV,false,0,fCheckOverlaps);
+    G4Tubs *capTop = new G4Tubs("CapTop",0,pmtRadius+capThickness,capThickness/2,0,2*pi);
+    pmtCapS = new G4UnionSolid("PMTCap",capSide,capTop,0,G4ThreeVector(0,0,(capInSeam)));
+    pmtCapLV = new G4LogicalVolume(pmtCapS,FindMaterial("G4_POLYVINYL_CHLORIDE"),"PMT Cap",0);
+    pmtCapPV = new G4PVPlacement(0,G4ThreeVector(0,0,gs20Thickness),pmtCapLV,"PMTCap",worldLV,false,0,fCheckOverlaps);
 
     // PMT Air
+    /*
     G4Tubs *pmtAirS = new G4Tubs("PMTAir",0,2*pi,gs20Radius+refThickness,pmtRadius,gs20Thickness);
     G4LogicalVolume* pmtAirLV = new G4LogicalVolume(pmtAirS,FindMaterial("G4_AIR"),"PMT Air Gap",0);
     */
@@ -229,11 +229,17 @@ void DetectorConstruction::SetVisAttributes(){
   atb->SetForceSolid(true);
   mountLV->SetVisAttributes(atb);}
 
-  // Setting the Teflon to be cyan and wireframe
+  // Setting the Teflon to be cyan
   {G4VisAttributes* atb = new G4VisAttributes(G4Colour::Cyan());
   atb->SetForceSolid(true);
   //atb->SetForceWireframe(true);
   refLV->SetVisAttributes(atb);}
+  
+  // Setting the PMT to be yellow and wireframe
+  {G4VisAttributes* atb = new G4VisAttributes(G4Colour::Yellow());
+  atb->SetForceSolid(true);
+  //atb->SetForceWireframe(true);
+  pmtCapLV->SetVisAttributes(atb);}
   
   // Setting the World to be white and invisiable
   {G4VisAttributes* atb = new G4VisAttributes(G4Colour::White());

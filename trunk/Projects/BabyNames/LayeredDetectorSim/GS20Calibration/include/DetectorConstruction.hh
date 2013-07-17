@@ -33,6 +33,8 @@ class DetectorConstruction : public G4VUserDetectorConstruction{
 		G4Material* GetAbsorberMaterial()	{return absMaterial;};    /* Returns the Abosrber */
     
 		void SetGS20Thickness(G4double);
+    void SetReflectorThickness(G4double);
+    void SetMountingThickness(G4double);
     void SetGS20Radius(G4double);
 
 		void UpdateGeometry();

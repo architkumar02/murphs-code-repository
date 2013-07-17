@@ -24,6 +24,20 @@ DetectorMessenger::DetectorMessenger(
   AbsThickCmd->SetRange("Size>=0.");
   AbsThickCmd->SetUnitCategory("Length");
   AbsThickCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+  RefThickCmd = new G4UIcmdWithADoubleAndUnit("/GS20LightYield/det/setRefThick",this);
+  RefThickCmd->SetGuidance("Set Thickness of the Light Reflector (teflon)");
+  RefThickCmd->SetParameterName("Size",false);
+  RefThickCmd->SetRange("Size>=0.");
+  RefThickCmd->SetUnitCategory("Length");
+  RefThickCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
+    
+  MntThickCmd = new G4UIcmdWithADoubleAndUnit("/GS20LightYield/det/setMntThick",this);
+  MntThickCmd->SetGuidance("Set Thickness of the Mounting (Optical Grease)");
+  MntThickCmd->SetParameterName("Size",false);
+  MntThickCmd->SetRange("Size>=0.");
+  MntThickCmd->SetUnitCategory("Length");
+  MntThickCmd->AvailableForStates(G4State_PreInit,G4State_Idle);
   
   SizeRadiusCmd = new G4UIcmdWithADoubleAndUnit("/GS20LightYield/det/setGS20Radius",this);
   SizeRadiusCmd->SetGuidance("Set tranverse size of the calorimeter");
@@ -43,6 +57,8 @@ DetectorMessenger::DetectorMessenger(
 DetectorMessenger::~DetectorMessenger()
 {
   delete AbsThickCmd;
+  delete RefThickCmd;
+  delete MntThickCmd;
   delete SizeRadiusCmd; 
   delete UpdateCmd;
   delete detDir;
@@ -54,6 +70,12 @@ void DetectorMessenger::SetNewValue(G4UIcommand* command,G4String newValue)
   
   if( command == AbsThickCmd )
    { Detector->SetGS20Thickness(AbsThickCmd->GetNewDoubleValue(newValue));}
+   
+  if( command == MntThickCmd )
+   { Detector->SetMountingThickness(AbsThickCmd->GetNewDoubleValue(newValue));}
+   
+  if( command == RefThickCmd )
+   { Detector->SetReflectorThickness(AbsThickCmd->GetNewDoubleValue(newValue));}
    
   if( command == SizeRadiusCmd )
    { Detector->SetGS20Radius(SizeRadiusCmd->GetNewDoubleValue(newValue));}

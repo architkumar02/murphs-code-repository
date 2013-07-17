@@ -90,7 +90,7 @@ void DetectorConstruction::PrintParameters(){
     // print parameters
     G4cout<<"\n------------ Detector Parameters ---------------------"
           <<"\n--> The detector material is a disc of: "<<absMaterial->GetName()
-          <<"\n\t thickness: "<<G4BestUnit(gs20Radius,"Length")
+          <<"\n\t thickness: "<<G4BestUnit(gs20Thickness,"Length")
           <<"\n\t radius: "<<G4BestUnit(gs20Radius,"Length")
           <<"\n--> Mounting Material: "<<mountMaterial->GetName()
           <<"\n\t thickness: "<<G4BestUnit(refThickness,"Length")
@@ -125,49 +125,47 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     worldSizeZ  = 5*cm;      // Fixed World Size; 
     
     // Geometry parameters
-    gs20Thickness = 5*mm;	          /* Thickness of GS20 Scintilator  */
+    gs20Thickness = 2*mm;	          /* Thickness of GS20 Scintilator  */
     gs20Radius  = 1.27*cm;		      /* Radius of GS20 Sctintillator   */
     pmtRadius = 2.54*cm;
     pmtThickness = 5*mm;
-    mountThickness = 3*mm;
-    refThickness = 3*mm;
+    mountThickness = 100*um;
+    refThickness = 2*mm;
     capThickness = 2*mm;                       /* Thickness of the cap     */
     absMaterial = FindMaterial("GS20");
     pmtMaterial = FindMaterial("BK7");
     refMaterial = FindMaterial("G4_TEFLON");
     mountMaterial = FindMaterial("Silicone");
     G4double capInSeam = gs20Thickness+refThickness;    /* Inside height of the cap */
+    
+    // The constructors take half thickness, so divide by two for them
     // World
-    worldS = new G4Box("World",2.5*pmtRadius,2.5*pmtRadius,20*cm); 
+    worldS = new G4Box("World",2.5*pmtRadius,2.5*pmtRadius,10*cm); 
     worldLV = new G4LogicalVolume(worldS,FindMaterial("G4_Galactic"),"World");
     worldPV = new G4PVPlacement(0,G4ThreeVector(),worldLV,"World",0,false,0,fCheckOverlaps);
 
     // GS20 Detector
     gs20S = new G4Tubs("Abs",0,gs20Radius,gs20Thickness/2,0,360*deg);
     gs20LV = new G4LogicalVolume(gs20S,absMaterial,"Absorber - GS20",0);
-    gs20PV = new G4PVPlacement(0,G4ThreeVector(0,0,gs20Thickness/2.0),gs20LV,"Absorber - GS20",worldLV,false,0,fCheckOverlaps);
-    
-    // Light Reflector (Teflon)
-    G4Tubs *refSide = new G4Tubs("refSide",gs20Radius,gs20Radius+refThickness,gs20Thickness+mountThickness,0,360*deg);
-    refS=refSide;
-    //G4Tubs *refTop = new G4Tubs("refTop",0,gs20Radius+refThickness,refThickness,0,360*deg);
-    //refS = new G4UnionSolid("Reflector",refSide,refTop,0,G4ThreeVector(0,0,gs20Thickness+refThickness));
-    /*
-    G4Tubs *refTub = new G4Tubs("refTop",0,gs20Radius+refThickness,gs20Thickness+refThickness,0,360*deg);
-    refS = new G4SubtractionSolid("Reflector",refTub,gs20S);
-    */
-    refLV = new G4LogicalVolume(refS,refMaterial,"Reflector",0);
-    refPV = new G4PVPlacement(0,G4ThreeVector(0,0,gs20Thickness-mountThickness),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
+    gs20PV = new G4PVPlacement(0,G4ThreeVector(0,0,0),gs20LV,"Absorber - GS20",worldLV,false,0,fCheckOverlaps);
 
     // Abosrber and PMT Mounting (Optical Grease)
-    mountS = new G4Tubs("opticalGrease",0,gs20Radius,mountThickness,0,360*deg);
+    mountS = new G4Tubs("opticalGrease",0,gs20Radius,mountThickness/2,0,360*deg);
     mountLV = new G4LogicalVolume(mountS,mountMaterial,"PMT Glass",0);
-    mountPV = new G4PVPlacement(0,G4ThreeVector(0,0,-mountThickness),mountLV,"Grease",worldLV,false,0,fCheckOverlaps);
+    mountPV = new G4PVPlacement(0,G4ThreeVector(0,0,-(gs20Thickness/2+mountThickness/2)),mountLV,"Grease",worldLV,false,0,fCheckOverlaps);
   
     // PMT Glass
-    pmtS = new G4Tubs("PMTGlass",0,pmtRadius,pmtThickness,0,360*deg);
+    pmtS = new G4Tubs("PMTGlass",0,pmtRadius,pmtThickness/2,0,360*deg);
     pmtLV = new G4LogicalVolume(pmtS,pmtMaterial,"PMT Glass",0);
-    pmtPV = new G4PVPlacement(0,G4ThreeVector(0,0,-1*(pmtThickness+mountThickness*2)),pmtLV,"PMTGlass",worldLV,false,0,fCheckOverlaps);
+    pmtPV = new G4PVPlacement(0,G4ThreeVector(0,0,-(gs20Thickness/2+pmtThickness/2+mountThickness)),pmtLV,"PMTGlass",worldLV,false,0,fCheckOverlaps);
+    
+    // Light Reflector (Teflon)
+    G4Tubs *refSide = new G4Tubs("refSide",gs20Radius,gs20Radius+refThickness,(refThickness+gs20Thickness+mountThickness)/2,0,360*deg);
+    G4Tubs *refTop = new G4Tubs("refTop",0,gs20Radius,refThickness/2,0,360*deg);
+    refS = new G4UnionSolid("Reflector",refSide,refTop,0,G4ThreeVector(0,0,(gs20Thickness+mountThickness)/2));
+    refLV = new G4LogicalVolume(refS,refMaterial,"Reflector",0);
+    //refPV = new G4PVPlacement(0,G4ThreeVector(0,0,refThickness/2+gs20Thickness-(gs20Thickness+mountThickness/2)),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
+    refPV = new G4PVPlacement(0,G4ThreeVector(0,0,refThickness/2-(mountThickness/2)),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
     
     // PMT Cap
     /*
@@ -243,6 +241,25 @@ void DetectorConstruction::SetVisAttributes(){
   atb->SetVisibility(false);
   worldPV->GetLogicalVolume()->SetVisAttributes(atb);}
 }
+
+/**
+ * SetMountingThickness
+ *
+ * Sets the thickness of the mounting layer (optical grease)
+ */
+void DetectorConstruction::SetMountingThickness(G4double val){
+  mountThickness = val;
+}
+
+/**
+ * SetReflectorThickness
+ *
+ * Sets the thickness of the light reflector (teflon tape)
+ */
+void DetectorConstruction::SetReflectorThickness(G4double val){
+  refThickness = val;
+}
+
 /**
 * SetGS20Thickness
 *
@@ -284,7 +301,8 @@ void DetectorConstruction::UpdateGeometry(){
     // Creating the new geomtry  
     G4RunManager::GetRunManager()->DefineWorldVolume(ConstructVolumes());
     SetSensitiveDetectors(); 
-    
+    SetVisAttributes();
+
     // Updating the engine
     G4RunManager::GetRunManager()->GeometryHasBeenModified();
     G4RegionStore::GetInstance()->UpdateMaterialList(worldPV);

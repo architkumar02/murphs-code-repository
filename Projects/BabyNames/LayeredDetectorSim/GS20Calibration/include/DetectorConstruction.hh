@@ -60,6 +60,10 @@ private:
     G4VPhysicalVolume*  pmtPV;
     G4VSolid*           pmtS;
 
+    G4LogicalVolume*    pmtCapLV;      /* PMT Cap*/
+    G4VPhysicalVolume*  pmtCapPV;
+    G4VSolid*           pmtCapS;
+
     G4LogicalVolume*    refLV;      /* LIght Reflector */
     G4VPhysicalVolume*  refPV;
     G4VSolid*           refS;

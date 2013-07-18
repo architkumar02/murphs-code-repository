@@ -55,14 +55,11 @@ G4bool AbsorberSD::ProcessHits(G4Step* aStep,G4TouchableHistory* hist){
 G4bool AbsorberSD::ProcessAbsorberHit(G4Step* aStep,G4TouchableHistory*){
   AbsorberHit* newHit = new AbsorberHit();
 
-  newHit->SetTrackID    (aStep->GetTrack()->GetTrackID());
-  newHit->SetParentID   (aStep->GetTrack()->GetParentID());
   newHit->SetEdep		    (aStep->GetTotalEnergyDeposit());
   newHit->SetPosition	  (aStep->GetPreStepPoint()->GetPosition());
   newHit->SetMomentum	  (aStep->GetPreStepPoint()->GetMomentum());
   newHit->SetKineticEnergy (aStep->GetPreStepPoint()->GetKineticEnergy());
   newHit->SetParticle   (aStep->GetTrack()->GetDefinition());
-  newHit->SetVolume		  (aStep->GetTrack()->GetVolume());
   hitCollection->insert( newHit );
 
   return true;

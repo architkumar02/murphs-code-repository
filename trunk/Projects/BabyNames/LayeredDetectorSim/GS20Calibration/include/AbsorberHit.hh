@@ -32,16 +32,11 @@ class AbsorberHit : public G4VHit {
 		G4ThreeVector momentum;		          /* Momentrum of the ste                   */
 		G4double kEnergy;                   /* Kinetic Energy of the particle         */
 		G4double edep;				              /* Energy Deposited at the Hit            */
-		G4int trackID;				              /* Track ID                               */
-		G4int parentID;                     /* Parent ID                              */
     G4double time;                      /* Global time (time since current event) */
     G4ParticleDefinition* particle;     /* Particle Definition                    */
-		G4int particleRank;                 /* Primary, Secondary, etc                */
 		G4VPhysicalVolume* volume;			    /* Physical Volume                        */
 
 	public:
-		void SetTrackID(G4int track)				  {trackID = track;};
-		void SetParentID(G4int id)				    {parentID = id;};
 		void SetPosition(G4ThreeVector p)			{pos = p;};
 		void SetMomentum(G4ThreeVector p)			{momentum = p;};
 		void SetKineticEnergy(G4double E)     {kEnergy = E;};
@@ -49,18 +44,13 @@ class AbsorberHit : public G4VHit {
     void SetTime(G4double t)              {time = t;};
 		void SetParticle(G4ParticleDefinition* pdef)
 		{particle = pdef;};
-		void SetParticleRank(G4int rank)      {particleRank = rank;};
-		void SetVolume(G4VPhysicalVolume* v)	{volume = v;};
 
-		G4int GetTrackID()					        {return trackID;};
-    G4int GetParentID()                 {return parentID;};
 		G4ThreeVector GetPosition()			    {return pos;};
 		G4ThreeVector GetMomentum()			    {return momentum;};
 		G4double GetEdep()					        {return edep;};
     G4double GetTime()                  {return time;};
 		G4double GetKineticEnergy()         {return kEnergy;};
 		G4ParticleDefinition* GetParticle() {return particle;};
-		G4int GetParticleRank()             {return particleRank;};
 		G4VPhysicalVolume* GetVolume()      {return volume;};
 };
 

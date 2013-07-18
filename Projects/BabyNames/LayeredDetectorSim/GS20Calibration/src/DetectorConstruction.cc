@@ -129,8 +129,8 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     gs20Radius  = 1.27*cm;		      /* Radius of GS20 Sctintillator   */
     pmtRadius = 2.54*cm;
     pmtThickness = 5*mm;
-    mountThickness = 100*um;
-    refThickness = 2*mm;
+    mountThickness = 5000*um;
+    refThickness = 3*mm;
     capThickness = 2*mm;                       /* Thickness of the cap     */
     absMaterial = FindMaterial("GS20");
     pmtMaterial = FindMaterial("BK7");
@@ -167,12 +167,14 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
     refPV = new G4PVPlacement(0,G4ThreeVector(0,0,(refThickness-mountThickness)/2),refLV,"Reflector",worldLV,false,0,fCheckOverlaps);
     
     // PMT Cap
-    G4double capInSeam = gs20Thickness+refThickness+pmtThickness;      /* Inside height of the cap */
-    G4Tubs *capSide = new G4Tubs("CapSide",pmtRadius,pmtRadius+capThickness,capInSeam,0,2*pi);
-    G4Tubs *capTop = new G4Tubs("CapTop",0,pmtRadius+capThickness,capThickness/2,0,2*pi);
-    pmtCapS = new G4UnionSolid("PMTCap",capSide,capTop,0,G4ThreeVector(0,0,(capInSeam)));
+    G4double capLength = gs20Thickness+refThickness+pmtThickness+mountThickness+capThickness;
+    G4Tubs *capSide = new G4Tubs("CapSide",pmtRadius,pmtRadius+capThickness,capLength/2,0,2*pi);
+    G4Tubs *capTop = new G4Tubs("CapTop",0,pmtRadius,capThickness/2,0,2*pi);
+    pmtCapS = new G4UnionSolid("PMTCap",capSide,capTop,0,G4ThreeVector(0,0,(capLength-capThickness)/2));
     pmtCapLV = new G4LogicalVolume(pmtCapS,FindMaterial("G4_POLYVINYL_CHLORIDE"),"PMT Cap",0);
-    pmtCapPV = new G4PVPlacement(0,G4ThreeVector(0,0,gs20Thickness),pmtCapLV,"PMTCap",worldLV,false,0,fCheckOverlaps);
+    //pmtCapPV = new G4PVPlacement(0,G4ThreeVector(0,0,capThickness/2-gs20Thickness),pmtCapLV,"PMTCap",worldLV,false,0,fCheckOverlaps);
+    G4double zTran = (refThickness-pmtThickness-mountThickness+capThickness)/2;
+    pmtCapPV = new G4PVPlacement(0,G4ThreeVector(0,0,zTran),pmtCapLV,"PMTCap",worldLV,false,0,fCheckOverlaps);
 
     // PMT Air
     /*
@@ -237,8 +239,8 @@ void DetectorConstruction::SetVisAttributes(){
   
   // Setting the PMT to be yellow and wireframe
   {G4VisAttributes* atb = new G4VisAttributes(G4Colour::Yellow());
-  atb->SetForceSolid(true);
-  //atb->SetForceWireframe(true);
+  //atb->SetForceSolid(true);
+  atb->SetForceWireframe(true);
   pmtCapLV->SetVisAttributes(atb);}
   
   // Setting the World to be white and invisiable

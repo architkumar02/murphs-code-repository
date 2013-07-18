@@ -2,11 +2,10 @@
 #define PMTSD_h 1
 
 #include "G4VSensitiveDetector.hh"
-#include "PMTHit.hh"
+#include "PhotonHit.hh"
 
 class G4Step;
 class G4HCofThisEvent;
-class G4TouchableHistory;
 
 class PMTSD : public G4VSensitiveDetector
 {
@@ -19,7 +18,7 @@ class PMTSD : public G4VSensitiveDetector
       void EndOfEvent(G4HCofThisEvent*);
 
   private:
-      PMTHitsCollection* hitCollection;
+      PhotonHitsCollection* hitCollection;
 
 };
 

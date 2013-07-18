@@ -15,7 +15,7 @@ G4Allocator<PhotonHit> PhotonHitAllocator;
 PhotonHit::PhotonHit(): G4VHit(){
   pos = G4ThreeVector();
   arrivalTime = 0;
-  energy = 0;
+  kEnergy = 0;
 }
 
 /**
@@ -30,7 +30,7 @@ PhotonHit::~PhotonHit() {}
  */
 void PhotonHit::Print(){
 	G4cout << "OpticalPhoton"
-         <<"\n\tArrival Time: "<<G4BestUnit(arivalTime,"Time")
+         <<"\n\tArrival Time: "<<G4BestUnit(arrivalTime,"Time")
          <<"\n\tposition[mm]: " << pos/mm
          <<"\n\tkinetic energy "<<G4BestUnit(kEnergy,"Energy")
          <<G4endl;

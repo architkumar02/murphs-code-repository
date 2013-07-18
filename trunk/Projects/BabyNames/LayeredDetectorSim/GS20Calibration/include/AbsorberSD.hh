@@ -3,6 +3,7 @@
 
 #include "G4VSensitiveDetector.hh"
 #include "AbsorberHit.hh"
+#include "PhotonHit.hh"
 
 class G4Step;
 class G4HCofThisEvent;
@@ -16,10 +17,13 @@ class AbsorberSD : public G4VSensitiveDetector
 
       void Initialize(G4HCofThisEvent*);
       G4bool ProcessHits(G4Step*, G4TouchableHistory*);
+      G4bool ProcessAbsorberHit(G4Step*,G4TouchableHistory*);
+      G4bool ProcessOpticalPhotonHit(G4Step*,G4TouchableHistory*);
       void EndOfEvent(G4HCofThisEvent*);
 
   private:
       AbsHitsCollection* hitCollection;
+      PhotonHitsCollection* photonHitCollection;
 
 };
 

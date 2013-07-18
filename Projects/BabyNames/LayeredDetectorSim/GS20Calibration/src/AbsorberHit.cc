@@ -23,8 +23,7 @@ AbsorberHit::~AbsorberHit() {}
  * Print's out information about the hit
  */
 void AbsorberHit::Print(){
-	G4cout << "  trackID: " << trackID <<" particle: "
-         <<particle->GetParticleName()<<" rank: "<<particleRank
+	G4cout << "particle: "<<particle->GetParticleName()
 		     <<"\nvolume: "<<volume->GetName()
          <<" position[mm]: " << pos/mm
          <<"\n Momentum "<<momentum<<" Kinetic Energy[keV]"<<kEnergy/keV

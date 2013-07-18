@@ -18,10 +18,8 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList() {
     // SetVerboseLevel(1);
 
     // Adding Physics List
-    /*
     RegisterPhysics( new HadronPhysicsQGSP_BERT_HP());
     RegisterPhysics( new G4IonPhysics());
-    */
     RegisterPhysics( new G4OpticalPhysics());
    // RegisterPhysics( new G4HadronElasticPhysicsXS());
    // RegisterPhysics( new G4QStoppingPhysics());

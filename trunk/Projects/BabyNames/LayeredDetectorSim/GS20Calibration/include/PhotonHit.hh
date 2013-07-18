@@ -33,7 +33,7 @@ class PhotonHit : public G4VHit {
 	public:
 		void SetPosition(G4ThreeVector p)			{pos = p;};
 		void SetKineticEnergy(G4double E)     {kEnergy = E;};
-    void SetTime(G4double t)              {arrivalTime = t;};
+    void SetArrivalTime(G4double t)              {arrivalTime = t;};
 
 		G4ThreeVector GetPosition()			    {return pos;};
     G4double GetArrivalTime()           {return arrivalTime;};

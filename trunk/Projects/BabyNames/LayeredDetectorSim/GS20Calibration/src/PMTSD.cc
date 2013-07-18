@@ -1,17 +1,17 @@
 #include "PMTSD.hh"
-#include "PMTHit.hh"
+#include "PhotonHit.hh"
 #include "G4HCofThisEvent.hh"
 #include "G4Step.hh"
+#include "G4Track.hh"
 #include "G4ThreeVector.hh"
 #include "G4SDManager.hh"
 #include "G4ios.hh"
 #include "G4TouchableHistory.hh"
-#include "G4VProcess.hh"
+#include "G4ParticleDefinition.hh"
+#include "G4ParticleTypes.hh"
 
-PMTSD::PMTSD(const G4String& name,
-        const G4String& HCname) :
+PMTSD::PMTSD(const G4String& name, const G4String& HCname) :
     G4VSensitiveDetector(name),hitCollection(NULL) {
-
         collectionName.insert(HCname);
     }
 
@@ -22,7 +22,7 @@ PMTSD::~PMTSD(){ }
 void PMTSD::Initialize(G4HCofThisEvent* HCE){
 
     // Create Hits Collection
-    hitCollection = new PMTHitsCollection(SensitiveDetectorName,collectionName[0]); 
+    hitCollection = new PhotonHitsCollection(SensitiveDetectorName,collectionName[0]); 
     G4int HCID = G4SDManager::GetSDMpointer()->GetCollectionID(collectionName[0]);
     HCE->AddHitsCollection( HCID, hitCollection );
 }
@@ -33,16 +33,18 @@ void PMTSD::Initialize(G4HCofThisEvent* HCE){
  * Adds a hit to the sensitive detector, depending on the step
  */
 G4bool PMTSD::ProcessHits(G4Step* aStep,G4TouchableHistory*){
+    // Making sure step exits
+    if (aStep == NULL) return false;
 
-    PMTHit* newHit = new PMTHit();
-    
-    newHit->SetTrackID    (aStep->GetTrack()->GetTrackID());
-    newHit->SetParentID   (aStep->GetTrack()->GetParentID());
+    // Making sure it is an optical photon
+    G4Track* theTrack = aStep->GetTrack();
+    if(theTrack->GetDefinition() != G4OpticalPhoton::OpticalPhotonDefinition()) return false;
+  
+    // Setting hit informaiton
+    PhotonHit* newHit = new PhotonHit();
     newHit->SetPosition	  (aStep->GetPreStepPoint()->GetPosition());
-    newHit->SetMomentum	  (aStep->GetPreStepPoint()->GetMomentum());
     newHit->SetKineticEnergy (aStep->GetPreStepPoint()->GetKineticEnergy());
-    newHit->SetParticle   (aStep->GetTrack()->GetDefinition());
-    newHit->SetVolume		  (aStep->GetTrack()->GetVolume());
+    newHit->SetArrivalTime(theTrack->GetGlobalTime());
     hitCollection->insert( newHit );
 
     return true;

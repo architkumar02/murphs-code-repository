@@ -39,12 +39,21 @@ class Analysis {
     static Analysis *singleton;
 
     // Class interanls
-    G4double GetDetectorThickness();
-    G4String GetDetectorMaterial();
-    G4String incidentParticleName;
-    bool neutron;
+    G4String GetDetectorMaterial();   /* Gets the detector material */
+    G4String incidentParticleName;    /* Gets the incident particle */
+    bool neutron;                     /* True for a neutron incident*/
 
     // ROOT Output variables
-    TFile* outfile;
+    TFile* outfile;             /* ROOT output file handle          */
+    TH1F* eDepHist;             /* Event Energy Deposition Histogram*/
+    TH1F* opAbsHist;            /* Event Optical Photon (op) Absorber (created) histogram   */
+    TH1F* opPMTHist;            /* Event Optical Photon (op) PMT (created) histogram        */
+    G4double maxHistEnergy;     /* Maximum Energy that can be deposited in an event         */
+    G4int maxNumPhotons;        /* Maxium number of photons that can be created in an event */
+    
+    // Data Collections Varaibles
+    G4double eDepEvent;         /* Energy deposition in the absoerber */
+    G4int nOPAbsEvent;          /* Number optical photons created     */
+    G4int nOPPMTEvent;          /* Number optical photons detected    */
 };
 #endif

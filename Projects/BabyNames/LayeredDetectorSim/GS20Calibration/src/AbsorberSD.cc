@@ -29,7 +29,7 @@ void AbsorberSD::Initialize(G4HCofThisEvent* HCE){
   hitCollection = new AbsHitsCollection(SensitiveDetectorName,collectionName[0]); 
   photonHitCollection = new PhotonHitsCollection(SensitiveDetectorName,collectionName[0]); 
   HCE->AddHitsCollection( HCID, hitCollection );
-  HCE->AddHitsCollection( HCID, photonHitCollection );
+  HCE->AddHitsCollection( HCID+1, photonHitCollection );
 }
 
 /**

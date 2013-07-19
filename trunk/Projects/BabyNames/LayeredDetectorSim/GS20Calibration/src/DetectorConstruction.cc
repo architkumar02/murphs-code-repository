@@ -146,7 +146,7 @@ G4VPhysicalVolume* DetectorConstruction::ConstructVolumes(){
 
     // GS20 Detector
     gs20S = new G4Tubs("Abs",0,gs20Radius,gs20Thickness/2,0,360*deg);
-    gs20LV = new G4LogicalVolume(gs20S,absMaterial,"Absorber - GS20",0);
+    gs20LV = new G4LogicalVolume(gs20S,absMaterial,"Absorber",0);
     gs20PV = new G4PVPlacement(0,G4ThreeVector(0,0,0),gs20LV,"Absorber - GS20",worldLV,false,0,fCheckOverlaps);
 
     // Abosrber and PMT Mounting (Optical Grease)

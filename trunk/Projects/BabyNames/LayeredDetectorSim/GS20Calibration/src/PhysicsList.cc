@@ -11,6 +11,12 @@
  * PhysicsList
  *
  * Constructs the physics of the simulation
+ *
+ * The physics list relies on modular physics. Currently used modules are:
+ *  - Hadronic physics (High Precision)
+ *  - IonPhysics
+ *  - OpticalPhysics
+ *  - EM Standard Physics
  */
 PhysicsList::PhysicsList() : G4VModularPhysicsList() {
     currentDefaultCut   = 10*nm;
@@ -18,8 +24,6 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList() {
     // SetVerboseLevel(1);
 
     // Adding Physics List
-    /*
-    */
     RegisterPhysics( new HadronPhysicsQGSP_BERT_HP());
     RegisterPhysics( new G4IonPhysics());
     RegisterPhysics( new G4OpticalPhysics());
@@ -27,17 +31,15 @@ PhysicsList::PhysicsList() : G4VModularPhysicsList() {
    // RegisterPhysics( new G4EmDNAPhysics());
 }
 
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+/**
+ * Deconstructor
+ */
 PhysicsList::~PhysicsList(){
     // Nothing to be done
 }
-
-
-
-//....oooOO0OOooo........oooOO0OOooo........oooOO0OOooo........oooOO0OOooo......
-
+/**
+ * Sets the physic list cuts
+ */
 void PhysicsList::SetCuts(){
-
-    SetDefaultCutValue(10*nm);
+    SetDefaultCutValue(1*um);
 }
